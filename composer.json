@@ -17,7 +17,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4 <7.5"
+        "php": ">=7.4 <7.5",
+        "shopware/core": ">=6.2 <7"
     },
     "autoload": {
         "psr-4": {
