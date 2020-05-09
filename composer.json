@@ -1,10 +1,10 @@
 {
-    "name": "heptacom/heptaconnect-repository-base",
-    "description": "HEPTAConnect package",
+    "name": "heptacom/heptaconnect-bridge-shopware-platform",
+    "description": "HEPTAConnect package to support a runtime in a shopware platform project",
     "type": "library",
     "keywords": [
-        "heptaconnect-dataset",
-        "heptaconnect-adapter"
+        "heptaconnect-bridge",
+        "shopware-platform"
     ],
     "license": [
         "MIT",
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\": "src/"
+            "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\": "src/"
         }
     },
     "require-dev": {
@@ -38,7 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Heptacom\\HeptaConnect\\Test\\": "test/"
+            "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
     }
 }

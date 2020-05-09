@@ -1,8 +1,8 @@
-# repo-base
+# HEPTAConnect Shopware Platform Bridge
 
 ## Description
 
-This is a HEPTAConnect package.
+This is the HEPTAConnect package to provide a runtime in a shopware platform project.
 Read more under [Overview](../heptaconnect-docs).
 
 
