@@ -6,5 +6,8 @@ use Shopware\Core\Framework\Bundle as ShopwareBundle;
 
 class Bundle extends ShopwareBundle
 {
-    protected $name = 'HeptaConnectBridgeShopwarePlatform';
+    public function __construct()
+    {
+        $this->name = 'HeptaConnectBridgeShopwarePlatform';
+    }
 }

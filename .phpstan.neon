@@ -5,4 +5,6 @@ parameters:
 	paths:
 		- src/
 		- test/
+	excludes_analyse:
+        - test/Fixture/ShopwareProject/var/*
 	tmpDir: .build/phpstan/

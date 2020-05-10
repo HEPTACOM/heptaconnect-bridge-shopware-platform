@@ -15,7 +15,10 @@ Read more under [Overview](../heptaconnect-docs).
 
 * Make
 * Any debugging/coverage php extension like xdebug or pcov
+* Everything a shopware platform project needs like mysql and several more php extensions
 
+For running tests locally you need a mysql database.
+The tests need the connection details in the `.env.test` and an already created database.
 
 ## License
 

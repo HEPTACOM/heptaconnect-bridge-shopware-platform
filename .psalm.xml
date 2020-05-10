@@ -30,6 +30,13 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
             </errorLevel>
         </InternalMethod>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="info">
+                <!-- referencedProperty name="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwarePlugin::$container"/ -->
+                <file name="test/Fixture/ShopwareProject/Custom/ShopwarePlugin.php"/>
+                <file name="src/Bundle.php"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
     </issueHandlers>
 
     <plugins>
@@ -41,6 +48,7 @@
         <directory name="test/" />
         <ignoreFiles>
             <directory name="vendor/" />
+            <directory name="test/Fixture/ShopwareProject/var" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

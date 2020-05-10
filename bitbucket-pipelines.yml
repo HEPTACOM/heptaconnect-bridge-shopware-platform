@@ -11,6 +11,8 @@ definitions:
         -   step: &default-step
                 caches:
                     - composer
+                env:
+                    DATABASE_URL: 'mysql://root:let_me_in@mysql/pipelines'
                 artifacts:
                     - .build/**
                     - vendor/**
@@ -33,6 +35,11 @@ pipelines:
                 name: Static code analysis
                 script:
                     - make statcs
+        -   step:
+                <<: *default-step
+                name: Init database
+                script:
+                    - echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql -uroot -plet_me_in -hmysql pipelines
         -   step:
                 <<: *default-step
                 name: Unit test

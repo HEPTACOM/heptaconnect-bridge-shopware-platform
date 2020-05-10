@@ -6,3 +6,5 @@ composer.lock
 /.build/infection-log.txt
 /.build/phpstan
 /.build/.phpunit
+
+/test/Fixture/ShopwareProject/var

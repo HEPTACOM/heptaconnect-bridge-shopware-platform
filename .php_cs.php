@@ -5,7 +5,8 @@ use PhpCsFixer\Finder;
 
 $finder = Finder::create()
     ->in(__DIR__ . DIRECTORY_SEPARATOR . 'src')
-    ->in(__DIR__ . DIRECTORY_SEPARATOR . 'test');
+    ->in(__DIR__ . DIRECTORY_SEPARATOR . 'test')
+    ->exclude(__DIR__ . '/test/Fixture/ShopwareProject/var');
 
 return Config::create()
     ->setFinder($finder)
