@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture;
+namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle;
 use PHPUnit\Framework\TestCase;
@@ -13,11 +13,11 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class ShopwareIntegrationTest extends TestCase
 {
-    protected ShopwareKernel $kernel;
+    protected Fixture\ShopwareKernel $kernel;
 
     protected function setUp(): void
     {
-        $this->kernel = new ShopwareKernel();
+        $this->kernel = new Fixture\ShopwareKernel();
         $this->kernel->boot();
     }
 
