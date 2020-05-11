@@ -19,7 +19,8 @@
     "require": {
         "php": ">=7.4 <7.5",
         "shopware/core": ">=6.2 <7",
-        "shopware/storefront": ">=6.2 <7"
+        "shopware/storefront": ">=6.2 <7",
+        "heptacom/heptaconnect-storage-base": "dev-master"
     },
     "autoload": {
         "psr-4": {
