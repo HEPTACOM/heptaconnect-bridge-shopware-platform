@@ -2,8 +2,8 @@
 <psalm
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    cacheDirectory=".build/psalm"
+    xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd"
+    cacheDirectory="../.build/psalm"
     errorLevel="1"
     resolveFromConfigFile="true"
 >
@@ -33,8 +33,8 @@
         <PropertyNotSetInConstructor>
             <errorLevel type="info">
                 <!-- referencedProperty name="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwarePlugin::$container"/ -->
-                <file name="test/Fixture/ShopwareProject/Custom/ShopwarePlugin.php"/>
-                <file name="src/Bundle.php"/>
+                <file name="../test/Fixture/ShopwareProject/Custom/ShopwarePlugin.php"/>
+                <file name="../src/Bundle.php"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
     </issueHandlers>
@@ -44,11 +44,11 @@
     </plugins>
 
     <projectFiles>
-        <directory name="src/" />
-        <directory name="test/" />
+        <directory name="../src/" />
+        <directory name="../test/" />
         <ignoreFiles>
-            <directory name="vendor/" />
-            <directory name="test/Fixture/ShopwareProject/var" />
+            <directory name="../vendor/" />
+            <directory name="../test/Fixture/ShopwareProject/var" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

@@ -3,8 +3,8 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	level: max
 	paths:
-		- src/
-		- test/
+		- ../src/
+		- ../test/
 	excludes_analyse:
-        - test/Fixture/ShopwareProject/var/*
-	tmpDir: .build/phpstan/
+        - ../test/Fixture/ShopwareProject/var/*
+	tmpDir: ../.build/phpstan/
