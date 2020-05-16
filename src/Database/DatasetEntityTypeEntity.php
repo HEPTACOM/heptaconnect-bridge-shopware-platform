@@ -14,6 +14,8 @@ class DatasetEntityTypeEntity extends Entity
      */
     protected string $type = '';
 
+    protected ?MappingNodeCollection $mappingNodes;
+
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
@@ -28,6 +30,18 @@ class DatasetEntityTypeEntity extends Entity
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getMappingNodes(): ?MappingNodeCollection
+    {
+        return $this->mappingNodes;
+    }
+
+    public function setMappingNodes(?MappingNodeCollection $mappingNodes): self
+    {
+        $this->mappingNodes = $mappingNodes;
 
         return $this;
     }

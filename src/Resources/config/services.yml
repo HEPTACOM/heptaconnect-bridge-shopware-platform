@@ -2,3 +2,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: 'heptaconnect_dataset_entity_type' }
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: 'heptaconnect_mapping_node' }

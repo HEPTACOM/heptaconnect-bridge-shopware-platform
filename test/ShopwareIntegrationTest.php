@@ -5,6 +5,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\DefinitionNotFoundException;
@@ -14,7 +16,9 @@ use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662318CreateDatasetEntityTypeTable
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662426CreateMappingNodeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
  */
 class ShopwareIntegrationTest extends TestCase
@@ -43,6 +47,7 @@ class ShopwareIntegrationTest extends TestCase
      */
     public function testMigration(): void
     {
+        $this->kernel->registerBundles();
         $application = new Application($this->kernel);
         $command = $application->find('database:migrate');
         $result = $command->run(new StringInput('--all'), new NullOutput());
@@ -80,7 +85,22 @@ class ShopwareIntegrationTest extends TestCase
             $this->assertTrue($definition->getFields()->has('createdAt'));
             $this->assertTrue($definition->getFields()->has('updatedAt'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_dataset_entity_type: ' . $e->getMessage());
+            $this->fail('Failed on loading heptaconnect_dataset_entity_type: '.$e->getMessage());
+        }
+
+        try {
+            $definition = $definitionRegistration->getByEntityName('heptaconnect_mapping_node');
+            $this->assertEquals('heptaconnect_mapping_node', $definition->getEntityName());
+            $this->assertEquals(MappingNodeCollection::class, $definition->getCollectionClass());
+            $this->assertEquals(MappingNodeEntity::class, $definition->getEntityClass());
+            $this->assertTrue($definition->getFields()->has('id'));
+            $this->assertTrue($definition->getFields()->has('type'));
+            $this->assertTrue($definition->getFields()->has('typeId'));
+            $this->assertTrue($definition->getFields()->has('createdAt'));
+            $this->assertTrue($definition->getFields()->has('updatedAt'));
+            $this->assertTrue($definition->getFields()->has('deletedAt'));
+        } catch (DefinitionNotFoundException $e) {
+            $this->fail('Failed on loading heptaconnect_mapping_node: '.$e->getMessage());
         }
     }
 }

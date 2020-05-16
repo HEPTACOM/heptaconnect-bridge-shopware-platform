@@ -3,16 +3,17 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
-class DatasetEntityTypeDefinition extends EntityDefinition
+class MappingNodeDefinition extends EntityDefinition
 {
-    public const ENTITY_NAME = 'heptaconnect_dataset_entity_type';
+    public const ENTITY_NAME = 'heptaconnect_mapping_node';
 
     public function getEntityName(): string
     {
@@ -21,21 +22,22 @@ class DatasetEntityTypeDefinition extends EntityDefinition
 
     public function getEntityClass(): string
     {
-        return DatasetEntityTypeEntity::class;
+        return MappingNodeEntity::class;
     }
 
     public function getCollectionClass(): string
     {
-        return DatasetEntityTypeCollection::class;
+        return MappingNodeCollection::class;
     }
 
     protected function defineFields(): FieldCollection
     {
         return new FieldCollection([
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
-            (new StringField('type', 'type', 255))->addFlags(new Required()),
+            (new FkField('type_id', 'typeId', DatasetEntityTypeDefinition::class))->addFlags(new Required()),
+            (new DateTimeField('deleted_at', 'deletedAt')),
 
-            (new OneToManyAssociationField('mappingNodes', MappingNodeDefinition::class, 'type_id', 'id')),
+            (new ManyToOneAssociationField('type', 'type_id', DatasetEntityTypeDefinition::class)),
         ]);
     }
 }
