@@ -18,9 +18,11 @@
     ],
     "require": {
         "php": ">=7.4 <7.5",
-        "shopware/core": ">=6.2 <7",
-        "shopware/storefront": ">=6.2 <7",
-        "heptacom/heptaconnect-storage-base": "dev-master"
+        "shopware/core": ">=6.1 <7",
+        "shopware/storefront": ">=6.1 <7",
+        "heptacom/heptaconnect-storage-base": "dev-master",
+        "heptacom/heptaconnect-dataset-base": "dev-master",
+        "heptacom/heptaconnect-portal-base": "dev-master"
     },
     "autoload": {
         "psr-4": {

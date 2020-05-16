@@ -29,7 +29,7 @@ class ShopwareIntegrationTest extends TestCase
     public function testConnection(): void
     {
         $connection = $this->kernel::getConnection();
-        $this->assertTrue($connection->ping());
+        static::assertTrue($connection->ping());
     }
 
     /**
@@ -40,7 +40,7 @@ class ShopwareIntegrationTest extends TestCase
         $application = new Application($this->kernel);
         $command = $application->find('database:migrate');
         $result = $command->run(new StringInput('--all'), new NullOutput());
-        $this->assertEquals(0, $result);
+        static::assertEquals(0, $result);
     }
 
     /**
@@ -51,6 +51,6 @@ class ShopwareIntegrationTest extends TestCase
         $this->kernel->registerBundles();
         $bundle = $this->kernel->getBundle('HeptaConnectBridgeShopwarePlatform');
 
-        $this->assertInstanceOf(Bundle::class, $bundle);
+        static::assertInstanceOf(Bundle::class, $bundle);
     }
 }

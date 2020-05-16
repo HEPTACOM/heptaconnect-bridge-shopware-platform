@@ -17,16 +17,16 @@ class StorageTest extends TestCase
     {
         /** @var SystemConfigService&MockObject $systemConfigService */
         $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects($this->once())
+        $systemConfigService->expects(static::once())
             ->method('set')
             ->with(
-                $this->logicalAnd(
-                    $this->stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    $this->logicalNot($this->equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
+                static::logicalAnd(
+                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
+                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
                 ),
-                $this->logicalAnd(
-                    $this->isType(IsType::TYPE_ARRAY),
-                    $this->arrayHasKey('foo')
+                static::logicalAnd(
+                    static::isType(IsType::TYPE_ARRAY),
+                    static::arrayHasKey('foo')
                 )
             );
 
@@ -38,24 +38,24 @@ class StorageTest extends TestCase
     {
         /** @var SystemConfigService&MockObject $systemConfigService */
         $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects($this->once())
+        $systemConfigService->expects(static::once())
             ->method('get')
-            ->with($this->logicalAnd(
-                $this->stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                $this->logicalNot($this->equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
+            ->with(static::logicalAnd(
+                static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
+                static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
             ))
             ->willReturn('party');
-        $systemConfigService->expects($this->once())
+        $systemConfigService->expects(static::once())
             ->method('set')
             ->with(
-                $this->logicalAnd(
-                    $this->stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    $this->logicalNot($this->equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
+                static::logicalAnd(
+                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
+                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
                 ),
-                $this->logicalAnd(
-                    $this->isType(IsType::TYPE_ARRAY),
-                    $this->arrayHasKey('foo'),
-                    $this->arrayHasKey('value')
+                static::logicalAnd(
+                    static::isType(IsType::TYPE_ARRAY),
+                    static::arrayHasKey('foo'),
+                    static::arrayHasKey('value')
                 )
             )
         ;
@@ -68,37 +68,37 @@ class StorageTest extends TestCase
     {
         /** @var SystemConfigService&MockObject $systemConfigService */
         $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects($this->once())
+        $systemConfigService->expects(static::once())
             ->method('get')
             ->with(
-                $this->logicalAnd(
-                    $this->stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    $this->logicalNot($this->equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
+                static::logicalAnd(
+                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
+                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
                 )
             )
             ->willReturn(['foo' => 'bar']);
 
         $storage = new Storage($systemConfigService);
         $result = $storage->getConfiguration('2281f7b9f4e847d5b0bc084288b871b1');
-        $this->assertEquals(['foo' => 'bar'], $result);
+        static::assertEquals(['foo' => 'bar'], $result);
     }
 
     public function testGetConfigurationNonArray(): void
     {
         /** @var SystemConfigService&MockObject $systemConfigService */
         $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects($this->once())
+        $systemConfigService->expects(static::once())
             ->method('get')
             ->with(
-                $this->logicalAnd(
-                    $this->stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    $this->logicalNot($this->equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
+                static::logicalAnd(
+                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
+                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
                 )
             )
             ->willReturn('foobar');
 
         $storage = new Storage($systemConfigService);
         $result = $storage->getConfiguration('2281f7b9f4e847d5b0bc084288b871b1');
-        $this->assertEquals(['value' => 'foobar'], $result);
+        static::assertEquals(['value' => 'foobar'], $result);
     }
 }

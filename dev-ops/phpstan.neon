@@ -6,5 +6,5 @@ parameters:
 		- ../src/
 		- ../test/
 	excludes_analyse:
-        - ../test/Fixture/ShopwareProject/var/*
+		- ../test/Fixture/ShopwareProject/var/*
 	tmpDir: ../.build/phpstan/

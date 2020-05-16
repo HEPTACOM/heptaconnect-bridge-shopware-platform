@@ -24,6 +24,7 @@ pipelines:
                 <<: *default-step
                 name: Install
                 script:
+                    - composer-repository
                     - make vendor
         -   step:
                 <<: *default-step
