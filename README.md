@@ -19,7 +19,11 @@ Read more under [Overview](../heptaconnect-docs).
 * Everything a shopware platform project needs like mysql and several more php extensions
 
 For running tests locally you need a mysql database.
-The tests need the connection details in the `.env.test` and an already created database.
+The tests need the connection details in the `.env.test` and an already created database with the default schema.
+You can generate the default schema using the following command:
+```bash
+$ echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql # your credentials
+```
 
 ## License
 
