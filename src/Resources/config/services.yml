@@ -5,3 +5,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: 'heptaconnect_mapping_node' }
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: 'heptaconnect_portal_node' }

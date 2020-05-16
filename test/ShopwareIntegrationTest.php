@@ -7,6 +7,8 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeColl
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\DefinitionNotFoundException;
@@ -17,8 +19,10 @@ use Symfony\Component\Console\Output\NullOutput;
 /**
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662318CreateDatasetEntityTypeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662426CreateMappingNodeTable
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589673188CreatePortalNodeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
  */
 class ShopwareIntegrationTest extends TestCase
@@ -101,6 +105,19 @@ class ShopwareIntegrationTest extends TestCase
             $this->assertTrue($definition->getFields()->has('deletedAt'));
         } catch (DefinitionNotFoundException $e) {
             $this->fail('Failed on loading heptaconnect_mapping_node: '.$e->getMessage());
+        }
+
+        try {
+            $definition = $definitionRegistration->getByEntityName('heptaconnect_portal_node');
+            $this->assertEquals('heptaconnect_portal_node', $definition->getEntityName());
+            $this->assertEquals(PortalNodeCollection::class, $definition->getCollectionClass());
+            $this->assertEquals(PortalNodeEntity::class, $definition->getEntityClass());
+            $this->assertTrue($definition->getFields()->has('id'));
+            $this->assertTrue($definition->getFields()->has('createdAt'));
+            $this->assertTrue($definition->getFields()->has('updatedAt'));
+            $this->assertTrue($definition->getFields()->has('deletedAt'));
+        } catch (DefinitionNotFoundException $e) {
+            $this->fail('Failed on loading heptaconnect_portal_node: '.$e->getMessage());
         }
     }
 }
