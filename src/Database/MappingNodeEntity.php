@@ -15,6 +15,8 @@ class MappingNodeEntity extends Entity
 
     protected ?DatasetEntityTypeEntity $type;
 
+    protected ?MappingCollection $mappings;
+
     public function getTypeId(): string
     {
         return $this->typeId;
@@ -47,6 +49,18 @@ class MappingNodeEntity extends Entity
     public function setType(?DatasetEntityTypeEntity $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getMappings(): ?MappingCollection
+    {
+        return $this->mappings;
+    }
+
+    public function setMappings(?MappingCollection $mappings): self
+    {
+        $this->mappings = $mappings;
 
         return $this;
     }

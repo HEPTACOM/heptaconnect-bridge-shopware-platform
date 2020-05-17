@@ -11,6 +11,8 @@ class PortalNodeEntity extends Entity
 
     protected ?\DateTimeInterface $deletedAt;
 
+    protected ?MappingCollection $mappings;
+
     public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
@@ -19,6 +21,18 @@ class PortalNodeEntity extends Entity
     public function setDeletedAt(?\DateTimeInterface $deletedAt): self
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getMappings(): ?MappingCollection
+    {
+        return $this->mappings;
+    }
+
+    public function setMappings(?MappingCollection $mappings): self
+    {
+        $this->mappings = $mappings;
 
         return $this;
     }

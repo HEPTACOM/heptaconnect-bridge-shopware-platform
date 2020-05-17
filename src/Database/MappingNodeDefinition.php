@@ -9,6 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class MappingNodeDefinition extends EntityDefinition
@@ -38,6 +39,7 @@ class MappingNodeDefinition extends EntityDefinition
             (new DateTimeField('deleted_at', 'deletedAt')),
 
             (new ManyToOneAssociationField('type', 'type_id', DatasetEntityTypeDefinition::class)),
+            (new OneToManyAssociationField('mappings', MappingDefinition::class, 'mapping_node_id', 'id')),
         ]);
     }
 }

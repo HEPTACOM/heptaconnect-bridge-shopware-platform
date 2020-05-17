@@ -5,6 +5,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeCollection;
@@ -18,11 +20,13 @@ use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662318CreateDatasetEntityTypeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662426CreateMappingNodeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589673188CreatePortalNodeTable
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589674916CreateMappingTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
  */
 class ShopwareIntegrationTest extends TestCase
@@ -90,6 +94,24 @@ class ShopwareIntegrationTest extends TestCase
             $this->assertTrue($definition->getFields()->has('updatedAt'));
         } catch (DefinitionNotFoundException $e) {
             $this->fail('Failed on loading heptaconnect_dataset_entity_type: '.$e->getMessage());
+        }
+
+        try {
+            $definition = $definitionRegistration->getByEntityName('heptaconnect_mapping');
+            $this->assertEquals('heptaconnect_mapping', $definition->getEntityName());
+            $this->assertEquals(MappingCollection::class, $definition->getCollectionClass());
+            $this->assertEquals(MappingEntity::class, $definition->getEntityClass());
+            $this->assertTrue($definition->getFields()->has('id'));
+            $this->assertTrue($definition->getFields()->has('externalId'));
+            $this->assertTrue($definition->getFields()->has('portalNode'));
+            $this->assertTrue($definition->getFields()->has('portalNodeId'));
+            $this->assertTrue($definition->getFields()->has('mappingNode'));
+            $this->assertTrue($definition->getFields()->has('mappingNodeId'));
+            $this->assertTrue($definition->getFields()->has('createdAt'));
+            $this->assertTrue($definition->getFields()->has('updatedAt'));
+            $this->assertTrue($definition->getFields()->has('deletedAt'));
+        } catch (DefinitionNotFoundException $e) {
+            $this->fail('Failed on loading heptaconnect_mappinge: '.$e->getMessage());
         }
 
         try {
