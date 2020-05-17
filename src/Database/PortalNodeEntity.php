@@ -9,9 +9,9 @@ class PortalNodeEntity extends Entity
 {
     use EntityIdTrait;
 
-    protected ?\DateTimeInterface $deletedAt;
+    protected ?\DateTimeInterface $deletedAt = null;
 
-    protected ?MappingCollection $mappings;
+    protected ?MappingCollection $mappings = null;
 
     public function getDeletedAt(): ?\DateTimeInterface
     {

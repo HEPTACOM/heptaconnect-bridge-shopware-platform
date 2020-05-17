@@ -11,11 +11,11 @@ class MappingNodeEntity extends Entity
 
     protected string $typeId = '';
 
-    protected ?\DateTimeInterface $deletedAt;
+    protected ?\DateTimeInterface $deletedAt = null;
 
     protected ?DatasetEntityTypeEntity $type;
 
-    protected ?MappingCollection $mappings;
+    protected ?MappingCollection $mappings = null;
 
     public function getTypeId(): string
     {

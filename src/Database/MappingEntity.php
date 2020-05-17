@@ -13,13 +13,13 @@ class MappingEntity extends Entity
 
     protected string $portalNodeId = '';
 
-    protected ?string $externalId;
+    protected ?string $externalId = null;
 
-    protected ?\DateTimeInterface $deletedAt;
+    protected ?\DateTimeInterface $deletedAt = null;
 
-    protected ?MappingNodeEntity $mappingNode;
+    protected ?MappingNodeEntity $mappingNode = null;
 
-    protected ?PortalNodeEntity $portalNode;
+    protected ?PortalNodeEntity $portalNode = null;
 
     public function getMappingNodeId(): string
     {

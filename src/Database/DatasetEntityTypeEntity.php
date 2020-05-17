@@ -14,7 +14,7 @@ class DatasetEntityTypeEntity extends Entity
      */
     protected string $type = '';
 
-    protected ?MappingNodeCollection $mappingNodes;
+    protected ?MappingNodeCollection $mappingNodes = null;
 
     /**
      * @psalm-return class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
