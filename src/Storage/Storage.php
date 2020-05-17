@@ -2,17 +2,40 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class Storage extends StorageFallback implements StorageInterface
 {
     private SystemConfigService $systemConfigService;
 
-    public function __construct(SystemConfigService $systemConfigService)
-    {
+    private EntityRepositoryInterface $mappingNodes;
+
+    private EntityRepositoryInterface $datasetEntityTypes;
+
+    private EntityRepositoryInterface $mappings;
+
+    public function __construct(
+        SystemConfigService $systemConfigService,
+        EntityRepositoryInterface $datasetEntityTypes,
+        EntityRepositoryInterface $mappingNodes,
+        EntityRepositoryInterface $mappings
+    ) {
         $this->systemConfigService = $systemConfigService;
+        $this->datasetEntityTypes = $datasetEntityTypes;
+        $this->mappingNodes = $mappingNodes;
+        $this->mappings = $mappings;
     }
 
     public function getConfiguration(string $portalNodeId): array
@@ -25,6 +48,82 @@ class Storage extends StorageFallback implements StorageInterface
         $value = $this->getConfigurationInternal($portalNodeId);
         $config = \array_replace_recursive($value, $data);
         $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeId), $config);
+    }
+
+    public function createMappingNodes(array $datasetEntityClassNames): array
+    {
+        if (\count($datasetEntityClassNames) === 0) {
+            return [];
+        }
+
+        $context = Context::createDefaultContext();
+        $typesToCheck = \array_unique($datasetEntityClassNames);
+        $datasetEntityCriteria = new Criteria();
+        $datasetEntityCriteria->addFilter(new EqualsAnyFilter('type', $typesToCheck));
+        /** @var DatasetEntityTypeCollection $datasetTypeEntities */
+        $datasetTypeEntities = $this->datasetEntityTypes->search($datasetEntityCriteria, $context)->getEntities();
+        $typeIds = $datasetTypeEntities->groupByType();
+        $datasetTypeInsert = [];
+
+        foreach ($typesToCheck as $className) {
+            if (!\array_key_exists($className, $typeIds)) {
+                $id = Uuid::randomHex();
+                $datasetTypeInsert[] = [
+                    'id' => $id,
+                    'type' => $className,
+                ];
+                $typeIds[$className] = $id;
+            }
+        }
+
+        if (\count($datasetTypeInsert) > 0) {
+            $this->datasetEntityTypes->create($datasetTypeInsert, $context);
+        }
+
+        $result = [];
+        $mappingNodeInsert = [];
+
+        foreach ($datasetEntityClassNames as $datasetEntityClassNameKey => $datasetEntityClassName) {
+            $mappingId = Uuid::randomHex();
+            $mappingNodeInsert[] = [
+                'id' => $mappingId,
+                'typeId' => $typeIds[$datasetEntityClassName],
+            ];
+
+            $type = new DatasetEntityTypeEntity();
+            $type->setCreatedAt(new \DateTime());
+            $type->setType($datasetEntityClassName);
+            $type->setId($typeIds[$datasetEntityClassName]);
+            $mapping = (new MappingNodeEntity())->setType($type);
+            $mapping->setCreatedAt(new \DateTime());
+            $mapping->setId($mappingId);
+            $result[$datasetEntityClassNameKey] = $mapping;
+        }
+
+        $this->mappingNodes->create($mappingNodeInsert, $context);
+
+        return $result;
+    }
+
+    public function createMappings(MappingCollection $mappings): void
+    {
+        if ($mappings->count() === 0) {
+            return;
+        }
+
+        $insert = [];
+
+        /** @var MappingInterface $mapping */
+        foreach ($mappings as $mapping) {
+            $insert[] = [
+                'externalId' => $mapping->getExternalId(),
+                'id' => Uuid::randomHex(),
+                'mappingNodeId' => $mapping->getMappingNodeId(),
+                'portalNodeId' => $mapping->getPortalNodeId(),
+            ];
+        }
+
+        $this->mappings->create($insert, Context::createDefaultContext());
     }
 
     private function buildConfigurationPrefix(string $portalNodeId): string

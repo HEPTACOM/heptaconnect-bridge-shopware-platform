@@ -38,7 +38,7 @@ class MappingNodeDefinition extends EntityDefinition
             (new FkField('type_id', 'typeId', DatasetEntityTypeDefinition::class))->addFlags(new Required()),
             (new DateTimeField('deleted_at', 'deletedAt')),
 
-            (new ManyToOneAssociationField('type', 'type_id', DatasetEntityTypeDefinition::class)),
+            (new ManyToOneAssociationField('type', 'type_id', DatasetEntityTypeDefinition::class, 'id', true)),
             (new OneToManyAssociationField('mappings', MappingDefinition::class, 'mapping_node_id', 'id')),
         ]);
     }
