@@ -64,7 +64,7 @@ class ShopwareIntegrationTest extends TestCase
         $command = $application->find('database:migrate');
         $result = $command->run(new StringInput('--all'), new NullOutput());
         static::assertEquals(0, $result);
-        $result = $command->run(new StringInput('database:migrate --all Heptacom\\\\HeptaConnect'), new NullOutput());
+        $result = $command->run(new StringInput('database:migrate --all HeptaConnectBridgeShopwarePlatform'), new NullOutput());
         static::assertEquals(0, $result);
     }
 
