@@ -89,80 +89,80 @@ class ShopwareIntegrationTest extends TestCase
 
         try {
             $definition = $definitionRegistration->getByEntityName('heptaconnect_dataset_entity_type');
-            $this->assertEquals('heptaconnect_dataset_entity_type', $definition->getEntityName());
-            $this->assertEquals(DatasetEntityTypeCollection::class, $definition->getCollectionClass());
-            $this->assertEquals(DatasetEntityTypeEntity::class, $definition->getEntityClass());
-            $this->assertTrue($definition->getFields()->has('id'));
-            $this->assertTrue($definition->getFields()->has('type'));
-            $this->assertTrue($definition->getFields()->has('createdAt'));
-            $this->assertTrue($definition->getFields()->has('updatedAt'));
+            static::assertEquals('heptaconnect_dataset_entity_type', $definition->getEntityName());
+            static::assertEquals(DatasetEntityTypeCollection::class, $definition->getCollectionClass());
+            static::assertEquals(DatasetEntityTypeEntity::class, $definition->getEntityClass());
+            static::assertTrue($definition->getFields()->has('id'));
+            static::assertTrue($definition->getFields()->has('type'));
+            static::assertTrue($definition->getFields()->has('createdAt'));
+            static::assertTrue($definition->getFields()->has('updatedAt'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_dataset_entity_type: '.$e->getMessage());
+            static::fail('Failed on loading heptaconnect_dataset_entity_type: '.$e->getMessage());
         }
 
         try {
             $definition = $definitionRegistration->getByEntityName('heptaconnect_mapping');
-            $this->assertEquals('heptaconnect_mapping', $definition->getEntityName());
-            $this->assertEquals(MappingCollection::class, $definition->getCollectionClass());
-            $this->assertEquals(MappingEntity::class, $definition->getEntityClass());
-            $this->assertTrue($definition->getFields()->has('id'));
-            $this->assertTrue($definition->getFields()->has('externalId'));
-            $this->assertTrue($definition->getFields()->has('portalNode'));
-            $this->assertTrue($definition->getFields()->has('portalNodeId'));
-            $this->assertTrue($definition->getFields()->has('mappingNode'));
-            $this->assertTrue($definition->getFields()->has('mappingNodeId'));
-            $this->assertTrue($definition->getFields()->has('createdAt'));
-            $this->assertTrue($definition->getFields()->has('updatedAt'));
-            $this->assertTrue($definition->getFields()->has('deletedAt'));
+            static::assertEquals('heptaconnect_mapping', $definition->getEntityName());
+            static::assertEquals(MappingCollection::class, $definition->getCollectionClass());
+            static::assertEquals(MappingEntity::class, $definition->getEntityClass());
+            static::assertTrue($definition->getFields()->has('id'));
+            static::assertTrue($definition->getFields()->has('externalId'));
+            static::assertTrue($definition->getFields()->has('portalNode'));
+            static::assertTrue($definition->getFields()->has('portalNodeId'));
+            static::assertTrue($definition->getFields()->has('mappingNode'));
+            static::assertTrue($definition->getFields()->has('mappingNodeId'));
+            static::assertTrue($definition->getFields()->has('createdAt'));
+            static::assertTrue($definition->getFields()->has('updatedAt'));
+            static::assertTrue($definition->getFields()->has('deletedAt'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_mappinge: '.$e->getMessage());
+            static::fail('Failed on loading heptaconnect_mappinge: '.$e->getMessage());
         }
 
         try {
             $definition = $definitionRegistration->getByEntityName('heptaconnect_mapping_node');
-            $this->assertEquals('heptaconnect_mapping_node', $definition->getEntityName());
-            $this->assertEquals(MappingNodeCollection::class, $definition->getCollectionClass());
-            $this->assertEquals(MappingNodeEntity::class, $definition->getEntityClass());
-            $this->assertTrue($definition->getFields()->has('id'));
-            $this->assertTrue($definition->getFields()->has('type'));
-            $this->assertTrue($definition->getFields()->has('typeId'));
-            $this->assertTrue($definition->getFields()->has('createdAt'));
-            $this->assertTrue($definition->getFields()->has('updatedAt'));
-            $this->assertTrue($definition->getFields()->has('deletedAt'));
+            static::assertEquals('heptaconnect_mapping_node', $definition->getEntityName());
+            static::assertEquals(MappingNodeCollection::class, $definition->getCollectionClass());
+            static::assertEquals(MappingNodeEntity::class, $definition->getEntityClass());
+            static::assertTrue($definition->getFields()->has('id'));
+            static::assertTrue($definition->getFields()->has('type'));
+            static::assertTrue($definition->getFields()->has('typeId'));
+            static::assertTrue($definition->getFields()->has('createdAt'));
+            static::assertTrue($definition->getFields()->has('updatedAt'));
+            static::assertTrue($definition->getFields()->has('deletedAt'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_mapping_node: '.$e->getMessage());
+            static::fail('Failed on loading heptaconnect_mapping_node: '.$e->getMessage());
         }
 
         try {
             $definition = $definitionRegistration->getByEntityName('heptaconnect_portal_node');
-            $this->assertEquals('heptaconnect_portal_node', $definition->getEntityName());
-            $this->assertEquals(PortalNodeCollection::class, $definition->getCollectionClass());
-            $this->assertEquals(PortalNodeEntity::class, $definition->getEntityClass());
-            $this->assertTrue($definition->getFields()->has('id'));
-            $this->assertTrue($definition->getFields()->has('createdAt'));
-            $this->assertTrue($definition->getFields()->has('updatedAt'));
-            $this->assertTrue($definition->getFields()->has('deletedAt'));
+            static::assertEquals('heptaconnect_portal_node', $definition->getEntityName());
+            static::assertEquals(PortalNodeCollection::class, $definition->getCollectionClass());
+            static::assertEquals(PortalNodeEntity::class, $definition->getEntityClass());
+            static::assertTrue($definition->getFields()->has('id'));
+            static::assertTrue($definition->getFields()->has('createdAt'));
+            static::assertTrue($definition->getFields()->has('updatedAt'));
+            static::assertTrue($definition->getFields()->has('deletedAt'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_portal_node: '.$e->getMessage());
+            static::fail('Failed on loading heptaconnect_portal_node: '.$e->getMessage());
         }
 
         try {
             $definition = $definitionRegistration->getByEntityName('heptaconnect_route');
-            $this->assertEquals('heptaconnect_route', $definition->getEntityName());
-            $this->assertEquals(RouteCollection::class, $definition->getCollectionClass());
-            $this->assertEquals(RouteEntity::class, $definition->getEntityClass());
-            $this->assertTrue($definition->getFields()->has('id'));
-            $this->assertTrue($definition->getFields()->has('typeId'));
-            $this->assertTrue($definition->getFields()->has('sourceId'));
-            $this->assertTrue($definition->getFields()->has('targetId'));
-            $this->assertTrue($definition->getFields()->has('createdAt'));
-            $this->assertTrue($definition->getFields()->has('updatedAt'));
-            $this->assertTrue($definition->getFields()->has('deletedAt'));
-            $this->assertTrue($definition->getFields()->has('type'));
-            $this->assertTrue($definition->getFields()->has('source'));
-            $this->assertTrue($definition->getFields()->has('target'));
+            static::assertEquals('heptaconnect_route', $definition->getEntityName());
+            static::assertEquals(RouteCollection::class, $definition->getCollectionClass());
+            static::assertEquals(RouteEntity::class, $definition->getEntityClass());
+            static::assertTrue($definition->getFields()->has('id'));
+            static::assertTrue($definition->getFields()->has('typeId'));
+            static::assertTrue($definition->getFields()->has('sourceId'));
+            static::assertTrue($definition->getFields()->has('targetId'));
+            static::assertTrue($definition->getFields()->has('createdAt'));
+            static::assertTrue($definition->getFields()->has('updatedAt'));
+            static::assertTrue($definition->getFields()->has('deletedAt'));
+            static::assertTrue($definition->getFields()->has('type'));
+            static::assertTrue($definition->getFields()->has('source'));
+            static::assertTrue($definition->getFields()->has('target'));
         } catch (DefinitionNotFoundException $e) {
-            $this->fail('Failed on loading heptaconnect_route: '.$e->getMessage());
+            static::fail('Failed on loading heptaconnect_route: '.$e->getMessage());
         }
     }
 }

@@ -27,13 +27,13 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with"/>
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withAnyParameters"/>
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
+                <referencedMethod name="Shopware\Core\Framework\Context::createDefaultContext"/>
             </errorLevel>
         </InternalMethod>
         <PropertyNotSetInConstructor>
             <errorLevel type="info">
-                <!-- referencedProperty name="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwarePlugin::$container"/ -->
-                <file name="../test/Fixture/ShopwareProject/Custom/ShopwarePlugin.php"/>
-                <file name="../src/Bundle.php"/>
+                <referencedProperty name="Symfony\Component\DependencyInjection\ContainerAwareTrait::$container"/>
+                <referencedProperty name="Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition::$registry"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
     </issueHandlers>

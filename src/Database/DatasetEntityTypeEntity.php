@@ -2,6 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -12,7 +13,7 @@ class DatasetEntityTypeEntity extends Entity
     /**
      * @var class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>
      */
-    protected string $type = '';
+    protected string $type = DatasetEntityInterface::class;
 
     protected ?MappingNodeCollection $mappingNodes = null;
 

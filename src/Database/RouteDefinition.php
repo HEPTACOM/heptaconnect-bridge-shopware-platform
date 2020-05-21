@@ -17,7 +17,7 @@ class RouteDefinition extends EntityDefinition
 
     public function getEntityName(): string
     {
-        return static::ENTITY_NAME;
+        return self::ENTITY_NAME;
     }
 
     public function getEntityClass(): string
