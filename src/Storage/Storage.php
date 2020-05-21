@@ -118,7 +118,9 @@ class Storage extends StorageFallback implements StorageInterface
             $insert[] = [
                 'externalId' => $mapping->getExternalId(),
                 'id' => Uuid::randomHex(),
-                'mappingNodeId' => $mapping->getMappingNodeId(),
+                'mappingNode' => [
+                    'id' => $mapping->getMappingNodeId(),
+                ],
                 'portalNodeId' => $mapping->getPortalNodeId(),
             ];
         }
