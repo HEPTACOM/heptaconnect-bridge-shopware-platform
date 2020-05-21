@@ -27,6 +27,7 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with"/>
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withAnyParameters"/>
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive"/>
+                <referencedMethod name="Shopware\Core\Framework\Context::createDefaultContext"/>
             </errorLevel>
         </InternalMethod>
         <PropertyNotSetInConstructor>
