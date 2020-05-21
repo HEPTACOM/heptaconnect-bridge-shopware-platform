@@ -41,7 +41,7 @@ class MappingDefinition extends EntityDefinition
             (new DateTimeField('deleted_at', 'deletedAt')),
 
             (new ManyToOneAssociationField('portalNode', 'portal_node_id', PortalNodeDefinition::class)),
-            (new ManyToOneAssociationField('mappingNode', 'mapping_node_id', MappingNodeDefinition::class)),
+            (new ManyToOneAssociationField('mappingNode', 'mapping_node_id', MappingNodeDefinition::class, 'id', true)),
         ]);
     }
 }

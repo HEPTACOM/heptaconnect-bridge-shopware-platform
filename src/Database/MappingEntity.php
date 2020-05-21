@@ -2,10 +2,12 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class MappingEntity extends Entity
+class MappingEntity extends Entity implements MappingInterface
 {
     use EntityIdTrait;
 
@@ -17,7 +19,7 @@ class MappingEntity extends Entity
 
     protected ?\DateTimeInterface $deletedAt = null;
 
-    protected ?MappingNodeEntity $mappingNode = null;
+    protected MappingNodeStructInterface $mappingNode;
 
     protected ?PortalNodeEntity $portalNode = null;
 
@@ -69,12 +71,12 @@ class MappingEntity extends Entity
         return $this;
     }
 
-    public function getMappingNode(): ?MappingNodeEntity
+    public function getMappingNode(): MappingNodeStructInterface
     {
         return $this->mappingNode;
     }
 
-    public function setMappingNode(?MappingNodeEntity $mappingNode): self
+    public function setMappingNode(MappingNodeStructInterface $mappingNode): self
     {
         $this->mappingNode = $mappingNode;
 
@@ -91,5 +93,10 @@ class MappingEntity extends Entity
         $this->portalNode = $portalNode;
 
         return $this;
+    }
+
+    public function getDatasetEntityClassName(): string
+    {
+        return $this->getMappingNode()->getDatasetEntityClassName();
     }
 }
