@@ -6,6 +6,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
+/**
+ * @psalm-suppress MissingConstructor
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class MappingNodeEntity extends Entity implements MappingNodeStructInterface
 {
     use EntityIdTrait;
