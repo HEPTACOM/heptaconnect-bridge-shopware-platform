@@ -13,6 +13,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
@@ -103,6 +104,26 @@ class Storage extends StorageFallback implements StorageInterface
         $this->mappingNodes->create($mappingNodeInsert, $context);
 
         return $result;
+    }
+
+    public function getMapping(string $mappingNodeId, string $portalNodeId): ?MappingInterface
+    {
+        $context = Context::createDefaultContext();
+
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new EqualsFilter('mappingNodeId', $mappingNodeId),
+            new EqualsFilter('portalNodeId', $portalNodeId)
+        );
+        $criteria->setLimit(1);
+
+        $mapping = $this->mappings->search($criteria, $context)->first();
+
+        if ($mapping instanceof MappingInterface) {
+            return $mapping;
+        }
+
+        return null;
     }
 
     public function createMappings(MappingCollection $mappings): void
