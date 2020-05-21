@@ -70,6 +70,7 @@ class StorageTest extends TestCase
             $systemConfigService,
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $storage->setConfiguration('2281f7b9f4e847d5b0bc084288b871b1', ['foo' => 'bar']);
@@ -105,6 +106,7 @@ class StorageTest extends TestCase
             $systemConfigService,
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $storage->setConfiguration('2281f7b9f4e847d5b0bc084288b871b1', ['foo' => 'bar']);
@@ -126,6 +128,7 @@ class StorageTest extends TestCase
 
         $storage = new Storage(
             $systemConfigService,
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
@@ -152,6 +155,7 @@ class StorageTest extends TestCase
             $systemConfigService,
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $result = $storage->getConfiguration('2281f7b9f4e847d5b0bc084288b871b1');
@@ -166,7 +170,8 @@ class StorageTest extends TestCase
             $this->createMock(SystemConfigService::class),
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
-            $definitionRegistry->getRepository('heptaconnect_mapping')
+            $definitionRegistry->getRepository('heptaconnect_mapping'),
+            $definitionRegistry->getRepository('heptaconnect_route')
         );
 
         /** @var MappingNodeStructInterface $node */
@@ -185,7 +190,8 @@ class StorageTest extends TestCase
             $this->createMock(SystemConfigService::class),
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
-            $definitionRegistry->getRepository('heptaconnect_mapping')
+            $definitionRegistry->getRepository('heptaconnect_mapping'),
+            $definitionRegistry->getRepository('heptaconnect_route')
         );
         $portalNodeRepo = $definitionRegistry->getRepository('heptaconnect_portal_node');
         $portalNodeRepo->create([[

@@ -5,14 +5,19 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
@@ -26,16 +31,20 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $mappings;
 
+    private EntityRepositoryInterface $routes;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
-        EntityRepositoryInterface $mappings
+        EntityRepositoryInterface $mappings,
+        EntityRepositoryInterface $routes
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
         $this->mappingNodes = $mappingNodes;
         $this->mappings = $mappings;
+        $this->routes = $routes;
     }
 
     public function getConfiguration(string $portalNodeId): array
@@ -104,6 +113,51 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         $this->mappings->create($insert, Context::createDefaultContext());
+    }
+
+    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array
+    {
+        $context = Context::createDefaultContext();
+        $result = [];
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('type.type', $entityClassName));
+        $iterator = new RepositoryIterator($this->routes, $context, $criteria);
+
+        while (($fetchResult = $iterator->fetch()) instanceof EntitySearchResult) {
+            /** @var RouteCollection $entities */
+            $entities = $fetchResult->getEntities();
+            /** @var RouteEntity $entity */
+            foreach ($entities as $entity) {
+                $result[] = $entity->getTargetId();
+            }
+        }
+
+        return $result;
+    }
+
+    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void
+    {
+        $context = Context::createDefaultContext();
+        $criteria = new Criteria();
+        $criteria->addFilter(
+            new EqualsFilter('type.type', $entityClassName),
+            new EqualsFilter('sourceId', $sourcePortalNodeId),
+            new EqualsFilter('targetId', $targetPortalNodeId)
+        );
+
+        if ($this->routes->searchIds($criteria, $context)->getTotal() > 0) {
+            return;
+        }
+
+        $typeId = $this->getIdsForDatasetEntityType([$entityClassName], $context)[$entityClassName];
+
+        $this->routes->create([[
+            'id' => Uuid::randomHex(),
+            'typeId' => $typeId,
+            'sourceId' => $sourcePortalNodeId,
+            'targetId' => $targetPortalNodeId,
+        ]], $context);
     }
 
     private function buildConfigurationPrefix(string $portalNodeId): string
