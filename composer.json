@@ -18,8 +18,8 @@
     ],
     "require": {
         "php": ">=7.4",
-        "shopware/core": ">=6.1 <7",
-        "shopware/storefront": ">=6.1 <7",
+        "shopware/core": ">=6.2",
+        "shopware/storefront": ">=6.2",
         "heptacom/heptaconnect-storage-base": "dev-master",
         "heptacom/heptaconnect-dataset-base": "dev-master",
         "heptacom/heptaconnect-portal-base": "dev-master"
