@@ -27,8 +27,8 @@ use Symfony\Component\Console\Output\NullOutput;
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662318CreateDatasetEntityTypeTable
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662426CreateMappingNodeTable
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589673188CreatePortalNodeTable
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589662426CreatePortalNodeTable
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589673188CreateMappingNodeTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1589674916CreateMappingTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1590070312CreateRouteTable
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle

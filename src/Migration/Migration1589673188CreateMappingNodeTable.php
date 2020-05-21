@@ -5,11 +5,11 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
-class Migration1589662426CreateMappingNodeTable extends MigrationStep
+class Migration1589673188CreateMappingNodeTable extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
-        return 1589662426;
+        return 1589673188;
     }
 
     public function update(Connection $connection): void
