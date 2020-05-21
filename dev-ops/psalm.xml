@@ -31,9 +31,7 @@
         </InternalMethod>
         <PropertyNotSetInConstructor>
             <errorLevel type="info">
-                <!-- referencedProperty name="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwarePlugin::$container"/ -->
-                <file name="../test/Fixture/ShopwareProject/Custom/ShopwarePlugin.php"/>
-                <file name="../src/Bundle.php"/>
+                <referencedProperty name="Symfony\Component\DependencyInjection\ContainerAwareTrait::$container"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
     </issueHandlers>
