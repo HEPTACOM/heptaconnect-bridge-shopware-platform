@@ -58,27 +58,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $context = Context::createDefaultContext();
         $typesToCheck = \array_unique($datasetEntityClassNames);
-        $datasetEntityCriteria = new Criteria();
-        $datasetEntityCriteria->addFilter(new EqualsAnyFilter('type', $typesToCheck));
-        /** @var DatasetEntityTypeCollection $datasetTypeEntities */
-        $datasetTypeEntities = $this->datasetEntityTypes->search($datasetEntityCriteria, $context)->getEntities();
-        $typeIds = $datasetTypeEntities->groupByType();
-        $datasetTypeInsert = [];
-
-        foreach ($typesToCheck as $className) {
-            if (!\array_key_exists($className, $typeIds)) {
-                $id = Uuid::randomHex();
-                $datasetTypeInsert[] = [
-                    'id' => $id,
-                    'type' => $className,
-                ];
-                $typeIds[$className] = $id;
-            }
-        }
-
-        if (\count($datasetTypeInsert) > 0) {
-            $this->datasetEntityTypes->create($datasetTypeInsert, $context);
-        }
+        $typeIds = $this->getIdsForDatasetEntityType($typesToCheck, $context);
 
         $result = [];
         $mappingNodeInsert = [];
@@ -145,5 +125,36 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         return ['value' => $value];
+    }
+
+    /**
+     * @psalm-param array<array-key, class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>> $types
+     * @psalm-return array<class-string<\Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface>, string>
+     */
+    private function getIdsForDatasetEntityType(array $types, Context $context): array
+    {
+        $datasetEntityCriteria = new Criteria();
+        $datasetEntityCriteria->addFilter(new EqualsAnyFilter('type', $types));
+        /** @var DatasetEntityTypeCollection $datasetTypeEntities */
+        $datasetTypeEntities = $this->datasetEntityTypes->search($datasetEntityCriteria, $context)->getEntities();
+        $typeIds = $datasetTypeEntities->groupByType();
+        $datasetTypeInsert = [];
+
+        foreach ($types as $className) {
+            if (!\array_key_exists($className, $typeIds)) {
+                $id = Uuid::randomHex();
+                $datasetTypeInsert[] = [
+                    'id' => $id,
+                    'type' => $className,
+                ];
+                $typeIds[$className] = $id;
+            }
+        }
+
+        if (\count($datasetTypeInsert) > 0) {
+            $this->datasetEntityTypes->create($datasetTypeInsert, $context);
+        }
+
+        return $typeIds;
     }
 }
