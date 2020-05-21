@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
@@ -105,6 +106,7 @@ class Storage extends StorageFallback implements StorageInterface
         );
         $criteria->setLimit(1);
 
+        /** @var MappingEntity|null $mapping */
         $mapping = $this->mappings->search($criteria, $context)->first();
 
         if ($mapping instanceof MappingInterface) {
