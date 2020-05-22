@@ -36,10 +36,12 @@ class MappingNodeDefinition extends EntityDefinition
         return new FieldCollection([
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             (new FkField('type_id', 'typeId', DatasetEntityTypeDefinition::class))->addFlags(new Required()),
+            (new FkField('origin_portal_node_id', 'originPortalNodeId', PortalNodeDefinition::class))->addFlags(new Required()),
             (new DateTimeField('deleted_at', 'deletedAt')),
 
             (new ManyToOneAssociationField('type', 'type_id', DatasetEntityTypeDefinition::class, 'id', true)),
             (new OneToManyAssociationField('mappings', MappingDefinition::class, 'mapping_node_id', 'id')),
+            (new ManyToOneAssociationField('originPortalNode', 'origin_portal_node_id', PortalNodeDefinition::class)),
         ]);
     }
 }

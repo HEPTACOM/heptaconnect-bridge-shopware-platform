@@ -13,6 +13,8 @@ class PortalNodeEntity extends Entity
 
     protected ?MappingCollection $mappings = null;
 
+    protected ?MappingNodeCollection $originalMappingNodes = null;
+
     public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
@@ -33,6 +35,18 @@ class PortalNodeEntity extends Entity
     public function setMappings(?MappingCollection $mappings): self
     {
         $this->mappings = $mappings;
+
+        return $this;
+    }
+
+    public function getOriginalMappingNodes(): ?MappingNodeCollection
+    {
+        return $this->originalMappingNodes;
+    }
+
+    public function setOriginalMappingNodes(?MappingNodeCollection $originalMappingNodes): self
+    {
+        $this->originalMappingNodes = $originalMappingNodes;
 
         return $this;
     }

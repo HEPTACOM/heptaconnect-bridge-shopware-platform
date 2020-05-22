@@ -16,11 +16,15 @@ class MappingNodeEntity extends Entity implements MappingNodeStructInterface
 
     protected string $typeId = '';
 
+    protected string $originPortalNodeId = '';
+
     protected ?\DateTimeInterface $deletedAt = null;
 
     protected DatasetEntityTypeEntity $type;
 
     protected ?MappingCollection $mappings = null;
+
+    protected ?PortalNodeEntity $originPortalNode = null;
 
     public function getTypeId(): string
     {
@@ -30,6 +34,18 @@ class MappingNodeEntity extends Entity implements MappingNodeStructInterface
     public function setTypeId(string $typeId): self
     {
         $this->typeId = $typeId;
+
+        return $this;
+    }
+
+    public function getOriginPortalNodeId(): string
+    {
+        return $this->originPortalNodeId;
+    }
+
+    public function setOriginPortalNodeId(string $originPortalNodeId): self
+    {
+        $this->originPortalNodeId = $originPortalNodeId;
 
         return $this;
     }
@@ -66,6 +82,18 @@ class MappingNodeEntity extends Entity implements MappingNodeStructInterface
     public function setMappings(?MappingCollection $mappings): self
     {
         $this->mappings = $mappings;
+
+        return $this;
+    }
+
+    public function getOriginPortalNode(): ?PortalNodeEntity
+    {
+        return $this->originPortalNode;
+    }
+
+    public function setOriginPortalNode(?PortalNodeEntity $originPortalNode): self
+    {
+        $this->originPortalNode = $originPortalNode;
 
         return $this;
     }

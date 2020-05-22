@@ -18,12 +18,17 @@ class Migration1589673188CreateMappingNodeTable extends MigrationStep
 CREATE TABLE IF NOT EXISTS `heptaconnect_mapping_node` (
     `id` BINARY(16) NOT NULL,
     `type_id` BINARY(16) NOT NULL,
+    `origin_portal_node_id` BINARY(16) NOT NULL,
     `created_at` DATETIME(3) NOT NULL,
     `updated_at` DATETIME(3) NULL,
     `deleted_at` DATETIME(3) NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `fk.heptaconnect_mapping_node.type_id` FOREIGN KEY (`type_id`)
         REFERENCES `heptaconnect_dataset_entity_type` (`id`)
+            ON DELETE RESTRICT
+            ON UPDATE CASCADE,
+    CONSTRAINT `fk.heptaconnect_mapping_node.origin_portal_node_id` FOREIGN KEY (`origin_portal_node_id`)
+        REFERENCES `heptaconnect_portal_node` (`id`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
 )

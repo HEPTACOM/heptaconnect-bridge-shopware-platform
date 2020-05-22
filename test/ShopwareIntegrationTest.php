@@ -126,6 +126,8 @@ class ShopwareIntegrationTest extends TestCase
             static::assertTrue($definition->getFields()->has('id'));
             static::assertTrue($definition->getFields()->has('type'));
             static::assertTrue($definition->getFields()->has('typeId'));
+            static::assertTrue($definition->getFields()->has('originPortalNode'));
+            static::assertTrue($definition->getFields()->has('originPortalNodeId'));
             static::assertTrue($definition->getFields()->has('createdAt'));
             static::assertTrue($definition->getFields()->has('updatedAt'));
             static::assertTrue($definition->getFields()->has('deletedAt'));
