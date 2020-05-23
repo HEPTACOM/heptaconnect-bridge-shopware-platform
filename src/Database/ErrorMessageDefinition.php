@@ -9,6 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\LongTextField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class ErrorMessageDefinition extends EntityDefinition
@@ -35,6 +36,7 @@ class ErrorMessageDefinition extends EntityDefinition
         return new FieldCollection([
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             (new FkField('mapping_id', 'mappingId', MappingDefinition::class))->addFlags(new Required()),
+            (new StringField('type', 'type'))->addFlags(new Required()),
             new LongTextField('message', 'message'),
             new LongTextField('stack_trace', 'stackTrace'),
 
