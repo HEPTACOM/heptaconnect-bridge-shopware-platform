@@ -51,26 +51,26 @@ class Storage extends StorageFallback implements StorageInterface
         $this->routes = $routes;
     }
 
-    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array
     {
-        if (!$portalNodeId instanceof PortalNodeKey) {
-            return parent::getConfiguration($portalNodeId);
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::getConfiguration($portalNodeKey);
         }
-        /* @var PortalNodeKey $portalNodeId */
-        return $this->getConfigurationInternal($portalNodeId->getUuid());
+        /* @var PortalNodeKey $portalNodeKey */
+        return $this->getConfigurationInternal($portalNodeKey->getUuid());
     }
 
-    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeKey, array $data): void
     {
-        if (!$portalNodeId instanceof PortalNodeKey) {
-            parent::setConfiguration($portalNodeId, $data);
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            parent::setConfiguration($portalNodeKey, $data);
 
             return;
         }
-        /** @var PortalNodeKey $portalNodeId */
-        $value = $this->getConfigurationInternal($portalNodeId->getUuid());
+        /** @var PortalNodeKey $portalNodeKey */
+        $value = $this->getConfigurationInternal($portalNodeKey->getUuid());
         $config = \array_replace_recursive($value, $data);
-        $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeId->getUuid()), $config);
+        $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
     }
 
     public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array
