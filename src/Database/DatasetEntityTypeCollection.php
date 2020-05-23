@@ -4,6 +4,15 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 
+/**
+ * @method void                         add(DatasetEntityTypeEntity $entity)
+ * @method void                         set(string $key, DatasetEntityTypeEntity $entity)
+ * @method DatasetEntityTypeEntity[]    getIterator()
+ * @method DatasetEntityTypeEntity[]    getElements()
+ * @method DatasetEntityTypeEntity|null get(string $key)
+ * @method DatasetEntityTypeEntity|null first()
+ * @method DatasetEntityTypeEntity|null last()
+ */
 class DatasetEntityTypeCollection extends EntityCollection
 {
     /**
