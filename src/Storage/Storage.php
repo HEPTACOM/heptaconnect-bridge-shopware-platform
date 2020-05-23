@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -112,17 +113,21 @@ class Storage extends StorageFallback implements StorageInterface
         return $result;
     }
 
-    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
+    public function getMapping(StorageMappingNodeKeyInterface $mappingNodeKey, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
-            return parent::getMapping($mappingNodeId, $portalNodeKey);
+            return parent::getMapping($mappingNodeKey, $portalNodeKey);
         }
-        /** @var PortalNodeKey $portalNodeKey */
+        /* @var PortalNodeKey $portalNodeKey */
+        if (!$mappingNodeKey instanceof MappingNodeKey) {
+            return parent::getMapping($mappingNodeKey, $portalNodeKey);
+        }
+        /** @var MappingNodeKey $mappingNodeKey */
         $context = Context::createDefaultContext();
 
         $criteria = new Criteria();
         $criteria->addFilter(
-            new EqualsFilter('mappingNodeId', $mappingNodeId),
+            new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
             new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
         );
         $criteria->setLimit(1);
@@ -153,12 +158,18 @@ class Storage extends StorageFallback implements StorageInterface
                 continue;
             }
 
+            $mappingNodeKey = $mapping->getMappingNodeKey();
+
+            if (!$mappingNodeKey instanceof MappingNodeKey) {
+                continue;
+            }
+
             $insert[] = [
                 'externalId' => $mapping->getExternalId(),
                 'id' => Uuid::randomHex(),
                 'mappingNode' => [
                     /* TODO upsert typeId and origin */
-                    'id' => $mapping->getMappingNodeId(),
+                    'id' => $mappingNodeKey->getUuid(),
                 ],
                 'portalNodeId' => $portalNodeKey->getUuid(),
             ];
@@ -238,6 +249,10 @@ class Storage extends StorageFallback implements StorageInterface
     {
         if ($keyClassName === StoragePortalNodeKeyInterface::class) {
             return new PortalNodeKey(Uuid::randomHex());
+        }
+
+        if ($keyClassName === StorageMappingNodeKeyInterface::class) {
+            return new MappingNodeKey(Uuid::randomHex());
         }
 
         return parent::generateKey($keyClassName);

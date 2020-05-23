@@ -2,6 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\MappingNodeKey;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -96,6 +98,11 @@ class MappingNodeEntity extends Entity implements MappingNodeStructInterface
         $this->originPortalNode = $originPortalNode;
 
         return $this;
+    }
+
+    public function getKey(): StorageMappingNodeKeyInterface
+    {
+        return new MappingNodeKey($this->id);
     }
 
     public function getDatasetEntityClassName(): string

@@ -220,8 +220,8 @@ class StorageTest extends TestCase
             ->method('getPortalNodeKey')
             ->willReturn(new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
         $mappingNull->expects(static::atLeastOnce())
-            ->method('getMappingNodeId')
-            ->willReturn($mappingNodeNull->getId());
+            ->method('getMappingNodeKey')
+            ->willReturn($mappingNodeNull->getKey());
         $mappingNull->expects(static::atLeastOnce())
             ->method('getExternalId')
             ->willReturn(null);
@@ -231,8 +231,8 @@ class StorageTest extends TestCase
             ->method('getPortalNodeKey')
             ->willReturn(new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
         $mapping->expects(static::atLeastOnce())
-            ->method('getMappingNodeId')
-            ->willReturn($mappingNode->getId());
+            ->method('getMappingNodeKey')
+            ->willReturn($mappingNode->getKey());
         $mapping->expects(static::atLeastOnce())
             ->method('getExternalId')
             ->willReturn('This could be your external id');
