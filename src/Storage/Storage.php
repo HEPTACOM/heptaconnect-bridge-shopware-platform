@@ -195,19 +195,19 @@ class Storage extends StorageFallback implements StorageInterface
         return $result;
     }
 
-    public function addRouteTarget(
+    public function createRouteTarget(
         StoragePortalNodeKeyInterface $sourcePortalNodeKey,
         StoragePortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
     ): void {
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
-            parent::addRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
+            parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
 
             return;
         }
         /* @var PortalNodeKey $sourcePortalNodeKey */
         if (!$targetPortalNodeKey instanceof PortalNodeKey) {
-            parent::addRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
+            parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
 
             return;
         }
