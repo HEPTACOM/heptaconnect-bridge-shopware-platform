@@ -9,6 +9,8 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
@@ -48,24 +50,38 @@ class Storage extends StorageFallback implements StorageInterface
         $this->routes = $routes;
     }
 
-    public function getConfiguration(string $portalNodeId): array
+    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeId): array
     {
-        return $this->getConfigurationInternal($portalNodeId);
+        if (!$portalNodeId instanceof PortalNodeKey) {
+            return parent::getConfiguration($portalNodeId);
+        }
+        /* @var PortalNodeKey $portalNodeId */
+        return $this->getConfigurationInternal($portalNodeId->getUuid());
     }
 
-    public function setConfiguration(string $portalNodeId, array $data): void
+    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeId, array $data): void
     {
-        $value = $this->getConfigurationInternal($portalNodeId);
+        if (!$portalNodeId instanceof PortalNodeKey) {
+            parent::setConfiguration($portalNodeId, $data);
+
+            return;
+        }
+        /** @var PortalNodeKey $portalNodeId */
+        $value = $this->getConfigurationInternal($portalNodeId->getUuid());
         $config = \array_replace_recursive($value, $data);
-        $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeId), $config);
+        $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeId->getUuid()), $config);
     }
 
-    public function createMappingNodes(array $datasetEntityClassNames): array
+    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array
     {
         if (\count($datasetEntityClassNames) === 0) {
             return [];
         }
 
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::createMappingNodes($datasetEntityClassNames, $portalNodeKey);
+        }
+        /** @var PortalNodeKey $portalNodeKey */
         $context = Context::createDefaultContext();
         $typesToCheck = \array_unique($datasetEntityClassNames);
         $typeIds = $this->getIdsForDatasetEntityType($typesToCheck, $context);
@@ -77,6 +93,7 @@ class Storage extends StorageFallback implements StorageInterface
             $mappingId = Uuid::randomHex();
             $mappingNodeInsert[] = [
                 'id' => $mappingId,
+                'originPortalNodeId' => $portalNodeKey->getUuid(),
                 'typeId' => $typeIds[$datasetEntityClassName],
             ];
 
@@ -95,14 +112,18 @@ class Storage extends StorageFallback implements StorageInterface
         return $result;
     }
 
-    public function getMapping(string $mappingNodeId, string $portalNodeId): ?MappingInterface
+    public function getMapping(string $mappingNodeId, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
     {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::getMapping($mappingNodeId, $portalNodeKey);
+        }
+        /** @var PortalNodeKey $portalNodeKey */
         $context = Context::createDefaultContext();
 
         $criteria = new Criteria();
         $criteria->addFilter(
             new EqualsFilter('mappingNodeId', $mappingNodeId),
-            new EqualsFilter('portalNodeId', $portalNodeId)
+            new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
         );
         $criteria->setLimit(1);
 
@@ -126,26 +147,40 @@ class Storage extends StorageFallback implements StorageInterface
 
         /** @var MappingInterface $mapping */
         foreach ($mappings as $mapping) {
+            $portalNodeKey = $mapping->getPortalNodeKey();
+
+            if (!$portalNodeKey instanceof PortalNodeKey) {
+                continue;
+            }
+
             $insert[] = [
                 'externalId' => $mapping->getExternalId(),
                 'id' => Uuid::randomHex(),
                 'mappingNode' => [
+                    /* TODO upsert typeId and origin */
                     'id' => $mapping->getMappingNodeId(),
                 ],
-                'portalNodeId' => $mapping->getPortalNodeId(),
+                'portalNodeId' => $portalNodeKey->getUuid(),
             ];
         }
 
         $this->mappings->create($insert, Context::createDefaultContext());
     }
 
-    public function getRouteTargets(string $sourcePortalNodeId, string $entityClassName): array
+    public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
     {
+        if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
+            return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
+        }
+        /** @var PortalNodeKey $sourcePortalNodeKey */
         $context = Context::createDefaultContext();
         $result = [];
 
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('type.type', $entityClassName));
+        $criteria->addFilter(
+            new EqualsFilter('type.type', $entityClassName),
+            new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid())
+        );
         $iterator = new RepositoryIterator($this->routes, $context, $criteria);
 
         while (($fetchResult = $iterator->fetch()) instanceof EntitySearchResult) {
@@ -153,21 +188,36 @@ class Storage extends StorageFallback implements StorageInterface
             $entities = $fetchResult->getEntities();
             /** @var RouteEntity $entity */
             foreach ($entities as $entity) {
-                $result[] = $entity->getTargetId();
+                $result[] = new PortalNodeKey($entity->getTargetId());
             }
         }
 
         return $result;
     }
 
-    public function addRouteTarget(string $sourcePortalNodeId, string $targetPortalNodeId, string $entityClassName): void
-    {
+    public function addRouteTarget(
+        StoragePortalNodeKeyInterface $sourcePortalNodeKey,
+        StoragePortalNodeKeyInterface $targetPortalNodeKey,
+        string $entityClassName
+    ): void {
+        if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
+            parent::addRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
+
+            return;
+        }
+        /* @var PortalNodeKey $sourcePortalNodeKey */
+        if (!$targetPortalNodeKey instanceof PortalNodeKey) {
+            parent::addRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
+
+            return;
+        }
+        /** @var PortalNodeKey $targetPortalNodeKey */
         $context = Context::createDefaultContext();
         $criteria = new Criteria();
         $criteria->addFilter(
             new EqualsFilter('type.type', $entityClassName),
-            new EqualsFilter('sourceId', $sourcePortalNodeId),
-            new EqualsFilter('targetId', $targetPortalNodeId)
+            new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid()),
+            new EqualsFilter('targetId', $targetPortalNodeKey->getUuid())
         );
 
         if ($this->routes->searchIds($criteria, $context)->getTotal() > 0) {
@@ -179,9 +229,18 @@ class Storage extends StorageFallback implements StorageInterface
         $this->routes->create([[
             'id' => Uuid::randomHex(),
             'typeId' => $typeId,
-            'sourceId' => $sourcePortalNodeId,
-            'targetId' => $targetPortalNodeId,
+            'sourceId' => $sourcePortalNodeKey->getUuid(),
+            'targetId' => $targetPortalNodeKey->getUuid(),
         ]], $context);
+    }
+
+    public function generateKey(string $keyClassName): StorageKeyInterface
+    {
+        if ($keyClassName === StoragePortalNodeKeyInterface::class) {
+            return new PortalNodeKey(Uuid::randomHex());
+        }
+
+        return parent::generateKey($keyClassName);
     }
 
     private function buildConfigurationPrefix(string $portalNodeId): string

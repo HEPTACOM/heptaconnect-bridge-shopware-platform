@@ -3,9 +3,11 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 
 use Doctrine\DBAL\Connection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\FooBarDatasetEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use PHPUnit\Framework\Constraint\IsType;
@@ -25,6 +27,8 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\AbstractKey
+ * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage
  */
 class StorageTest extends TestCase
@@ -73,7 +77,7 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
-        $storage->setConfiguration('2281f7b9f4e847d5b0bc084288b871b1', ['foo' => 'bar']);
+        $storage->setConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
     }
 
     public function testSetConfigurationNonArrayStored(): void
@@ -109,7 +113,7 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
-        $storage->setConfiguration('2281f7b9f4e847d5b0bc084288b871b1', ['foo' => 'bar']);
+        $storage->setConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
     }
 
     public function testGetConfiguration(): void
@@ -133,7 +137,7 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
-        $result = $storage->getConfiguration('2281f7b9f4e847d5b0bc084288b871b1');
+        $result = $storage->getConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'));
         static::assertEquals(['foo' => 'bar'], $result);
     }
 
@@ -158,7 +162,7 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
-        $result = $storage->getConfiguration('2281f7b9f4e847d5b0bc084288b871b1');
+        $result = $storage->getConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'));
         static::assertEquals(['value' => 'foobar'], $result);
     }
 
@@ -174,11 +178,15 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_route')
         );
 
+        $portalNodes = $definitionRegistry->getRepository('heptaconnect_portal_node');
+        $portalNodeId = new PortalNodeKey('bf540cbefe774a88addc8c33b58dae66');
+        $portalNodes->create([['id' => $portalNodeId->getUuid()]], Context::createDefaultContext());
+
         /** @var MappingNodeStructInterface $node */
-        [$node] = $storage->createMappingNodes([FooBarDatasetEntity::class]);
+        [$node] = $storage->createMappingNodes([FooBarDatasetEntity::class], $portalNodeId);
         static::assertEquals(FooBarDatasetEntity::class, $node->getDatasetEntityClassName());
 
-        ['key' => $node] = $storage->createMappingNodes(['key' => FooBarDatasetEntity::class]);
+        ['key' => $node] = $storage->createMappingNodes(['key' => FooBarDatasetEntity::class], $portalNodeId);
         static::assertEquals(FooBarDatasetEntity::class, $node->getDatasetEntityClassName());
     }
 
@@ -205,12 +213,12 @@ class StorageTest extends TestCase
         [$mappingNodeNull, $mappingNode] = $storage->createMappingNodes([
             FooBarDatasetEntity::class,
             FooBarDatasetEntity::class,
-        ]);
+        ], new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
 
         $mappingNull = $this->createMock(MappingInterface::class);
         $mappingNull->expects(static::atLeastOnce())
-            ->method('getPortalNodeId')
-            ->willReturn('0b8ebe4959b44bae97b862e6b8b32e18');
+            ->method('getPortalNodeKey')
+            ->willReturn(new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
         $mappingNull->expects(static::atLeastOnce())
             ->method('getMappingNodeId')
             ->willReturn($mappingNodeNull->getId());
@@ -220,8 +228,8 @@ class StorageTest extends TestCase
 
         $mapping = $this->createMock(MappingInterface::class);
         $mapping->expects(static::atLeastOnce())
-            ->method('getPortalNodeId')
-            ->willReturn('0b8ebe4959b44bae97b862e6b8b32e18');
+            ->method('getPortalNodeKey')
+            ->willReturn(new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
         $mapping->expects(static::atLeastOnce())
             ->method('getMappingNodeId')
             ->willReturn($mappingNode->getId());
@@ -229,5 +237,27 @@ class StorageTest extends TestCase
             ->method('getExternalId')
             ->willReturn('This could be your external id');
         $storage->createMappings(new MappingCollection([$mappingNull, $mapping]));
+    }
+
+    public function testKeyFactoryReturnType(): void
+    {
+        /** @var DefinitionInstanceRegistry $definitionRegistry */
+        $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
+        $storage = new Storage(
+            $this->createMock(SystemConfigService::class),
+            $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
+            $definitionRegistry->getRepository('heptaconnect_mapping_node'),
+            $definitionRegistry->getRepository('heptaconnect_mapping'),
+            $definitionRegistry->getRepository('heptaconnect_route')
+        );
+
+        static::assertInstanceOf(StoragePortalNodeKeyInterface::class, $storage->generateKey(StoragePortalNodeKeyInterface::class));
+    }
+
+    public function testKeyComparison(): void
+    {
+        $authentic = new PortalNodeKey('4511b131e78b49aba3f850a7af1dc845');
+        $fake = $this->createMock(StoragePortalNodeKeyInterface::class);
+        static::assertFalse($authentic->equals($fake));
     }
 }
