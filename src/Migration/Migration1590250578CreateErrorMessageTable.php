@@ -17,7 +17,7 @@ CREATE TABLE `heptaconnect_error_message` (
     `updated_at` DATETIME(3) NULL,
     PRIMARY KEY (`id`),
     KEY `fk.heptaconnect_error_message.mapping_id` (`mapping_id`),
-    CONSTRAINT `fk.heptaconnect_error_message.mapping_id` FOREIGN KEY (`mapping_id`) REFERENCES `heptaconnect_mapping` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `fk.heptaconnect_error_message.mapping_id` FOREIGN KEY (`mapping_id`) REFERENCES `heptaconnect_mapping` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
 
