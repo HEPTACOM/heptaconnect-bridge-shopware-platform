@@ -14,3 +14,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteDefinition:
         tags:
             - { name: shopware.entity.definition, entity: 'heptaconnect_route' }
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\ErrorMessageDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: 'heptaconnect_error_message' }
