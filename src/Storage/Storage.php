@@ -37,18 +37,22 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $routes;
 
+    private EntityRepositoryInterface $errorMessages;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
         EntityRepositoryInterface $mappings,
-        EntityRepositoryInterface $routes
+        EntityRepositoryInterface $routes,
+        EntityRepositoryInterface $errorMessages
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
         $this->mappingNodes = $mappingNodes;
         $this->mappings = $mappings;
         $this->routes = $routes;
+        $this->errorMessages = $errorMessages;
     }
 
     public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array
@@ -176,6 +180,59 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         $this->mappings->create($insert, Context::createDefaultContext());
+    }
+
+    public function addMappingException(MappingInterface $mapping, \Throwable $throwable): void
+    {
+        $context = Context::createDefaultContext();
+
+        try {
+            $mappingId = $this->getMappingId($mapping, $context);
+        } catch (\Throwable $exception) {
+            parent::addMappingException($mapping, $throwable);
+        }
+
+        if ($mappingId === null) {
+            $this->createMappings(new MappingCollection([$mapping]));
+
+            $throwable = new \Exception('Tried to add an error message to a mapping that did not exist yet. The mapping was created.', 0, $throwable);
+        }
+
+        $mappingId = $this->getMappingId($mapping, $context);
+
+        if ($mappingId === null) {
+            parent::addMappingException($mapping, $throwable);
+        }
+
+        $insert = array_map(function (\Throwable $throwable) use ($mappingId): array {
+            return [
+                'id' => Uuid::randomHex(),
+                'mappingId' => $mappingId,
+                'type' => get_class($throwable),
+                'message' => $throwable->getMessage(),
+                'stackTrace' => \json_encode($throwable->getTrace()),
+            ];
+        }, self::unwrapException($throwable));
+
+        $this->errorMessages->create($insert, $context);
+    }
+
+    public function removeMappingException(MappingInterface $mapping, string $type): void
+    {
+        $context = Context::createDefaultContext();
+
+        $mappingId = $this->getMappingId($mapping, $context);
+
+        $criteria = (new Criteria())->addFilter(
+            new EqualsFilter('mappingId', $mappingId),
+            new EqualsFilter('type', $type)
+        );
+
+        $delete = array_map(function (string $id) {
+            return ['id' => $id];
+        }, $this->errorMessages->searchIds($criteria, $context)->getIds());
+
+        $this->errorMessages->delete($delete, $context);
     }
 
     public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
@@ -308,5 +365,41 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         return $typeIds;
+    }
+
+    /**
+     * @psalm-return array<array-key, \Throwable>
+     */
+    private static function unwrapException(\Throwable $exception): array
+    {
+        $exceptions = [$exception];
+
+        while (($exception = $exception->getPrevious()) instanceof \Throwable) {
+            $exceptions[] = $exception;
+        }
+
+        return $exceptions;
+    }
+
+    protected function getMappingId(MappingInterface $mapping, Context $context): ?string
+    {
+        $portalNodeKey = $mapping->getPortalNodeKey();
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            // TODO: specify exception
+            throw new \Exception();
+        }
+
+        $mappingNodeKey = $mapping->getMappingNodeKey();
+        if (!$mappingNodeKey instanceof MappingNodeKey) {
+            // TODO: specify exception
+            throw new \Exception();
+        }
+
+        $criteria = (new Criteria())->setLimit(1)->addFilter(
+            new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
+            new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
+        );
+
+        return $this->mappings->searchIds($criteria, $context)->firstId();
     }
 }

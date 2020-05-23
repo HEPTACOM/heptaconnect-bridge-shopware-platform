@@ -18,6 +18,7 @@
     ],
     "require": {
         "php": ">=7.4",
+        "ext-json": "*",
         "shopware/core": ">=6.2",
         "heptacom/heptaconnect-storage-base": "dev-master",
         "heptacom/heptaconnect-dataset-base": "dev-master",
