@@ -10,8 +10,8 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageMappingNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
@@ -55,7 +55,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages = $errorMessages;
     }
 
-    public function getConfiguration(StoragePortalNodeKeyInterface $portalNodeKey): array
+    public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::getConfiguration($portalNodeKey);
@@ -64,7 +64,7 @@ class Storage extends StorageFallback implements StorageInterface
         return $this->getConfigurationInternal($portalNodeKey->getUuid());
     }
 
-    public function setConfiguration(StoragePortalNodeKeyInterface $portalNodeKey, array $data): void
+    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, array $data): void
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             parent::setConfiguration($portalNodeKey, $data);
@@ -77,7 +77,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
     }
 
-    public function createMappingNodes(array $datasetEntityClassNames, StoragePortalNodeKeyInterface $portalNodeKey): array
+    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): array
     {
         if (\count($datasetEntityClassNames) === 0) {
             return [];
@@ -117,7 +117,7 @@ class Storage extends StorageFallback implements StorageInterface
         return $result;
     }
 
-    public function getMapping(StorageMappingNodeKeyInterface $mappingNodeKey, StoragePortalNodeKeyInterface $portalNodeKey): ?MappingInterface
+    public function getMapping(MappingNodeKeyInterface $mappingNodeKey, PortalNodeKeyInterface $portalNodeKey): ?MappingInterface
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::getMapping($mappingNodeKey, $portalNodeKey);
@@ -235,7 +235,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages->delete($delete, $context);
     }
 
-    public function getRouteTargets(StoragePortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
     {
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
             return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
@@ -264,8 +264,8 @@ class Storage extends StorageFallback implements StorageInterface
     }
 
     public function createRouteTarget(
-        StoragePortalNodeKeyInterface $sourcePortalNodeKey,
-        StoragePortalNodeKeyInterface $targetPortalNodeKey,
+        PortalNodeKeyInterface $sourcePortalNodeKey,
+        PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
     ): void {
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
@@ -304,11 +304,11 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function generateKey(string $keyClassName): StorageKeyInterface
     {
-        if ($keyClassName === StoragePortalNodeKeyInterface::class) {
+        if ($keyClassName === PortalNodeKeyInterface::class) {
             return new PortalNodeKey(Uuid::randomHex());
         }
 
-        if ($keyClassName === StorageMappingNodeKeyInterface::class) {
+        if ($keyClassName === MappingNodeKeyInterface::class) {
             return new MappingNodeKey(Uuid::randomHex());
         }
 

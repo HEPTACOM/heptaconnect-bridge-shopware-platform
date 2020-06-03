@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\FooBarDatasetEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StoragePortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use PHPUnit\Framework\Constraint\IsType;
@@ -251,13 +251,13 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_route')
         );
 
-        static::assertInstanceOf(StoragePortalNodeKeyInterface::class, $storage->generateKey(StoragePortalNodeKeyInterface::class));
+        static::assertInstanceOf(PortalNodeKeyInterface::class, $storage->generateKey(PortalNodeKeyInterface::class));
     }
 
     public function testKeyComparison(): void
     {
         $authentic = new PortalNodeKey('4511b131e78b49aba3f850a7af1dc845');
-        $fake = $this->createMock(StoragePortalNodeKeyInterface::class);
+        $fake = $this->createMock(PortalNodeKeyInterface::class);
         static::assertFalse($authentic->equals($fake));
     }
 }
