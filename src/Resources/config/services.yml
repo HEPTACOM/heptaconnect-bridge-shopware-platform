@@ -17,3 +17,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\ErrorMessageDefinition:
         tags:
             - { name: shopware.entity.definition, entity: 'heptaconnect_error_message' }
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\WebhookDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: 'heptaconnect_webhook' }

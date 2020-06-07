@@ -9,9 +9,11 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
+use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
@@ -39,13 +41,16 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $errorMessages;
 
+    private EntityRepositoryInterface $webhooks;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
         EntityRepositoryInterface $mappings,
         EntityRepositoryInterface $routes,
-        EntityRepositoryInterface $errorMessages
+        EntityRepositoryInterface $errorMessages,
+        EntityRepositoryInterface $webhooks
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -53,6 +58,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->mappings = $mappings;
         $this->routes = $routes;
         $this->errorMessages = $errorMessages;
+        $this->webhooks = $webhooks;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
@@ -204,11 +210,11 @@ class Storage extends StorageFallback implements StorageInterface
             parent::addMappingException($mapping, $throwable);
         }
 
-        $insert = array_map(function (\Throwable $throwable) use ($mappingId): array {
+        $insert = \array_map(function (\Throwable $throwable) use ($mappingId): array {
             return [
                 'id' => Uuid::randomHex(),
                 'mappingId' => $mappingId,
-                'type' => get_class($throwable),
+                'type' => \get_class($throwable),
                 'message' => $throwable->getMessage(),
                 'stackTrace' => \json_encode($throwable->getTrace()),
             ];
@@ -228,7 +234,7 @@ class Storage extends StorageFallback implements StorageInterface
             new EqualsFilter('type', $type)
         );
 
-        $delete = array_map(function (string $id) {
+        $delete = \array_map(function (string $id) {
             return ['id' => $id];
         }, $this->errorMessages->searchIds($criteria, $context)->getIds());
 
@@ -302,6 +308,45 @@ class Storage extends StorageFallback implements StorageInterface
         ]], $context);
     }
 
+    public function createWebhook(string $url, string $handler): WebhookInterface
+    {
+        $context = Context::createDefaultContext();
+
+        $existingWebhook = $this->getWebhook($url);
+
+        if ($existingWebhook instanceof WebhookInterface) {
+            return parent::createWebhook($url, $handler);
+        }
+
+        $this->webhooks->create([[
+            'id' => Uuid::randomHex(),
+            'url' => $url,
+            'handler' => $handler,
+        ]], $context);
+
+        $createdWebhook = $this->getWebhook($url);
+
+        if ($createdWebhook instanceof WebhookInterface) {
+            return $createdWebhook;
+        }
+
+        return parent::createWebhook($url, $handler);
+    }
+
+    public function getWebhook(string $url): ?WebhookInterface
+    {
+        $context = Context::createDefaultContext();
+
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('url', $url));
+        $webhook = $this->webhooks->search($criteria, $context)->first();
+
+        if ($webhook instanceof WebhookInterface) {
+            return $webhook;
+        }
+
+        return null;
+    }
+
     public function generateKey(string $keyClassName): StorageKeyInterface
     {
         if ($keyClassName === PortalNodeKeyInterface::class) {
@@ -312,7 +357,33 @@ class Storage extends StorageFallback implements StorageInterface
             return new MappingNodeKey(Uuid::randomHex());
         }
 
+        if ($keyClassName === WebhookKeyInterface::class) {
+            return new WebhookKey(Uuid::randomHex());
+        }
+
         return parent::generateKey($keyClassName);
+    }
+
+    protected function getMappingId(MappingInterface $mapping, Context $context): ?string
+    {
+        $portalNodeKey = $mapping->getPortalNodeKey();
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            // TODO: specify exception
+            throw new \Exception();
+        }
+
+        $mappingNodeKey = $mapping->getMappingNodeKey();
+        if (!$mappingNodeKey instanceof MappingNodeKey) {
+            // TODO: specify exception
+            throw new \Exception();
+        }
+
+        $criteria = (new Criteria())->setLimit(1)->addFilter(
+            new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
+            new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
+        );
+
+        return $this->mappings->searchIds($criteria, $context)->firstId();
     }
 
     private function buildConfigurationPrefix(string $portalNodeId): string
@@ -379,27 +450,5 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         return $exceptions;
-    }
-
-    protected function getMappingId(MappingInterface $mapping, Context $context): ?string
-    {
-        $portalNodeKey = $mapping->getPortalNodeKey();
-        if (!$portalNodeKey instanceof PortalNodeKey) {
-            // TODO: specify exception
-            throw new \Exception();
-        }
-
-        $mappingNodeKey = $mapping->getMappingNodeKey();
-        if (!$mappingNodeKey instanceof MappingNodeKey) {
-            // TODO: specify exception
-            throw new \Exception();
-        }
-
-        $criteria = (new Criteria())->setLimit(1)->addFilter(
-            new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
-            new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
-        );
-
-        return $this->mappings->searchIds($criteria, $context)->firstId();
     }
 }
