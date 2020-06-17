@@ -27,13 +27,13 @@ $ echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql # you
 
 ## Contributing
 
-Thank you for considering contributing to this package! Be sure to sign the [CLA](./CLA.md) after creating the pull request. [![CLA assistant](https://cla-assistant.io/readme/badge/HEPTACOM/heptaconnect-repo-base)](https://cla-assistant.io/HEPTACOM/heptaconnect-repo-base)
+Thank you for considering contributing to this package! Be sure to sign the [CLA](./CLA.md) after creating the pull request. [![CLA assistant](https://cla-assistant.io/readme/badge/HEPTACOM/heptaconnect-bridge-shopware-platform)](https://cla-assistant.io/HEPTACOM/heptaconnect-bridge-shopware-platform)
 
 
 ### Steps to contribute
 
 1. Fork the repository
-2. `git clone yourname/heptaconnect-repo-base`
+2. `git clone yourname/heptaconnect-bridge-shopware-platform`
 3. Make your changes to master branch
 4. Create your Pull-Request
 
