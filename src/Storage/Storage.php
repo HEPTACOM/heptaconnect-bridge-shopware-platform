@@ -6,6 +6,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeColl
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\MappingInterface;
@@ -15,7 +16,9 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
@@ -43,6 +46,8 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $webhooks;
 
+    private EntityRepositoryInterface $portalNodes;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
@@ -50,7 +55,8 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $mappings,
         EntityRepositoryInterface $routes,
         EntityRepositoryInterface $errorMessages,
-        EntityRepositoryInterface $webhooks
+        EntityRepositoryInterface $webhooks,
+        EntityRepositoryInterface $portalNodes
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -59,6 +65,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->routes = $routes;
         $this->errorMessages = $errorMessages;
         $this->webhooks = $webhooks;
+        $this->portalNodes = $portalNodes;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
@@ -362,6 +369,72 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         return parent::generateKey($keyClassName);
+    }
+
+    public function getPortalNode(PortalNodeKeyInterface $portalNodeKey): string
+    {
+        $context = Context::createDefaultContext();
+
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::getPortalNode($portalNodeKey);
+        }
+
+        $criteria = (new Criteria([$portalNodeKey->getUuid()]))->addFilter(new EqualsFilter('deletedAt', null));
+
+        $portalNode = $this->portalNodes->search($criteria, $context)->first();
+
+        if (!$portalNode instanceof PortalNodeEntity) {
+            throw new NotFoundException();
+        }
+
+        return $portalNode->getClassName();
+    }
+
+    public function listPortalNodes(?string $className): PortalNodeStorageKeyCollection
+    {
+        $context = Context::createDefaultContext();
+
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('deletedAt', null));
+
+        if ($className) {
+            $criteria->addFilter(new EqualsFilter('className', $className));
+        }
+
+        $ids = $this->portalNodes->searchIds($criteria, $context)->getIds();
+
+        return new PortalNodeStorageKeyCollection(array_map(fn(string $id) => new PortalNodeKey($id), $ids));
+    }
+
+    public function addPortalNode(string $className): PortalNodeKeyInterface
+    {
+        $context = Context::createDefaultContext();
+
+        $portalNodeKey = $this->generateKey(PortalNodeKey::class);
+
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::addPortalNode($className);
+        }
+
+        $this->portalNodes->create([[
+            'id' => $portalNodeKey->getUuid(),
+            'className' => $className,
+        ]], $context);
+
+        return $portalNodeKey;
+    }
+
+    public function removePortalNode(PortalNodeKeyInterface $portalNodeKey): void
+    {
+        $context = Context::createDefaultContext();
+
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            parent::removePortalNode($portalNodeKey);
+        }
+
+        $this->portalNodes->update([[
+            'id' => $portalNodeKey->getUuid(),
+            'deletedAt' => date_create(),
+        ]], $context);
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string

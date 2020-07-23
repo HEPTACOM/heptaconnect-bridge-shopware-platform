@@ -9,11 +9,25 @@ class PortalNodeEntity extends Entity
 {
     use EntityIdTrait;
 
+    protected string $className;
+
     protected ?\DateTimeInterface $deletedAt = null;
 
     protected ?MappingCollection $mappings = null;
 
     protected ?MappingNodeCollection $originalMappingNodes = null;
+
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
+
+    public function setClassName(string $className): self
+    {
+        $this->className = $className;
+
+        return $this;
+    }
 
     public function getDeletedAt(): ?\DateTimeInterface
     {
