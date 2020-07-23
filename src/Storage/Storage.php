@@ -390,7 +390,7 @@ class Storage extends StorageFallback implements StorageInterface
         return $portalNode->getClassName();
     }
 
-    public function listPortalNodes(?string $className): PortalNodeStorageKeyCollection
+    public function listPortalNodes(?string $className = null): PortalNodeStorageKeyCollection
     {
         $context = Context::createDefaultContext();
 
