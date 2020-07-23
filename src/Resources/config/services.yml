@@ -12,6 +12,18 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
@@ -26,3 +38,22 @@ services:
     Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
         arguments:
             - '%kernel.project_dir%/composer.json'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
+        arguments:
+            - '@Shopware\Core\System\SystemConfig\SystemConfigService'
+            - '@heptaconnect_dataset_entity_type.repository'
+            - '@heptaconnect_mapping_node.repository'
+            - '@heptaconnect_mapping.repository'
+            - '@heptaconnect_route.repository'
+            - '@heptaconnect_error_message.repository'
+            - '@heptaconnect_webhook.repository'
+            - '@heptaconnect_portal_node.repository'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\ErrorMessageDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteDefinition: ~
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\WebhookDefinition: ~

@@ -409,7 +409,7 @@ class Storage extends StorageFallback implements StorageInterface
     {
         $context = Context::createDefaultContext();
 
-        $portalNodeKey = $this->generateKey(PortalNodeKey::class);
+        $portalNodeKey = $this->generateKey(PortalNodeKeyInterface::class);
 
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::addPortalNode($className);
