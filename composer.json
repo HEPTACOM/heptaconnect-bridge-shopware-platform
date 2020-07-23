@@ -20,6 +20,7 @@
         "php": ">=7.4",
         "ext-json": "*",
         "shopware/core": ">=6.2",
+        "heptacom/heptaconnect-core": "@dev",
         "heptacom/heptaconnect-storage-base": "@dev",
         "heptacom/heptaconnect-dataset-base": "@dev",
         "heptacom/heptaconnect-portal-base": "@dev",

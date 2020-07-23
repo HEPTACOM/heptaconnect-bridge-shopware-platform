@@ -3,3 +3,26 @@ services:
         Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition:
             tags:
                 - { name: shopware.entity.definition }
+
+        Symfony\Component\Console\Command\Command:
+            tags:
+                - { name: console.command }
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
+
+    Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
+
+    Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
+
+    Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
+        arguments:
+            - '%kernel.project_dir%/composer.json'
