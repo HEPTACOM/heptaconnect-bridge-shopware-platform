@@ -16,7 +16,7 @@ class PortalList extends Command
 
     public function __construct(PortalRegistry $portalRegistry)
     {
-        parent::__construct(null);
+        parent::__construct();
         $this->portalRegistry = $portalRegistry;
     }
 
