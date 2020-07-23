@@ -20,9 +20,9 @@
         "php": ">=7.4",
         "ext-json": "*",
         "shopware/core": ">=6.2",
-        "heptacom/heptaconnect-storage-base": "dev-master",
-        "heptacom/heptaconnect-dataset-base": "dev-master",
-        "heptacom/heptaconnect-portal-base": "dev-master",
+        "heptacom/heptaconnect-storage-base": "@dev",
+        "heptacom/heptaconnect-dataset-base": "@dev",
+        "heptacom/heptaconnect-portal-base": "@dev",
         "doctrine/dbal": ">=2.1",
         "psr/http-message": "^1.0",
         "psr/http-factory": "^1.0"
