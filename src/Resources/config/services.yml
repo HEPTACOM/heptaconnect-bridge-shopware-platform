@@ -1,23 +1,5 @@
 services:
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_dataset_entity_type' }
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_mapping' }
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_mapping_node' }
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_portal_node' }
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_route' }
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\ErrorMessageDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_error_message' }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\WebhookDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: 'heptaconnect_webhook' }
+    _instanceof:
+        Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition:
+            tags:
+                - { name: shopware.entity.definition }
