@@ -31,5 +31,7 @@ class Explore extends Command
         $portalNodeKey = new PortalNodeKey($input->getArgument('portal-id'));
 
         $this->exploreService->explore($portalNodeKey);
+
+        return 0;
     }
 }

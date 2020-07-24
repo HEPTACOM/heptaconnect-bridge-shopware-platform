@@ -26,6 +26,15 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Explore\ExploreService'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'

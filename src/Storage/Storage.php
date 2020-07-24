@@ -261,11 +261,13 @@ class Storage extends StorageFallback implements StorageInterface
         $context = Context::createDefaultContext();
         $result = [];
 
-        $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsFilter('type.type', $entityClassName),
-            new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid())
-        );
+        $criteria = (new Criteria())
+            ->addFilter(
+                new EqualsFilter('type.type', $entityClassName),
+                new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid())
+            )
+            ->setLimit(100)
+        ;
         $iterator = new RepositoryIterator($this->routes, $context, $criteria);
 
         while (($fetchResult = $iterator->fetch()) instanceof EntitySearchResult) {
