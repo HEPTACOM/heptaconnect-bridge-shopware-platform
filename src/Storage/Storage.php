@@ -4,7 +4,6 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
@@ -17,6 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
@@ -90,6 +90,35 @@ class Storage extends StorageFallback implements StorageInterface
         $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
     }
 
+    public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface
+    {
+        $context = Context::createDefaultContext();
+
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            throw new \Exception();
+        }
+
+        $criteria = (new Criteria())
+            ->addFilter(
+                new EqualsFilter('deletedAt', null),
+                new EqualsFilter('type.type', $datasetEntityClassName),
+                new EqualsFilter('mappings.deletedAt', null),
+                new EqualsFilter('mappings.externalId', $externalId),
+                new EqualsFilter('mappings.portalNode.deletedAt', null),
+                new EqualsFilter('mappings.portalNode.id', $portalNodeKey->getUuid()),
+            )
+            ->setLimit(1)
+        ;
+
+        $mappingNode = $this->mappingNodes->search($criteria, $context)->first();
+
+        if ($mappingNode instanceof MappingNodeStructInterface) {
+            return $mappingNode;
+        }
+
+        return null;
+    }
+
     public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): array
     {
         if (\count($datasetEntityClassNames) === 0) {
@@ -147,11 +176,13 @@ class Storage extends StorageFallback implements StorageInterface
         $context = Context::createDefaultContext();
 
         $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
-            new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
-        );
-        $criteria->setLimit(1);
+        $criteria
+            ->addFilter(
+                new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
+                new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
+            )
+            ->setLimit(1)
+        ;
 
         $mapping = $this->mappings->search($criteria, $context)->first();
 
