@@ -49,9 +49,23 @@ class ListPortalNodes extends Command
 
         $portalNodeKeys = $this->storage->listPortalNodes($portalClass);
 
-        $ids = array_map(fn(PortalNodeKey $portalNodeKey) => [$portalNodeKey->getUuid()], iterable_to_array($portalNodeKeys));
+        if (!$portalNodeKeys->count()) {
+            $io->note('There are no portal nodes of the selected portal.');
 
-        $io->table(['portal-id'], $ids);
+            return 0;
+        }
+
+        $rows = [];
+
+        /** @var PortalNodeKey $portalNodeKey */
+        foreach ($portalNodeKeys as $portalNodeKey) {
+            $rows[] = [
+                'portal-id' => $portalNodeKey->getUuid(),
+                'portal-class' => $this->storage->getPortalNode($portalNodeKey),
+            ];
+        }
+
+        $io->table(array_keys(current($rows)), $rows);
 
         return 0;
     }
