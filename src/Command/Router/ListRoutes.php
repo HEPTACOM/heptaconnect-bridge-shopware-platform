@@ -62,7 +62,7 @@ class ListRoutes extends Command
             }
         }
 
-        $types = array_keys($types);
+        $types = \array_keys($types);
         $targets = [];
 
         /** @var PortalNodeKeyInterface $portalNodeKey */
@@ -93,8 +93,7 @@ class ListRoutes extends Command
             return 0;
         }
 
-
-        $io->table(array_keys(current($targets)), $targets);
+        $io->table(\array_keys(\current($targets)), $targets);
 
         return 0;
     }

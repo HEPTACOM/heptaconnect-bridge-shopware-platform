@@ -408,7 +408,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $ids = $this->portalNodes->searchIds($criteria, $context)->getIds();
 
-        return new PortalNodeStorageKeyCollection(array_map(fn(string $id) => new PortalNodeKey($id), $ids));
+        return new PortalNodeStorageKeyCollection(\array_map(fn (string $id) => new PortalNodeKey($id), $ids));
     }
 
     public function addPortalNode(string $className): PortalNodeKeyInterface
@@ -439,7 +439,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $this->portalNodes->update([[
             'id' => $portalNodeKey->getUuid(),
-            'deletedAt' => date_create(),
+            'deletedAt' => \date_create(),
         ]], $context);
     }
 

@@ -15,9 +15,6 @@ class ListPortalNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:list';
 
-    /**
-     * @var StorageInterface
-     */
     private StorageInterface $storage;
 
     public function __construct(StorageInterface $storage)
@@ -38,7 +35,7 @@ class ListPortalNodes extends Command
         $portalClass = $input->getArgument('portal-class');
 
         if ($portalClass) {
-            if (!is_a($portalClass, PortalNodeInterface::class, true)) {
+            if (!\is_a($portalClass, PortalNodeInterface::class, true)) {
                 $io->error('The provided portal class does not implement the PortalNodeInterface.');
 
                 return 1;
@@ -65,7 +62,7 @@ class ListPortalNodes extends Command
             ];
         }
 
-        $io->table(array_keys(current($rows)), $rows);
+        $io->table(\array_keys(\current($rows)), $rows);
 
         return 0;
     }
