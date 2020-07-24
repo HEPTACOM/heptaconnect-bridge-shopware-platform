@@ -73,7 +73,7 @@ class Storage extends StorageFallback implements StorageInterface
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::getConfiguration($portalNodeKey);
         }
-        /* @var PortalNodeKey $portalNodeKey */
+
         return $this->getConfigurationInternal($portalNodeKey->getUuid());
     }
 
@@ -84,7 +84,7 @@ class Storage extends StorageFallback implements StorageInterface
 
             return;
         }
-        /** @var PortalNodeKey $portalNodeKey */
+
         $value = $this->getConfigurationInternal($portalNodeKey->getUuid());
         $config = \array_replace_recursive($value, $data);
         $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
@@ -99,7 +99,7 @@ class Storage extends StorageFallback implements StorageInterface
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::createMappingNodes($datasetEntityClassNames, $portalNodeKey);
         }
-        /** @var PortalNodeKey $portalNodeKey */
+
         $context = Context::createDefaultContext();
         $typesToCheck = \array_unique($datasetEntityClassNames);
         $typeIds = $this->getIdsForDatasetEntityType($typesToCheck, $context);
@@ -139,11 +139,11 @@ class Storage extends StorageFallback implements StorageInterface
         if (!$portalNodeKey instanceof PortalNodeKey) {
             return parent::getMapping($mappingNodeKey, $portalNodeKey);
         }
-        /* @var PortalNodeKey $portalNodeKey */
+
         if (!$mappingNodeKey instanceof MappingNodeKey) {
             return parent::getMapping($mappingNodeKey, $portalNodeKey);
         }
-        /** @var MappingNodeKey $mappingNodeKey */
+
         $context = Context::createDefaultContext();
 
         $criteria = new Criteria();
@@ -153,7 +153,6 @@ class Storage extends StorageFallback implements StorageInterface
         );
         $criteria->setLimit(1);
 
-        /** @var MappingEntity|null $mapping */
         $mapping = $this->mappings->search($criteria, $context)->first();
 
         if ($mapping instanceof MappingInterface) {
@@ -257,7 +256,7 @@ class Storage extends StorageFallback implements StorageInterface
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
             return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
         }
-        /** @var PortalNodeKey $sourcePortalNodeKey */
+
         $context = Context::createDefaultContext();
         $result = [];
 
@@ -292,13 +291,13 @@ class Storage extends StorageFallback implements StorageInterface
 
             return;
         }
-        /* @var PortalNodeKey $sourcePortalNodeKey */
+
         if (!$targetPortalNodeKey instanceof PortalNodeKey) {
             parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
 
             return;
         }
-        /** @var PortalNodeKey $targetPortalNodeKey */
+
         $context = Context::createDefaultContext();
         $criteria = new Criteria();
         $criteria->addFilter(
