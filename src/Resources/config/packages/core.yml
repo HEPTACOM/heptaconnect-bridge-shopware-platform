@@ -14,6 +14,12 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Explore\ExploreContextFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
+
+    Heptacom\HeptaConnect\Core\Mapping\Publisher:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:

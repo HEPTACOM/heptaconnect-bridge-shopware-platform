@@ -119,7 +119,11 @@ class Storage extends StorageFallback implements StorageInterface
             $type->setCreatedAt(new \DateTime());
             $type->setType($datasetEntityClassName);
             $type->setId($typeIds[$datasetEntityClassName]);
-            $mapping = (new MappingNodeEntity())->setType($type);
+            $mapping = (new MappingNodeEntity())
+                ->setType($type)
+                ->setTypeId($type->getId())
+                ->setOriginPortalNodeId($portalNodeKey->getUuid())
+            ;
             $mapping->setCreatedAt(new \DateTime());
             $mapping->setId($mappingId);
             $result[$datasetEntityClassNameKey] = $mapping;
