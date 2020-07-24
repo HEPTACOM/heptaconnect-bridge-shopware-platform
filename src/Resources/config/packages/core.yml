@@ -1,0 +1,29 @@
+services:
+    Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
+        arguments:
+            - '%kernel.project_dir%/composer.json'
+
+    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService: ~
+
+    Heptacom\HeptaConnect\Core\Explore\ExploreContextFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+
+    Heptacom\HeptaConnect\Core\Explore\ExploreService:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Explore\ExploreContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+
+    Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
+
+    Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
+
+    Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'

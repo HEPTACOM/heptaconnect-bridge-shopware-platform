@@ -1,4 +1,10 @@
+imports:
+    - { resource: packages/core.yml }
+
 services:
+    _defaults:
+        autoconfigure: true
+
     _instanceof:
         Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition:
             tags:
@@ -8,9 +14,17 @@ services:
             tags:
                 - { name: console.command }
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\:
+        resource: '../../*'
+        exclude: '../../{Resources,Migration,Bundle.php}'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Explore\ExploreService'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
@@ -28,17 +42,6 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
 
-    Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
-
-    Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
-
-    Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
-        arguments:
-            - '%kernel.project_dir%/composer.json'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
         arguments:
             - '@Shopware\Core\System\SystemConfig\SystemConfigService'
@@ -49,11 +52,3 @@ services:
             - '@heptaconnect_error_message.repository'
             - '@heptaconnect_webhook.repository'
             - '@heptaconnect_portal_node.repository'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\ErrorMessageDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteDefinition: ~
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\WebhookDefinition: ~
