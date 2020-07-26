@@ -71,3 +71,8 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider:
         arguments:
             - '@router.default'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Discovery\Strategy:
+        public: true
+        calls:
+            - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Component\Webhook\WebhookService']]
