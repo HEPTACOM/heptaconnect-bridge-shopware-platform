@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
-use Heptacom\HeptaConnect\Portal\Base\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
