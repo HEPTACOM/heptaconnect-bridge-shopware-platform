@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\CustomFields;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
@@ -34,6 +35,7 @@ class WebhookDefinition extends EntityDefinition
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             (new StringField('url', 'url'))->addFlags(new Required()),
             (new StringField('handler', 'handler'))->addFlags(new Required()),
+            new CustomFields('payload', 'payload'),
         ]);
     }
 }

@@ -355,7 +355,7 @@ class Storage extends StorageFallback implements StorageInterface
         ]], $context);
     }
 
-    public function createWebhook(string $url, string $handler): WebhookInterface
+    public function createWebhook(string $url, string $handler, ?array $payload = null): WebhookInterface
     {
         $context = Context::createDefaultContext();
 
@@ -369,6 +369,7 @@ class Storage extends StorageFallback implements StorageInterface
             'id' => Uuid::randomHex(),
             'url' => $url,
             'handler' => $handler,
+            'payload' => $payload,
         ]], $context);
 
         $createdWebhook = $this->getWebhook($url);
