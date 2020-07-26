@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
+use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
