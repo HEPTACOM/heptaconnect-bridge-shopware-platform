@@ -22,6 +22,11 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\DataTypeList:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Explore\ExploreService'
