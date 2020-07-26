@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Psr\Http\Client\ClientInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
@@ -34,17 +34,18 @@ class WebhookController
         $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
         $psrRequest = $psrHttpFactory->createRequest($request);
 
-        $webhook = $this->storage->getWebhook((string) $psrRequest->getUri());
+        $webhook = $this->storage->getWebhook((string) $psrRequest->getUri()->getPath());
 
         if (!$webhook instanceof WebhookInterface) {
+            // TODO: log this
             return new Response(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
 
         $handlerClass = $webhook->getHandler();
 
-        /** @var ClientInterface $handler */
+        /** @var WebhookHandlerContract $handler */
         $handler = new $handlerClass();
-        $psrResponse = $handler->sendRequest($psrRequest);
+        $psrResponse = $handler->handle($psrRequest, $webhook);
 
         $httpFoundationFactory = new HttpFoundationFactory();
 

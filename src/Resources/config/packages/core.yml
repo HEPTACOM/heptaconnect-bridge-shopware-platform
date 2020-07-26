@@ -16,6 +16,11 @@ services:
         arguments:
             - '%kernel.project_dir%/composer.json'
 
+    Heptacom\HeptaConnect\Core\Component\Webhook\WebhookService:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'
+
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService: ~
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
