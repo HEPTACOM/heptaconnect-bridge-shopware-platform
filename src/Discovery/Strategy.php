@@ -18,7 +18,7 @@ class Strategy implements DiscoveryStrategy
     {
         return [
             [
-                'condition' => fn () => is_a($type, WebhookServiceInterface::class, true),
+                'condition' => fn () => \is_a($type, WebhookServiceInterface::class, true),
                 'class' => fn () => self::$webhookService,
             ],
         ];

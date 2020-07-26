@@ -19,6 +19,8 @@ class WebhookEntity extends Entity implements WebhookInterface
      */
     protected string $handler;
 
+    protected ?array $payload;
+
     public function getKey(): WebhookKeyInterface
     {
         return new WebhookKey($this->id);
@@ -50,6 +52,18 @@ class WebhookEntity extends Entity implements WebhookInterface
     public function setHandler($handler): self
     {
         $this->handler = $handler;
+
+        return $this;
+    }
+
+    public function getPayload(): ?array
+    {
+        return $this->payload;
+    }
+
+    public function setPayload(?array $payload): WebhookEntity
+    {
+        $this->payload = $payload;
 
         return $this;
     }
