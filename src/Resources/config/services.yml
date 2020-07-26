@@ -24,7 +24,6 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\DataTypeList:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:

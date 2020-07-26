@@ -6,7 +6,6 @@ use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,14 +15,11 @@ class DataTypeList extends Command
 {
     protected static $defaultName = 'heptaconnect:data-type:list';
 
-    private StorageInterface $storage;
-
     private PortalRegistry $portalRegistry;
 
-    public function __construct(StorageInterface $storage, PortalRegistry $portalRegistry)
+    public function __construct(PortalRegistry $portalRegistry)
     {
         parent::__construct();
-        $this->storage = $storage;
         $this->portalRegistry = $portalRegistry;
     }
 
