@@ -3,9 +3,9 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Psr\Http\Client\ClientInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
@@ -43,9 +43,9 @@ class WebhookController
 
         $handlerClass = $webhook->getHandler();
 
-        /** @var ClientInterface $handler */
+        /** @var WebhookHandlerContract $handler */
         $handler = new $handlerClass();
-        $psrResponse = $handler->sendRequest($psrRequest);
+        $psrResponse = $handler->handle($psrRequest, $webhook);
 
         $httpFoundationFactory = new HttpFoundationFactory();
 
