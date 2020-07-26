@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
-use Heptacom\HeptaConnect\Portal\Base\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 
 class PortalNodeKey extends AbstractKey implements PortalNodeKeyInterface
 {
