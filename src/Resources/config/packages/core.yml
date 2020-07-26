@@ -25,7 +25,6 @@ services:
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
 
@@ -90,6 +89,5 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitService'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
