@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\PortalRegistry;
+use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
 use Heptacom\HeptaConnect\Portal\Base\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Contract\ReceiverInterface;
