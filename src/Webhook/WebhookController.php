@@ -34,9 +34,10 @@ class WebhookController
         $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
         $psrRequest = $psrHttpFactory->createRequest($request);
 
-        $webhook = $this->storage->getWebhook((string) $psrRequest->getUri());
+        $webhook = $this->storage->getWebhook((string) $psrRequest->getUri()->getPath());
 
         if (!$webhook instanceof WebhookInterface) {
+            // TODO: log this
             return new Response(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
 

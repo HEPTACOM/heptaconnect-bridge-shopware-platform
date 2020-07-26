@@ -21,6 +21,6 @@ class UrlProvider implements UrlProviderInterface
         return $this->router->generate('heptaconnect.api.webhook', [
             'version' => 1,
             'id' => Uuid::uuid4()->getHex(),
-        ], UrlGeneratorInterface::ABSOLUTE_URL);
+        ], UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 }
