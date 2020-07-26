@@ -21,14 +21,14 @@ class Explore extends Command
         $this->exploreService = $exploreService;
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this->addArgument('portal-id', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $portalNodeKey = new PortalNodeKey($input->getArgument('portal-id'));
+        $portalNodeKey = new PortalNodeKey((string) $input->getArgument('portal-id'));
 
         $this->exploreService->explore($portalNodeKey);
 

@@ -23,7 +23,7 @@ class AddPortalNode extends Command
         $this->storage = $storage;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::REQUIRED);
     }
@@ -32,7 +32,7 @@ class AddPortalNode extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $portalClass = $input->getArgument('portal-class');
+        $portalClass = (string) $input->getArgument('portal-class');
 
         if (!\is_a($portalClass, PortalNodeInterface::class, true)) {
             $io->error('The provided portal class does not implement the PortalNodeInterface.');

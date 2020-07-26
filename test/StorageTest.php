@@ -75,6 +75,9 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $storage->setConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
@@ -111,6 +114,9 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $storage->setConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
@@ -132,6 +138,9 @@ class StorageTest extends TestCase
 
         $storage = new Storage(
             $systemConfigService,
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
@@ -160,6 +169,9 @@ class StorageTest extends TestCase
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
+            $this->createMock(EntityRepositoryInterface::class),
             $this->createMock(EntityRepositoryInterface::class)
         );
         $result = $storage->getConfiguration(new PortalNodeKey('2281f7b9f4e847d5b0bc084288b871b1'));
@@ -175,7 +187,10 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route')
+            $definitionRegistry->getRepository('heptaconnect_route'),
+            $definitionRegistry->getRepository('heptaconnect_error_message'),
+            $definitionRegistry->getRepository('heptaconnect_webhook'),
+            $definitionRegistry->getRepository('heptaconnect_portal_node')
         );
 
         $portalNodes = $definitionRegistry->getRepository('heptaconnect_portal_node');
@@ -199,7 +214,10 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route')
+            $definitionRegistry->getRepository('heptaconnect_route'),
+            $definitionRegistry->getRepository('heptaconnect_error_message'),
+            $definitionRegistry->getRepository('heptaconnect_webhook'),
+            $definitionRegistry->getRepository('heptaconnect_portal_node')
         );
         $portalNodeRepo = $definitionRegistry->getRepository('heptaconnect_portal_node');
         $portalNodeRepo->create([[
@@ -248,7 +266,10 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route')
+            $definitionRegistry->getRepository('heptaconnect_route'),
+            $definitionRegistry->getRepository('heptaconnect_error_message'),
+            $definitionRegistry->getRepository('heptaconnect_webhook'),
+            $definitionRegistry->getRepository('heptaconnect_portal_node')
         );
 
         static::assertInstanceOf(PortalNodeKeyInterface::class, $storage->generateKey(PortalNodeKeyInterface::class));

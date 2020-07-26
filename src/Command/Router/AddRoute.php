@@ -23,7 +23,7 @@ class AddRoute extends Command
         $this->storage = $storage;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('source', InputArgument::REQUIRED)
@@ -36,9 +36,9 @@ class AddRoute extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $source = new PortalNodeKey($input->getArgument('source'));
-        $target = new PortalNodeKey($input->getArgument('target'));
-        $type = $input->getArgument('type');
+        $source = new PortalNodeKey((string) $input->getArgument('source'));
+        $target = new PortalNodeKey((string) $input->getArgument('target'));
+        $type = (string) $input->getArgument('type');
 
         $this->storage->getPortalNode($source);
         $this->storage->getPortalNode($target);

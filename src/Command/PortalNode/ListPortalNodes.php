@@ -32,9 +32,9 @@ class ListPortalNodes extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $portalClass = $input->getArgument('portal-class');
+        $portalClass = (string) $input->getArgument('portal-class');
 
-        if ($portalClass) {
+        if ($portalClass !== '') {
             if (!\is_a($portalClass, PortalNodeInterface::class, true)) {
                 $io->error('The provided portal class does not implement the PortalNodeInterface.');
 
@@ -46,7 +46,7 @@ class ListPortalNodes extends Command
 
         $portalNodeKeys = $this->storage->listPortalNodes($portalClass);
 
-        if (!$portalNodeKeys->count()) {
+        if ($portalNodeKeys->count() === 0) {
             $io->note('There are no portal nodes of the selected portal.');
 
             return 0;

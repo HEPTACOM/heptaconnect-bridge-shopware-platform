@@ -51,7 +51,7 @@ class DataTypeList extends Command
             }
         }
 
-        if (empty($types)) {
+        if (\count($types) === 0) {
             $io->note('There are no supported data types.');
 
             return 0;

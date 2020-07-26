@@ -237,6 +237,8 @@ class Storage extends StorageFallback implements StorageInterface
             $mappingId = $this->getMappingId($mapping, $context);
         } catch (\Throwable $exception) {
             parent::addMappingException($mapping, $throwable);
+
+            return;
         }
 
         if ($mappingId === null) {
@@ -249,6 +251,8 @@ class Storage extends StorageFallback implements StorageInterface
 
         if ($mappingId === null) {
             parent::addMappingException($mapping, $throwable);
+
+            return;
         }
 
         $insert = \array_map(function (\Throwable $throwable) use ($mappingId): array {
@@ -432,7 +436,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $criteria = (new Criteria())->addFilter(new EqualsFilter('deletedAt', null));
 
-        if ($className) {
+        if (!\is_null($className)) {
             $criteria->addFilter(new EqualsFilter('className', $className));
         }
 
@@ -465,6 +469,8 @@ class Storage extends StorageFallback implements StorageInterface
 
         if (!$portalNodeKey instanceof PortalNodeKey) {
             parent::removePortalNode($portalNodeKey);
+
+            return;
         }
 
         $this->portalNodes->update([[

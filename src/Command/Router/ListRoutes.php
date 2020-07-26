@@ -6,6 +6,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -39,6 +40,10 @@ class ListRoutes extends Command
         /** @var PortalNodeKeyInterface $portalNodeKey */
         foreach ($portalNodeKeys as $portalNodeKey) {
             $portalNode = $this->portalNodeRegistry->getPortalNode($portalNodeKey);
+
+            if (!$portalNode instanceof PortalNodeInterface) {
+                continue;
+            }
 
             /** @var ExplorerInterface $explorer */
             foreach ($portalNode->getExplorers() as $explorer) {
@@ -87,7 +92,7 @@ class ListRoutes extends Command
             }
         }
 
-        if (empty($targets)) {
+        if (\count($targets) === 0) {
             $io->note('There are no routes.');
 
             return 0;

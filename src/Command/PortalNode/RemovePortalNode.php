@@ -22,7 +22,7 @@ class RemovePortalNode extends Command
         $this->storage = $storage;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-id', InputArgument::REQUIRED);
     }
@@ -31,7 +31,7 @@ class RemovePortalNode extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $portalNodeKey = new PortalNodeKey($input->getArgument('portal-id'));
+        $portalNodeKey = new PortalNodeKey((string) $input->getArgument('portal-id'));
         $this->storage->removePortalNode($portalNodeKey);
 
         $io->success('The portal node was successfully removed.');
