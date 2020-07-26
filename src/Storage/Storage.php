@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
