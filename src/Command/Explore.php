@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
-use Heptacom\HeptaConnect\Core\Explore\Contract\ExploreServiceInterface;
+use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

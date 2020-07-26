@@ -29,7 +29,7 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Explore\ExploreService'
+            - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:

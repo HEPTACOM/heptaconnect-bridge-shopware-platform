@@ -31,14 +31,14 @@ services:
             - '@messenger.bus.shopware'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
 
-    Heptacom\HeptaConnect\Core\Explore\ExploreContextFactory:
+    Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
 
-    Heptacom\HeptaConnect\Core\Explore\ExploreService:
+    Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Explore\ExploreContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
             - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
 
