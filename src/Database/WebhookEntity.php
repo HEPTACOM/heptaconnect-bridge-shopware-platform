@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\WebhookKey;
 use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookInterface;
-use Heptacom\HeptaConnect\Portal\Base\Contract\WebhookKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 

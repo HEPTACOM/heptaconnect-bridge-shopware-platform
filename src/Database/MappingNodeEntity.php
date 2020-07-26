@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\MappingNodeKey;
-use Heptacom\HeptaConnect\Portal\Base\Contract\MappingNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
