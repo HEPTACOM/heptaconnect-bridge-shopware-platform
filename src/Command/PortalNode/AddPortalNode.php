@@ -34,7 +34,7 @@ class AddPortalNode extends Command
 
         $portalClass = $input->getArgument('portal-class');
 
-        if (!is_a($portalClass, PortalNodeInterface::class, true)) {
+        if (!\is_a($portalClass, PortalNodeInterface::class, true)) {
             $io->error('The provided portal class does not implement the PortalNodeInterface.');
 
             return 1;
@@ -48,7 +48,7 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        $io->success(sprintf('A new portal node was created. ID: %s', $portalNodeKey->getUuid()));
+        $io->success(\sprintf('A new portal node was created. ID: %s', $portalNodeKey->getUuid()));
 
         return 0;
     }

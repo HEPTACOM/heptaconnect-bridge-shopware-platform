@@ -43,7 +43,7 @@ class AddRoute extends Command
         $this->storage->getPortalNode($source);
         $this->storage->getPortalNode($target);
 
-        if (!is_a($type, DatasetEntityInterface::class, true)) {
+        if (!\is_a($type, DatasetEntityInterface::class, true)) {
             $io->error('The specified type does not implement the DatasetEntityInterface.');
 
             return 1;
