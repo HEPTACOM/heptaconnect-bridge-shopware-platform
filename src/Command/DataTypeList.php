@@ -61,7 +61,7 @@ class DataTypeList extends Command
             return 0;
         }
 
-        $types = \array_map(fn(string $type) => ['data-type' => $type], \array_keys($types));
+        $types = \array_map(fn (string $type) => ['data-type' => $type], \array_keys($types));
         $io->table(\array_keys(\current($types)), $types);
 
         return 0;
