@@ -9,7 +9,6 @@ use Psr\Http\Client\ClientInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @RouteScope(scopes={"api"})
  */
-class WebhookController extends AbstractController
+class WebhookController
 {
     private StorageInterface $storage;
 
