@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +28,7 @@ class PortalList extends Command
 
         $portals = [];
 
+        /** @var PortalInterface $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $portals[] = [
                 'class' => \get_class($portal),
