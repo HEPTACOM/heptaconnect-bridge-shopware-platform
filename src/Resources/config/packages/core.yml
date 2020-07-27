@@ -59,6 +59,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
 
