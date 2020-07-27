@@ -3,10 +3,10 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
-use Heptacom\HeptaConnect\Core\Portal\Contract\PortalNodeRegistryInterface;
+use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalNodeInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -21,13 +21,13 @@ class ListRoutes extends Command
 
     private StorageInterface $storage;
 
-    private PortalNodeRegistryInterface $portalNodeRegistry;
+    private PortalRegistryInterface $portalRegistry;
 
-    public function __construct(StorageInterface $storage, PortalNodeRegistryInterface $portalNodeRegistry)
+    public function __construct(StorageInterface $storage, PortalRegistryInterface $portalRegistry)
     {
         parent::__construct();
         $this->storage = $storage;
-        $this->portalNodeRegistry = $portalNodeRegistry;
+        $this->portalRegistry = $portalRegistry;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,19 +39,19 @@ class ListRoutes extends Command
 
         /** @var PortalNodeKeyInterface $portalNodeKey */
         foreach ($portalNodeKeys as $portalNodeKey) {
-            $portalNode = $this->portalNodeRegistry->getPortalNode($portalNodeKey);
+            $portal = $this->portalRegistry->getPortal($portalNodeKey);
 
-            if (!$portalNode instanceof PortalNodeInterface) {
+            if (!$portal instanceof PortalInterface) {
                 continue;
             }
 
             /** @var ExplorerInterface $explorer */
-            foreach ($portalNode->getExplorers() as $explorer) {
+            foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;
             }
 
             /** @var EmitterInterface $emitter */
-            foreach ($portalNode->getEmitters() as $emitter) {
+            foreach ($portal->getEmitters() as $emitter) {
                 /** @var string $support */
                 foreach ($emitter->supports() as $support) {
                     $types[$support] = true;
@@ -59,7 +59,7 @@ class ListRoutes extends Command
             }
 
             /** @var ReceiverInterface $receiver */
-            foreach ($portalNode->getReceivers() as $receiver) {
+            foreach ($portal->getReceivers() as $receiver) {
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {
                     $types[$support] = true;

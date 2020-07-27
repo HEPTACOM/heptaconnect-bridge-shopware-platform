@@ -26,24 +26,24 @@ services:
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
             - '@heptacom_heptaconnect.logger'
             - '@messenger.bus.shopware'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
@@ -62,7 +62,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
 
-    Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry:
+    Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
@@ -76,14 +76,14 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContext'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalNodeRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Router\Router:
         arguments:
