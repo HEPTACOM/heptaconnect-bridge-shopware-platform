@@ -14,7 +14,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterfac
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -289,7 +289,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages->delete($delete, $context);
     }
 
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeStorageKeyCollection
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeKeyCollection
     {
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
             return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
@@ -316,7 +316,7 @@ class Storage extends StorageFallback implements StorageInterface
             }
         }
 
-        return new PortalNodeStorageKeyCollection($result);
+        return new PortalNodeKeyCollection($result);
     }
 
     public function createRouteTarget(
@@ -434,7 +434,7 @@ class Storage extends StorageFallback implements StorageInterface
         return $portalNode->getClassName();
     }
 
-    public function listPortalNodes(?string $className = null): PortalNodeStorageKeyCollection
+    public function listPortalNodes(?string $className = null): PortalNodeKeyCollection
     {
         $context = Context::createDefaultContext();
 
@@ -446,7 +446,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $ids = $this->portalNodes->searchIds($criteria, $context)->getIds();
 
-        return new PortalNodeStorageKeyCollection(\array_map(fn (string $id) => new PortalNodeKey($id), $ids));
+        return new PortalNodeKeyCollection(\array_map(fn (string $id) => new PortalNodeKey($id), $ids));
     }
 
     public function addPortalNode(string $className): PortalNodeKeyInterface
