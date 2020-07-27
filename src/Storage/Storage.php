@@ -18,6 +18,8 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeStorageKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidMappingNodeKeyException;
+use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Shopware\Core\Framework\Context;
@@ -484,14 +486,12 @@ class Storage extends StorageFallback implements StorageInterface
     {
         $portalNodeKey = $mapping->getPortalNodeKey();
         if (!$portalNodeKey instanceof PortalNodeKey) {
-            // TODO: specify exception
-            throw new \Exception();
+            throw new InvalidPortalNodeKeyException();
         }
 
         $mappingNodeKey = $mapping->getMappingNodeKey();
         if (!$mappingNodeKey instanceof MappingNodeKey) {
-            // TODO: specify exception
-            throw new \Exception();
+            throw new InvalidMappingNodeKeyException();
         }
 
         $criteria = (new Criteria())->setLimit(1)->addFilter(
