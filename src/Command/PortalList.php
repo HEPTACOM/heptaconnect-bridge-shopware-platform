@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
-use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
+use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,12 +12,12 @@ class PortalList extends Command
 {
     protected static $defaultName = 'heptaconnect:portal:list';
 
-    private PortalRegistry $portalRegistry;
+    private ComposerPortalLoader $portalLoader;
 
-    public function __construct(PortalRegistry $portalRegistry)
+    public function __construct(ComposerPortalLoader $portalLoader)
     {
         parent::__construct();
-        $this->portalRegistry = $portalRegistry;
+        $this->portalLoader = $portalLoader;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -27,7 +27,7 @@ class PortalList extends Command
 
         $portals = [];
 
-        foreach ($this->portalRegistry->getPortals() as $portal) {
+        foreach ($this->portalLoader->getPortals() as $portal) {
             $portals[] = [
                 'class' => \get_class($portal),
             ];
@@ -35,7 +35,7 @@ class PortalList extends Command
 
         $portalExtensions = [];
 
-        foreach ($this->portalRegistry->getPortalExtensions() as $portalExtension) {
+        foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
             $portalExtensions[] = [
                 'class' => \get_class($portalExtension),
             ];

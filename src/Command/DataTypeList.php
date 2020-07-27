@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
-use Heptacom\HeptaConnect\Core\Portal\PortalRegistry;
+use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
@@ -15,12 +15,12 @@ class DataTypeList extends Command
 {
     protected static $defaultName = 'heptaconnect:data-type:list';
 
-    private PortalRegistry $portalRegistry;
+    private ComposerPortalLoader $portalLoader;
 
-    public function __construct(PortalRegistry $portalRegistry)
+    public function __construct(ComposerPortalLoader $portalLoader)
     {
         parent::__construct();
-        $this->portalRegistry = $portalRegistry;
+        $this->portalLoader = $portalLoader;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -28,7 +28,7 @@ class DataTypeList extends Command
         $io = new SymfonyStyle($input, $output);
         $types = [];
 
-        foreach ($this->portalRegistry->getPortals() as $portal) {
+        foreach ($this->portalLoader->getPortals() as $portal) {
             /** @var ExplorerInterface $explorer */
             foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;

@@ -20,11 +20,11 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\DataTypeList:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
