@@ -69,10 +69,6 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
 
-    Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
-
     Heptacom\HeptaConnect\Core\Reception\ReceiveContext:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
