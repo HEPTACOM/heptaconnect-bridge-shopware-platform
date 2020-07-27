@@ -198,10 +198,10 @@ class StorageTest extends TestCase
         $portalNodes->create([['id' => $portalNodeId->getUuid()]], Context::createDefaultContext());
 
         /** @var MappingNodeStructInterface $node */
-        [$node] = $storage->createMappingNodes([FooBarDatasetEntity::class], $portalNodeId);
+        $node = $storage->createMappingNodes([FooBarDatasetEntity::class], $portalNodeId)->first();
         static::assertEquals(FooBarDatasetEntity::class, $node->getDatasetEntityClassName());
 
-        ['key' => $node] = $storage->createMappingNodes(['key' => FooBarDatasetEntity::class], $portalNodeId);
+        $node = $storage->createMappingNodes(['key' => FooBarDatasetEntity::class], $portalNodeId)->offsetGet('key');
         static::assertEquals(FooBarDatasetEntity::class, $node->getDatasetEntityClassName());
     }
 
@@ -224,14 +224,15 @@ class StorageTest extends TestCase
             'id' => '0b8ebe4959b44bae97b862e6b8b32e18',
         ]], Context::createDefaultContext());
 
-        /**
-         * @var MappingNodeStructInterface $mappingNodeNull
-         * @var MappingNodeStructInterface $mappingNode
-         */
-        [$mappingNodeNull, $mappingNode] = $storage->createMappingNodes([
+        $mappingNodes = $storage->createMappingNodes([
             FooBarDatasetEntity::class,
             FooBarDatasetEntity::class,
         ], new PortalNodeKey('0b8ebe4959b44bae97b862e6b8b32e18'));
+
+        /** @var MappingNodeStructInterface $mappingNodeNull */
+        $mappingNodeNull = $mappingNodes->first();
+        /** @var MappingNodeStructInterface $mappingNode */
+        $mappingNode = $mappingNodes->last();
 
         $mappingNull = $this->createMock(MappingInterface::class);
         $mappingNull->expects(static::atLeastOnce())

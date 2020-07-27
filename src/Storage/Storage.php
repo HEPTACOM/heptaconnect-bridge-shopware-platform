@@ -21,6 +21,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidMappingNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
+use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
@@ -121,10 +122,10 @@ class Storage extends StorageFallback implements StorageInterface
         return null;
     }
 
-    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): array
+    public function createMappingNodes(array $datasetEntityClassNames, PortalNodeKeyInterface $portalNodeKey): MappingNodeStructCollection
     {
         if (\count($datasetEntityClassNames) === 0) {
-            return [];
+            return new MappingNodeStructCollection();
         }
 
         if (!$portalNodeKey instanceof PortalNodeKey) {
@@ -162,7 +163,7 @@ class Storage extends StorageFallback implements StorageInterface
 
         $this->mappingNodes->create($mappingNodeInsert, $context);
 
-        return $result;
+        return new MappingNodeStructCollection($result);
     }
 
     public function getMapping(MappingNodeKeyInterface $mappingNodeKey, PortalNodeKeyInterface $portalNodeKey): ?MappingInterface
@@ -288,7 +289,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages->delete($delete, $context);
     }
 
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): array
+    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeStorageKeyCollection
     {
         if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
             return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
@@ -315,7 +316,7 @@ class Storage extends StorageFallback implements StorageInterface
             }
         }
 
-        return $result;
+        return new PortalNodeStorageKeyCollection($result);
     }
 
     public function createRouteTarget(
