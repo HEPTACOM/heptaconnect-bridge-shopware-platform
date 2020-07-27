@@ -15,7 +15,7 @@ class WebhookEntity extends Entity implements WebhookInterface
     protected string $url;
 
     /**
-     * @var class-string<\Psr\Http\Client\ClientInterface>
+     * @var class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract>
      */
     protected string $handler;
 
@@ -39,7 +39,7 @@ class WebhookEntity extends Entity implements WebhookInterface
     }
 
     /**
-     * @return class-string<\Psr\Http\Client\ClientInterface>
+     * @return class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract>
      */
     public function getHandler(): string
     {
@@ -47,7 +47,7 @@ class WebhookEntity extends Entity implements WebhookInterface
     }
 
     /**
-     * @param class-string<\Psr\Http\Client\ClientInterface> $handler
+     * @param class-string<\Heptacom\HeptaConnect\Portal\Base\Portal\Contract\WebhookHandlerContract> $handler
      */
     public function setHandler($handler): self
     {

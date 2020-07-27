@@ -282,7 +282,7 @@ class Storage extends StorageFallback implements StorageInterface
             new EqualsFilter('type', $type)
         );
 
-        $delete = \array_map(function (string $id) {
+        $delete = \array_map(function (string $id): array {
             return ['id' => $id];
         }, $this->errorMessages->searchIds($criteria, $context)->getIds());
 
