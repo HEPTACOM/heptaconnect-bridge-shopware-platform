@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
@@ -36,7 +36,7 @@ class DataTypeList extends Command
                 $types[$explorer->supports()] = true;
             }
 
-            /** @var EmitterInterface $emitter */
+            /** @var EmitterContract $emitter */
             foreach ($portal->getEmitters() as $emitter) {
                 /** @var string $support */
                 foreach ($emitter->supports() as $support) {
