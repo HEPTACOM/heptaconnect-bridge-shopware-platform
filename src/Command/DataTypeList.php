@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -44,7 +44,7 @@ class DataTypeList extends Command
                 }
             }
 
-            /** @var ReceiverInterface $receiver */
+            /** @var ReceiverContract $receiver */
             foreach ($portal->getReceivers() as $receiver) {
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {

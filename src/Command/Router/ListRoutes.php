@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -58,7 +58,7 @@ class ListRoutes extends Command
                 }
             }
 
-            /** @var ReceiverInterface $receiver */
+            /** @var ReceiverContract $receiver */
             foreach ($portal->getReceivers() as $receiver) {
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {
