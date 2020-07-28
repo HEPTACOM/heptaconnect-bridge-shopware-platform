@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,8 +34,8 @@ class AddPortalNode extends Command
 
         $portalClass = (string) $input->getArgument('portal-class');
 
-        if (!\is_a($portalClass, PortalInterface::class, true)) {
-            $io->error('The provided portal class does not implement the PortalInterface.');
+        if (!\is_a($portalClass, PortalContract::class, true)) {
+            $io->error('The provided portal class does not implement the PortalContract.');
 
             return 1;
         }

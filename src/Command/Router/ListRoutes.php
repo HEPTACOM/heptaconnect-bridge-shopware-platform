@@ -6,7 +6,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -41,7 +41,7 @@ class ListRoutes extends Command
         foreach ($portalNodeKeys as $portalNodeKey) {
             $portal = $this->portalRegistry->getPortal($portalNodeKey);
 
-            if (!$portal instanceof PortalInterface) {
+            if (!$portal instanceof PortalContract) {
                 continue;
             }
 
