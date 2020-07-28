@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Symfony\Component\Console\Command\Command;
@@ -31,7 +31,7 @@ class DataTypeList extends Command
 
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
-            /** @var ExplorerInterface $explorer */
+            /** @var ExplorerContract $explorer */
             foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;
             }

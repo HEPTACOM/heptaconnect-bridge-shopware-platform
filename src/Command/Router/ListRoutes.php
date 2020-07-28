@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -45,7 +45,7 @@ class ListRoutes extends Command
                 continue;
             }
 
-            /** @var ExplorerInterface $explorer */
+            /** @var ExplorerContract $explorer */
             foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;
             }
