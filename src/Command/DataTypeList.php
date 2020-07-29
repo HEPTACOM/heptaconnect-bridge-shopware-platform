@@ -3,10 +3,10 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,14 +29,14 @@ class DataTypeList extends Command
         $io = new SymfonyStyle($input, $output);
         $types = [];
 
-        /** @var PortalInterface $portal */
+        /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
-            /** @var ExplorerInterface $explorer */
+            /** @var ExplorerContract $explorer */
             foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;
             }
 
-            /** @var EmitterInterface $emitter */
+            /** @var EmitterContract $emitter */
             foreach ($portal->getEmitters() as $emitter) {
                 /** @var string $support */
                 foreach ($emitter->supports() as $support) {
@@ -44,7 +44,7 @@ class DataTypeList extends Command
                 }
             }
 
-            /** @var ReceiverInterface $receiver */
+            /** @var ReceiverContract $receiver */
             foreach ($portal->getReceivers() as $receiver) {
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {

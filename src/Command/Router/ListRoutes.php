@@ -4,10 +4,10 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterInterface;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerInterface;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalInterface;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverInterface;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Symfony\Component\Console\Command\Command;
@@ -41,16 +41,16 @@ class ListRoutes extends Command
         foreach ($portalNodeKeys as $portalNodeKey) {
             $portal = $this->portalRegistry->getPortal($portalNodeKey);
 
-            if (!$portal instanceof PortalInterface) {
+            if (!$portal instanceof PortalContract) {
                 continue;
             }
 
-            /** @var ExplorerInterface $explorer */
+            /** @var ExplorerContract $explorer */
             foreach ($portal->getExplorers() as $explorer) {
                 $types[$explorer->supports()] = true;
             }
 
-            /** @var EmitterInterface $emitter */
+            /** @var EmitterContract $emitter */
             foreach ($portal->getEmitters() as $emitter) {
                 /** @var string $support */
                 foreach ($emitter->supports() as $support) {
@@ -58,7 +58,7 @@ class ListRoutes extends Command
                 }
             }
 
-            /** @var ReceiverInterface $receiver */
+            /** @var ReceiverContract $receiver */
             foreach ($portal->getReceivers() as $receiver) {
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {
