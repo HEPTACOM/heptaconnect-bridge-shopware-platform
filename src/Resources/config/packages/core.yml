@@ -21,7 +21,9 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'
 
-    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService: ~
+    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
