@@ -80,7 +80,7 @@ class Storage extends StorageFallback implements StorageInterface
         return $this->getConfigurationInternal($portalNodeKey->getUuid());
     }
 
-    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, array $data): void
+    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             parent::setConfiguration($portalNodeKey, $data);
@@ -88,8 +88,13 @@ class Storage extends StorageFallback implements StorageInterface
             return;
         }
 
-        $value = $this->getConfigurationInternal($portalNodeKey->getUuid());
-        $config = \array_replace_recursive($value, $data);
+        $config = null;
+
+        if (!\is_null($data)) {
+            $value = $this->getConfigurationInternal($portalNodeKey->getUuid());
+            $config = \array_replace_recursive($value, $data);
+        }
+
         $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
     }
 

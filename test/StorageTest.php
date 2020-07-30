@@ -282,4 +282,29 @@ class StorageTest extends TestCase
         $fake = $this->createMock(PortalNodeKeyInterface::class);
         static::assertFalse($authentic->equals($fake));
     }
+
+    public function testResetStorage(): void
+    {
+        /** @var DefinitionInstanceRegistry $definitionRegistry */
+        $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
+        $storage = new Storage(
+            $this->createMock(SystemConfigService::class),
+            $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
+            $definitionRegistry->getRepository('heptaconnect_mapping_node'),
+            $definitionRegistry->getRepository('heptaconnect_mapping'),
+            $definitionRegistry->getRepository('heptaconnect_route'),
+            $definitionRegistry->getRepository('heptaconnect_error_message'),
+            $definitionRegistry->getRepository('heptaconnect_webhook'),
+            $definitionRegistry->getRepository('heptaconnect_portal_node')
+        );
+
+        /** @var PortalNodeKeyInterface $portalNodeKey */
+        $portalNodeKey = $storage->generateKey(PortalNodeKeyInterface::class);
+        $storage->setConfiguration($portalNodeKey, ['test' => true]);
+        $value = $storage->getConfiguration($portalNodeKey);
+        static::assertArrayHasKey('test', $value);
+        static::assertEquals(true, $value['test']);
+        $storage->setConfiguration($portalNodeKey, null);
+        static::assertCount(0, $storage->getConfiguration($portalNodeKey));
+    }
 }
