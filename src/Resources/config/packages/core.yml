@@ -24,6 +24,7 @@ services:
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
