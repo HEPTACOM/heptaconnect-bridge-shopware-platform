@@ -263,15 +263,13 @@ class Storage extends StorageFallback implements StorageInterface
             return;
         }
 
-        $insert = \array_map(function (\Throwable $throwable) use ($mappingId): array {
-            return [
-                'id' => Uuid::randomHex(),
-                'mappingId' => $mappingId,
-                'type' => \get_class($throwable),
-                'message' => $throwable->getMessage(),
-                'stackTrace' => \json_encode($throwable->getTrace()),
-            ];
-        }, self::unwrapException($throwable));
+        $insert = \array_map(fn (\Throwable $throwable) => [
+            'id' => Uuid::randomHex(),
+            'mappingId' => $mappingId,
+            'type' => \get_class($throwable),
+            'message' => $throwable->getMessage(),
+            'stackTrace' => \json_encode($throwable->getTrace()),
+        ], self::unwrapException($throwable));
 
         $this->errorMessages->create($insert, $context);
     }
@@ -287,9 +285,7 @@ class Storage extends StorageFallback implements StorageInterface
             new EqualsFilter('type', $type)
         );
 
-        $delete = \array_map(function (string $id): array {
-            return ['id' => $id];
-        }, $this->errorMessages->searchIds($criteria, $context)->getIds());
+        $delete = \array_map(fn (string $id) => ['id' => $id], $this->errorMessages->searchIds($criteria, $context)->getIds());
 
         $this->errorMessages->delete($delete, $context);
     }
