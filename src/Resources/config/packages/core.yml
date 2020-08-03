@@ -21,6 +21,10 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'
 
+    Heptacom\HeptaConnect\Core\Component\Cronjob\CronjobService:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'

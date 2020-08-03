@@ -20,4 +20,9 @@ class KeyGenerator
     {
         return new WebhookKey(Uuid::randomHex());
     }
+
+    public function generateCronjobKey(): CronjobKey
+    {
+        return new CronjobKey(Uuid::randomHex());
+    }
 }

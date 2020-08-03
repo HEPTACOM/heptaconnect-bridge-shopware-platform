@@ -8,8 +8,10 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
+use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
@@ -53,6 +55,8 @@ class Storage extends StorageFallback implements StorageInterface
 
     private KeyGenerator $keyGenerator;
 
+    private CronjobStorage $cronjobStorage;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
@@ -62,7 +66,8 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $errorMessages,
         EntityRepositoryInterface $webhooks,
         EntityRepositoryInterface $portalNodes,
-        KeyGenerator $keyGenerator
+        KeyGenerator $keyGenerator,
+        CronjobStorage $cronjobStorage
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -73,6 +78,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->webhooks = $webhooks;
         $this->portalNodes = $portalNodes;
         $this->keyGenerator = $keyGenerator;
+        $this->cronjobStorage = $cronjobStorage;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
@@ -417,6 +423,10 @@ class Storage extends StorageFallback implements StorageInterface
             return $this->keyGenerator->generateWebhookKey();
         }
 
+        if ($keyClassName === CronjobKey::class) {
+            return $this->keyGenerator->generateCronjobKey();
+        }
+
         return parent::generateKey($keyClassName);
     }
 
@@ -486,6 +496,22 @@ class Storage extends StorageFallback implements StorageInterface
             'id' => $portalNodeKey->getUuid(),
             'deletedAt' => \date_create(),
         ]], $context);
+    }
+
+    public function createCronjob(string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
+    {
+        return $this->cronjobStorage->create($cronExpression, $handler, $nextExecution, $payload);
+    }
+
+    public function removeCronjob(CronjobKeyInterface $cronjobKey): void
+    {
+        if (!$cronjobKey instanceof CronjobKey) {
+            parent::removeCronjob($cronjobKey);
+
+            return;
+        }
+
+        $this->cronjobStorage->remove($cronjobKey);
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string
