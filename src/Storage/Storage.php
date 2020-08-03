@@ -51,6 +51,8 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $portalNodes;
 
+    private KeyGenerator $keyGenerator;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
@@ -59,7 +61,8 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $routes,
         EntityRepositoryInterface $errorMessages,
         EntityRepositoryInterface $webhooks,
-        EntityRepositoryInterface $portalNodes
+        EntityRepositoryInterface $portalNodes,
+        KeyGenerator $keyGenerator
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -69,6 +72,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages = $errorMessages;
         $this->webhooks = $webhooks;
         $this->portalNodes = $portalNodes;
+        $this->keyGenerator = $keyGenerator;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
@@ -402,15 +406,15 @@ class Storage extends StorageFallback implements StorageInterface
     public function generateKey(string $keyClassName): StorageKeyInterface
     {
         if ($keyClassName === PortalNodeKeyInterface::class) {
-            return new PortalNodeKey(Uuid::randomHex());
+            return $this->keyGenerator->generatePortalNodeKey();
         }
 
         if ($keyClassName === MappingNodeKeyInterface::class) {
-            return new MappingNodeKey(Uuid::randomHex());
+            return $this->keyGenerator->generateMappingNodeKey();
         }
 
         if ($keyClassName === WebhookKeyInterface::class) {
-            return new WebhookKey(Uuid::randomHex());
+            return $this->keyGenerator->generateWebhookKey();
         }
 
         return parent::generateKey($keyClassName);
