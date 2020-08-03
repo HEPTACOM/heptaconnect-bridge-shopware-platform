@@ -16,7 +16,9 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\:
         resource: '../../*'
-        exclude: '../../{Resources,Migration,Bundle.php}'
+        exclude:
+            - '../../{Resources,Migration,Bundle.php}'
+            - '../../Database/*{Entity,Collection}.php'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:
