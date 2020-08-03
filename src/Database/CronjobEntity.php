@@ -19,9 +19,11 @@ class CronjobEntity extends Entity implements CronjobInterface
      */
     protected string $handler;
 
-    protected ?array $payload;
+    protected ?array $payload = null;
 
     protected \DateTimeInterface $queuedUntil;
+
+    protected ?CronjobRunCollection $copies = null;
 
     public function __construct()
     {
@@ -83,6 +85,18 @@ class CronjobEntity extends Entity implements CronjobInterface
     public function setQueuedUntil(\DateTimeInterface $queuedUntil): self
     {
         $this->queuedUntil = $queuedUntil;
+
+        return $this;
+    }
+
+    public function getCopies(): ?CronjobRunCollection
+    {
+        return $this->copies;
+    }
+
+    public function setCopies(?CronjobRunCollection $copies): self
+    {
+        $this->copies = $copies;
 
         return $this;
     }

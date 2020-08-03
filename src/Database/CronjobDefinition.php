@@ -8,6 +8,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\DateTimeField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
@@ -38,6 +39,8 @@ class CronjobDefinition extends EntityDefinition
             (new StringField('handler', 'handler'))->addFlags(new Required()),
             (new DateTimeField('queued_until', 'queuedUntil'))->addFlags(new Required()),
             new CustomFields('payload', 'payload'),
+
+            new OneToManyAssociationField('copies', CronjobRunDefinition::class, 'copyFromId'),
         ]);
     }
 }

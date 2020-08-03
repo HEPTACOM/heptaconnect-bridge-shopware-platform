@@ -511,7 +511,7 @@ class Storage extends StorageFallback implements StorageInterface
             return;
         }
 
-        $this->cronjobStorage->remove($cronjobKey);
+        $this->cronjobStorage->remove($cronjobKey->getUuid());
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string

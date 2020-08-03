@@ -39,6 +39,10 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
@@ -67,6 +71,7 @@ services:
         arguments:
             - '@heptaconnect_cronjob.repository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator'
+            - '@heptaconnect_cronjob_run.repository'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator: ~
 

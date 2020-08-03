@@ -24,7 +24,8 @@
         "heptacom/heptaconnect-storage-base": "@dev",
         "heptacom/heptaconnect-dataset-base": "@dev",
         "heptacom/heptaconnect-portal-base": "@dev",
-        "doctrine/dbal": ">=2.1"
+        "doctrine/dbal": ">=2.1",
+        "dragonmantank/cron-expression": ">=3"
     },
     "autoload": {
         "psr-4": {
