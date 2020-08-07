@@ -17,6 +17,8 @@ CREATE TABLE `heptaconnect_cronjob_run` (
     `throwable_class` VARCHAR(255) NULL,
     `throwable_message` MEDIUMTEXT NULL,
     `throwable_serialized` LONGTEXT NULL,
+    `throwable_file` VARCHAR(1024) NULL,
+    `throwable_line` INTEGER(10) NULL,
     `queued_for` DATETIME(3) NOT NULL,
     `started_at` DATETIME(3) NULL,
     `finished_at` DATETIME(3) NULL,

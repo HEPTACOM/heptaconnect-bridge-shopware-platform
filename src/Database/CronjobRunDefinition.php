@@ -9,6 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\IntField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\LongTextField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
@@ -42,6 +43,8 @@ class CronjobRunDefinition extends EntityDefinition
             new StringField('throwable_class', 'throwableClass'),
             new LongTextField('throwable_message', 'throwableMessage'),
             new LongTextField('throwable_serialized', 'throwableSerialized'),
+            new StringField('throwable_file', 'throwableFile', 1024),
+            new IntField('throwable_line', 'throwableLine'),
             (new DateTimeField('queued_for', 'queuedFor'))->addFlags(new Required()),
             new DateTimeField('started_at', 'startedAt'),
             new DateTimeField('finished_at', 'finishedAt'),

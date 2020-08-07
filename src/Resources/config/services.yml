@@ -14,10 +14,15 @@ services:
             tags:
                 - { name: console.command }
 
+        Symfony\Component\Messenger\Handler\MessageSubscriberInterface:
+            tags:
+                - { name: messenger.message_handler }
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\:
         resource: '../../*'
         exclude:
             - '../../{Resources,Migration,Bundle.php}'
+            - '../../Messaging/*/*Message.php'
             - '../../Database/*{Entity,Collection}.php'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
@@ -41,9 +46,15 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@messenger.bus.shopware'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
@@ -68,6 +79,15 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage:
         arguments:

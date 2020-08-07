@@ -4,6 +4,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunCollection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Shopware\Core\Defaults;
@@ -12,6 +14,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -60,10 +63,11 @@ class CronjobStorage
      *
      * @return CronjobEntity[]
      */
-    public function getNextToQueue(?\DateTimeInterface $until): iterable
+    public function iterateNextToQueue(?\DateTimeInterface $until): iterable
     {
         $context = Context::createDefaultContext();
         $criteria = new Criteria();
+        $criteria->setLimit(50);
         $criteria->addSorting(
             new FieldSorting('queuedUntil', FieldSorting::DESCENDING),
             new FieldSorting('createdAt', FieldSorting::ASCENDING)
@@ -141,5 +145,90 @@ class CronjobStorage
         ]], $context);
 
         return $id;
+    }
+
+    /**
+     * @psalm-return iterable<array-key, \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity>
+     *
+     * @return CronjobRunEntity[]
+     */
+    public function iterateOpenRuns(\DateTimeInterface $now): iterable
+    {
+        $context = Context::createDefaultContext();
+        $criteria = new Criteria();
+        $criteria->setLimit(50);
+        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::ASCENDING));
+        $criteria->addFilter(
+            new EqualsFilter('startedAt', null),
+            new EqualsFilter('throwableClass', null),
+            new RangeFilter('queuedFor', [
+                RangeFilter::GTE => $now->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ])
+        );
+
+        $iterator = new RepositoryIterator($this->cronjobRuns, $context, $criteria);
+
+        while (($result = $iterator->fetch()) instanceof EntitySearchResult) {
+            /** @var CronjobRunCollection $cronjobs */
+            $cronjobs = $result->getEntities();
+
+            yield from $cronjobs->getElements();
+        }
+    }
+
+    public function getRun(string $cronjobRunId): ?CronjobRunEntity
+    {
+        $context = Context::createDefaultContext();
+        /** @var CronjobRunCollection $cronjobRuns */
+        $cronjobRuns = $this->cronjobRuns->search(new Criteria([$cronjobRunId]), $context)->getEntities();
+
+        return $cronjobRuns->first();
+    }
+
+    public function markRunAsStarted(string $cronjobRunId, \DateTimeInterface $now): void
+    {
+        try {
+            $this->cronjobRuns->update([[
+                'id' => $cronjobRunId,
+                'startedAt' => $now,
+            ]], Context::createDefaultContext());
+        } catch (\Throwable $throwable) {
+            // TODO log
+        }
+    }
+
+    public function markRunAsFinished(string $cronjobRunId, \DateTimeInterface $now): void
+    {
+        try {
+            $this->cronjobRuns->update([[
+                'id' => $cronjobRunId,
+                'finishedAt' => $now,
+            ]], Context::createDefaultContext());
+        } catch (\Throwable $throwable) {
+            // TODO log
+        }
+    }
+
+    public function markRunAsFailed(string $cronjobRunId, \Throwable $throwable): void
+    {
+        try {
+            $serialize = null;
+
+            try {
+                $serialize = \serialize($throwable);
+            } catch (\Throwable $ignored) {
+            }
+
+            $this->cronjobRuns->update([[
+                'id' => $cronjobRunId,
+                'throwableClass' => get_class($throwable),
+                'throwableMessage' => $throwable->getMessage(),
+                'throwableSerialized' => $serialize,
+                'throwableFile' => $throwable->getFile(),
+                'throwableLine' => $throwable->getLine(),
+            ]], Context::createDefaultContext());
+        } catch (\Throwable $ignored) {
+            // TODO log
+        }
     }
 }

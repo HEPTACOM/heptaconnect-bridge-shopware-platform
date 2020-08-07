@@ -2,10 +2,13 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobKey;
+use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class CronjobRunEntity extends Entity
+class CronjobRunEntity extends Entity implements CronjobInterface
 {
     use EntityIdTrait;
 
@@ -21,6 +24,10 @@ class CronjobRunEntity extends Entity
     protected ?string $throwableMessage = null;
 
     protected ?string $throwableSerialized = null;
+
+    protected ?string $throwableFile = null;
+
+    protected ?int $throwableLine = null;
 
     protected \DateTimeInterface $queuedFor;
 
@@ -107,6 +114,30 @@ class CronjobRunEntity extends Entity
         return $this;
     }
 
+    public function getThrowableFile(): ?string
+    {
+        return $this->throwableFile;
+    }
+
+    public function setThrowableFile(?string $throwableFile): self
+    {
+        $this->throwableFile = $throwableFile;
+
+        return $this;
+    }
+
+    public function getThrowableLine(): ?int
+    {
+        return $this->throwableLine;
+    }
+
+    public function setThrowableLine(?int $throwableLine): self
+    {
+        $this->throwableLine = $throwableLine;
+
+        return $this;
+    }
+
     public function getQueuedFor(): \DateTimeInterface
     {
         return $this->queuedFor;
@@ -189,5 +220,10 @@ class CronjobRunEntity extends Entity
         $this->copyFrom = $copyFrom;
 
         return $this;
+    }
+
+    public function getKey(): CronjobKeyInterface
+    {
+        return new CronjobKey($this->cronjobId);
     }
 }
