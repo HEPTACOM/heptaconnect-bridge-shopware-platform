@@ -1,9 +1,9 @@
-# HEPTAConnect Shopware Platform Bridge
+# HEPTAconnect Shopware Platform Bridge
 #### This is part of HEPTACOM solutions for medium and large enterprises.
 
 ## Description
 
-This is the HEPTAConnect package to provide a runtime in a shopware platform project.
+This is the HEPTAconnect package to provide a runtime in a shopware platform project.
 Read more under [Overview](../heptaconnect-docs).
 
 

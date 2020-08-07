@@ -24,7 +24,7 @@ class PortalList extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->section('HEPTAConnect portal list');
+        $io->section('HEPTAconnect portal list');
 
         $portals = [];
 

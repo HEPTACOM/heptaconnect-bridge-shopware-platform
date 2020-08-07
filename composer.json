@@ -1,6 +1,6 @@
 {
     "name": "heptacom/heptaconnect-bridge-shopware-platform",
-    "description": "HEPTAConnect package to support a runtime in a shopware platform project",
+    "description": "HEPTAconnect package to support a runtime in a shopware platform project",
     "type": "library",
     "keywords": [
         "heptaconnect-bridge",
