@@ -6,6 +6,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeColl
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeStorageEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
@@ -57,6 +58,8 @@ class Storage extends StorageFallback implements StorageInterface
 
     private CronjobStorage $cronjobStorage;
 
+    private PortalNodeKeyValueStorage $portalNodeKeyValueStorage;
+
     public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
@@ -67,7 +70,8 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $webhooks,
         EntityRepositoryInterface $portalNodes,
         KeyGenerator $keyGenerator,
-        CronjobStorage $cronjobStorage
+        CronjobStorage $cronjobStorage,
+        PortalNodeKeyValueStorage $portalNodeKeyValueStorage
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -79,6 +83,7 @@ class Storage extends StorageFallback implements StorageInterface
         $this->portalNodes = $portalNodes;
         $this->keyGenerator = $keyGenerator;
         $this->cronjobStorage = $cronjobStorage;
+        $this->portalNodeKeyValueStorage = $portalNodeKeyValueStorage;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
@@ -521,6 +526,65 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         $this->cronjobStorage->remove($cronjobKey->getUuid());
+    }
+
+    public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
+    {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            parent::setPortalStorageValue($portalNodeKey, $key, $value, $type);
+            return;
+        }
+
+        $this->portalNodeKeyValueStorage->set($portalNodeKey->getUuid(), $key, $value, $type);
+    }
+
+    public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void
+    {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            parent::unsetPortalStorageValue($portalNodeKey, $key);
+            return;
+        }
+
+        $this->portalNodeKeyValueStorage->delete($portalNodeKey->getUuid(), $key);
+    }
+
+    public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
+    {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::getPortalStorageValue($portalNodeKey, $key);
+        }
+
+        $result = $this->portalNodeKeyValueStorage->get($portalNodeKey->getUuid(), $key);
+
+        if (!$result instanceof PortalNodeStorageEntity) {
+            throw new NotFoundException();
+        }
+
+        return $result->getValue();
+    }
+
+    public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string
+    {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::getPortalStorageValue($portalNodeKey, $key);
+        }
+
+        $result = $this->portalNodeKeyValueStorage->get($portalNodeKey->getUuid(), $key);
+
+        if (!$result instanceof PortalNodeStorageEntity) {
+            throw new NotFoundException();
+        }
+
+        return $result->getType();
+    }
+
+    public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool
+    {
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::hasPortalStorageValue($portalNodeKey, $key);
+        }
+
+        return $this->portalNodeKeyValueStorage->has($portalNodeKey->getUuid(), $key);
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string
