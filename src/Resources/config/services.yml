@@ -98,6 +98,10 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator: ~
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage:
+        arguments:
+            - '@heptaconnect_portal_node_storage.repository'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
         arguments:
             - '@Shopware\Core\System\SystemConfig\SystemConfigService'
@@ -110,6 +114,7 @@ services:
             - '@heptaconnect_portal_node.repository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
