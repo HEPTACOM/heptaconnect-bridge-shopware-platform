@@ -125,5 +125,5 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Discovery\Strategy:
         public: true
         calls:
-            - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Component\Webhook\WebhookService']]
+            - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Webhook\WebhookService']]
             - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]

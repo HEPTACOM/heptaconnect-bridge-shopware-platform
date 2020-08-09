@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
-use Heptacom\HeptaConnect\Core\Component\Webhook\Contract\UrlProviderInterface;
+use Heptacom\HeptaConnect\Core\Webhook\Contract\UrlProviderInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;

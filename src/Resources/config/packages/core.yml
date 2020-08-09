@@ -16,11 +16,6 @@ services:
         arguments:
             - '%kernel.project_dir%/composer.json'
 
-    Heptacom\HeptaConnect\Core\Component\Webhook\WebhookService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'
-
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
@@ -105,3 +100,8 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+
+    Heptacom\HeptaConnect\Core\Webhook\WebhookService:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'
