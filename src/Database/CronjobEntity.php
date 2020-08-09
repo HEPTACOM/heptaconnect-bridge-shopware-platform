@@ -3,8 +3,10 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobKey;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -22,6 +24,10 @@ class CronjobEntity extends Entity implements CronjobInterface
     protected ?array $payload = null;
 
     protected \DateTimeInterface $queuedUntil;
+
+    protected string $portalNodeId;
+
+    protected ?PortalNodeEntity $portalNode = null;
 
     protected ?CronjobRunCollection $copies = null;
 
@@ -85,6 +91,35 @@ class CronjobEntity extends Entity implements CronjobInterface
     public function setQueuedUntil(\DateTimeInterface $queuedUntil): self
     {
         $this->queuedUntil = $queuedUntil;
+
+        return $this;
+    }
+
+    public function getPortalNodeId(): string
+    {
+        return $this->portalNodeId;
+    }
+
+    public function getPortalNodeKey(): PortalNodeKeyInterface
+    {
+        return new PortalNodeKey($this->portalNodeId);
+    }
+
+    public function setPortalNodeId(string $portalNodeId): self
+    {
+        $this->portalNodeId = $portalNodeId;
+
+        return $this;
+    }
+
+    public function getPortalNode(): ?PortalNodeEntity
+    {
+        return $this->portalNode;
+    }
+
+    public function setPortalNode(?PortalNodeEntity $portalNode): self
+    {
+        $this->portalNode = $portalNode;
 
         return $this;
     }

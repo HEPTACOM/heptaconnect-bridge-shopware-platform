@@ -37,7 +37,7 @@ class CronjobStorage
         $this->cronjobRuns = $cronjobRuns;
     }
 
-    public function create(string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
+    public function create(string $portalNodeId, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
     {
         $context = Context::createDefaultContext();
         $key = $this->keyGenerator->generateCronjobKey();
@@ -48,6 +48,7 @@ class CronjobStorage
             'handler' => $handler,
             'payload' => $payload,
             'queuedUntil' => $nextExecution,
+            'portalNodeId' => $portalNodeId,
         ]], $context);
 
         /** @var CronjobCollection $cronjobs */
@@ -142,6 +143,7 @@ class CronjobStorage
             'handler' => $first->getHandler(),
             'payload' => $first->getPayload(),
             'queuedFor' => $queuedFor,
+            'portalNodeId' => $first->getPortalNodeId(),
         ]], $context);
 
         return $id;

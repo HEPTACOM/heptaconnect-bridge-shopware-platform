@@ -503,9 +503,13 @@ class Storage extends StorageFallback implements StorageInterface
         ]], $context);
     }
 
-    public function createCronjob(string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
+    public function createCronjob(PortalNodeKeyInterface $portalNodeKey, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
     {
-        return $this->cronjobStorage->create($cronExpression, $handler, $nextExecution, $payload);
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::createCronjob($portalNodeKey, $cronExpression, $handler, $nextExecution);
+        }
+
+        return $this->cronjobStorage->create($portalNodeKey->getUuid(), $cronExpression, $handler, $nextExecution, $payload);
     }
 
     public function removeCronjob(CronjobKeyInterface $cronjobKey): void

@@ -54,6 +54,9 @@ class CronjobRunDefinition extends EntityDefinition
 
             new FkField('copy_from_id', 'copyFromId', self::class),
             new ManyToOneAssociationField('copyFrom', 'copy_from_id', self::class, 'id', false),
+
+            (new FkField('portal_node_id', 'portalNodeId', PortalNodeDefinition::class))->addFlags(new Required()),
+            new ManyToOneAssociationField('portalNode', 'portal_node_id', PortalNodeDefinition::class),
         ]);
     }
 }
