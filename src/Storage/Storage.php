@@ -369,21 +369,26 @@ class Storage extends StorageFallback implements StorageInterface
         ]], $context);
     }
 
-    public function createWebhook(string $url, string $handler, ?array $payload = null): WebhookInterface
+    public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface
     {
-        $context = Context::createDefaultContext();
+        if (!$portalNodeKey instanceof PortalNodeKey) {
+            return parent::createWebhook($portalNodeKey, $url, $handler);
+        }
 
         $existingWebhook = $this->getWebhook($url);
 
         if ($existingWebhook instanceof WebhookInterface) {
-            return parent::createWebhook($url, $handler);
+            return parent::createWebhook($portalNodeKey, $url, $handler);
         }
+
+        $context = Context::createDefaultContext();
 
         $this->webhooks->create([[
             'id' => Uuid::randomHex(),
             'url' => $url,
             'handler' => $handler,
             'payload' => $payload,
+            'portalNodeId' => $portalNodeKey->getUuid(),
         ]], $context);
 
         $createdWebhook = $this->getWebhook($url);
@@ -392,7 +397,7 @@ class Storage extends StorageFallback implements StorageInterface
             return $createdWebhook;
         }
 
-        return parent::createWebhook($url, $handler);
+        return parent::createWebhook($portalNodeKey, $url, $handler);
     }
 
     public function getWebhook(string $url): ?WebhookInterface

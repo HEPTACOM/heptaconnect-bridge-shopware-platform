@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
-use Heptacom\HeptaConnect\Core\Webhook\WebhookContext;
+use Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
@@ -21,9 +21,12 @@ class WebhookController
 {
     private StorageInterface $storage;
 
-    public function __construct(StorageInterface $storage)
+    private WebhookContextFactory $webhookContextFactory;
+
+    public function __construct(StorageInterface $storage, WebhookContextFactory $webhookContextFactory)
     {
         $this->storage = $storage;
+        $this->webhookContextFactory = $webhookContextFactory;
     }
 
     /**
@@ -46,7 +49,7 @@ class WebhookController
 
         /** @var WebhookHandlerContract $handler */
         $handler = new $handlerClass();
-        $psrResponse = $handler->handle($psrRequest, new WebhookContext($webhook));
+        $psrResponse = $handler->handle($psrRequest, $this->webhookContextFactory->createContext($webhook));
 
         $httpFoundationFactory = new HttpFoundationFactory();
 

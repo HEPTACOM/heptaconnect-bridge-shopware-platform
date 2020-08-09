@@ -113,6 +113,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory'
         tags:
             - { name: controller.service_arguments }
 
