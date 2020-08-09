@@ -76,6 +76,11 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
 
+    Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+
     Heptacom\HeptaConnect\Core\Reception\ReceiveContext:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
@@ -95,6 +100,19 @@ services:
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
+        tags:
+            - { name: heptacom.heptaconnect_denormalizer }
+
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarNormalizer:
+        tags:
+            - { name: heptacom.heptaconnect_normalizer }
+
+    Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry:
+        arguments:
+            - !tagged_iterator heptacom.heptaconnect_normalizer
+            - !tagged_iterator heptacom.heptaconnect_denormalizer
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory:
         arguments:
