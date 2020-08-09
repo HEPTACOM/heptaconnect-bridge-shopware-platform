@@ -83,6 +83,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
         arguments:

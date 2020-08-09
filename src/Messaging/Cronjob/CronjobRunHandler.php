@@ -4,15 +4,19 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage;
+use Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
 
 class CronjobRunHandler
 {
     private CronjobStorage $cronjobStorage;
 
-    public function __construct(CronjobStorage $cronjobStorage)
+    private CronjobContextFactory $cronjobContextFactory;
+
+    public function __construct(CronjobStorage $cronjobStorage, CronjobContextFactory $cronjobContextFactory)
     {
         $this->cronjobStorage = $cronjobStorage;
+        $this->cronjobContextFactory = $cronjobContextFactory;
     }
 
     public function run(CronjobRunEntity $run): void
@@ -28,7 +32,7 @@ class CronjobRunHandler
             $handlerClass = $run->getHandler();
             /** @var CronjobHandlerContract $handler */
             $handler = new $handlerClass;
-            $handler->handle($run);
+            $handler->handle($this->cronjobContextFactory->createContext($run));
         } catch (\Throwable $throwable) {
             $this->cronjobStorage->markRunAsFailed($run->getId(), $throwable);
         }

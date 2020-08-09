@@ -30,6 +30,11 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
 
+    Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
