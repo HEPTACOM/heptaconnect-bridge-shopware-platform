@@ -126,4 +126,4 @@ services:
         public: true
         calls:
             - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Component\Webhook\WebhookService']]
-            - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Component\Cronjob\CronjobService']]
+            - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]
