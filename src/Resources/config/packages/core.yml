@@ -34,6 +34,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
@@ -46,6 +47,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
@@ -86,6 +88,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
