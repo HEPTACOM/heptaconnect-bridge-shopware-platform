@@ -239,8 +239,8 @@ class Storage extends StorageFallback implements StorageInterface
             }
 
             $insert[] = [
-                'externalId' => $mapping->getExternalId(),
                 'id' => Uuid::randomHex(),
+                'externalId' => $mapping->getExternalId(),
                 'mappingNode' => [
                     /* TODO upsert typeId and origin */
                     'id' => $mappingNodeKey->getUuid(),
@@ -250,6 +250,92 @@ class Storage extends StorageFallback implements StorageInterface
         }
 
         $this->mappings->create($insert, Context::createDefaultContext());
+    }
+
+    public function updateMappings(MappingCollection $mappings): void
+    {
+        $context = Context::createDefaultContext();
+        $update = [];
+
+        /** @var MappingInterface $mapping */
+        foreach ($mappings as $mapping) {
+            $portalNodeKey = $mapping->getPortalNodeKey();
+
+            if (!$portalNodeKey instanceof PortalNodeKey) {
+                continue;
+            }
+
+            $mappingNodeKey = $mapping->getMappingNodeKey();
+
+            if (!$mappingNodeKey instanceof MappingNodeKey) {
+                continue;
+            }
+
+            $criteria = (new Criteria())->addFilter(
+                new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
+                new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
+            );
+
+            $id = $this->mappings->searchIds($criteria, $context)->firstId();
+
+            if ($id === null) {
+                continue;
+            }
+
+            $update[] = [
+                'id' => $id,
+                'externalId' => $mapping->getExternalId(),
+            ];
+        }
+
+        if (empty($update)) {
+            return;
+        }
+
+        $this->mappings->update($update, $context);
+    }
+
+    public function deleteMappings(MappingCollection $mappings): void
+    {
+        $context = Context::createDefaultContext();
+        $delete = [];
+
+        /** @var MappingInterface $mapping */
+        foreach ($mappings as $mapping) {
+            $portalNodeKey = $mapping->getPortalNodeKey();
+
+            if (!$portalNodeKey instanceof PortalNodeKey) {
+                continue;
+            }
+
+            $mappingNodeKey = $mapping->getMappingNodeKey();
+
+            if (!$mappingNodeKey instanceof MappingNodeKey) {
+                continue;
+            }
+
+            $criteria = (new Criteria())->addFilter(
+                new EqualsFilter('mappingNodeId', $mappingNodeKey->getUuid()),
+                new EqualsFilter('portalNodeId', $portalNodeKey->getUuid())
+            );
+
+            $id = $this->mappings->searchIds($criteria, $context)->firstId();
+
+            if ($id === null) {
+                continue;
+            }
+
+            $delete[] = [
+                'id' => $id,
+                'externalId' => $mapping->getExternalId(),
+            ];
+        }
+
+        if (empty($delete)) {
+            return;
+        }
+
+        $this->mappings->delete($delete, $context);
     }
 
     public function addMappingException(MappingInterface $mapping, \Throwable $throwable): void
