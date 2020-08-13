@@ -223,7 +223,7 @@ class CronjobStorage
 
             $this->cronjobRuns->update([[
                 'id' => $cronjobRunId,
-                'throwableClass' => get_class($throwable),
+                'throwableClass' => \get_class($throwable),
                 'throwableMessage' => $throwable->getMessage(),
                 'throwableSerialized' => $serialize,
                 'throwableFile' => $throwable->getFile(),

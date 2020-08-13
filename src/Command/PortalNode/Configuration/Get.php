@@ -32,7 +32,7 @@ class Get extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKey = new PortalNodeKey((string) $input->getArgument('portal-id'));
-        $name = (string)$input->getArgument('name');
+        $name = (string) $input->getArgument('name');
         $path = \array_filter(\explode('.', $name), 'strlen');
 
         $value = $this->configurationService->getPortalNodeConfiguration($portalNodeKey) ?? [];

@@ -51,7 +51,7 @@ class CronjobRunEntity extends Entity implements CronjobInterface
 
     public function __construct()
     {
-        $this->queuedFor = date_create_from_format('U', '0');
+        $this->queuedFor = \date_create_from_format('U', '0');
     }
 
     /**

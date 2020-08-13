@@ -33,7 +33,7 @@ class CronjobEntity extends Entity implements CronjobInterface
 
     public function __construct()
     {
-        $this->queuedUntil = date_create_from_format('U', '0');
+        $this->queuedUntil = \date_create_from_format('U', '0');
     }
 
     public function getKey(): CronjobKeyInterface

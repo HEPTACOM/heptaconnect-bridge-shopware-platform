@@ -31,7 +31,7 @@ class CronjobRunHandler
         try {
             $handlerClass = $run->getHandler();
             /** @var CronjobHandlerContract $handler */
-            $handler = new $handlerClass;
+            $handler = new $handlerClass();
             $handler->handle($this->cronjobContextFactory->createContext($run));
         } catch (\Throwable $throwable) {
             $this->cronjobStorage->markRunAsFailed($run->getId(), $throwable);

@@ -618,6 +618,7 @@ class Storage extends StorageFallback implements StorageInterface
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             parent::setPortalStorageValue($portalNodeKey, $key, $value, $type);
+
             return;
         }
 
@@ -628,6 +629,7 @@ class Storage extends StorageFallback implements StorageInterface
     {
         if (!$portalNodeKey instanceof PortalNodeKey) {
             parent::unsetPortalStorageValue($portalNodeKey, $key);
+
             return;
         }
 

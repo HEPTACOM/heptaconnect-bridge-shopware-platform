@@ -40,7 +40,7 @@ class Set extends Command
         $jsonParsing = false;
 
         try {
-            $jsonValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+            $jsonValue = \json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
             $jsonParsing = true;
         } catch (\Throwable $exception) {
         }

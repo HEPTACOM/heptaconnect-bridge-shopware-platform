@@ -11,9 +11,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 
 class PortalNodeKeyValueStorage
 {
-    /**
-     * @var EntityRepositoryInterface
-     */
     private EntityRepositoryInterface $portalNodeStorages;
 
     public function __construct(EntityRepositoryInterface $portalNodeStorages)
