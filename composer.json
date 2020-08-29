@@ -24,6 +24,7 @@
         "heptacom/heptaconnect-dataset-base": "@dev",
         "heptacom/heptaconnect-portal-base": "@dev",
         "heptacom/heptaconnect-storage-base": "@dev",
+        "heptacom/heptaconnect-storage-shopware-dal": "@dev",
         "shopware/core": ">=6.2"
     },
     "require-dev": {

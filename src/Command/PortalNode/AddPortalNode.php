@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +42,7 @@ class AddPortalNode extends Command
 
         $portalNodeKey = $this->storage->addPortalNode($portalClass);
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             $io->error('An error occurred while creating a new portal node. The key does not match the expected instance.');
 
             return 1;

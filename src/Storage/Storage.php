@@ -15,8 +15,6 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
@@ -25,7 +23,11 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidMappingNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
+use Heptacom\HeptaConnect\Storage\Base\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\CronjobStorageKey;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\MappingNodeStorageKey;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -54,11 +56,11 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $portalNodes;
 
-    private KeyGenerator $keyGenerator;
-
     private CronjobStorage $cronjobStorage;
 
     private PortalNodeKeyValueStorage $portalNodeKeyValueStorage;
+
+    private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
         SystemConfigService $systemConfigService,
@@ -69,9 +71,9 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $errorMessages,
         EntityRepositoryInterface $webhooks,
         EntityRepositoryInterface $portalNodes,
-        KeyGenerator $keyGenerator,
         CronjobStorage $cronjobStorage,
-        PortalNodeKeyValueStorage $portalNodeKeyValueStorage
+        PortalNodeKeyValueStorage $portalNodeKeyValueStorage,
+        StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -81,14 +83,14 @@ class Storage extends StorageFallback implements StorageInterface
         $this->errorMessages = $errorMessages;
         $this->webhooks = $webhooks;
         $this->portalNodes = $portalNodes;
-        $this->keyGenerator = $keyGenerator;
         $this->cronjobStorage = $cronjobStorage;
         $this->portalNodeKeyValueStorage = $portalNodeKeyValueStorage;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getConfiguration($portalNodeKey);
         }
 
@@ -97,7 +99,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             parent::setConfiguration($portalNodeKey, $data);
 
             return;
@@ -117,7 +119,7 @@ class Storage extends StorageFallback implements StorageInterface
     {
         $context = Context::createDefaultContext();
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             throw new \Exception();
         }
 
@@ -148,7 +150,7 @@ class Storage extends StorageFallback implements StorageInterface
             return new MappingNodeStructCollection();
         }
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::createMappingNodes($datasetEntityClassNames, $portalNodeKey);
         }
 
@@ -188,11 +190,11 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function getMapping(MappingNodeKeyInterface $mappingNodeKey, PortalNodeKeyInterface $portalNodeKey): ?MappingInterface
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getMapping($mappingNodeKey, $portalNodeKey);
         }
 
-        if (!$mappingNodeKey instanceof MappingNodeKey) {
+        if (!$mappingNodeKey instanceof MappingNodeStorageKey) {
             return parent::getMapping($mappingNodeKey, $portalNodeKey);
         }
 
@@ -228,13 +230,13 @@ class Storage extends StorageFallback implements StorageInterface
         foreach ($mappings as $mapping) {
             $portalNodeKey = $mapping->getPortalNodeKey();
 
-            if (!$portalNodeKey instanceof PortalNodeKey) {
+            if (!$portalNodeKey instanceof PortalNodeStorageKey) {
                 continue;
             }
 
             $mappingNodeKey = $mapping->getMappingNodeKey();
 
-            if (!$mappingNodeKey instanceof MappingNodeKey) {
+            if (!$mappingNodeKey instanceof MappingNodeStorageKey) {
                 continue;
             }
 
@@ -261,13 +263,13 @@ class Storage extends StorageFallback implements StorageInterface
         foreach ($mappings as $mapping) {
             $portalNodeKey = $mapping->getPortalNodeKey();
 
-            if (!$portalNodeKey instanceof PortalNodeKey) {
+            if (!$portalNodeKey instanceof PortalNodeStorageKey) {
                 continue;
             }
 
             $mappingNodeKey = $mapping->getMappingNodeKey();
 
-            if (!$mappingNodeKey instanceof MappingNodeKey) {
+            if (!$mappingNodeKey instanceof MappingNodeStorageKey) {
                 continue;
             }
 
@@ -304,13 +306,13 @@ class Storage extends StorageFallback implements StorageInterface
         foreach ($mappings as $mapping) {
             $portalNodeKey = $mapping->getPortalNodeKey();
 
-            if (!$portalNodeKey instanceof PortalNodeKey) {
+            if (!$portalNodeKey instanceof PortalNodeStorageKey) {
                 continue;
             }
 
             $mappingNodeKey = $mapping->getMappingNodeKey();
 
-            if (!$mappingNodeKey instanceof MappingNodeKey) {
+            if (!$mappingNodeKey instanceof MappingNodeStorageKey) {
                 continue;
             }
 
@@ -393,7 +395,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeKeyCollection
     {
-        if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
+        if (!$sourcePortalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
         }
 
@@ -414,7 +416,7 @@ class Storage extends StorageFallback implements StorageInterface
             $entities = $fetchResult->getEntities();
             /** @var RouteEntity $entity */
             foreach ($entities as $entity) {
-                $result[] = new PortalNodeKey($entity->getTargetId());
+                $result[] = new PortalNodeStorageKey($entity->getTargetId());
             }
         }
 
@@ -426,13 +428,13 @@ class Storage extends StorageFallback implements StorageInterface
         PortalNodeKeyInterface $targetPortalNodeKey,
         string $entityClassName
     ): void {
-        if (!$sourcePortalNodeKey instanceof PortalNodeKey) {
+        if (!$sourcePortalNodeKey instanceof PortalNodeStorageKey) {
             parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
 
             return;
         }
 
-        if (!$targetPortalNodeKey instanceof PortalNodeKey) {
+        if (!$targetPortalNodeKey instanceof PortalNodeStorageKey) {
             parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
 
             return;
@@ -462,7 +464,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::createWebhook($portalNodeKey, $url, $handler);
         }
 
@@ -505,32 +507,11 @@ class Storage extends StorageFallback implements StorageInterface
         return null;
     }
 
-    public function generateKey(string $keyClassName): StorageKeyInterface
-    {
-        if ($keyClassName === PortalNodeKeyInterface::class) {
-            return $this->keyGenerator->generatePortalNodeKey();
-        }
-
-        if ($keyClassName === MappingNodeKeyInterface::class) {
-            return $this->keyGenerator->generateMappingNodeKey();
-        }
-
-        if ($keyClassName === WebhookKeyInterface::class) {
-            return $this->keyGenerator->generateWebhookKey();
-        }
-
-        if ($keyClassName === CronjobKey::class) {
-            return $this->keyGenerator->generateCronjobKey();
-        }
-
-        return parent::generateKey($keyClassName);
-    }
-
     public function getPortalNode(PortalNodeKeyInterface $portalNodeKey): string
     {
         $context = Context::createDefaultContext();
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getPortalNode($portalNodeKey);
         }
 
@@ -557,16 +538,16 @@ class Storage extends StorageFallback implements StorageInterface
 
         $ids = $this->portalNodes->searchIds($criteria, $context)->getIds();
 
-        return new PortalNodeKeyCollection(\array_map(fn (string $id) => new PortalNodeKey($id), $ids));
+        return new PortalNodeKeyCollection(\array_map(fn (string $id) => new PortalNodeStorageKey($id), $ids));
     }
 
     public function addPortalNode(string $className): PortalNodeKeyInterface
     {
         $context = Context::createDefaultContext();
 
-        $portalNodeKey = $this->generateKey(PortalNodeKeyInterface::class);
+        $portalNodeKey = $this->storageKeyGenerator->generateKey(PortalNodeKeyInterface::class);
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::addPortalNode($className);
         }
 
@@ -582,7 +563,7 @@ class Storage extends StorageFallback implements StorageInterface
     {
         $context = Context::createDefaultContext();
 
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             parent::removePortalNode($portalNodeKey);
 
             return;
@@ -596,7 +577,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function createCronjob(PortalNodeKeyInterface $portalNodeKey, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::createCronjob($portalNodeKey, $cronExpression, $handler, $nextExecution);
         }
 
@@ -605,7 +586,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function removeCronjob(CronjobKeyInterface $cronjobKey): void
     {
-        if (!$cronjobKey instanceof CronjobKey) {
+        if (!$cronjobKey instanceof CronjobStorageKey) {
             parent::removeCronjob($cronjobKey);
 
             return;
@@ -616,7 +597,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             parent::setPortalStorageValue($portalNodeKey, $key, $value, $type);
 
             return;
@@ -627,7 +608,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             parent::unsetPortalStorageValue($portalNodeKey, $key);
 
             return;
@@ -638,7 +619,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getPortalStorageValue($portalNodeKey, $key);
         }
 
@@ -653,7 +634,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::getPortalStorageValue($portalNodeKey, $key);
         }
 
@@ -668,7 +649,7 @@ class Storage extends StorageFallback implements StorageInterface
 
     public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool
     {
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             return parent::hasPortalStorageValue($portalNodeKey, $key);
         }
 
@@ -678,12 +659,12 @@ class Storage extends StorageFallback implements StorageInterface
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string
     {
         $portalNodeKey = $mapping->getPortalNodeKey();
-        if (!$portalNodeKey instanceof PortalNodeKey) {
+        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
             throw new InvalidPortalNodeKeyException();
         }
 
         $mappingNodeKey = $mapping->getMappingNodeKey();
-        if (!$mappingNodeKey instanceof MappingNodeKey) {
+        if (!$mappingNodeKey instanceof MappingNodeStorageKey) {
             throw new InvalidMappingNodeKeyException();
         }
 

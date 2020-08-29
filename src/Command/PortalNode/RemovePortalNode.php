@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +31,7 @@ class RemovePortalNode extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $portalNodeKey = new PortalNodeKey((string) $input->getArgument('portal-id'));
+        $portalNodeKey = new PortalNodeStorageKey((string) $input->getArgument('portal-id'));
         $this->storage->removePortalNode($portalNodeKey);
 
         $io->success('The portal node was successfully removed.');

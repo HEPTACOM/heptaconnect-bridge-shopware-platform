@@ -1,5 +1,6 @@
 imports:
     - { resource: packages/core.yml }
+    - { resource: packages/storage-shopware-dal.yml }
 
 services:
     _defaults:
@@ -96,8 +97,6 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator'
             - '@heptaconnect_cronjob_run.repository'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator: ~
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage:
         arguments:
             - '@heptaconnect_portal_node_storage.repository'
@@ -112,7 +111,7 @@ services:
             - '@heptaconnect_error_message.repository'
             - '@heptaconnect_webhook.repository'
             - '@heptaconnect_portal_node.repository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage'
 

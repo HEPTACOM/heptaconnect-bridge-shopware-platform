@@ -2,11 +2,11 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\WebhookKey;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\WebhookKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\WebhookStorageKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -29,7 +29,7 @@ class WebhookEntity extends Entity implements WebhookInterface
 
     public function getKey(): WebhookKeyInterface
     {
-        return new WebhookKey($this->id);
+        return new WebhookStorageKey($this->id);
     }
 
     public function getUrl(): string
@@ -81,7 +81,7 @@ class WebhookEntity extends Entity implements WebhookInterface
 
     public function getPortalNodeKey(): PortalNodeKeyInterface
     {
-        return new PortalNodeKey($this->portalNodeId);
+        return new PortalNodeStorageKey($this->portalNodeId);
     }
 
     public function setPortalNodeId(string $portalNodeId): self

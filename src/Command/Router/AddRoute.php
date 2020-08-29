@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,8 +36,8 @@ class AddRoute extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $source = new PortalNodeKey((string) $input->getArgument('source'));
-        $target = new PortalNodeKey((string) $input->getArgument('target'));
+        $source = new PortalNodeStorageKey((string) $input->getArgument('source'));
+        $target = new PortalNodeStorageKey((string) $input->getArgument('target'));
         $type = (string) $input->getArgument('type');
 
         $this->storage->getPortalNode($source);

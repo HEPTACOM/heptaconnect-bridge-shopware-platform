@@ -2,9 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKey;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,7 +54,7 @@ class ListPortalNodes extends Command
 
         $rows = [];
 
-        /** @var PortalNodeKey $portalNodeKey */
+        /** @var PortalNodeStorageKey $portalNodeKey */
         foreach ($portalNodeKeys as $portalNodeKey) {
             $rows[] = [
                 'portal-id' => $portalNodeKey->getUuid(),
