@@ -19,7 +19,7 @@ services:
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory:
         arguments:

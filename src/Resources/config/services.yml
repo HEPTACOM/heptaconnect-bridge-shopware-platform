@@ -103,7 +103,6 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
         arguments:
-            - '@Shopware\Core\System\SystemConfig\SystemConfigService'
             - '@heptaconnect_dataset_entity_type.repository'
             - '@heptaconnect_mapping_node.repository'
             - '@heptaconnect_mapping.repository'

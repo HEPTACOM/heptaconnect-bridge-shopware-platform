@@ -1,2 +1,6 @@
 services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage:
+        arguments:
+            - '@Shopware\Core\System\SystemConfig\SystemConfigService'

@@ -10,14 +10,9 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator;
-use PHPUnit\Framework\Constraint\IsType;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 /**
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
@@ -54,137 +49,11 @@ class StorageTest extends TestCase
         $this->kernel->shutdown();
     }
 
-    public function testSetConfiguration(): void
-    {
-        /** @var SystemConfigService&MockObject $systemConfigService */
-        $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects(static::once())
-            ->method('set')
-            ->with(
-                static::logicalAnd(
-                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
-                ),
-                static::logicalAnd(
-                    static::isType(IsType::TYPE_ARRAY),
-                    static::arrayHasKey('foo')
-                )
-            );
-
-        $storage = new Storage(
-            $systemConfigService,
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class)
-        );
-        $storage->setConfiguration(new PortalNodeStorageKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
-    }
-
-    public function testSetConfigurationNonArrayStored(): void
-    {
-        /** @var SystemConfigService&MockObject $systemConfigService */
-        $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects(static::once())
-            ->method('get')
-            ->with(static::logicalAnd(
-                static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
-            ))
-            ->willReturn('party');
-        $systemConfigService->expects(static::once())
-            ->method('set')
-            ->with(
-                static::logicalAnd(
-                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
-                ),
-                static::logicalAnd(
-                    static::isType(IsType::TYPE_ARRAY),
-                    static::arrayHasKey('foo'),
-                    static::arrayHasKey('value')
-                )
-            )
-        ;
-
-        $storage = new Storage(
-            $systemConfigService,
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class)
-        );
-        $storage->setConfiguration(new PortalNodeStorageKey('2281f7b9f4e847d5b0bc084288b871b1'), ['foo' => 'bar']);
-    }
-
-    public function testGetConfiguration(): void
-    {
-        /** @var SystemConfigService&MockObject $systemConfigService */
-        $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects(static::once())
-            ->method('get')
-            ->with(
-                static::logicalAnd(
-                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
-                )
-            )
-            ->willReturn(['foo' => 'bar']);
-
-        $storage = new Storage(
-            $systemConfigService,
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class)
-        );
-        $result = $storage->getConfiguration(new PortalNodeStorageKey('2281f7b9f4e847d5b0bc084288b871b1'));
-        static::assertEquals(['foo' => 'bar'], $result);
-    }
-
-    public function testGetConfigurationNonArray(): void
-    {
-        /** @var SystemConfigService&MockObject $systemConfigService */
-        $systemConfigService = $this->createMock(SystemConfigService::class);
-        $systemConfigService->expects(static::once())
-            ->method('get')
-            ->with(
-                static::logicalAnd(
-                    static::stringContains('2281f7b9f4e847d5b0bc084288b871b1'),
-                    static::logicalNot(static::equalTo('2281f7b9f4e847d5b0bc084288b871b1'))
-                )
-            )
-            ->willReturn('foobar');
-
-        $storage = new Storage(
-            $systemConfigService,
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class),
-            $this->createMock(EntityRepositoryInterface::class)
-        );
-        $result = $storage->getConfiguration(new PortalNodeStorageKey('2281f7b9f4e847d5b0bc084288b871b1'));
-        static::assertEquals(['value' => 'foobar'], $result);
-    }
-
     public function testCreateMappingNodeByType(): void
     {
         /** @var DefinitionInstanceRegistry $definitionRegistry */
         $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
         $storage = new Storage(
-            $this->createMock(SystemConfigService::class),
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
@@ -211,7 +80,6 @@ class StorageTest extends TestCase
         /** @var DefinitionInstanceRegistry $definitionRegistry */
         $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
         $storage = new Storage(
-            $this->createMock(SystemConfigService::class),
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
@@ -264,31 +132,5 @@ class StorageTest extends TestCase
         $authentic = new PortalNodeStorageKey('4511b131e78b49aba3f850a7af1dc845');
         $fake = $this->createMock(PortalNodeKeyInterface::class);
         static::assertFalse($authentic->equals($fake));
-    }
-
-    public function testResetStorage(): void
-    {
-        /** @var DefinitionInstanceRegistry $definitionRegistry */
-        $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
-        $storage = new Storage(
-            $this->createMock(SystemConfigService::class),
-            $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
-            $definitionRegistry->getRepository('heptaconnect_mapping_node'),
-            $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route'),
-            $definitionRegistry->getRepository('heptaconnect_error_message'),
-            $definitionRegistry->getRepository('heptaconnect_webhook'),
-            $definitionRegistry->getRepository('heptaconnect_portal_node')
-        );
-        $keyGenerator = new StorageKeyGenerator();
-
-        /** @var PortalNodeKeyInterface $portalNodeKey */
-        $portalNodeKey = $keyGenerator->generateKey(PortalNodeKeyInterface::class);
-        $storage->setConfiguration($portalNodeKey, ['test' => true]);
-        $value = $storage->getConfiguration($portalNodeKey);
-        static::assertArrayHasKey('test', $value);
-        static::assertEquals(true, $value['test']);
-        $storage->setConfiguration($portalNodeKey, null);
-        static::assertCount(0, $storage->getConfiguration($portalNodeKey));
     }
 }

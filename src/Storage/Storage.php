@@ -36,12 +36,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class Storage extends StorageFallback implements StorageInterface
 {
-    private SystemConfigService $systemConfigService;
-
     private EntityRepositoryInterface $mappingNodes;
 
     private EntityRepositoryInterface $datasetEntityTypes;
@@ -63,7 +60,6 @@ class Storage extends StorageFallback implements StorageInterface
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
-        SystemConfigService $systemConfigService,
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
         EntityRepositoryInterface $mappings,
@@ -75,7 +71,6 @@ class Storage extends StorageFallback implements StorageInterface
         PortalNodeKeyValueStorage $portalNodeKeyValueStorage,
         StorageKeyGeneratorContract $storageKeyGenerator
     ) {
-        $this->systemConfigService = $systemConfigService;
         $this->datasetEntityTypes = $datasetEntityTypes;
         $this->mappingNodes = $mappingNodes;
         $this->mappings = $mappings;
@@ -86,33 +81,6 @@ class Storage extends StorageFallback implements StorageInterface
         $this->cronjobStorage = $cronjobStorage;
         $this->portalNodeKeyValueStorage = $portalNodeKeyValueStorage;
         $this->storageKeyGenerator = $storageKeyGenerator;
-    }
-
-    public function getConfiguration(PortalNodeKeyInterface $portalNodeKey): array
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::getConfiguration($portalNodeKey);
-        }
-
-        return $this->getConfigurationInternal($portalNodeKey->getUuid());
-    }
-
-    public function setConfiguration(PortalNodeKeyInterface $portalNodeKey, ?array $data): void
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            parent::setConfiguration($portalNodeKey, $data);
-
-            return;
-        }
-
-        $config = null;
-
-        if (!\is_null($data)) {
-            $value = $this->getConfigurationInternal($portalNodeKey->getUuid());
-            $config = \array_replace_recursive($value, $data);
-        }
-
-        $this->systemConfigService->set($this->buildConfigurationPrefix($portalNodeKey->getUuid()), $config);
     }
 
     public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface
@@ -674,27 +642,6 @@ class Storage extends StorageFallback implements StorageInterface
         );
 
         return $this->mappings->searchIds($criteria, $context)->firstId();
-    }
-
-    private function buildConfigurationPrefix(string $portalNodeId): string
-    {
-        return \sprintf('heptacom.heptaConnect.portalNodeConfiguration.%s', $portalNodeId);
-    }
-
-    private function getConfigurationInternal(string $portalNodeId): array
-    {
-        /** @var mixed|array|null $value */
-        $value = $this->systemConfigService->get($this->buildConfigurationPrefix($portalNodeId));
-
-        if (\is_null($value)) {
-            return [];
-        }
-
-        if (\is_array($value)) {
-            return $value;
-        }
-
-        return ['value' => $value];
     }
 
     /**
