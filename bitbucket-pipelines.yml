@@ -17,7 +17,8 @@ definitions:
                     - .build/**
                     - vendor/**
                     - composer.lock
-
+                services:
+                    - mysql
 pipelines:
     default:
         -   step:
