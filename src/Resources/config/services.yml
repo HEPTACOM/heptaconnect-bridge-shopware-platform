@@ -94,7 +94,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage:
         arguments:
             - '@heptaconnect_cronjob.repository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\KeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_cronjob_run.repository'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage:
@@ -110,9 +110,9 @@ services:
             - '@heptaconnect_error_message.repository'
             - '@heptaconnect_webhook.repository'
             - '@heptaconnect_portal_node.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:

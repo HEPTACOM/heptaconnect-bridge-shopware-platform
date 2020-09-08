@@ -7,7 +7,9 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunCollection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
@@ -23,13 +25,13 @@ class CronjobStorage
 {
     private EntityRepositoryInterface $cronjobs;
 
-    private KeyGenerator $keyGenerator;
+    private StorageKeyGenerator $keyGenerator;
 
     private EntityRepositoryInterface $cronjobRuns;
 
     public function __construct(
         EntityRepositoryInterface $cronjobs,
-        KeyGenerator $keyGenerator,
+        StorageKeyGenerator $keyGenerator,
         EntityRepositoryInterface $cronjobRuns
     ) {
         $this->cronjobs = $cronjobs;
@@ -40,7 +42,7 @@ class CronjobStorage
     public function create(string $portalNodeId, string $cronExpression, string $handler, \DateTimeInterface $nextExecution, ?array $payload = null): CronjobInterface
     {
         $context = Context::createDefaultContext();
-        $key = $this->keyGenerator->generateCronjobKey();
+        $key = $this->keyGenerator->generateKey(CronjobKeyInterface::class);
 
         $this->cronjobs->create([[
             'id' => $key->getUuid(),
