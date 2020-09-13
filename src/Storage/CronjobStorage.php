@@ -2,13 +2,13 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobCollection;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunCollection;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobCollection;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunCollection;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
@@ -62,7 +62,7 @@ class CronjobStorage
     }
 
     /**
-     * @psalm-return iterable<array-key, \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobEntity>
+     * @psalm-return iterable<array-key, \Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobEntity>
      *
      * @return CronjobEntity[]
      */
@@ -152,7 +152,7 @@ class CronjobStorage
     }
 
     /**
-     * @psalm-return iterable<array-key, \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity>
+     * @psalm-return iterable<array-key, \Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity>
      *
      * @return CronjobRunEntity[]
      */

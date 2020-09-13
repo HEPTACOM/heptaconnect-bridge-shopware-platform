@@ -7,10 +7,6 @@ services:
         autoconfigure: true
 
     _instanceof:
-        Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition:
-            tags:
-                - { name: shopware.entity.definition }
-
         Symfony\Component\Console\Command\Command:
             tags:
                 - { name: console.command }

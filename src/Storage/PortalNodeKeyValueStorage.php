@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeStorageCollection;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeStorageEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageCollection;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageEntity;
 use Ramsey\Uuid\Uuid;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;

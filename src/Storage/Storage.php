@@ -2,13 +2,6 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeStorageEntity;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteCollection;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\RouteEntity;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
@@ -25,6 +18,13 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeCollection;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageEntity;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteCollection;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\CronjobStorageKey;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\MappingNodeStorageKey;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;

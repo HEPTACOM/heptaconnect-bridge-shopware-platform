@@ -2,10 +2,10 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\CronjobRunEntity;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage;
 use Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
+use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
 
 class CronjobRunHandler
 {
