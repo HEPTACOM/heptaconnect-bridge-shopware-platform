@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,10 +18,13 @@ class ListPortalNodes extends Command
 
     private StorageInterface $storage;
 
-    public function __construct(StorageInterface $storage)
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(StorageInterface $storage, StorageKeyGeneratorContract $storageKeyGenerator)
     {
         parent::__construct();
         $this->storage = $storage;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure()
@@ -57,7 +61,7 @@ class ListPortalNodes extends Command
         /** @var PortalNodeStorageKey $portalNodeKey */
         foreach ($portalNodeKeys as $portalNodeKey) {
             $rows[] = [
-                'portal-id' => $portalNodeKey->getUuid(),
+                'portal-id' => $this->storageKeyGenerator->serialize($portalNodeKey),
                 'portal-class' => $this->storage->getPortalNode($portalNodeKey),
             ];
         }

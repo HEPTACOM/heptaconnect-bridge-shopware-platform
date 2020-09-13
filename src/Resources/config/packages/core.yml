@@ -43,6 +43,7 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@messenger.bus.shopware'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
@@ -78,6 +79,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:
@@ -97,6 +99,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContext'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Router\Router:
         arguments:

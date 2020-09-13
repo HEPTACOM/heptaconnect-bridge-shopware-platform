@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,11 +23,17 @@ class ListRoutes extends Command
 
     private PortalRegistryInterface $portalRegistry;
 
-    public function __construct(StorageInterface $storage, PortalRegistryInterface $portalRegistry)
-    {
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(
+        StorageInterface $storage,
+        PortalRegistryInterface $portalRegistry,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
         $this->storage = $storage;
         $this->portalRegistry = $portalRegistry;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -80,8 +87,8 @@ class ListRoutes extends Command
 
                     $targets[] = [
                         'type' => $type,
-                        'source' => $portalNodeKey->getUuid(),
-                        'target' => $target->getUuid(),
+                        'source' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                        'target' => $this->storageKeyGenerator->serialize($target),
                     ];
                 }
             }
