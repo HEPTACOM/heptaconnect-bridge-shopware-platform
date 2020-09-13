@@ -2,20 +2,28 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobRunKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
 use Shopware\Core\Framework\MessageQueue\Handler\AbstractMessageHandler;
 
 class CronjobRunMessageHandler extends AbstractMessageHandler
 {
-    private CronjobStorage $cronjobStorage;
+    private CronjobRunRepositoryContract $cronjobRunRepositoryContract;
 
     private CronjobRunHandler $runHandler;
 
-    public function __construct(CronjobStorage $cronjobStorage, CronjobRunHandler $runHandler)
-    {
-        $this->cronjobStorage = $cronjobStorage;
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(
+        CronjobRunRepositoryContract $cronjobRunRepositoryContract,
+        CronjobRunHandler $runHandler,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
+        $this->cronjobRunRepositoryContract = $cronjobRunRepositoryContract;
         $this->runHandler = $runHandler;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     public function handle($message): void
@@ -24,7 +32,14 @@ class CronjobRunMessageHandler extends AbstractMessageHandler
             return;
         }
 
-        $run = $this->cronjobStorage->getRun($message->getRunId());
+        $runKey = $this->storageKeyGenerator->deserialize($message->getRunId());
+
+        if (!$runKey instanceof CronjobRunKeyInterface) {
+            // TODO log cases
+            return;
+        }
+
+        $run = $this->cronjobRunRepositoryContract->read($runKey);
 
         if (!$run instanceof CronjobRunEntity) {
             // TODO log cases

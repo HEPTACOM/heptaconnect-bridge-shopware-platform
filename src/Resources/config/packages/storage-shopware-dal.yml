@@ -28,6 +28,17 @@ services:
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition: ~
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository:
+        arguments:
+            - '@heptaconnect_cronjob.repository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository:
+        arguments:
+            - '@heptaconnect_cronjob.repository'
+            - '@heptaconnect_cronjob_run.repository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
             - '@heptaconnect_portal_node_storage.repository'

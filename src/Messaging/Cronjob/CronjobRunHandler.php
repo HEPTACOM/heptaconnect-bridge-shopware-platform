@@ -2,31 +2,33 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage;
 use Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
+use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobRunInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
 
 class CronjobRunHandler
 {
-    private CronjobStorage $cronjobStorage;
+    private CronjobRunRepositoryContract $cronjobRunRepository;
 
     private CronjobContextFactory $cronjobContextFactory;
 
-    public function __construct(CronjobStorage $cronjobStorage, CronjobContextFactory $cronjobContextFactory)
-    {
-        $this->cronjobStorage = $cronjobStorage;
+    public function __construct(
+        CronjobRunRepositoryContract $cronjobRunRepository,
+        CronjobContextFactory $cronjobContextFactory
+    ) {
+        $this->cronjobRunRepository = $cronjobRunRepository;
         $this->cronjobContextFactory = $cronjobContextFactory;
     }
 
-    public function run(CronjobRunEntity $run): void
+    public function run(CronjobRunInterface $run): void
     {
         if ($run->getStartedAt() instanceof \DateTimeInterface) {
             // TODO log
             return;
         }
 
-        $this->cronjobStorage->markRunAsStarted($run->getId(), \date_create());
+        $this->cronjobRunRepository->updateStartedAt($run->getRunKey(), \date_create());
 
         try {
             $handlerClass = $run->getHandler();
@@ -34,9 +36,9 @@ class CronjobRunHandler
             $handler = new $handlerClass();
             $handler->handle($this->cronjobContextFactory->createContext($run));
         } catch (\Throwable $throwable) {
-            $this->cronjobStorage->markRunAsFailed($run->getId(), $throwable);
+            $this->cronjobRunRepository->updateFailReason($run->getRunKey(), $throwable);
         }
 
-        $this->cronjobStorage->markRunAsFinished($run->getId(), \date_create());
+        $this->cronjobRunRepository->updateFinishedAt($run->getRunKey(), \date_create());
     }
 }

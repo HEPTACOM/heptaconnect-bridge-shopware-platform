@@ -4,7 +4,10 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob;
 
 use Cron\CronExpression;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessage;
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage;
+use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,14 +22,24 @@ class Queue extends Command
 {
     protected static $defaultName = 'heptaconnect:cronjob:queue';
 
-    private CronjobStorage $cronjobStorage;
+    private CronjobRepositoryContract $cronjobRepository;
+
+    private CronjobRunRepositoryContract $cronjobRunRepository;
+
+    private StorageKeyGeneratorContract $storageKeyGenerator;
 
     private MessageBusInterface $messageBus;
 
-    public function __construct(CronjobStorage $cronjobStorage, MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        CronjobRepositoryContract $cronjobRepository,
+        CronjobRunRepositoryContract $cronjobRunRepository,
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        MessageBusInterface $messageBus
+    ) {
         parent::__construct();
-        $this->cronjobStorage = $cronjobStorage;
+        $this->cronjobRepository = $cronjobRepository;
+        $this->cronjobRunRepository = $cronjobRunRepository;
+        $this->storageKeyGenerator = $storageKeyGenerator;
         $this->messageBus = $messageBus;
     }
 
@@ -48,7 +61,13 @@ class Queue extends Command
         $forUntil = (clone $now)->add(new \DateInterval(\sprintf('PT%dS', $for)));
         $force = (bool) $input->getOption('force');
 
-        foreach ($this->cronjobStorage->iterateNextToQueue($force ? null : $forUntil) as $cronjob) {
+        foreach ($this->cronjobRepository->listExecutables($force ? null : $forUntil) as $cronjobKey) {
+            $cronjob = $this->cronjobRepository->read($cronjobKey);
+
+            if (!$cronjob instanceof CronjobInterface) {
+                continue;
+            }
+
             $cronExpr = CronExpression::factory($cronjob->getCronExpression());
             $nextRun = null;
 
@@ -65,16 +84,16 @@ class Queue extends Command
 
             while ($nextRun < $forUntil) {
                 ++$times;
-                $runId = $this->cronjobStorage->createRun($cronjob->getId(), $nextRun);
+                $runKey = $this->cronjobRunRepository->create($cronjobKey, $nextRun);
                 $this->messageBus->dispatch(
-                    Envelope::wrap(new CronjobRunMessage($runId))
+                    Envelope::wrap(new CronjobRunMessage($this->storageKeyGenerator->serialize($runKey)))
                         ->with(new DelayStamp(($nextRun->getTimestamp() - $now->getTimestamp()) * 1000))
                 );
                 $nextRun = $cronExpr->getNextRunDate($nextRun);
             }
 
-            $this->cronjobStorage->markAsQueuedUntil($cronjob->getId(), $forUntil);
-            $io->success(\sprintf('Queued cronjob %s %d times', $cronjob->getId(), $times));
+            $this->cronjobRepository->updateNextExecutionTime($cronjobKey, $forUntil);
+            $io->success(\sprintf('Queued cronjob %s %d times', $this->storageKeyGenerator->serialize($cronjobKey), $times));
         }
 
         return 0;

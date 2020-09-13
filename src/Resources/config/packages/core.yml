@@ -29,7 +29,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:

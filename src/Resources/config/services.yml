@@ -46,12 +46,14 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
             - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
@@ -82,19 +84,14 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage:
-        arguments:
-            - '@heptaconnect_cronjob.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_cronjob_run.repository'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
         arguments:
@@ -105,8 +102,6 @@ services:
             - '@heptaconnect_error_message.repository'
             - '@heptaconnect_webhook.repository'
             - '@heptaconnect_portal_node.repository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\CronjobStorage'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
