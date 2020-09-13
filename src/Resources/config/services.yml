@@ -93,10 +93,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_cronjob_run.repository'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\PortalNodeKeyValueStorage:
-        arguments:
-            - '@heptaconnect_portal_node_storage.repository'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
         arguments:
             - '@heptaconnect_dataset_entity_type.repository'

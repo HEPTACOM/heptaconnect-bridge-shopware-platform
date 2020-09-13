@@ -4,8 +4,6 @@ services:
             tags:
                 - { name: shopware.entity.definition }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage:
         arguments:
             - '@Shopware\Core\System\SystemConfig\SystemConfigService'
@@ -29,3 +27,9 @@ services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition: ~
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition: ~
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
+        arguments:
+            - '@heptaconnect_portal_node_storage.repository'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~

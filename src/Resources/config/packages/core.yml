@@ -25,6 +25,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
@@ -81,7 +82,7 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveContext:
         arguments:
@@ -121,6 +122,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
         arguments:

@@ -22,7 +22,6 @@ use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetE
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeEntity;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteCollection;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\CronjobStorageKey;
@@ -55,8 +54,6 @@ class Storage extends StorageFallback implements StorageInterface
 
     private CronjobStorage $cronjobStorage;
 
-    private PortalNodeKeyValueStorage $portalNodeKeyValueStorage;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
@@ -68,7 +65,6 @@ class Storage extends StorageFallback implements StorageInterface
         EntityRepositoryInterface $webhooks,
         EntityRepositoryInterface $portalNodes,
         CronjobStorage $cronjobStorage,
-        PortalNodeKeyValueStorage $portalNodeKeyValueStorage,
         StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         $this->datasetEntityTypes = $datasetEntityTypes;
@@ -79,7 +75,6 @@ class Storage extends StorageFallback implements StorageInterface
         $this->webhooks = $webhooks;
         $this->portalNodes = $portalNodes;
         $this->cronjobStorage = $cronjobStorage;
-        $this->portalNodeKeyValueStorage = $portalNodeKeyValueStorage;
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
@@ -563,72 +558,11 @@ class Storage extends StorageFallback implements StorageInterface
         $this->cronjobStorage->remove($cronjobKey->getUuid());
     }
 
-    public function setPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key, string $value, string $type): void
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            parent::setPortalStorageValue($portalNodeKey, $key, $value, $type);
-
-            return;
-        }
-
-        $this->portalNodeKeyValueStorage->set($portalNodeKey->getUuid(), $key, $value, $type);
-    }
-
-    public function unsetPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): void
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            parent::unsetPortalStorageValue($portalNodeKey, $key);
-
-            return;
-        }
-
-        $this->portalNodeKeyValueStorage->delete($portalNodeKey->getUuid(), $key);
-    }
-
-    public function getPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): string
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::getPortalStorageValue($portalNodeKey, $key);
-        }
-
-        $result = $this->portalNodeKeyValueStorage->get($portalNodeKey->getUuid(), $key);
-
-        if (!$result instanceof PortalNodeStorageEntity) {
-            throw new NotFoundException();
-        }
-
-        return $result->getValue();
-    }
-
-    public function getPortalStorageType(PortalNodeKeyInterface $portalNodeKey, string $key): string
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::getPortalStorageValue($portalNodeKey, $key);
-        }
-
-        $result = $this->portalNodeKeyValueStorage->get($portalNodeKey->getUuid(), $key);
-
-        if (!$result instanceof PortalNodeStorageEntity) {
-            throw new NotFoundException();
-        }
-
-        return $result->getType();
-    }
-
-    public function hasPortalStorageValue(PortalNodeKeyInterface $portalNodeKey, string $key): bool
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::hasPortalStorageValue($portalNodeKey, $key);
-        }
-
-        return $this->portalNodeKeyValueStorage->has($portalNodeKey->getUuid(), $key);
-    }
-
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string
     {
         $portalNodeKey = $mapping->getPortalNodeKey();
         if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            throw new InvalidPortalNodeKeyException();
+            throw new InvalidPortalNodeKeyException($portalNodeKey);
         }
 
         $mappingNodeKey = $mapping->getMappingNodeKey();
