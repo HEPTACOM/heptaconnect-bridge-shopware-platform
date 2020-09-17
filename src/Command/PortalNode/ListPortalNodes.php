@@ -3,9 +3,8 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,14 +15,16 @@ class ListPortalNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:list';
 
-    private StorageInterface $storage;
+    private PortalNodeRepositoryContract $portalNodeRepository;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    public function __construct(StorageInterface $storage, StorageKeyGeneratorContract $storageKeyGenerator)
-    {
+    public function __construct(
+        PortalNodeRepositoryContract $portalNodeRepository,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
-        $this->storage = $storage;
+        $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
@@ -48,22 +49,22 @@ class ListPortalNodes extends Command
             $portalClass = null;
         }
 
-        $portalNodeKeys = $this->storage->listPortalNodes($portalClass);
+        $rows = [];
+        $iterator = \is_null($portalClass) ?
+            $this->portalNodeRepository->listAll() :
+            $this->portalNodeRepository->listByClass($portalClass);
 
-        if ($portalNodeKeys->count() === 0) {
+        foreach ($iterator as $portalNodeKey) {
+            $rows[] = [
+                'portal-id' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                'portal-class' => $this->portalNodeRepository->read($portalNodeKey),
+            ];
+        }
+
+        if (empty($rows)) {
             $io->note('There are no portal nodes of the selected portal.');
 
             return 0;
-        }
-
-        $rows = [];
-
-        /** @var PortalNodeStorageKey $portalNodeKey */
-        foreach ($portalNodeKeys as $portalNodeKey) {
-            $rows[] = [
-                'portal-id' => $this->storageKeyGenerator->serialize($portalNodeKey),
-                'portal-class' => $this->storage->getPortalNode($portalNodeKey),
-            ];
         }
 
         $io->table(\array_keys(\current($rows)), $rows);

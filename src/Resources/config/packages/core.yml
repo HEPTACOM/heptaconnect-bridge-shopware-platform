@@ -77,7 +77,7 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 

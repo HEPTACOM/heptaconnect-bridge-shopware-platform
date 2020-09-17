@@ -3,9 +3,8 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,14 +15,16 @@ class AddPortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:add';
 
-    private StorageInterface $storage;
+    private PortalNodeRepositoryContract $portalNodeRepository;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    public function __construct(StorageInterface $storage, StorageKeyGeneratorContract $storageKeyGenerator)
-    {
+    public function __construct(
+        PortalNodeRepositoryContract $portalNodeRepository,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
-        $this->storage = $storage;
+        $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
@@ -44,13 +45,7 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        $portalNodeKey = $this->storage->addPortalNode($portalClass);
-
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            $io->error('An error occurred while creating a new portal node. The key does not match the expected instance.');
-
-            return 1;
-        }
+        $portalNodeKey = $this->portalNodeRepository->create($portalClass);
 
         $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($portalNodeKey)));
 

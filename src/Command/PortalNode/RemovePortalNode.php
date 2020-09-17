@@ -2,8 +2,9 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,12 +15,17 @@ class RemovePortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:remove';
 
-    private StorageInterface $storage;
+    private PortalNodeRepositoryContract $portalNodeRepository;
 
-    public function __construct(StorageInterface $storage)
-    {
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(
+        PortalNodeRepositoryContract $portalNodeRepository,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
-        $this->storage = $storage;
+        $this->portalNodeRepository = $portalNodeRepository;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
@@ -30,9 +36,15 @@ class RemovePortalNode extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+        $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-id'));
 
-        $portalNodeKey = new PortalNodeStorageKey((string) $input->getArgument('portal-id'));
-        $this->storage->removePortalNode($portalNodeKey);
+        if (!$key instanceof PortalNodeKeyInterface) {
+            $io->error('The portal-id is not a portalNodeKey');
+
+            return 1;
+        }
+
+        $this->portalNodeRepository->delete($key);
 
         $io->success('The portal node was successfully removed.');
 

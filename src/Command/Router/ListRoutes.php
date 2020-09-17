@@ -7,6 +7,7 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
@@ -21,17 +22,21 @@ class ListRoutes extends Command
 
     private StorageInterface $storage;
 
+    private PortalNodeRepositoryContract $portalNodeRepository;
+
     private PortalRegistryInterface $portalRegistry;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
         StorageInterface $storage,
+        PortalNodeRepositoryContract $portalNodeRepository,
         PortalRegistryInterface $portalRegistry,
         StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
         $this->storage = $storage;
+        $this->portalNodeRepository = $portalNodeRepository;
         $this->portalRegistry = $portalRegistry;
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
@@ -39,12 +44,9 @@ class ListRoutes extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-
         $types = [];
-        $portalNodeKeys = $this->storage->listPortalNodes();
 
-        /** @var PortalNodeKeyInterface $portalNodeKey */
-        foreach ($portalNodeKeys as $portalNodeKey) {
+        foreach ($this->portalNodeRepository->listAll() as $portalNodeKey) {
             $portal = $this->portalRegistry->getPortal($portalNodeKey);
 
             /** @var ExplorerContract $explorer */
@@ -72,8 +74,7 @@ class ListRoutes extends Command
         $types = \array_keys($types);
         $targets = [];
 
-        /** @var PortalNodeKeyInterface $portalNodeKey */
-        foreach ($portalNodeKeys as $portalNodeKey) {
+        foreach ($this->portalNodeRepository->listAll() as $portalNodeKey) {
             if (!$portalNodeKey instanceof PortalNodeStorageKey) {
                 continue;
             }
