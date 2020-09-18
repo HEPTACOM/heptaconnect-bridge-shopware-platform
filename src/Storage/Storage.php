@@ -7,19 +7,16 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidMappingNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
-use Heptacom\HeptaConnect\Storage\Base\Exception\NotFoundException;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
 use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeEntity;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteCollection;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\MappingNodeStorageKey;
@@ -45,30 +42,18 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $errorMessages;
 
-    private EntityRepositoryInterface $webhooks;
-
-    private EntityRepositoryInterface $portalNodes;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
         EntityRepositoryInterface $mappings,
         EntityRepositoryInterface $routes,
-        EntityRepositoryInterface $errorMessages,
-        EntityRepositoryInterface $webhooks,
-        EntityRepositoryInterface $portalNodes,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        EntityRepositoryInterface $errorMessages
     ) {
         $this->datasetEntityTypes = $datasetEntityTypes;
         $this->mappingNodes = $mappingNodes;
         $this->mappings = $mappings;
         $this->routes = $routes;
         $this->errorMessages = $errorMessages;
-        $this->webhooks = $webhooks;
-        $this->portalNodes = $portalNodes;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     public function getMappingNode(string $datasetEntityClassName, PortalNodeKeyInterface $portalNodeKey, string $externalId): ?MappingNodeStructInterface
@@ -416,51 +401,6 @@ class Storage extends StorageFallback implements StorageInterface
             'sourceId' => $sourcePortalNodeKey->getUuid(),
             'targetId' => $targetPortalNodeKey->getUuid(),
         ]], $context);
-    }
-
-    public function createWebhook(PortalNodeKeyInterface $portalNodeKey, string $url, string $handler, ?array $payload = null): WebhookInterface
-    {
-        if (!$portalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::createWebhook($portalNodeKey, $url, $handler);
-        }
-
-        $existingWebhook = $this->getWebhook($url);
-
-        if ($existingWebhook instanceof WebhookInterface) {
-            return parent::createWebhook($portalNodeKey, $url, $handler);
-        }
-
-        $context = Context::createDefaultContext();
-
-        $this->webhooks->create([[
-            'id' => Uuid::randomHex(),
-            'url' => $url,
-            'handler' => $handler,
-            'payload' => $payload,
-            'portalNodeId' => $portalNodeKey->getUuid(),
-        ]], $context);
-
-        $createdWebhook = $this->getWebhook($url);
-
-        if ($createdWebhook instanceof WebhookInterface) {
-            return $createdWebhook;
-        }
-
-        return parent::createWebhook($portalNodeKey, $url, $handler);
-    }
-
-    public function getWebhook(string $url): ?WebhookInterface
-    {
-        $context = Context::createDefaultContext();
-
-        $criteria = (new Criteria())->addFilter(new EqualsFilter('url', $url));
-        $webhook = $this->webhooks->search($criteria, $context)->first();
-
-        if ($webhook instanceof WebhookInterface) {
-            return $webhook;
-        }
-
-        return null;
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string

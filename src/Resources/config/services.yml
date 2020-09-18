@@ -104,13 +104,10 @@ services:
             - '@heptaconnect_mapping.repository'
             - '@heptaconnect_route.repository'
             - '@heptaconnect_error_message.repository'
-            - '@heptaconnect_webhook.repository'
-            - '@heptaconnect_portal_node.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository'
             - '@Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory'
         tags:
             - { name: controller.service_arguments }

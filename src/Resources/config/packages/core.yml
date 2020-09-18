@@ -129,5 +129,5 @@ services:
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'

@@ -16,13 +16,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 
 /**
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeCollection
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeDefinition
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\DatasetEntityTypeEntity
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingDefinition
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeDefinition
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\MappingNodeEntity
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Database\PortalNodeDefinition
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\AbstractStorageKey
  * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage
  * @covers \Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey
@@ -58,9 +51,7 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
             $definitionRegistry->getRepository('heptaconnect_route'),
-            $definitionRegistry->getRepository('heptaconnect_error_message'),
-            $definitionRegistry->getRepository('heptaconnect_webhook'),
-            $definitionRegistry->getRepository('heptaconnect_portal_node')
+            $definitionRegistry->getRepository('heptaconnect_error_message')
         );
 
         $portalNodes = $definitionRegistry->getRepository('heptaconnect_portal_node');
@@ -84,9 +75,7 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
             $definitionRegistry->getRepository('heptaconnect_route'),
-            $definitionRegistry->getRepository('heptaconnect_error_message'),
-            $definitionRegistry->getRepository('heptaconnect_webhook'),
-            $definitionRegistry->getRepository('heptaconnect_portal_node')
+            $definitionRegistry->getRepository('heptaconnect_error_message')
         );
         $portalNodeRepo = $definitionRegistry->getRepository('heptaconnect_portal_node');
         $portalNodeRepo->create([[

@@ -4,8 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
 use Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract;
-use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\WebhookRepositoryContract;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
@@ -19,13 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WebhookController
 {
-    private StorageInterface $storage;
+    private WebhookRepositoryContract $webhookRepository;
 
     private WebhookContextFactory $webhookContextFactory;
 
-    public function __construct(StorageInterface $storage, WebhookContextFactory $webhookContextFactory)
-    {
-        $this->storage = $storage;
+    public function __construct(
+        WebhookRepositoryContract $webhookRepository,
+        WebhookContextFactory $webhookContextFactory
+    ) {
+        $this->webhookRepository = $webhookRepository;
         $this->webhookContextFactory = $webhookContextFactory;
     }
 
@@ -38,21 +39,23 @@ class WebhookController
         $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
         $psrRequest = $psrHttpFactory->createRequest($request);
 
-        $webhook = $this->storage->getWebhook($psrRequest->getUri()->getPath());
+        $webhookIds = $this->webhookRepository->listByUrl($psrRequest->getUri()->getPath());
 
-        if (!$webhook instanceof WebhookInterface) {
+        try {
+            foreach ($webhookIds as $webhookId) {
+                $webhook = $this->webhookRepository->read($webhookId);
+                $handlerClass = $webhook->getHandler();
+                /** @var WebhookHandlerContract $handler */
+                $handler = new $handlerClass();
+                $psrResponse = $handler->handle($psrRequest, $this->webhookContextFactory->createContext($webhook));
+
+                return (new HttpFoundationFactory())->createResponse($psrResponse);
+            }
+        } catch (\Throwable $exception) {
             // TODO: log this
-            return new Response(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
 
-        $handlerClass = $webhook->getHandler();
-
-        /** @var WebhookHandlerContract $handler */
-        $handler = new $handlerClass();
-        $psrResponse = $handler->handle($psrRequest, $this->webhookContextFactory->createContext($webhook));
-
-        $httpFoundationFactory = new HttpFoundationFactory();
-
-        return $httpFoundationFactory->createResponse($psrResponse);
+        // TODO: log this
+        return new Response(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
     }
 }
