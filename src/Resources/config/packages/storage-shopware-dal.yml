@@ -48,6 +48,12 @@ services:
         arguments:
             - '@heptaconnect_portal_node_storage.repository'
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@heptaconnect_route.repository'
+            - '@heptaconnect_dataset_entity_type.repository'
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository:
         arguments:
             - '@heptaconnect_webhook.repository'

@@ -6,10 +6,8 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidMappingNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\Exception\InvalidPortalNodeKeyException;
 use Heptacom\HeptaConnect\Storage\Base\MappingNodeStructCollection;
@@ -17,15 +15,11 @@ use Heptacom\HeptaConnect\Storage\Base\Support\StorageFallback;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeCollection;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeEntity;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteCollection;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteEntity;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\MappingNodeStorageKey;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Dbal\Common\RepositoryIterator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -38,21 +32,17 @@ class Storage extends StorageFallback implements StorageInterface
 
     private EntityRepositoryInterface $mappings;
 
-    private EntityRepositoryInterface $routes;
-
     private EntityRepositoryInterface $errorMessages;
 
     public function __construct(
         EntityRepositoryInterface $datasetEntityTypes,
         EntityRepositoryInterface $mappingNodes,
         EntityRepositoryInterface $mappings,
-        EntityRepositoryInterface $routes,
         EntityRepositoryInterface $errorMessages
     ) {
         $this->datasetEntityTypes = $datasetEntityTypes;
         $this->mappingNodes = $mappingNodes;
         $this->mappings = $mappings;
-        $this->routes = $routes;
         $this->errorMessages = $errorMessages;
     }
 
@@ -332,75 +322,6 @@ class Storage extends StorageFallback implements StorageInterface
         $delete = \array_map(fn (string $id) => ['id' => $id], $this->errorMessages->searchIds($criteria, $context)->getIds());
 
         $this->errorMessages->delete($delete, $context);
-    }
-
-    public function getRouteTargets(PortalNodeKeyInterface $sourcePortalNodeKey, string $entityClassName): PortalNodeKeyCollection
-    {
-        if (!$sourcePortalNodeKey instanceof PortalNodeStorageKey) {
-            return parent::getRouteTargets($sourcePortalNodeKey, $entityClassName);
-        }
-
-        $context = Context::createDefaultContext();
-        $result = [];
-
-        $criteria = (new Criteria())
-            ->addFilter(
-                new EqualsFilter('type.type', $entityClassName),
-                new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid())
-            )
-            ->setLimit(100)
-        ;
-        $iterator = new RepositoryIterator($this->routes, $context, $criteria);
-
-        while (($fetchResult = $iterator->fetch()) instanceof EntitySearchResult) {
-            /** @var RouteCollection $entities */
-            $entities = $fetchResult->getEntities();
-            /** @var RouteEntity $entity */
-            foreach ($entities as $entity) {
-                $result[] = new PortalNodeStorageKey($entity->getTargetId());
-            }
-        }
-
-        return new PortalNodeKeyCollection($result);
-    }
-
-    public function createRouteTarget(
-        PortalNodeKeyInterface $sourcePortalNodeKey,
-        PortalNodeKeyInterface $targetPortalNodeKey,
-        string $entityClassName
-    ): void {
-        if (!$sourcePortalNodeKey instanceof PortalNodeStorageKey) {
-            parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
-
-            return;
-        }
-
-        if (!$targetPortalNodeKey instanceof PortalNodeStorageKey) {
-            parent::createRouteTarget($sourcePortalNodeKey, $targetPortalNodeKey, $entityClassName);
-
-            return;
-        }
-
-        $context = Context::createDefaultContext();
-        $criteria = new Criteria();
-        $criteria->addFilter(
-            new EqualsFilter('type.type', $entityClassName),
-            new EqualsFilter('sourceId', $sourcePortalNodeKey->getUuid()),
-            new EqualsFilter('targetId', $targetPortalNodeKey->getUuid())
-        );
-
-        if ($this->routes->searchIds($criteria, $context)->getTotal() > 0) {
-            return;
-        }
-
-        $typeId = $this->getIdsForDatasetEntityType([$entityClassName], $context)[$entityClassName];
-
-        $this->routes->create([[
-            'id' => Uuid::randomHex(),
-            'typeId' => $typeId,
-            'sourceId' => $sourcePortalNodeKey->getUuid(),
-            'targetId' => $targetPortalNodeKey->getUuid(),
-        ]], $context);
     }
 
     protected function getMappingId(MappingInterface $mapping, Context $context): ?string

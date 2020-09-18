@@ -105,7 +105,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitService'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:

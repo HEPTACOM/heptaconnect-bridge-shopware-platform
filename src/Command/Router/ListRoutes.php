@@ -6,9 +6,8 @@ use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +19,7 @@ class ListRoutes extends Command
 {
     protected static $defaultName = 'heptaconnect:router:list-routes';
 
-    private StorageInterface $storage;
+    private RouteRepositoryContract $routeRepository;
 
     private PortalNodeRepositoryContract $portalNodeRepository;
 
@@ -29,13 +28,13 @@ class ListRoutes extends Command
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
-        StorageInterface $storage,
+        RouteRepositoryContract $routeRepository,
         PortalNodeRepositoryContract $portalNodeRepository,
         PortalRegistryInterface $portalRegistry,
         StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->storage = $storage;
+        $this->routeRepository = $routeRepository;
         $this->portalNodeRepository = $portalNodeRepository;
         $this->portalRegistry = $portalRegistry;
         $this->storageKeyGenerator = $storageKeyGenerator;
@@ -80,16 +79,13 @@ class ListRoutes extends Command
             }
 
             foreach ($types as $type) {
-                /** @var PortalNodeKeyInterface $target */
-                foreach ($this->storage->getRouteTargets($portalNodeKey, $type) as $target) {
-                    if (!$target instanceof PortalNodeStorageKey) {
-                        continue;
-                    }
+                foreach ($this->routeRepository->listBySourceAndEntityType($portalNodeKey, $type) as $routeKey) {
+                    $route = $this->routeRepository->read($routeKey);
 
                     $targets[] = [
                         'type' => $type,
                         'source' => $this->storageKeyGenerator->serialize($portalNodeKey),
-                        'target' => $this->storageKeyGenerator->serialize($target),
+                        'target' => $this->storageKeyGenerator->serialize($route->getTargetKey()),
                     ];
                 }
             }

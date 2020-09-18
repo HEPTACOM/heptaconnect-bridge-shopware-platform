@@ -36,13 +36,13 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
@@ -102,7 +102,6 @@ services:
             - '@heptaconnect_dataset_entity_type.repository'
             - '@heptaconnect_mapping_node.repository'
             - '@heptaconnect_mapping.repository'
-            - '@heptaconnect_route.repository'
             - '@heptaconnect_error_message.repository'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:

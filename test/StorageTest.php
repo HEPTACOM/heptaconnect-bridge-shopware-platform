@@ -50,7 +50,6 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route'),
             $definitionRegistry->getRepository('heptaconnect_error_message')
         );
 
@@ -74,7 +73,6 @@ class StorageTest extends TestCase
             $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
             $definitionRegistry->getRepository('heptaconnect_mapping_node'),
             $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_route'),
             $definitionRegistry->getRepository('heptaconnect_error_message')
         );
         $portalNodeRepo = $definitionRegistry->getRepository('heptaconnect_portal_node');

@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\PortalNodeRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,19 +17,19 @@ class AddRoute extends Command
 {
     protected static $defaultName = 'heptaconnect:router:add-route';
 
-    private StorageInterface $storage;
+    private RouteRepositoryContract $routeRepository;
 
     private PortalNodeRepositoryContract $portalNodeRepository;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
-        StorageInterface $storage,
+        RouteRepositoryContract $routeRepository,
         PortalNodeRepositoryContract $portalNodeRepository,
         StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->storage = $storage;
+        $this->routeRepository = $routeRepository;
         $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
@@ -72,7 +72,17 @@ class AddRoute extends Command
             return 1;
         }
 
-        $this->storage->createRouteTarget($source, $target, $type);
+        foreach ($this->routeRepository->listBySourceAndEntityType($source, $type) as $routeKey) {
+            $route = $this->routeRepository->read($routeKey);
+
+            if ($route->getTargetKey()->equals($target)) {
+                $io->error('There is already this route configured');
+
+                return 2;
+            }
+        }
+
+        $this->routeRepository->create($source, $target, $type);
 
         return 0;
     }
