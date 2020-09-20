@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessage;
-use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\CronjobRunRepositoryContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,6 +34,7 @@ class EnsureQueue extends Command
         $now = \date_create();
 
         foreach ($this->cronjobRunRepository->listExecutables($now) as $runKey) {
+            $run = $this->cronjobRunRepository->read($runKey);
             $this->messageBus->dispatch(
                 Envelope::wrap(new CronjobRunMessage($runKey->getId()))
                     ->with(new DelayStamp(($run->getQueuedFor()->getTimestamp() - $now->getTimestamp()) * 1000))

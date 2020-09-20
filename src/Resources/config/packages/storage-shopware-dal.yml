@@ -28,38 +28,38 @@ services:
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition: ~
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
+        arguments:
+            - '@heptaconnect_portal_node_storage.repository'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository:
         arguments:
             - '@heptaconnect_cronjob.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository:
         arguments:
             - '@heptaconnect_cronjob.repository'
             - '@heptaconnect_cronjob_run.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\MappingRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping.repository'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
         arguments:
             - '@heptaconnect_portal_node.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
-        arguments:
-            - '@heptaconnect_portal_node_storage.repository'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_route.repository'
             - '@heptaconnect_dataset_entity_type.repository'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository:
         arguments:
             - '@heptaconnect_webhook.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'

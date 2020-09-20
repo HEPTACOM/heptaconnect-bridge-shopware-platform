@@ -29,7 +29,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
@@ -60,13 +60,13 @@ services:
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
 
     Heptacom\HeptaConnect\Core\Mapping\Publisher:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@messenger.bus.shopware'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:
@@ -79,7 +79,7 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
@@ -107,7 +107,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitService'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
@@ -131,5 +131,5 @@ services:
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'

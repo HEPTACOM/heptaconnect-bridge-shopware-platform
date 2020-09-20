@@ -5,7 +5,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 use Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobRunInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\CronjobRunRepositoryContract;
 
 class CronjobRunHandler
 {

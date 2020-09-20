@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\CronjobRunKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\CronjobRunRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\CronjobRunRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
 use Shopware\Core\Framework\MessageQueue\Handler\AbstractMessageHandler;

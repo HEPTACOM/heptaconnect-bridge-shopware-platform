@@ -36,26 +36,26 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\RouteRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
             - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@messenger.bus.shopware'
 
@@ -73,27 +73,27 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\CronjobRunRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
@@ -106,7 +106,7 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\WebhookRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository'
             - '@Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory'
         tags:
             - { name: controller.service_arguments }

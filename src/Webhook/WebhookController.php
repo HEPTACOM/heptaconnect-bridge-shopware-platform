@@ -4,7 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook;
 
 use Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookHandlerContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\WebhookRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\WebhookRepositoryContract;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
