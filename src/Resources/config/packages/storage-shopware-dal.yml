@@ -39,6 +39,11 @@ services:
             - '@heptaconnect_cronjob_run.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\MappingRepository:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@heptaconnect_mapping.repository'
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalNodeRepository:
         arguments:
             - '@heptaconnect_portal_node.repository'

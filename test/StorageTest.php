@@ -5,8 +5,6 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 use Doctrine\DBAL\Connection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\FooBarDatasetEntity;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\MappingNodeStructInterface;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
@@ -63,55 +61,6 @@ class StorageTest extends TestCase
 
         $node = $storage->createMappingNodes(['key' => FooBarDatasetEntity::class], $portalNodeId)->offsetGet('key');
         static::assertEquals(FooBarDatasetEntity::class, $node->getDatasetEntityClassName());
-    }
-
-    public function testCreateMapping(): void
-    {
-        /** @var DefinitionInstanceRegistry $definitionRegistry */
-        $definitionRegistry = $this->kernel->getContainer()->get(DefinitionInstanceRegistry::class);
-        $storage = new Storage(
-            $definitionRegistry->getRepository('heptaconnect_dataset_entity_type'),
-            $definitionRegistry->getRepository('heptaconnect_mapping_node'),
-            $definitionRegistry->getRepository('heptaconnect_mapping'),
-            $definitionRegistry->getRepository('heptaconnect_error_message')
-        );
-        $portalNodeRepo = $definitionRegistry->getRepository('heptaconnect_portal_node');
-        $portalNodeRepo->create([[
-            'id' => '0b8ebe4959b44bae97b862e6b8b32e18',
-        ]], Context::createDefaultContext());
-
-        $mappingNodes = $storage->createMappingNodes([
-            FooBarDatasetEntity::class,
-            FooBarDatasetEntity::class,
-        ], new PortalNodeStorageKey('0b8ebe4959b44bae97b862e6b8b32e18'));
-
-        /** @var MappingNodeStructInterface $mappingNodeNull */
-        $mappingNodeNull = $mappingNodes->first();
-        /** @var MappingNodeStructInterface $mappingNode */
-        $mappingNode = $mappingNodes->last();
-
-        $mappingNull = $this->createMock(MappingInterface::class);
-        $mappingNull->expects(static::atLeastOnce())
-            ->method('getPortalNodeKey')
-            ->willReturn(new PortalNodeStorageKey('0b8ebe4959b44bae97b862e6b8b32e18'));
-        $mappingNull->expects(static::atLeastOnce())
-            ->method('getMappingNodeKey')
-            ->willReturn($mappingNodeNull->getKey());
-        $mappingNull->expects(static::atLeastOnce())
-            ->method('getExternalId')
-            ->willReturn(null);
-
-        $mapping = $this->createMock(MappingInterface::class);
-        $mapping->expects(static::atLeastOnce())
-            ->method('getPortalNodeKey')
-            ->willReturn(new PortalNodeStorageKey('0b8ebe4959b44bae97b862e6b8b32e18'));
-        $mapping->expects(static::atLeastOnce())
-            ->method('getMappingNodeKey')
-            ->willReturn($mappingNode->getKey());
-        $mapping->expects(static::atLeastOnce())
-            ->method('getExternalId')
-            ->willReturn('This could be your external id');
-        $storage->createMappings(new MappingCollection([$mappingNull, $mapping]));
     }
 
     public function testKeyComparison(): void
