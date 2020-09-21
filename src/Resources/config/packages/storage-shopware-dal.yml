@@ -43,6 +43,11 @@ services:
             - '@heptaconnect_cronjob_run.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
+        arguments:
+            - '@heptaconnect_error_message.repository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'

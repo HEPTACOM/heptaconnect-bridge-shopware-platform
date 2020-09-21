@@ -59,8 +59,8 @@ services:
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
 
     Heptacom\HeptaConnect\Core\Mapping\Publisher:
         arguments:
