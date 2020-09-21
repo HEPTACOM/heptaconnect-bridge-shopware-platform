@@ -64,9 +64,9 @@ services:
 
     Heptacom\HeptaConnect\Core\Mapping\Publisher:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage'
             - '@messenger.bus.shopware'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:
