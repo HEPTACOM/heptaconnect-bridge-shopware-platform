@@ -20,7 +20,6 @@ services:
         exclude:
             - '../../{Resources,Migration,Bundle.php}'
             - '../../Messaging/*/*Message.php'
-            - '../../Database/*{Entity,Collection}.php'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:

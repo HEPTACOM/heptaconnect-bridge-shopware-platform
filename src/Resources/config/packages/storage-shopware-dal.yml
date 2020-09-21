@@ -75,6 +75,10 @@ services:
             - '@heptaconnect_webhook.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
+        tags:
+            - { name: shopware.migration_source }
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage:
