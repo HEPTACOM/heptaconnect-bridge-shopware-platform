@@ -97,10 +97,9 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\Storage:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore:
         arguments:
-            - '@heptaconnect_mapping.repository'
-            - '@heptaconnect_error_message.repository'
+            - '%kernel.cache_dir%/heptaconnect_lock'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
@@ -118,3 +117,4 @@ services:
         calls:
             - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Webhook\WebhookService']]
             - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]
+            - [setResourceLockingService, ['@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking']]
