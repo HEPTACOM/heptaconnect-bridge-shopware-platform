@@ -1,32 +1,47 @@
 services:
-    _instanceof:
-        Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition:
-            tags:
-                - { name: shopware.entity.definition }
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage:
         arguments:
             - '@Shopware\Core\System\SystemConfig\SystemConfigService'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition:
+        tags:
+              - { name: shopware.entity.definition, entity: heptaconnect_cronjob }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_cronjob_run }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeDefinition:
+        tags:
+              - { name: shopware.entity.definition, entity: heptaconnect_dataset_entity_type }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_mapping }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingErrorMessageDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingErrorMessageDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_mapping_error_message }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_mapping_node }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_portal_node }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_portal_node_storage }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_route }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition: ~
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_webhook }
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
@@ -45,7 +60,7 @@ services:
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
         arguments:
-            - '@heptaconnect_error_message.repository'
+            - '@heptaconnect_mapping_error_message.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository:
