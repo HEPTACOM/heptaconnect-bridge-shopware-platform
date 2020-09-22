@@ -32,6 +32,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
@@ -57,6 +58,11 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@messenger.bus.shopware'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
