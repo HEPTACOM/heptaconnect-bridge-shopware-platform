@@ -64,6 +64,11 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'

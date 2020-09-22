@@ -63,6 +63,8 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Mapping\Publisher:
         arguments:
