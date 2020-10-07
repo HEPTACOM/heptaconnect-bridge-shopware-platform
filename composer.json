@@ -1,5 +1,6 @@
 {
     "name": "heptacom/heptaconnect-bridge-shopware-platform",
+    "version": "0.0.1",
     "type": "library",
     "description": "HEPTAconnect package to support a runtime in a shopware platform project",
     "keywords": [
@@ -20,12 +21,13 @@
         "ext-json": "*",
         "doctrine/dbal": ">=2.1",
         "dragonmantank/cron-expression": ">=3",
-        "heptacom/heptaconnect-core": "@dev",
-        "heptacom/heptaconnect-dataset-base": "@dev",
-        "heptacom/heptaconnect-portal-base": "@dev",
-        "heptacom/heptaconnect-storage-base": "@dev",
-        "heptacom/heptaconnect-storage-shopware-dal": "@dev",
-        "shopware/core": ">=6.2"
+        "heptacom/heptaconnect-core": ">=0.0.1",
+        "heptacom/heptaconnect-dataset-base": ">=0.0.1",
+        "heptacom/heptaconnect-portal-base": ">=0.0.1",
+        "heptacom/heptaconnect-storage-base": ">=0.0.1",
+        "heptacom/heptaconnect-storage-shopware-dal": ">=0.0.1",
+        "shopware/core": ">=6.2",
+        "symfony/lock": ">=4"
     },
     "require-dev": {
         "ergebnis/composer-normalize": ">=2.7",
@@ -51,6 +53,5 @@
         "psr-4": {
             "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
