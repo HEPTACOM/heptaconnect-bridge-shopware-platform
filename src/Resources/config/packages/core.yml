@@ -119,6 +119,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:
