@@ -72,14 +72,17 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Reset:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Set:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:

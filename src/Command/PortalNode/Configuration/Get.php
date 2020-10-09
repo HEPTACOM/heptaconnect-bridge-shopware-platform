@@ -3,7 +3,10 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration;
 
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
-use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,10 +19,15 @@ class Get extends Command
 
     private ConfigurationServiceInterface $configurationService;
 
-    public function __construct(ConfigurationServiceInterface $configurationService)
-    {
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(
+        ConfigurationServiceInterface $configurationService,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
         $this->configurationService = $configurationService;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
@@ -31,7 +39,19 @@ class Get extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $portalNodeKey = new PortalNodeStorageKey((string) $input->getArgument('portal-id'));
+
+        try {
+            $portalNodeKey = $this->storageKeyGenerator->deserialize((string)$input->getArgument('portal-id'));
+
+            if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
+                throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+            }
+        } catch (UnsupportedStorageKeyException $exception) {
+            $io->error('The portal-id is not a portalNodeKey');
+
+            return 1;
+        }
+
         $name = (string) $input->getArgument('name');
         $path = \array_filter(\explode('.', $name), 'strlen');
 
