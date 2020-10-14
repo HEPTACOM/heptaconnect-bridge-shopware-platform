@@ -58,6 +58,8 @@ services:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
