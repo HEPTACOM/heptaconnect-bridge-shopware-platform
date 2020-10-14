@@ -3,6 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
@@ -30,7 +31,10 @@ class Explore extends Command
 
     public function configure(): void
     {
-        $this->addArgument('portal-id', InputArgument::REQUIRED);
+        $this
+            ->addArgument('portal-id', InputArgument::REQUIRED)
+            ->addArgument('type', InputArgument::IS_ARRAY | InputArgument::OPTIONAL)
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -44,7 +48,12 @@ class Explore extends Command
             return 1;
         }
 
-        $this->exploreService->explore($portalNodeKey);
+        $types = array_filter(
+            (array) $input->getArgument('type'),
+            fn (string $type) => is_a($type, DatasetEntityInterface::class, true)
+        );
+
+        $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
 
         return 0;
     }
