@@ -49,7 +49,7 @@ class Explore extends Command
         }
 
         $types = array_filter(
-            (array) $input->getArgument('type'),
+            array_map(fn (string $type) => trim($type, '\'"'), (array) $input->getArgument('type')),
             fn (string $type) => is_a($type, DatasetEntityInterface::class, true)
         );
 
