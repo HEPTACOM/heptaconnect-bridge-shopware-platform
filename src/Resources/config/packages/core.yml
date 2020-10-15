@@ -15,7 +15,7 @@ services:
     Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
         arguments:
             - '%kernel.project_dir%/composer.json'
-            - '@cache.adapter.system'
+            - '@cache.system'
 
     Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
         arguments:
