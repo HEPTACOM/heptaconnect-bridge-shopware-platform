@@ -46,6 +46,7 @@ services:
             - '@messenger.bus.shopware'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
@@ -108,7 +109,6 @@ services:
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContext'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
