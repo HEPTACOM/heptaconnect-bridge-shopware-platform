@@ -35,9 +35,17 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_portal_node_storage }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\PayloadDefinition:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_job }
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobPayloadDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_job_payload }
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobTypeDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_job_type }
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition:
         tags:
