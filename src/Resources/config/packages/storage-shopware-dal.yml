@@ -35,6 +35,10 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_portal_node_storage }
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\PayloadDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_job_payload }
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_route }
@@ -93,6 +97,11 @@ services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\JobPayloadStorage:
+        arguments:
+            - '@heptaconnect_job_payload.repository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
 
