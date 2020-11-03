@@ -4,11 +4,13 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -20,13 +22,17 @@ class Explore extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PublisherInterface $publisher;
+
     public function __construct(
         ExploreServiceInterface $exploreService,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PublisherInterface $publisher
     ) {
         parent::__construct();
         $this->exploreService = $exploreService;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->publisher = $publisher;
     }
 
     public function configure(): void
@@ -34,6 +40,7 @@ class Explore extends Command
         $this
             ->addArgument('portal-id', InputArgument::REQUIRED)
             ->addArgument('type', InputArgument::IS_ARRAY | InputArgument::OPTIONAL)
+            ->addOption('external-id', null, InputOption::VALUE_OPTIONAL)
         ;
     }
 
@@ -53,7 +60,15 @@ class Explore extends Command
             fn (string $type) => is_a($type, DatasetEntityInterface::class, true)
         );
 
-        $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+        $externalId = $input->getOption('external-id');
+
+        if (\is_string($externalId)) {
+            foreach ($types as $type) {
+                $this->publisher->publish($type, $portalNodeKey, $externalId);
+            }
+        } else {
+            $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+        }
 
         return 0;
     }

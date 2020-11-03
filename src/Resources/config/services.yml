@@ -33,6 +33,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
