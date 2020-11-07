@@ -4,6 +4,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Discovery;
 
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobServiceInterface;
 use Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract;
+use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\Webhook\Contract\WebhookServiceInterface;
 use Http\Discovery\Strategy\DiscoveryStrategy;
 
@@ -14,6 +15,8 @@ class Strategy implements DiscoveryStrategy
     private static CronjobServiceInterface $cronjobService;
 
     private static ResourceLockingContract $resourceLockingService;
+
+    private static PublisherInterface $publisher;
 
     public static function setWebhookService(WebhookServiceInterface $webhookService): void
     {
@@ -30,6 +33,11 @@ class Strategy implements DiscoveryStrategy
         self::$resourceLockingService = $resourceLockingService;
     }
 
+    public static function setPublisher(PublisherInterface $publisher): void
+    {
+        self::$publisher = $publisher;
+    }
+
     public static function getCandidates($type)
     {
         return [
@@ -44,6 +52,10 @@ class Strategy implements DiscoveryStrategy
             [
                 'condition' => fn () => \is_a($type, ResourceLockingContract::class, true),
                 'class' => fn () => self::$resourceLockingService,
+            ],
+            [
+                'condition' => fn () => \is_a($type, PublisherInterface::class, true),
+                'class' => fn () => self::$publisher,
             ],
         ];
     }

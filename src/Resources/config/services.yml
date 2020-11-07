@@ -137,3 +137,4 @@ services:
             - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Webhook\WebhookService']]
             - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]
             - [setResourceLockingService, ['@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking']]
+            - [setPublisher, ['@Heptacom\HeptaConnect\Core\Mapping\Publisher']]
