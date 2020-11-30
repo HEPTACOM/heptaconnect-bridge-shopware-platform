@@ -1,5 +1,6 @@
 imports:
     - { resource: packages/core.yml }
+    - { resource: packages/dataset-base.yml }
     - { resource: packages/storage-shopware-dal.yml }
 
 services:

@@ -48,6 +48,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
@@ -122,6 +123,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
+            - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
         arguments:
