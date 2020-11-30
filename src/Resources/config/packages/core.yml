@@ -27,6 +27,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
@@ -165,6 +166,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
         arguments:
