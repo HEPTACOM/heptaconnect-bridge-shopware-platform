@@ -137,6 +137,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
             - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper'
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
         arguments:
