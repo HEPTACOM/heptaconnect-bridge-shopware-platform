@@ -157,6 +157,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping_node.repository.patched'
+            - '@heptaconnect_mapping.repository.patched'
             - '@heptaconnect_dataset_entity_type.repository.patched'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
