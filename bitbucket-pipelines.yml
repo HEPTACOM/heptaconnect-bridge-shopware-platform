@@ -7,9 +7,12 @@ definitions:
             variables:
                 MYSQL_DATABASE: 'pipelines'
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
+    caches:
+        heptaconnect-ci: .build
     steps:
         -   step: &default-step
                 caches:
+                    - heptaconnect-ci
                     - composer
                 env:
                     DATABASE_URL: 'mysql://root:let_me_in@mysql/pipelines'
@@ -24,8 +27,10 @@ definitions:
                 name: Github Keyword Gate
                 script:
                     - 'test $(git --no-pager log --full-history "--grep=${GITHUB_GREP_DENY_PATTERN}" | wc -l) -eq 0'
+                    - 'test $(git --no-pager log --full-history -S "${GITHUB_GREP_DENY_PATTERN}" --pickaxe-all --pickaxe-regex --oneline | wc -l) -eq 0'
                 after-script:
                     - 'test ${BITBUCKET_EXIT_CODE} -eq 0 || git --no-pager log --full-history "--grep=${GITHUB_GREP_DENY_PATTERN}"'
+                    - 'test ${BITBUCKET_EXIT_CODE} -eq 0 || git --no-pager log --full-history -S "${GITHUB_GREP_DENY_PATTERN}" --pickaxe-all --pickaxe-regex --oneline'
         -   step: &github-mirror-branch
                 <<: *default-step
                 name: Mirror to Github
@@ -79,10 +84,10 @@ pipelines:
             -   step: *composer-install
             -   step: *db-install
             -   parallel:
-                -   step: *test-unit
-                -   step: *test-coverage
-                -   step: *test-code-style
-                -   step: *test-infection
+                    -   step: *test-unit
+                    -   step: *test-coverage
+                    -   step: *test-code-style
+                    -   step: *test-infection
 
     tags:
         '*':
@@ -93,7 +98,7 @@ pipelines:
         -   step: *composer-install
         -   step: *db-install
         -   parallel:
-            -   step: *test-unit
-            -   step: *test-coverage
-            -   step: *test-code-style
-            -   step: *test-infection
+                -   step: *test-unit
+                -   step: *test-coverage
+                -   step: *test-code-style
+                -   step: *test-infection
