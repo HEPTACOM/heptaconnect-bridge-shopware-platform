@@ -142,7 +142,7 @@ services:
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@heptaconnect_mapping.repository.patched'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
