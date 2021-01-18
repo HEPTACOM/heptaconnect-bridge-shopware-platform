@@ -140,6 +140,7 @@ services:
             - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
         arguments:
