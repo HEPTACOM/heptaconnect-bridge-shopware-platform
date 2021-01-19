@@ -55,10 +55,18 @@ class Explore extends Command
             return 1;
         }
 
-        $types = array_filter(
-            array_map(fn (string $type) => trim($type, '\'"'), (array) $input->getArgument('type')),
-            fn (string $type) => is_a($type, DatasetEntityInterface::class, true)
+        $inTypes = (array)$input->getArgument('type');
+        $types = \array_filter(
+            \array_map(fn (string $type) => \trim($type, '\'"'), $inTypes),
+            static fn (string $type) => \is_a($type, DatasetEntityInterface::class, true)
         );
+        $wrongTypes = \array_diff_key($inTypes, $types);
+
+        if ($wrongTypes !== []) {
+            $io->error(['The provided types are not a DatasetEntityInterface:', ...\array_values($wrongTypes)]);
+
+            return 2;
+        }
 
         $externalId = $input->getOption('external-id');
 
