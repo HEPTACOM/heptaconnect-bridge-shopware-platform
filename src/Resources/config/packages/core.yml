@@ -51,7 +51,6 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
