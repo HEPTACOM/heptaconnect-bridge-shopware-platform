@@ -3,6 +3,8 @@ services:
         arguments:
             - '@Shopware\Core\System\SystemConfig\SystemConfigService'
 
+    Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory: ~
+
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_cronjob }
@@ -139,30 +141,36 @@ services:
             - '@heptaconnect_mapping_node.repository.patched'
             - '@heptaconnect_dataset_entity_type.repository.patched'
             - '@heptaconnect_mapping.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
         arguments:
             - '@heptaconnect_mapping.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
             - '@heptaconnect_portal_node_storage.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository:
         arguments:
             - '@heptaconnect_cronjob.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository:
         arguments:
             - '@heptaconnect_cronjob.repository.patched'
             - '@heptaconnect_cronjob_run.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
         arguments:
             - '@heptaconnect_mapping_error_message.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository:
         arguments:
@@ -170,27 +178,32 @@ services:
             - '@heptaconnect_mapping_node.repository.patched'
             - '@heptaconnect_mapping.repository.patched'
             - '@heptaconnect_dataset_entity_type.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
         arguments:
             - '@heptaconnect_portal_node.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_route.repository.patched'
             - '@heptaconnect_dataset_entity_type.repository.patched'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository:
         arguments:
             - '@heptaconnect_webhook.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
@@ -200,6 +213,7 @@ services:
         arguments:
             - '@heptaconnect_job_payload.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
 
