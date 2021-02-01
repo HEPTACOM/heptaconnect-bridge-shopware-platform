@@ -114,6 +114,19 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
+        arguments:
+            - '@heptaconnect_bridge_key_alias.repository'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Reset:
+        arguments:
+            - '@heptaconnect_bridge_key_alias.repository'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Set:
+        arguments:
+            - '@heptaconnect_bridge_key_alias.repository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
