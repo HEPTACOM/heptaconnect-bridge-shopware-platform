@@ -114,6 +114,10 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
+        tags:
+            - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
@@ -132,6 +136,15 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository:
         arguments:
             - '%kernel.shopware_version%'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@heptaconnect_bridge_key_alias.repository'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\MigrationSource:
+        tags:
+            - { name: shopware.migration_source }
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
         arguments:
