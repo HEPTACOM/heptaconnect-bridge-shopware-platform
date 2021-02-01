@@ -56,7 +56,7 @@ class ListPortalNodes extends Command
 
         foreach ($iterator as $portalNodeKey) {
             $rows[] = [
-                'portal-id' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($portalNodeKey),
                 'portal-class' => $this->portalNodeRepository->read($portalNodeKey),
             ];
         }

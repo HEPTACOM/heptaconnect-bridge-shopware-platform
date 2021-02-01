@@ -38,7 +38,7 @@ class Explore extends Command
     public function configure(): void
     {
         $this
-            ->addArgument('portal-id', InputArgument::REQUIRED)
+            ->addArgument('portal-node-key', InputArgument::REQUIRED)
             ->addArgument('type', InputArgument::IS_ARRAY | InputArgument::OPTIONAL)
             ->addOption('external-id', null, InputOption::VALUE_OPTIONAL)
         ;
@@ -47,7 +47,7 @@ class Explore extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-id'));
+        $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!\is_a($portalNodeKey, PortalNodeKeyInterface::class, false)) {
             $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');

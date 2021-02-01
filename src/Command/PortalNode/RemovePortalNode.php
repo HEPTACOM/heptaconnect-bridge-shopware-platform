@@ -30,16 +30,16 @@ class RemovePortalNode extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('portal-id', InputArgument::REQUIRED);
+        $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-id'));
+        $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!$key instanceof PortalNodeKeyInterface) {
-            $io->error('The portal-id is not a portalNodeKey');
+            $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
         }

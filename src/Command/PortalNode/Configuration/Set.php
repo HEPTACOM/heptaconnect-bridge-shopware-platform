@@ -32,7 +32,7 @@ class Set extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('portal-id', InputArgument::REQUIRED);
+        $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('name', InputArgument::REQUIRED);
         $this->addArgument('value', InputArgument::REQUIRED);
     }
@@ -42,13 +42,13 @@ class Set extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize((string)$input->getArgument('portal-id'));
+            $portalNodeKey = $this->storageKeyGenerator->deserialize((string)$input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
         } catch (UnsupportedStorageKeyException $exception) {
-            $io->error('The portal-id is not a portalNodeKey');
+            $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
         }
