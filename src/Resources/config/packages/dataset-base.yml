@@ -1,3 +1,0 @@
-services:
-    Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker:
-        factory: [Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker, 'instance']
