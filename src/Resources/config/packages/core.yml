@@ -136,7 +136,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
-            - '@Heptacom\HeptaConnect\Dataset\Base\Support\DatasetEntityTracker'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
