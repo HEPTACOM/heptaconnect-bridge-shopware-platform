@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -41,8 +41,8 @@ class ListMappingNodes extends Command
         $datasetEntityClass = (string) $input->getArgument('dataset-entity-class');
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
-        if (!\is_a($datasetEntityClass, DatasetEntityInterface::class, true)) {
-            $io->error('The provided dataset entity class does not implement the DatasetEntityInterface.');
+        if (!\is_a($datasetEntityClass, DatasetEntityContract::class, true)) {
+            $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
             return 1;
         }

@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -58,12 +58,12 @@ class Explore extends Command
         $inTypes = (array)$input->getArgument('type');
         $types = \array_filter(
             \array_map(fn (string $type) => \trim($type, '\'"'), $inTypes),
-            static fn (string $type) => \is_a($type, DatasetEntityInterface::class, true)
+            static fn (string $type) => \is_a($type, DatasetEntityContract::class, true)
         );
         $wrongTypes = \array_diff_key($inTypes, $types);
 
         if ($wrongTypes !== []) {
-            $io->error(['The provided types are not a DatasetEntityInterface:', ...\array_values($wrongTypes)]);
+            $io->error(['The provided types are not a DatasetEntityContract:', ...\array_values($wrongTypes)]);
 
             return 2;
         }

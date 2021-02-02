@@ -2,8 +2,8 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture;
 
-use Heptacom\HeptaConnect\Dataset\Base\DatasetEntity;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 
-class FooBarDatasetEntity extends DatasetEntity
+class FooBarDatasetEntity extends DatasetEntityContract
 {
 }

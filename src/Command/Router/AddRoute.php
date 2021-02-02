@@ -2,7 +2,7 @@
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
@@ -66,8 +66,8 @@ class AddRoute extends Command
         $this->portalNodeRepository->read($source);
         $this->portalNodeRepository->read($target);
 
-        if (!\is_a($type, DatasetEntityInterface::class, true)) {
-            $io->error('The specified type does not implement the DatasetEntityInterface.');
+        if (!\is_a($type, DatasetEntityContract::class, true)) {
+            $io->error('The specified type does not implement the DatasetEntityContract.');
 
             return 1;
         }

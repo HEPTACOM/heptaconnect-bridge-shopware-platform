@@ -3,7 +3,7 @@
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityInterface;
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
@@ -65,8 +65,8 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
 
-        if ($datasetEntityClass !== '' && !\is_a($datasetEntityClass, DatasetEntityInterface::class, true)) {
-            $io->error('The provided dataset entity class does not implement the DatasetEntityInterface.');
+        if ($datasetEntityClass !== '' && !\is_a($datasetEntityClass, DatasetEntityContract::class, true)) {
+            $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
             return 1;
         }
