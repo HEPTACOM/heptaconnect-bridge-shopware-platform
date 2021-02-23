@@ -78,7 +78,6 @@ services:
     Heptacom\HeptaConnect\Core\Mapping\Publisher:
         arguments:
             - '@messenger.bus.shopware'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:
