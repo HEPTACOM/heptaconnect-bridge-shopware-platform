@@ -120,6 +120,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
             - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
+            - '@Heptacom\HeptaConnect\Core\Support\EntityStatus'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
@@ -174,6 +175,8 @@ services:
         arguments:
             - !tagged_iterator heptacom.heptaconnect_normalizer
             - !tagged_iterator heptacom.heptaconnect_denormalizer
+
+    Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory:
         arguments:
