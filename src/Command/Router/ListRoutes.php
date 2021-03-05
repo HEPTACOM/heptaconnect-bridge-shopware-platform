@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
@@ -66,6 +67,30 @@ class ListRoutes extends Command
                 /** @var string $support */
                 foreach ($receiver->supports() as $support) {
                     $types[$support] = true;
+                }
+            }
+
+            /** @var PortalExtensionContract $portalExtension */
+            foreach ($this->portalRegistry->getPortalExtensions($portalNodeKey) as $portalExtension) {
+                /** @var ExplorerContract $explorer */
+                foreach ($portalExtension->getExplorerDecorators() as $explorer) {
+                    $types[$explorer->supports()] = true;
+                }
+
+                /** @var EmitterContract $emitter */
+                foreach ($portalExtension->getEmitterDecorators() as $emitter) {
+                    /** @var string $support */
+                    foreach ($emitter->supports() as $support) {
+                        $types[$support] = true;
+                    }
+                }
+
+                /** @var ReceiverContract $receiver */
+                foreach ($portalExtension->getReceiverDecorators() as $receiver) {
+                    /** @var string $support */
+                    foreach ($receiver->supports() as $support) {
+                        $types[$support] = true;
+                    }
                 }
             }
         }
