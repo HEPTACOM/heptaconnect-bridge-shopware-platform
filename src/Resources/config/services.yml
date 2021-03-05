@@ -126,6 +126,14 @@ services:
             - '@heptaconnect_bridge_key_alias.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator:
+        decorates: 'Heptacom\HeptaConnect\Core\Mapping\Publisher'
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator.inner'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+        tags:
+            - { name: kernel.event_subscriber }
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
