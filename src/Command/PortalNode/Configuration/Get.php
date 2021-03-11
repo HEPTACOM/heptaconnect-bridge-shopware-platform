@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -34,6 +35,7 @@ class Get extends Command
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('name', InputArgument::OPTIONAL);
+        $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -76,7 +78,8 @@ class Get extends Command
         if (\is_string($value)) {
             $output->writeln($value);
         } else {
-            $output->writeln(\json_encode($value));
+            $flags = $input->getOption('pretty') ? JSON_PRETTY_PRINT : 0;
+            $output->writeln(\json_encode($value, $flags));
         }
 
         return 0;

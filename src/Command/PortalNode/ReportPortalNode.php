@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -34,6 +35,7 @@ class ReportPortalNode extends Command
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('topic', InputArgument::OPTIONAL);
+        $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -60,7 +62,8 @@ class ReportPortalNode extends Command
             $report = $report[$topic] ?? $report;
         }
 
-        $output->writeln(\json_encode($report, JSON_THROW_ON_ERROR));
+        $flags = $input->getOption('pretty') ? (JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR) : JSON_THROW_ON_ERROR;
+        $output->writeln(\json_encode($report, $flags));
 
         return 0;
     }
