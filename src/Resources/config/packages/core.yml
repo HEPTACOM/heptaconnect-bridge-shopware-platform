@@ -94,6 +94,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory'
 
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
@@ -146,7 +147,9 @@ services:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
             - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
+        calls:
+            - setContainerFactory:
+                - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService:
         arguments:
