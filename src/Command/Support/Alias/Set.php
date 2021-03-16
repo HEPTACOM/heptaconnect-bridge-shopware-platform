@@ -75,7 +75,7 @@ class Set extends Command
         $criteria = new Criteria();
         $criteria->addFilter(new MultiFilter(MultiFilter::CONNECTION_OR, [
             new EqualsFilter('alias', $alias),
-            new EqualsFilter('original', $original)
+            new EqualsFilter('original', $original),
         ]));
         $search = $this->aliasRepository->search($criteria, $context);
         $deletes = \array_values(\array_map(static fn (string $id): array => ['id' => $id], $search->getIds()));

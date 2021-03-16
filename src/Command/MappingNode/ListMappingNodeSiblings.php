@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
@@ -88,7 +89,7 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeys = [];
 
         if ($portalNodeKeyParam === '') {
-            $portalNodeKeys = \iterable_to_array($this->portalNodeRepository->listAll());
+            $portalNodeKeys = iterable_to_array($this->portalNodeRepository->listAll());
         } else {
             $portalNodeKeys[] = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
         }
@@ -140,8 +141,7 @@ class ListMappingNodeSiblings extends Command
             return 0;
         }
 
-        \usort($rows, static fn (array $a, array $b) =>
-            ($a['dataset-entity-class'] <=> $b['dataset-entity-class']) * 10
+        \usort($rows, static fn (array $a, array $b) => ($a['dataset-entity-class'] <=> $b['dataset-entity-class']) * 10
             + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
             + ($a['portal-node-key'] <=> $b['portal-node-key'])
         );

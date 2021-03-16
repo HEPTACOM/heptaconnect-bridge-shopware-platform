@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
@@ -55,7 +56,7 @@ class Explore extends Command
             return 1;
         }
 
-        $inTypes = (array)$input->getArgument('type');
+        $inTypes = (array) $input->getArgument('type');
         $types = \array_filter(
             \array_map(fn (string $type) => \trim($type, '\'"'), $inTypes),
             static fn (string $type) => \is_a($type, DatasetEntityContract::class, true)

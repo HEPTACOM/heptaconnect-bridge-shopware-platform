@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration;
 
@@ -43,7 +44,7 @@ class Get extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize((string)$input->getArgument('portal-node-key'));
+            $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
@@ -78,7 +79,7 @@ class Get extends Command
         if (\is_string($value)) {
             $output->writeln($value);
         } else {
-            $flags = $input->getOption('pretty') ? JSON_PRETTY_PRINT : 0;
+            $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
             $output->writeln(\json_encode($value, $flags));
         }
 

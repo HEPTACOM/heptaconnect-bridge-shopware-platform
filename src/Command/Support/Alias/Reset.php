@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasEntity;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -49,7 +48,7 @@ class Reset extends Command
         $criteria = new Criteria();
         $criteria->addFilter(new MultiFilter(MultiFilter::CONNECTION_OR, [
             new EqualsFilter('alias', $originalOrAlias),
-            new EqualsFilter('original', $originalOrAlias)
+            new EqualsFilter('original', $originalOrAlias),
         ]));
         $search = $this->aliasRepository->search($criteria, $context);
         $deletes = \array_values(\array_map(static fn (string $id): array => ['id' => $id], $search->getIds()));

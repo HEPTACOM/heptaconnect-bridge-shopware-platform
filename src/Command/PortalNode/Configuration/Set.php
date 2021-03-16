@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration;
 
@@ -42,7 +43,7 @@ class Set extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize((string)$input->getArgument('portal-node-key'));
+            $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
