@@ -66,6 +66,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
