@@ -47,6 +47,8 @@ class Explore extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $startTime = \microtime(true);
+
         $io = new SymfonyStyle($input, $output);
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
@@ -77,6 +79,10 @@ class Explore extends Command
             }
         } else {
             $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+        }
+
+        if ($output->isVerbose()) {
+            $io->note(\sprintf('Took %s seconds.', \microtime(true) - $startTime));
         }
 
         return 0;
