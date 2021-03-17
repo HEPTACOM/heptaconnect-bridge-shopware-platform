@@ -52,7 +52,7 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
 
                 foreach ($mappingsByType as $datasetEntityClassName => $mappings) {
                     foreach (\array_keys($mappings) as $externalId) {
-                        $this->publisher->publish($datasetEntityClassName, $portalNodeId, $externalId);
+                        $this->publisher->publish($datasetEntityClassName, $portalNodeId, (string) $externalId);
                     }
                 }
             }
