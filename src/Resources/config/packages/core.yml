@@ -88,7 +88,9 @@ services:
 
     Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
 
-    Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder: ~
+    Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder:
+        arguments:
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
