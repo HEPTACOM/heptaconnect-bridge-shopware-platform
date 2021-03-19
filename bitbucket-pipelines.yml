@@ -94,7 +94,6 @@ pipelines:
                     -   step: *test-unit
                     -   step: *test-coverage
                     -   step: *test-code-style
-                    -   step: *test-infection
 
     tags:
         '*':
@@ -108,4 +107,3 @@ pipelines:
                 -   step: *test-unit
                 -   step: *test-coverage
                 -   step: *test-code-style
-                -   step: *test-infection
