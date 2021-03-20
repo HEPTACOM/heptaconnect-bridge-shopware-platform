@@ -48,9 +48,12 @@ services:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
             - '@heptacom_heptaconnect.logger'
             - '@messenger.bus.shopware'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+
+    Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
