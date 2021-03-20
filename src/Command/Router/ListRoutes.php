@@ -74,18 +74,12 @@ class ListRoutes extends Command
 
                 /** @var EmitterContract $emitter */
                 foreach ($portalExtension->getEmitterDecorators() as $emitter) {
-                    /** @var string $support */
-                    foreach ($emitter->supports() as $support) {
-                        $types[$support] = true;
-                    }
+                    $types[$emitter->supports()] = true;
                 }
 
                 /** @var ReceiverContract $receiver */
                 foreach ($portalExtension->getReceiverDecorators() as $receiver) {
-                    /** @var string $support */
-                    foreach ($receiver->supports() as $support) {
-                        $types[$support] = true;
-                    }
+                    $types[$receiver->supports()] = true;
                 }
             }
         }
