@@ -34,6 +34,11 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
 
+    Heptacom\HeptaConnect\Core\Emission\EmissionActor:
+        arguments:
+            - '@messenger.bus.shopware'
+            - '@heptacom_heptaconnect.logger'
+
     Heptacom\HeptaConnect\Core\Emission\EmitContext:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
@@ -47,9 +52,9 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
             - '@heptacom_heptaconnect.logger'
-            - '@messenger.bus.shopware'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
 
     Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory:
         arguments:
