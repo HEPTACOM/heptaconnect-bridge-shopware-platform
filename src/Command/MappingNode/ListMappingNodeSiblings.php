@@ -162,9 +162,7 @@ class ListMappingNodeSiblings extends Command
         foreach ($this->portalLoader->getPortals() as $portal) {
             /** @var EmitterContract $emitter */
             foreach ($portal->getEmitters() as $emitter) {
-                foreach ($emitter->supports() as $support) {
-                    $result[$support] = true;
-                }
+                $result[$emitter->supports()] = true;
             }
 
             /** @var ExplorerContract $explorer */
@@ -174,9 +172,7 @@ class ListMappingNodeSiblings extends Command
 
             /** @var ReceiverContract $receiver */
             foreach ($portal->getReceivers() as $receiver) {
-                foreach ($receiver->supports() as $support) {
-                    $result[$support] = true;
-                }
+                $result[$receiver->supports()] = true;
             }
         }
 
@@ -184,9 +180,7 @@ class ListMappingNodeSiblings extends Command
         foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
             /** @var EmitterContract $emitter */
             foreach ($portalExtension->getEmitterDecorators() as $emitter) {
-                foreach ($emitter->supports() as $support) {
-                    $result[$support] = true;
-                }
+                $result[$emitter->supports()] = true;
             }
 
             /** @var ExplorerContract $explorer */
@@ -196,9 +190,7 @@ class ListMappingNodeSiblings extends Command
 
             /** @var ReceiverContract $receiver */
             foreach ($portalExtension->getReceiverDecorators() as $receiver) {
-                foreach ($receiver->supports() as $support) {
-                    $result[$support] = true;
-                }
+                $result[$receiver->supports()] = true;
             }
         }
 
