@@ -147,12 +147,16 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Core\Support\EntityStatus'
 
+    Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContext'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
 
     Heptacom\HeptaConnect\Core\Router\Router:
         arguments:
