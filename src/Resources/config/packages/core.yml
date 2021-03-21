@@ -60,6 +60,15 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
+    Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
+        arguments:
+            - '@heptacom_heptaconnect.logger'
+            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
+            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
@@ -72,11 +81,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Exploration\ExplorationActor'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
