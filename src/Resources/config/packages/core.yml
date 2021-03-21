@@ -82,6 +82,12 @@ services:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorationActor'
+            - '@Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory'
+            - '@heptacom_heptaconnect.logger'
+
+    Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
