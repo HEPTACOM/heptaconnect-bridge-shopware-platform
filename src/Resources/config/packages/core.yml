@@ -39,18 +39,18 @@ services:
             - '@messenger.bus.shopware'
             - '@heptacom_heptaconnect.logger'
 
-    Heptacom\HeptaConnect\Core\Emission\EmitContext:
+    Heptacom\HeptaConnect\Core\Emission\EmitContextFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
             - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
+            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
@@ -65,7 +65,7 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitContext'
+            - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
             - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
 
