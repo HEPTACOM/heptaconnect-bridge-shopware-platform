@@ -127,6 +127,11 @@ services:
             - '@heptaconnect_bridge_key_alias.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\TestFlow\Receive:
+        arguments:
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator:
         decorates: 'Heptacom\HeptaConnect\Core\Mapping\Publisher'
         arguments:
