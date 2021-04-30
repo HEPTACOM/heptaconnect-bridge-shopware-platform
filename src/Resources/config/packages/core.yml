@@ -59,6 +59,7 @@ services:
     Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
@@ -88,6 +89,7 @@ services:
     Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
@@ -150,6 +152,7 @@ services:
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
