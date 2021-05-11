@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\TestFlow;
 
@@ -56,7 +57,7 @@ class Receive extends Command
 
         $dataFile = (string) $input->getArgument('data-file');
 
-        if (!is_file($dataFile)) {
+        if (!\is_file($dataFile)) {
             $io->error('The provided data-file does not exist.');
 
             return 1;
