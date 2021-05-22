@@ -205,6 +205,18 @@ services:
         tags:
             - { name: heptacom.heptaconnect_normalizer }
 
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer:
+        arguments:
+            - '@hepta_connect_bridge_shopware_platform.filesystem.private'
+        tags:
+            - { name: heptacom.heptaconnect_normalizer, priority: 10 }
+
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer:
+        arguments:
+            - '@hepta_connect_bridge_shopware_platform.filesystem.private'
+        tags:
+            - { name: heptacom.heptaconnect_normalizer, priority: 10 }
+
     Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry:
         arguments:
             - !tagged_iterator heptacom.heptaconnect_normalizer
