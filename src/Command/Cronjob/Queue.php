@@ -46,9 +46,9 @@ class Queue extends Command
 
     protected function configure()
     {
-        parent::configure();
         $this->addArgument('for', InputArgument::REQUIRED, 'Seconds for how long it shall be pre-scheduled. Will be rounded up to the next minute');
         $this->addOption('force', null, InputOption::VALUE_NONE);
+        $this->setHidden(true);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

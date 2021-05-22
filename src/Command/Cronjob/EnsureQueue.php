@@ -28,6 +28,11 @@ class EnsureQueue extends Command
         $this->messageBus = $messageBus;
     }
 
+    protected function configure()
+    {
+        $this->setHidden(true);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
