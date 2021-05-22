@@ -5,6 +5,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform;
 
 use Composer\Autoload\ClassLoader;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle as Bridge;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\AbstractIntegrationExtension;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveEntityCache;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource as DalStorageMigrationSource;
@@ -54,6 +55,11 @@ class AbstractIntegration extends Plugin
     public function activate(ActivateContext $activateContext): void
     {
         $this->replaceMigrationCollection($activateContext);
+    }
+
+    protected function getContainerExtensionClass()
+    {
+        return AbstractIntegrationExtension::class;
     }
 
     public function build(ContainerBuilder $container): void
