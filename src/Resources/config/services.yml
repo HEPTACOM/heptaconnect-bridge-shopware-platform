@@ -21,6 +21,7 @@ services:
         exclude:
             - '../../{Resources,Migration,Bundle.php}'
             - '../../Messaging/*/*Message.php'
+            - '../../PatchProvider/EntityRepositoryPatch587.php'
 
     heptacom_heptaconnect.logger:
         class: Psr\Log\LoggerInterface
