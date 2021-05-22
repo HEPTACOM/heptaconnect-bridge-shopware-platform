@@ -106,6 +106,7 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder:
         arguments:
             - '@heptacom_heptaconnect.logger'
+            - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
