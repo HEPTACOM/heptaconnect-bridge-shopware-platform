@@ -71,7 +71,7 @@ class CommandsPrintLogsSubscriber implements EventSubscriberInterface
     {
         $removedOnce = false;
 
-        return static function (HandlerInterface $h) use (&$removedOnce, $logLevel): bool {
+        return function (HandlerInterface $h) use (&$removedOnce, $logLevel): bool {
             if (!$this->isErrorStreamHandler($h, $logLevel)) {
                 return false;
             }
