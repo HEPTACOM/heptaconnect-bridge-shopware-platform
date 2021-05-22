@@ -4,12 +4,26 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection;
 
 use Heptacom\HeptaConnect\Portal\LocalShopwarePlatform\Portal as LocalShopwarePlatformPortal;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class AbstractIntegrationExtension extends Extension
 {
+    private string $alias;
+
+    public function __construct(string $bundleName)
+    {
+        $basename = preg_replace('/Bundle$/', '', $bundleName);
+        $this->alias = Container::underscore($basename);
+    }
+
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!\class_exists(LocalShopwarePlatformPortal::class)) {

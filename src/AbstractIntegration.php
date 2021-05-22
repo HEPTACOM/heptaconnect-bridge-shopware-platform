@@ -57,9 +57,9 @@ class AbstractIntegration extends Plugin
         $this->replaceMigrationCollection($activateContext);
     }
 
-    protected function getContainerExtensionClass()
+    protected function createContainerExtension()
     {
-        return AbstractIntegrationExtension::class;
+        return new AbstractIntegrationExtension($this->getName());
     }
 
     public function build(ContainerBuilder $container): void
