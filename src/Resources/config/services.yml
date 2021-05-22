@@ -22,6 +22,14 @@ services:
             - '../../{Resources,Migration,Bundle.php}'
             - '../../Messaging/*/*Message.php'
 
+    heptacom_heptaconnect.logger:
+        class: Psr\Log\LoggerInterface
+        factory:
+            - '@Shopware\Core\Framework\Log\LoggerFactory'
+            - createRotating
+        arguments:
+            - heptacom_heptaconnect
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
@@ -167,6 +175,12 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_bridge_key_alias.repository'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber:
+        arguments:
+            - '@heptacom_heptaconnect.logger'
+        tags:
+            - { name: kernel.event_subscriber }
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\MigrationSource:
         tags:

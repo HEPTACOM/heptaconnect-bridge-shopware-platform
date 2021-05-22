@@ -4,14 +4,6 @@ services:
             tags:
                 - { name: messenger.message_handler }
 
-    heptacom_heptaconnect.logger:
-        class: Psr\Log\LoggerInterface
-        factory:
-            - '@Shopware\Core\Framework\Log\LoggerFactory'
-            - createRotating
-        arguments:
-            - heptacom_heptaconnect
-
     Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
         arguments:
             - '%kernel.project_dir%/composer.json'
