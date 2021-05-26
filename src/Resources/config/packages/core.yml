@@ -171,6 +171,16 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
+            - '@messenger.routable_message_bus'
+            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_factory'
+
+    Heptacom\HeptaConnect\Core\Router\Router.lock_store:
+        class: Symfony\Component\Lock\Store\FlockStore
+
+    Heptacom\HeptaConnect\Core\Router\Router.lock_factory:
+        class: Symfony\Component\Lock\LockFactory
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_store'
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
         arguments:
