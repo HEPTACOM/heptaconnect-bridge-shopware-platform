@@ -15,7 +15,7 @@
             class="Heptacom\HeptaConnect\Core\Job\DelegatingJobActor"
             id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
         >
-            <argument id="Heptacom\HeptaConnect\Core\Job\EmissionJobHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\JobDispatcher"
@@ -25,7 +25,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Job\EmissionJobHandler">
+        <service id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler">
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
         </service>
