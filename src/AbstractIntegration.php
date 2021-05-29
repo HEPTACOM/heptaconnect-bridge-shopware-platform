@@ -57,11 +57,6 @@ class AbstractIntegration extends Plugin
         $this->replaceMigrationCollection($activateContext);
     }
 
-    protected function createContainerExtension()
-    {
-        return new AbstractIntegrationExtension($this->getName());
-    }
-
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -69,6 +64,11 @@ class AbstractIntegration extends Plugin
         $container->addCompilerPass(new RemoveBusMonitoring());
         $container->addCompilerPass(new RemoveEntityCache());
         $container->setParameter('shopware.admin_worker.enable_admin_worker', false);
+    }
+
+    protected function createContainerExtension()
+    {
+        return new AbstractIntegrationExtension($this->getName());
     }
 
     protected function registerMigrationPath(ContainerBuilder $container): void

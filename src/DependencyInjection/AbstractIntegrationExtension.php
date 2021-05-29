@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection;
 
@@ -15,7 +16,7 @@ class AbstractIntegrationExtension extends Extension
 
     public function __construct(string $bundleName)
     {
-        $basename = preg_replace('/Bundle$/', '', $bundleName);
+        $basename = \preg_replace('/Bundle$/', '', $bundleName);
         $this->alias = Container::underscore($basename);
     }
 
@@ -34,9 +35,9 @@ class AbstractIntegrationExtension extends Extension
             (new \ReflectionClass(LocalShopwarePlatformPortal::class))->getFileName()
         );
 
-        $serviceDefinitionFile = $portalSourceLocation . '/../config';
+        $serviceDefinitionFile = $portalSourceLocation.'/../config';
 
-        if (!\is_dir($serviceDefinitionFile) || !\is_file($serviceDefinitionFile . '/bridge-services.xml')) {
+        if (!\is_dir($serviceDefinitionFile) || !\is_file($serviceDefinitionFile.'/bridge-services.xml')) {
             return;
         }
 

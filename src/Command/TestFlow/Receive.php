@@ -78,7 +78,7 @@ class Receive extends Command
         PortalNodeKeyInterface $portalNodeKey,
         DatasetEntityContract $entity
     ): MappingInterface {
-        $mappingNodeKeys = iterable_to_array(
+        $mappingNodeKeys = \iterable_to_array(
             $this->storageKeyGenerator->generateKeys(MappingNodeKeyInterface::class, 1)
         );
 

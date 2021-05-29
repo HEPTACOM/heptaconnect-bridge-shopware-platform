@@ -89,7 +89,7 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeys = [];
 
         if ($portalNodeKeyParam === '') {
-            $portalNodeKeys = iterable_to_array($this->portalNodeRepository->listAll());
+            $portalNodeKeys = \iterable_to_array($this->portalNodeRepository->listAll());
         } else {
             $portalNodeKeys[] = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
         }
