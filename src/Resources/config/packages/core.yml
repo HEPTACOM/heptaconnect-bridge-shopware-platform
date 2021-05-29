@@ -59,7 +59,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
-            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
+            - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
@@ -90,10 +90,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptacom_heptaconnect.logger'
-
-    Heptacom\HeptaConnect\Core\Mapping\Publisher:
-        arguments:
-            - '@messenger.bus.shopware'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:

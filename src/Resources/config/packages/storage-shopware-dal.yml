@@ -209,12 +209,6 @@ services:
         tags:
             - { name: shopware.migration_source }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\JobPayloadStorage:
-        arguments:
-            - '@heptaconnect_job_payload.repository.patched'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage:

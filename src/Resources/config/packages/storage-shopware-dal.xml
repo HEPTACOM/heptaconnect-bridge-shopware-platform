@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobRepository"
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"
+        >
+            <argument id="heptaconnect_job.repository.patched" type="service"/>
+            <argument id="heptaconnect_job_type.repository.patched" type="service"/>
+            <argument id="heptaconnect_dataset_entity_type.repository.patched" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobPayloadRepository"
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"
+        >
+            <argument id="heptaconnect_job_payload.repository.patched" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+        </service>
+    </services>
+</container>

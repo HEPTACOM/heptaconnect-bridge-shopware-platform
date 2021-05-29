@@ -1,6 +1,8 @@
 imports:
+    - { resource: packages/core.xml }
     - { resource: packages/core.yml }
     - { resource: packages/portal.yml }
+    - { resource: packages/storage-shopware-dal.xml }
     - { resource: packages/storage-shopware-dal.yml }
 
 services:
@@ -43,7 +45,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Mapping\Publisher'
+            - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
@@ -142,7 +144,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator:
-        decorates: 'Heptacom\HeptaConnect\Core\Mapping\Publisher'
+        decorates: 'Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator.inner'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
@@ -204,4 +206,4 @@ services:
             - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Webhook\WebhookService']]
             - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]
             - [setResourceLockingService, ['@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking']]
-            - [setPublisher, ['@Heptacom\HeptaConnect\Core\Mapping\Publisher']]
+            - [setPublisher, ['@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface']]

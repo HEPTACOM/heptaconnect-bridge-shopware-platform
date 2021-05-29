@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<container
+    xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Job\DelegatingJobActor"
+            id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Job\PublishJobHandler" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Job\JobDispatcher"
+            id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract"
+        >
+            <argument id="messenger.bus.shopware" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Job\PublishJobHandler">
+            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
+            id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
+        </service>
+    </services>
+</container>
