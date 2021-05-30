@@ -31,6 +31,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContextFactory:
         arguments:
