@@ -9,6 +9,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
+            <argument id="messenger.bus.shopware" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
         <service
