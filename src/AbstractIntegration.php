@@ -105,9 +105,9 @@ class AbstractIntegration extends Plugin
         $collection = $migrationLoader->collect($this->getName());
         $collection->sync();
 
-        (\Closure::bind(function ($installContext) use ($collection): void {
-            $installContext->migrationCollection = $collection;
-        }, null, $installContext))($installContext);
+        $reflectionProperty = new \ReflectionProperty(InstallContext::class, 'migrationCollection');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($installContext, $collection);
     }
 
     protected function getLifecycleContainer(): ContainerInterface
