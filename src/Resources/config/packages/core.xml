@@ -17,6 +17,7 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\JobDispatcher"
@@ -29,6 +30,16 @@
         <service id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler">
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler">
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
