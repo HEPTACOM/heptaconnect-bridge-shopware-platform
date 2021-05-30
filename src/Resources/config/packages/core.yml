@@ -1,9 +1,4 @@
 services:
-    _instanceof:
-        Symfony\Component\Messenger\Handler\MessageSubscriberInterface:
-            tags:
-                - { name: messenger.message_handler }
-
     Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
         arguments:
             - '%kernel.project_dir%/composer.json'
@@ -158,19 +153,6 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-
-    Heptacom\HeptaConnect\Core\Router\Router:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitService'
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-            - '@messenger.routable_message_bus'
-            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_factory'
 
     Heptacom\HeptaConnect\Core\Router\Router.lock_store:
         class: Symfony\Component\Lock\Store\FlockStore
