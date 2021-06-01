@@ -36,6 +36,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
@@ -58,6 +59,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
