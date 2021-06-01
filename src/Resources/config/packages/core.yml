@@ -127,7 +127,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
-    Heptacom\HeptaConnect\Core\Reception\ReceiveContext:
+    Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
@@ -144,7 +144,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContext'
+            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
