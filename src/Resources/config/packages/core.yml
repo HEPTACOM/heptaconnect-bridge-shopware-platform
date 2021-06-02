@@ -197,6 +197,16 @@ services:
         tags:
             - { name: heptacom.heptaconnect_normalizer }
 
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableCompressDenormalizer:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableDenormalizer'
+        tags:
+            - { name: heptacom.heptaconnect_denormalizer, priority: 10 }
+
+    Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableCompressNormalizer:
+        tags:
+            - { name: heptacom.heptaconnect_normalizer, priority: 10 }
+
     Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer:
         arguments:
             - '@hepta_connect_bridge_shopware_platform.filesystem.private'
