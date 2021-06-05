@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
 
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -77,7 +77,7 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
         $this->cache[$portalNodeKey][$datasetEntityClassName][$externalId] = true;
     }
 
-    public function publishBatch(MappingCollection $mappings): void
+    public function publishBatch(MappingComponentCollection $mappings): void
     {
         if (!$this->active) {
             $this->publisher->publishBatch($mappings);
