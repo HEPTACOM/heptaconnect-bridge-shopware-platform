@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
 
-use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -85,7 +85,7 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
             return;
         }
 
-        /** @var MappingInterface $mapping */
+        /** @var MappingComponentStructContract $mapping */
         foreach ($mappings as $mapping) {
             $portalNodeKey = $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey());
             $this->cache[$portalNodeKey][$mapping->getDatasetEntityClassName()][$mapping->getExternalId()] = true;
