@@ -135,14 +135,6 @@ services:
         arguments:
             - '@heptaconnect_webhook.repository'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_mapping_node.repository.patched'
-            - '@heptaconnect_dataset_entity_type.repository.patched'
-            - '@heptaconnect_mapping.repository.patched'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
         arguments:
             - '@heptaconnect_mapping.repository.patched'
