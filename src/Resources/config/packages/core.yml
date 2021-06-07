@@ -25,7 +25,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Emission\EmitContextFactory:
@@ -36,7 +36,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
@@ -86,7 +86,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptacom_heptaconnect.logger'
 

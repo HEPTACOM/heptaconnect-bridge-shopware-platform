@@ -11,15 +11,39 @@
         >
             <argument id="heptaconnect_job.repository.patched" type="service"/>
             <argument id="heptaconnect_job_type.repository.patched" type="service"/>
-            <argument id="heptaconnect_dataset_entity_type.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DatasetEntityTypeAccessor" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobPayloadRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"
         >
             <argument id="heptaconnect_job_payload.repository.patched" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository"
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="heptaconnect_mapping_node.repository.patched" type="service"/>
+            <argument id="heptaconnect_mapping.repository.patched" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DatasetEntityTypeAccessor" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository"
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="heptaconnect_route.repository.patched" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DatasetEntityTypeAccessor" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DatasetEntityTypeAccessor">
+            <argument id="heptaconnect_dataset_entity_type.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
