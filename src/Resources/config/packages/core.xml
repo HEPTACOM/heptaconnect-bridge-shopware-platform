@@ -12,6 +12,15 @@
             <argument id="messenger.bus.shopware" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow">
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmissionActor"/>
+            <call method="setLogger">
+                <argument id="heptacom_heptaconnect.logger" type="service"/>
+            </call>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\DelegatingJobActor"
             id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
