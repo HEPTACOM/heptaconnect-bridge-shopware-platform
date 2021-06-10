@@ -176,10 +176,9 @@ services:
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:
