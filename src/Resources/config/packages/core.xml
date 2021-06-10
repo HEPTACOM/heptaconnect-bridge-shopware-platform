@@ -5,6 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service id="heptacom_heptaconnect.profiler.core" class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract">
+            <factory service="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" method="factory"/>
+            <argument type="string">HeptaConnect\Core::</argument>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
@@ -18,7 +22,10 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmissionActor"/>
             <call method="setLogger">
-                <argument id="heptacom_heptaconnect.logger" type="service"/>
+                <argument type="service" id="heptacom_heptaconnect.logger"/>
+            </call>
+            <call method="setProfiler">
+                <argument type="service" id="heptacom_heptaconnect.profiler.core"/>
             </call>
         </service>
         <service

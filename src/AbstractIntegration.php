@@ -19,6 +19,7 @@ use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\KernelPluginLoader;
 use Shopware\Core\Kernel;
+use Sourceability\Instrumentation\Bundle\SourceabilityInstrumentationBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,10 +27,13 @@ class AbstractIntegration extends Plugin
 {
     private ?Bridge $bridge = null;
 
+    private ?SourceabilityInstrumentationBundle $instrumentationBundle = null;
+
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
     {
         return [
             $this->getBridge(),
+            $this->getInstrumentationBundle(),
         ];
     }
 
@@ -40,6 +44,15 @@ class AbstractIntegration extends Plugin
         }
 
         return $this->bridge;
+    }
+
+    public function getInstrumentationBundle(): SourceabilityInstrumentationBundle
+    {
+        if (!$this->instrumentationBundle instanceof SourceabilityInstrumentationBundle) {
+            $this->instrumentationBundle = new SourceabilityInstrumentationBundle();
+        }
+
+        return $this->instrumentationBundle;
     }
 
     public function install(InstallContext $installContext): void
