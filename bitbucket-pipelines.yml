@@ -15,7 +15,7 @@ definitions:
                     - heptaconnect-ci
                     - composer
                 env:
-                    DATABASE_URL: 'mysql://root:let_me_in@mysql/pipelines'
+                    DATABASE_URL: 'mysql://root:let_me_in@127.0.0.1:3306/pipelines'
                 artifacts:
                     - .build/**
                     - vendor/**
@@ -57,7 +57,7 @@ definitions:
                 <<: *default-step
                 name: Init database
                 script:
-                    - echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql -uroot -plet_me_in -hmysql pipelines
+                    - echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql -uroot -plet_me_in -h127.0.0.1 pipelines
         -   step: &test-unit
                 <<: *default-step
                 name: Unit test
