@@ -29,7 +29,7 @@
         "php-http/curl-client": "^2.2",
         "shopware/core": ">=6.2",
         "symfony/lock": ">=4",
-        "sourceability/instrumentation": "^0.2.0"
+        "sourceability/instrumentation": "^0.2.1"
     },
     "require-dev": {
         "dq5studios/psalm-junit": ">=2",
