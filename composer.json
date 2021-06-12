@@ -28,7 +28,8 @@
         "heptacom/heptaconnect-storage-shopware-dal": ">=0.0.1",
         "php-http/curl-client": "^2.2",
         "shopware/core": ">=6.2",
-        "symfony/lock": ">=4"
+        "symfony/lock": ">=4",
+        "sourceability/instrumentation": "^0.2.3"
     },
     "require-dev": {
         "dq5studios/psalm-junit": ">=2",
