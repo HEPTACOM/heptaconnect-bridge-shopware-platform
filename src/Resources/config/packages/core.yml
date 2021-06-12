@@ -9,11 +9,6 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
 
-    Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
@@ -24,13 +19,6 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Core\Emission\EmitContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
@@ -54,11 +42,6 @@ services:
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
@@ -89,13 +72,6 @@ services:
 
     Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
 
-    Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder:
-        arguments:
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
-
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
@@ -119,13 +95,6 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@Heptacom\HeptaConnect\Core\Support\EntityStatus'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
         arguments:
@@ -153,19 +122,6 @@ services:
         class: Symfony\Component\Lock\LockFactory
         arguments:
             - '@Heptacom\HeptaConnect\Core\Router\Router.lock_store'
-
-    Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-        calls:
-            - setContainerFactory:
-                  - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-
-    Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService:
-        arguments:
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:
@@ -211,11 +167,6 @@ services:
             - !tagged_iterator heptacom.heptaconnect_denormalizer
 
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
-
-    Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
         arguments:
