@@ -123,7 +123,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService'
+            - '@Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
         arguments:

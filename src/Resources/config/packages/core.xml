@@ -29,7 +29,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory">
+        <service
+            class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
@@ -91,16 +94,21 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Support\EntityStatus" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory">
+        <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory"
+            id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
-            <call method="setContainerFactory">
-                <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
-            </call>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService">
+        <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService"
+            id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"
+        >
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>

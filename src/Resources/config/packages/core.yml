@@ -45,7 +45,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorationActor'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory'
@@ -77,7 +77,6 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory'
 
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
