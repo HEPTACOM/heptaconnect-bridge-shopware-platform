@@ -12,9 +12,6 @@ services:
     Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
@@ -31,9 +28,6 @@ services:
     Heptacom\HeptaConnect\Core\Emission\EmitContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
@@ -63,10 +57,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
@@ -102,6 +93,8 @@ services:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
@@ -131,9 +124,6 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Core\Support\EntityStatus'
 
@@ -166,10 +156,7 @@ services:
 
     Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
         calls:
             - setContainerFactory:
                   - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
@@ -228,9 +215,6 @@ services:
     Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory'
-            - '@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Core\Webhook\WebhookService:
