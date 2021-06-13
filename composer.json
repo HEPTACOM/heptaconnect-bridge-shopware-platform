@@ -57,5 +57,11 @@
         "psr-4": {
             "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
+    },
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
     }
 }
