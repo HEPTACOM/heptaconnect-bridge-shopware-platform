@@ -87,6 +87,8 @@
             <argument id="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
