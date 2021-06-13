@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
-use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -28,8 +27,6 @@ class ListRoutes extends Command
 
     private PortalNodeRepositoryContract $portalNodeRepository;
 
-    private PortalRegistryInterface $portalRegistry;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
@@ -37,14 +34,12 @@ class ListRoutes extends Command
     public function __construct(
         RouteRepositoryContract $routeRepository,
         PortalNodeRepositoryContract $portalNodeRepository,
-        PortalRegistryInterface $portalRegistry,
         StorageKeyGeneratorContract $storageKeyGenerator,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
         $this->routeRepository = $routeRepository;
         $this->portalNodeRepository = $portalNodeRepository;
-        $this->portalRegistry = $portalRegistry;
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
@@ -55,7 +50,6 @@ class ListRoutes extends Command
         $types = [];
 
         foreach ($this->portalNodeRepository->listAll() as $portalNodeKey) {
-            $portal = $this->portalRegistry->getPortal($portalNodeKey);
             $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
 
             /** @var EmitterCollection $emitters */
@@ -70,6 +64,12 @@ class ListRoutes extends Command
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
 
+            /** @var ReceiverCollection $receivers */
+            $receivers = $container->get(ReceiverCollection::class);
+            /** @var ReceiverCollection $receiverDecorators */
+            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
+            $receivers->push($receiverDecorators);
+
             /** @var ExplorerContract $explorer */
             foreach ($explorers as $explorer) {
                 $types[$explorer->supports()] = true;
@@ -81,16 +81,8 @@ class ListRoutes extends Command
             }
 
             /** @var ReceiverContract $receiver */
-            foreach ($portal->getReceivers() as $receiver) {
+            foreach ($receivers as $receiver) {
                 $types[$receiver->supports()] = true;
-            }
-
-            /** @var PortalExtensionContract $portalExtension */
-            foreach ($this->portalRegistry->getPortalExtensions($portalNodeKey) as $portalExtension) {
-                /** @var ReceiverContract $receiver */
-                foreach ($portalExtension->getReceiverDecorators() as $receiver) {
-                    $types[$receiver->supports()] = true;
-                }
             }
         }
 

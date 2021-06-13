@@ -58,7 +58,6 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 

@@ -11,8 +11,8 @@ use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -182,6 +182,12 @@ class ListMappingNodeSiblings extends Command
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
 
+            /** @var ReceiverCollection $receivers */
+            $receivers = $container->get(ReceiverCollection::class);
+            /** @var ReceiverCollection $receiverDecorators */
+            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
+            $receivers->push($receiverDecorators);
+
             /** @var EmitterContract $emitter */
             foreach ($emitters as $emitter) {
                 $result[$emitter->supports()] = true;
@@ -193,15 +199,7 @@ class ListMappingNodeSiblings extends Command
             }
 
             /** @var ReceiverContract $receiver */
-            foreach ($portal->getReceivers() as $receiver) {
-                $result[$receiver->supports()] = true;
-            }
-        }
-
-        /** @var PortalExtensionContract $portalExtension */
-        foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
-            /** @var ReceiverContract $receiver */
-            foreach ($portalExtension->getReceiverDecorators() as $receiver) {
+            foreach ($receivers as $receiver) {
                 $result[$receiver->supports()] = true;
             }
         }

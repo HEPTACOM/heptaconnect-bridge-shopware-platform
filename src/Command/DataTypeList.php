@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,6 +55,12 @@ class DataTypeList extends Command
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
 
+            /** @var ReceiverCollection $receivers */
+            $receivers = $container->get(ReceiverCollection::class);
+            /** @var ReceiverCollection $receiverDecorators */
+            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
+            $receivers->push($receiverDecorators);
+
             /** @var ExplorerContract $explorer */
             foreach ($explorers as $explorer) {
                 $types[$explorer->supports()] = true;
@@ -65,7 +72,7 @@ class DataTypeList extends Command
             }
 
             /** @var ReceiverContract $receiver */
-            foreach ($portal->getReceivers() as $receiver) {
+            foreach ($receivers as $receiver) {
                 $types[$receiver->supports()] = true;
             }
         }

@@ -92,7 +92,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
