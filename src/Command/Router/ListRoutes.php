@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface;
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
@@ -29,17 +31,21 @@ class ListRoutes extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
+
     public function __construct(
         RouteRepositoryContract $routeRepository,
         PortalNodeRepositoryContract $portalNodeRepository,
         PortalRegistryInterface $portalRegistry,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
         $this->routeRepository = $routeRepository;
         $this->portalNodeRepository = $portalNodeRepository;
         $this->portalRegistry = $portalRegistry;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -49,6 +55,13 @@ class ListRoutes extends Command
 
         foreach ($this->portalNodeRepository->listAll() as $portalNodeKey) {
             $portal = $this->portalRegistry->getPortal($portalNodeKey);
+            $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
 
             /** @var ExplorerContract $explorer */
             foreach ($portal->getExplorers() as $explorer) {
@@ -56,7 +69,7 @@ class ListRoutes extends Command
             }
 
             /** @var EmitterContract $emitter */
-            foreach ($portal->getEmitters() as $emitter) {
+            foreach ($emitters as $emitter) {
                 $types[$emitter->supports()] = true;
             }
 
@@ -70,11 +83,6 @@ class ListRoutes extends Command
                 /** @var ExplorerContract $explorer */
                 foreach ($portalExtension->getExplorerDecorators() as $explorer) {
                     $types[$explorer->supports()] = true;
-                }
-
-                /** @var EmitterContract $emitter */
-                foreach ($portalExtension->getEmitterDecorators() as $emitter) {
-                    $types[$emitter->supports()] = true;
                 }
 
                 /** @var ReceiverContract $receiver */

@@ -30,6 +30,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"
+            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
             id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
         >
@@ -37,7 +44,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow">
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmissionActor"/>

@@ -25,13 +25,8 @@ services:
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
-
-    Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
@@ -40,7 +35,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
             - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:

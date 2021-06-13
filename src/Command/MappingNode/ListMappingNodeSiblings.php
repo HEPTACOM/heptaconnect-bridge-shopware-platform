@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
@@ -17,6 +19,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepository
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,12 +40,15 @@ class ListMappingNodeSiblings extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
+
     public function __construct(
         ComposerPortalLoader $portalLoader,
         PortalNodeRepositoryContract $portalNodeRepository,
         MappingRepositoryContract $mappingRepository,
         MappingNodeRepositoryContract $mappingNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
         $this->portalLoader = $portalLoader;
@@ -50,6 +56,7 @@ class ListMappingNodeSiblings extends Command
         $this->mappingRepository = $mappingRepository;
         $this->mappingNodeRepository = $mappingNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
 
     protected function configure()
@@ -160,8 +167,16 @@ class ListMappingNodeSiblings extends Command
 
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
+            $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
+
             /** @var EmitterContract $emitter */
-            foreach ($portal->getEmitters() as $emitter) {
+            foreach ($emitters as $emitter) {
                 $result[$emitter->supports()] = true;
             }
 
@@ -178,11 +193,6 @@ class ListMappingNodeSiblings extends Command
 
         /** @var PortalExtensionContract $portalExtension */
         foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
-            /** @var EmitterContract $emitter */
-            foreach ($portalExtension->getEmitterDecorators() as $emitter) {
-                $result[$emitter->supports()] = true;
-            }
-
             /** @var ExplorerContract $explorer */
             foreach ($portalExtension->getExplorerDecorators() as $explorer) {
                 $result[$explorer->supports()] = true;
