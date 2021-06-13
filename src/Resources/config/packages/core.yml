@@ -41,14 +41,14 @@ services:
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorationActor'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:

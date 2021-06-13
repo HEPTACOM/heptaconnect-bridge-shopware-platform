@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
@@ -175,13 +176,19 @@ class ListMappingNodeSiblings extends Command
             $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
             $emitters->push($emitterDecorators);
 
+            /** @var ExplorerCollection $explorers */
+            $explorers = $container->get(ExplorerCollection::class);
+            /** @var ExplorerCollection $explorerDecorators */
+            $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
+            $explorers->push($explorerDecorators);
+
             /** @var EmitterContract $emitter */
             foreach ($emitters as $emitter) {
                 $result[$emitter->supports()] = true;
             }
 
             /** @var ExplorerContract $explorer */
-            foreach ($portal->getExplorers() as $explorer) {
+            foreach ($explorers as $explorer) {
                 $result[$explorer->supports()] = true;
             }
 
@@ -193,11 +200,6 @@ class ListMappingNodeSiblings extends Command
 
         /** @var PortalExtensionContract $portalExtension */
         foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
-            /** @var ExplorerContract $explorer */
-            foreach ($portalExtension->getExplorerDecorators() as $explorer) {
-                $result[$explorer->supports()] = true;
-            }
-
             /** @var ReceiverContract $receiver */
             foreach ($portalExtension->getReceiverDecorators() as $receiver) {
                 $result[$receiver->supports()] = true;

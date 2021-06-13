@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
@@ -47,8 +48,14 @@ class DataTypeList extends Command
             $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
             $emitters->push($emitterDecorators);
 
+            /** @var ExplorerCollection $explorers */
+            $explorers = $container->get(ExplorerCollection::class);
+            /** @var ExplorerCollection $explorerDecorators */
+            $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
+            $explorers->push($explorerDecorators);
+
             /** @var ExplorerContract $explorer */
-            foreach ($portal->getExplorers() as $explorer) {
+            foreach ($explorers as $explorer) {
                 $types[$explorer->supports()] = true;
             }
 
