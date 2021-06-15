@@ -170,11 +170,15 @@ services:
             - '@heptaconnect_mapping.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
+    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract:
+        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
         arguments:
             - '@heptaconnect_portal_node.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
+        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository:
         arguments:
