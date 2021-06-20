@@ -89,7 +89,10 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder">
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
+            id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
+        >
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory" type="service"/>

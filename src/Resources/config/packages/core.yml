@@ -70,7 +70,7 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder'
+            - '@Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
