@@ -43,17 +43,18 @@ class DataTypeList extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
-            /** @var EmitterCollection $emitters */
-            $emitters = $container->get(EmitterCollection::class);
-            /** @var EmitterCollection $emitterDecorators */
-            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
-            $emitters->push($emitterDecorators);
 
             /** @var ExplorerCollection $explorers */
             $explorers = $container->get(ExplorerCollection::class);
             /** @var ExplorerCollection $explorerDecorators */
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
 
             /** @var ReceiverCollection $receivers */
             $receivers = $container->get(ReceiverCollection::class);

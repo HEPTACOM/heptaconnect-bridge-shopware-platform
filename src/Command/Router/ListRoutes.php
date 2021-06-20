@@ -52,17 +52,17 @@ class ListRoutes extends Command
         foreach ($this->portalNodeRepository->listAll() as $portalNodeKey) {
             $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
 
-            /** @var EmitterCollection $emitters */
-            $emitters = $container->get(EmitterCollection::class);
-            /** @var EmitterCollection $emitterDecorators */
-            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
-            $emitters->push($emitterDecorators);
-
             /** @var ExplorerCollection $explorers */
             $explorers = $container->get(ExplorerCollection::class);
             /** @var ExplorerCollection $explorerDecorators */
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
 
             /** @var ReceiverCollection $receivers */
             $receivers = $container->get(ReceiverCollection::class);

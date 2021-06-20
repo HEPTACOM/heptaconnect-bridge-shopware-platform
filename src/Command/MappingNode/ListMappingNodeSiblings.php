@@ -170,17 +170,17 @@ class ListMappingNodeSiblings extends Command
         foreach ($this->portalLoader->getPortals() as $portal) {
             $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
 
-            /** @var EmitterCollection $emitters */
-            $emitters = $container->get(EmitterCollection::class);
-            /** @var EmitterCollection $emitterDecorators */
-            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
-            $emitters->push($emitterDecorators);
-
             /** @var ExplorerCollection $explorers */
             $explorers = $container->get(ExplorerCollection::class);
             /** @var ExplorerCollection $explorerDecorators */
             $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
             $explorers->push($explorerDecorators);
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
 
             /** @var ReceiverCollection $receivers */
             $receivers = $container->get(ReceiverCollection::class);
@@ -188,14 +188,14 @@ class ListMappingNodeSiblings extends Command
             $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
             $receivers->push($receiverDecorators);
 
-            /** @var EmitterContract $emitter */
-            foreach ($emitters as $emitter) {
-                $result[$emitter->supports()] = true;
-            }
-
             /** @var ExplorerContract $explorer */
             foreach ($explorers as $explorer) {
                 $result[$explorer->supports()] = true;
+            }
+
+            /** @var EmitterContract $emitter */
+            foreach ($emitters as $emitter) {
+                $result[$emitter->supports()] = true;
             }
 
             /** @var ReceiverContract $receiver */
