@@ -82,7 +82,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry'
+            - '@Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage'
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
@@ -154,11 +154,6 @@ services:
             - '@hepta_connect_bridge_shopware_platform.filesystem.private'
         tags:
             - { name: heptacom.heptaconnect_normalizer, priority: 200 }
-
-    Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry:
-        arguments:
-            - !tagged_iterator heptacom.heptaconnect_normalizer
-            - !tagged_iterator heptacom.heptaconnect_denormalizer
 
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
 

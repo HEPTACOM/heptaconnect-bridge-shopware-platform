@@ -91,7 +91,7 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder">
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
@@ -118,6 +118,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry"
+            id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract"
+        >
+            <argument tag="heptacom.heptaconnect_normalizer" type="tagged"/>
+            <argument tag="heptacom.heptaconnect_denormalizer" type="tagged"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
