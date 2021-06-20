@@ -5,9 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="heptacom_heptaconnect.profiler.core" class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract">
+        <service
+            class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract"
+            id="heptacom_heptaconnect.profiler.core"
+        >
             <factory service="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" method="factory"/>
             <argument type="string">HeptaConnect\Core::</argument>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory">
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
@@ -16,8 +23,28 @@
             <argument id="messenger.bus.shopware" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory">
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"
+            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow">
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmissionActor"/>
@@ -61,6 +88,50 @@
             id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
+            id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
+        >
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory">
+            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Support\EntityStatus" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory"
+            id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService"
+            id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"
+        >
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry"
+            id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract"
+        >
+            <argument tag="heptacom.heptaconnect_normalizer" type="tagged"/>
+            <argument tag="heptacom.heptaconnect_denormalizer" type="tagged"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
     </services>
 </container>

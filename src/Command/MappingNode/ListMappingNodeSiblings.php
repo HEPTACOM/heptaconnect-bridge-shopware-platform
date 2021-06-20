@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
+use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -17,6 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepository
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,12 +41,15 @@ class ListMappingNodeSiblings extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
+
     public function __construct(
         ComposerPortalLoader $portalLoader,
         PortalNodeRepositoryContract $portalNodeRepository,
         MappingRepositoryContract $mappingRepository,
         MappingNodeRepositoryContract $mappingNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
         $this->portalLoader = $portalLoader;
@@ -50,6 +57,7 @@ class ListMappingNodeSiblings extends Command
         $this->mappingRepository = $mappingRepository;
         $this->mappingNodeRepository = $mappingNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
 
     protected function configure()
@@ -160,36 +168,38 @@ class ListMappingNodeSiblings extends Command
 
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
-            /** @var EmitterContract $emitter */
-            foreach ($portal->getEmitters() as $emitter) {
-                $result[$emitter->supports()] = true;
-            }
+            $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
+
+            /** @var ExplorerCollection $explorers */
+            $explorers = $container->get(ExplorerCollection::class);
+            /** @var ExplorerCollection $explorerDecorators */
+            $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
+            $explorers->push($explorerDecorators);
+
+            /** @var EmitterCollection $emitters */
+            $emitters = $container->get(EmitterCollection::class);
+            /** @var EmitterCollection $emitterDecorators */
+            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitters->push($emitterDecorators);
+
+            /** @var ReceiverCollection $receivers */
+            $receivers = $container->get(ReceiverCollection::class);
+            /** @var ReceiverCollection $receiverDecorators */
+            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
+            $receivers->push($receiverDecorators);
 
             /** @var ExplorerContract $explorer */
-            foreach ($portal->getExplorers() as $explorer) {
+            foreach ($explorers as $explorer) {
                 $result[$explorer->supports()] = true;
             }
 
-            /** @var ReceiverContract $receiver */
-            foreach ($portal->getReceivers() as $receiver) {
-                $result[$receiver->supports()] = true;
-            }
-        }
-
-        /** @var PortalExtensionContract $portalExtension */
-        foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
             /** @var EmitterContract $emitter */
-            foreach ($portalExtension->getEmitterDecorators() as $emitter) {
+            foreach ($emitters as $emitter) {
                 $result[$emitter->supports()] = true;
             }
 
-            /** @var ExplorerContract $explorer */
-            foreach ($portalExtension->getExplorerDecorators() as $explorer) {
-                $result[$explorer->supports()] = true;
-            }
-
             /** @var ReceiverContract $receiver */
-            foreach ($portalExtension->getReceiverDecorators() as $receiver) {
+            foreach ($receivers as $receiver) {
                 $result[$receiver->supports()] = true;
             }
         }

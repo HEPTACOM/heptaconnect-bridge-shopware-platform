@@ -40,6 +40,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\DataTypeList:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
@@ -57,8 +58,8 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
         arguments:
@@ -84,6 +85,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
         arguments:
@@ -123,7 +125,7 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingService'
+            - '@Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
         arguments:
