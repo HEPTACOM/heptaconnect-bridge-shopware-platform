@@ -168,6 +168,10 @@ class AbstractIntegration extends Plugin
                 if (!\in_array($this->plugin->getBridge()->getName(), $bundles, true)) {
                     yield $this->plugin->getBridge();
                 }
+
+                if (!\in_array($this->plugin->getInstrumentationBundle()->getName(), $bundles, true)) {
+                    yield $this->plugin->getInstrumentationBundle();
+                }
             }
 
             protected function buildContainer()
