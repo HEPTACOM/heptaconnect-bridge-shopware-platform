@@ -66,5 +66,11 @@
             "type": "path",
             "url": "../**"
         }
+    },
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
     }
 }
