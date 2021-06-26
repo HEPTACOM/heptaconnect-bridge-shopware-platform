@@ -1,2 +1,0 @@
-services:
-    Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract: ~
