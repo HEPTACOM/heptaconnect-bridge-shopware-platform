@@ -100,6 +100,11 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>
+            <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
