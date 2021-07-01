@@ -61,6 +61,8 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\JobDispatcher"
@@ -82,6 +84,9 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler">
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\ExploreService" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"

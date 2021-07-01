@@ -42,6 +42,7 @@ class Explore extends Command
             ->addArgument('portal-node-key', InputArgument::REQUIRED)
             ->addArgument('type', InputArgument::IS_ARRAY | InputArgument::OPTIONAL)
             ->addOption('external-id', null, InputOption::VALUE_OPTIONAL)
+            ->addOption('use-queue', null, InputOption::VALUE_NONE)
         ;
     }
 
@@ -78,7 +79,11 @@ class Explore extends Command
                 $this->publisher->publish($type, $portalNodeKey, $externalId);
             }
         } else {
-            $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+            if ($input->getOption('use-queue')) {
+                $this->exploreService->exploreLater($portalNodeKey, empty($types) ? null : $types);
+            } else {
+                $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+            }
         }
 
         if ($output->isVerbose()) {

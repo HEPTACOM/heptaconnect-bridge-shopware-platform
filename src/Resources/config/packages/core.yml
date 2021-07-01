@@ -45,6 +45,8 @@ services:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
+            - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
+
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
         arguments:
