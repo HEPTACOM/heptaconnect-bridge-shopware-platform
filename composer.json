@@ -45,7 +45,7 @@
         "symfony/http-kernel": "^4.4|^5.0",
         "symfony/lock": ">=4",
         "symfony/messenger": "^4.4|^5.0",
-        "symfony/psr-http-message-bridge": "^2.1",
+        "symfony/psr-http-message-bridge": "^2",
         "symfony/routing": "^4.4|^5.0"
     },
     "require-dev": {
