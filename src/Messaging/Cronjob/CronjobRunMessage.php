@@ -5,6 +5,9 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob;
 
 use Shopware\Core\Framework\Struct\Struct;
 
+/**
+ * @internal
+ */
 class CronjobRunMessage extends Struct
 {
     protected string $runId;
