@@ -102,6 +102,7 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>
