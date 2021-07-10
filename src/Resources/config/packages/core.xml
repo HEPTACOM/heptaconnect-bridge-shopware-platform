@@ -42,7 +42,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow">
+        <service
+            class="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow"
+            id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract"
+        >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
@@ -101,6 +104,11 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
+
+            <call method="setDirectEmissionFlow">
+                <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
+            </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>

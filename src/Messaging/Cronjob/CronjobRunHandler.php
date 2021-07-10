@@ -8,6 +8,9 @@ use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Cronjob\Contract\CronjobRunInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\CronjobRunRepositoryContract;
 
+/**
+ * @internal
+ */
 class CronjobRunHandler
 {
     private CronjobRunRepositoryContract $cronjobRunRepository;
