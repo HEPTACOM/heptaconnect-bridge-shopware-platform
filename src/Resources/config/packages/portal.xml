@@ -3,6 +3,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <instanceof id="Psr\Log\LoggerAwareInterface">
+            <call method="setLogger">
+                <argument type="service" id="heptacom_heptaconnect.logger"/>
+            </call>
+        </instanceof>
+
         <service id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract"/>
 
         <service id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent"/>
