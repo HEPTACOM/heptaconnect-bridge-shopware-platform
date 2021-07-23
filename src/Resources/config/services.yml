@@ -201,11 +201,3 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider:
         arguments:
             - '@router.default'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Discovery\Strategy:
-        public: true
-        calls:
-            - [setWebhookService, ['@Heptacom\HeptaConnect\Core\Webhook\WebhookService']]
-            - [setCronjobService, ['@Heptacom\HeptaConnect\Core\Cronjob\CronjobService']]
-            - [setResourceLockingService, ['@Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking']]
-            - [setPublisher, ['@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface']]

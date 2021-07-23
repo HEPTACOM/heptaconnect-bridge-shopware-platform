@@ -9,6 +9,9 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunEntity;
 use Shopware\Core\Framework\MessageQueue\Handler\AbstractMessageHandler;
 
+/**
+ * @internal
+ */
 class CronjobRunMessageHandler extends AbstractMessageHandler
 {
     private CronjobRunRepositoryContract $cronjobRunRepositoryContract;

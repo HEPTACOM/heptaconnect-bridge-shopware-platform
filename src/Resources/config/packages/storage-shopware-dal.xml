@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract"
@@ -32,6 +33,7 @@
             <argument id="heptaconnect_job_payload.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository"

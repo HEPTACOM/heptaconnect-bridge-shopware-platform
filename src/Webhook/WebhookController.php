@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @internal
+ *
  * @RouteScope(scopes={"api"})
  */
 class WebhookController
