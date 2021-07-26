@@ -89,6 +89,7 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler">
             <argument id="Heptacom\HeptaConnect\Core\Exploration\ExploreService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
