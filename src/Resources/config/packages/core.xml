@@ -121,10 +121,10 @@
             <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory">
-            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Support\EntityStatus" type="service"/>
+            <argument type="tagged_iterator" tag="heptaconnect.postprocessor" index-by="key" />
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory"
@@ -152,6 +152,20 @@
         <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+        </service>
+
+        <!-- PostProcessing of Reception -->
+        <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">
+            <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor"/>
+            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\NullPostProcessor">
+            <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\NullPostProcessor"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor">
+            <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor"/>
+            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
         </service>
     </services>
 </container>
