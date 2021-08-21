@@ -8,6 +8,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
+            - '@cache.system'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
