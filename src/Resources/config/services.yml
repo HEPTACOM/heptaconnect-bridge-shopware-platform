@@ -56,6 +56,12 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Jobs\Rerun:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract'
+            - '@Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract'
+
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
