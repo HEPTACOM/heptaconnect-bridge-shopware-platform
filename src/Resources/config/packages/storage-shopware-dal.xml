@@ -21,6 +21,7 @@
             id="Heptacom\HeptaConnect\Storage\Base\Contract\MappingPersisterContract"
         >
             <argument type="service" id="heptaconnect_mapping.repository.patched"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobRepository"
