@@ -17,8 +17,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\MappingPersister"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\MappingPersisterContract"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\MappingPersister\MappingPersister"
+            id="Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract"
         >
             <argument type="service" id="heptaconnect_mapping.repository.patched"/>
             <argument type="service" id="Doctrine\DBAL\Connection"/>
