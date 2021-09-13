@@ -65,7 +65,7 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
@@ -83,7 +83,10 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler">
+        <service
+            class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
+            id="Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
