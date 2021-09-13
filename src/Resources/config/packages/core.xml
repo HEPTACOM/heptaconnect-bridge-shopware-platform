@@ -66,7 +66,7 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
@@ -93,7 +93,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler">
+        <service
+            class="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler"
+            id="Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Exploration\ExploreService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
         </service>
