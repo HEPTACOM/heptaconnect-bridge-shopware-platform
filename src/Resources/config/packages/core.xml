@@ -64,7 +64,7 @@
             class="Heptacom\HeptaConnect\Core\Job\DelegatingJobActor"
             id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"
         >
-            <argument id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
@@ -77,7 +77,10 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler">
+        <service
+            class="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler"
+            id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler">
