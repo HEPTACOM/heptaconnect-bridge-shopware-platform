@@ -22,7 +22,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
@@ -33,7 +33,7 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmitContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'

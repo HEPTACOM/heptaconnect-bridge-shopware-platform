@@ -22,7 +22,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory">
+        <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"
+            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
@@ -47,7 +50,7 @@
             id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmitContextFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Mapping\MappingService"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\EmissionActor"/>
             <call method="setLogger">
