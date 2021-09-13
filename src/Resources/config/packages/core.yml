@@ -86,6 +86,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage'
+            - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
