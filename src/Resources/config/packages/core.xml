@@ -132,7 +132,10 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>
             <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory">
+        <service
+            class="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory"
+            id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface"
+        >
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>

@@ -100,7 +100,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Reception\ReceiveService:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory'
+            - '@Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
