@@ -64,13 +64,13 @@ class ListMappingNodeSiblings extends Command
     {
         $this->addArgument('external-ids', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
         $this->addOption('portal-node-key', 'p', InputArgument::OPTIONAL);
-        $this->addOption('dataset-entity-class', 'd', InputArgument::OPTIONAL);
+        $this->addOption('entity-type', 'd', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $datasetEntityClass = (string) $input->getOption('dataset-entity-class');
+        $datasetEntityClass = (string) $input->getOption('entity-type');
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
 
@@ -136,7 +136,7 @@ class ListMappingNodeSiblings extends Command
                             'portal-node-key' => $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey()),
                             'external-id' => $mapping->getExternalId(),
                             'mapping-node-key' => $this->storageKeyGenerator->serialize($mapping->getMappingNodeKey()),
-                            'dataset-entity-class' => $mapping->getDatasetEntityClassName(),
+                            'entity-type' => $mapping->getEntityType(),
                         ];
                     }
                 }
@@ -149,7 +149,7 @@ class ListMappingNodeSiblings extends Command
             return 0;
         }
 
-        \usort($rows, static fn (array $a, array $b) => ($a['dataset-entity-class'] <=> $b['dataset-entity-class']) * 10
+        \usort($rows, static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
             + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
             + ($a['portal-node-key'] <=> $b['portal-node-key'])
         );
