@@ -165,6 +165,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract:
+        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping.repository.patched'
