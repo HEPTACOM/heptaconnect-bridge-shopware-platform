@@ -164,11 +164,14 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
+    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
+        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract'
 
     Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract:
         class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
