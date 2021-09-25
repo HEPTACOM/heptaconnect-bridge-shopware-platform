@@ -48,15 +48,15 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Jobs\CleanupFinished:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Jobs\CleanupPayloads:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupPayloads:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Jobs\Rerun:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Rerun:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract'
