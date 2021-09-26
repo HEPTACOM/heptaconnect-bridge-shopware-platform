@@ -56,11 +56,18 @@ class Rerun extends Command
             return 1;
         }
 
-        $jobData = new JobData($job->getMapping(), $payload);
+        $jobData = new JobData($job->getMapping(), $payload, $jobKey);
         $jobType = $job->getJobType();
         $jobDataCollection = new JobDataCollection();
         $jobDataCollection->push([$jobData]);
-        $this->jobActor->performJobs($jobType, $jobDataCollection);
+
+        try {
+            $this->jobRepository->start($jobData->getJobKey(), null);
+            $this->jobActor->performJobs($jobType, $jobDataCollection);
+            $this->jobRepository->finish($jobData->getJobKey(), null);
+        } catch (UnsupportedStorageKeyException $exception) {
+            return 1;
+        }
 
         return 0;
     }
