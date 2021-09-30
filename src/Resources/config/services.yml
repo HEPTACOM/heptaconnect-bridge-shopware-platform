@@ -25,6 +25,10 @@ services:
             - '../../Messaging/*/*Message.php'
             - '../../PatchProvider/EntityRepositoryPatch587.php'
 
+    Heptacom\HeptaConnect\Core\Component\ExceptionCodeLogger:
+        decorates: heptacom_heptaconnect.logger
+        arguments: ['@.inner']
+
     heptacom_heptaconnect.logger:
         class: Psr\Log\LoggerInterface
         factory:
