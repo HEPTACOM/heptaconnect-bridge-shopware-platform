@@ -63,7 +63,7 @@ class Run extends Command
             $payloadKey = $job->getPayloadKey();
             $payload = $payloadKey !== null ? $this->jobPayloadRepository->get($payloadKey) : null;
         } catch (UnsupportedStorageKeyException $exception) {
-            return 1;
+            return 2;
         }
 
         $jobData = new JobData($job->getMapping(), $payload, $jobKey);
@@ -76,7 +76,7 @@ class Run extends Command
             $this->jobActor->performJobs($jobType, $jobDataCollection);
             $this->jobRepository->finish($jobData->getJobKey(), null);
         } catch (UnsupportedStorageKeyException $exception) {
-            return 1;
+            return 3;
         }
 
         return 0;
