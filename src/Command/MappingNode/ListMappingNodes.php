@@ -32,17 +32,17 @@ class ListMappingNodes extends Command
 
     protected function configure()
     {
-        $this->addArgument('dataset-entity-class', InputArgument::REQUIRED)
+        $this->addArgument('entity-type', InputArgument::REQUIRED)
             ->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $datasetEntityClass = (string) $input->getArgument('dataset-entity-class');
+        $entityType = (string) $input->getArgument('entity-type');
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
-        if (!\is_a($datasetEntityClass, DatasetEntityContract::class, true)) {
+        if (!\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
             return 1;
@@ -55,7 +55,7 @@ class ListMappingNodes extends Command
         }
 
         $rows = [];
-        $iterator = $this->mappingRepository->listByPortalNodeAndType($portalNodeKey, $datasetEntityClass);
+        $iterator = $this->mappingRepository->listByPortalNodeAndType($portalNodeKey, $entityType);
 
         foreach ($iterator as $mappingKey) {
             $mapping = $this->mappingRepository->read($mappingKey);
