@@ -64,17 +64,17 @@ class ListMappingNodeSiblings extends Command
     {
         $this->addArgument('external-ids', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
         $this->addOption('portal-node-key', 'p', InputArgument::OPTIONAL);
-        $this->addOption('dataset-entity-class', 'd', InputArgument::OPTIONAL);
+        $this->addOption('entity-type', 't', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $datasetEntityClass = (string) $input->getOption('dataset-entity-class');
+        $entityType = (string) $input->getOption('entity-type');
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
 
-        if ($datasetEntityClass !== '' && !\is_a($datasetEntityClass, DatasetEntityContract::class, true)) {
+        if ($entityType !== '' && !\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
             return 1;
@@ -104,10 +104,10 @@ class ListMappingNodeSiblings extends Command
 
         $types = [];
 
-        if ($datasetEntityClass === '') {
-            $types = $this->getDatasetEntityClasses();
+        if ($entityType === '') {
+            $types = $this->getEntityTypes();
         } else {
-            $types[] = $datasetEntityClass;
+            $types[] = $entityType;
         }
 
         $rows = [];
@@ -136,7 +136,7 @@ class ListMappingNodeSiblings extends Command
                             'portal-node-key' => $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey()),
                             'external-id' => $mapping->getExternalId(),
                             'mapping-node-key' => $this->storageKeyGenerator->serialize($mapping->getMappingNodeKey()),
-                            'dataset-entity-class' => $mapping->getDatasetEntityClassName(),
+                            'entity-type' => $mapping->getEntityType(),
                         ];
                     }
                 }
@@ -149,7 +149,7 @@ class ListMappingNodeSiblings extends Command
             return 0;
         }
 
-        \usort($rows, static fn (array $a, array $b) => ($a['dataset-entity-class'] <=> $b['dataset-entity-class']) * 10
+        \usort($rows, static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
             + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
             + ($a['portal-node-key'] <=> $b['portal-node-key'])
         );
@@ -162,7 +162,7 @@ class ListMappingNodeSiblings extends Command
     /**
      * @TODO extract into service and resolve unroutable but mappable subtypes
      */
-    protected function getDatasetEntityClasses(): array
+    protected function getEntityTypes(): array
     {
         $result = [];
 

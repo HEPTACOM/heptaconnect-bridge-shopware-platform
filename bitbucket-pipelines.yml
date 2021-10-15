@@ -7,6 +7,8 @@ definitions:
             variables:
                 MYSQL_DATABASE: 'pipelines'
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
+                MYSQL_USER: 'test_user'
+                MYSQL_PASSWORD: 'let_me_in_as_well'
     caches:
         heptaconnect-ci: .build
     steps:
@@ -14,8 +16,6 @@ definitions:
                 caches:
                     - heptaconnect-ci
                     - composer
-                env:
-                    DATABASE_URL: 'mysql://root:let_me_in@127.0.0.1:3306/pipelines'
                 artifacts:
                     - .build/**
                     - vendor/**
@@ -51,36 +51,35 @@ definitions:
                 <<: *default-step
                 name: Install
                 script:
-                    - GLOBAL_REPOSITORIES_DIR=.build/private-composer composer-repository
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - make vendor
-        -   step: &db-install
-                <<: *default-step
-                name: Init database
-                script:
-                    - echo "set names 'utf8'; source vendor/shopware/core/schema.sql;" | mysql -uroot -plet_me_in -h127.0.0.1 pipelines
-        -   step: &test-unit
+        -   step:  &test-unit
                 <<: *default-step
                 name: Unit test
                 script:
-                    - GLOBAL_REPOSITORIES_DIR=.build/private-composer composer-repository
-                    - make test
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_test;'
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' make -e test
         -   step: &test-coverage
                 <<: *default-step
                 name: Unit test coverage
                 script:
-                    - GLOBAL_REPOSITORIES_DIR=.build/private-composer composer-repository
-                    - make coverage
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_covr;'
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' make -e coverage
         -   step: &test-code-style
                 <<: *default-step
                 name: Code style and static code analysis
                 script:
-                    - GLOBAL_REPOSITORIES_DIR=.build/private-composer composer-repository
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - make cs
         -   step: &test-infection
                 <<: *default-step
                 name: Unit test infection detection
                 script:
-                    - GLOBAL_REPOSITORIES_DIR=.build/private-composer composer-repository
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - make infection
 
 pipelines:
@@ -89,7 +88,6 @@ pipelines:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
             -   step: *composer-install
-            -   step: *db-install
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
@@ -102,7 +100,6 @@ pipelines:
 
     default:
         -   step: *composer-install
-        -   step: *db-install
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage

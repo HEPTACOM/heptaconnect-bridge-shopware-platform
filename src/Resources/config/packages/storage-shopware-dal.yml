@@ -25,15 +25,15 @@ services:
         arguments:
             - '@heptaconnect_cronjob_run.repository'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\DatasetEntityType\DatasetEntityTypeDefinition:
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\EntityType\EntityTypeDefinition:
         tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_dataset_entity_type }
+            - { name: shopware.entity.definition, entity: heptaconnect_entity_type }
 
-    heptaconnect_dataset_entity_type.repository.patched:
+    heptaconnect_entity_type.repository.patched:
         class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
         factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
         arguments:
-            - '@heptaconnect_dataset_entity_type.repository'
+            - '@heptaconnect_entity_type.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingDefinition:
         tags:
@@ -164,11 +164,15 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
+    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract:
+        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptaconnect_mapping.repository.patched'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
+
+    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
+        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract'
 
     Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract:
         class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
