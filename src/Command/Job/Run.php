@@ -17,9 +17,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class Rerun extends Command
+class Run extends Command
 {
-    protected static $defaultName = 'heptaconnect:job:rerun';
+    protected static $defaultName = 'heptaconnect:job:run';
 
     private JobRepositoryContract $jobRepository;
 
