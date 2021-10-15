@@ -7,5 +7,16 @@
                  id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract">
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupPayloads">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Rerun">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
+        </service>
     </services>
 </container>
