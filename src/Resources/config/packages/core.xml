@@ -175,6 +175,7 @@
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">
             <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor"/>
             <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\NullPostProcessor">
             <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\NullPostProcessor"/>
