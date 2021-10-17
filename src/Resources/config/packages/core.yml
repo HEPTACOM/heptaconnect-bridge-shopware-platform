@@ -112,7 +112,6 @@ services:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-            - '@Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract'
 
     Heptacom\HeptaConnect\Core\Router\Router.lock_store:
         class: Symfony\Component\Lock\Store\FlockStore
