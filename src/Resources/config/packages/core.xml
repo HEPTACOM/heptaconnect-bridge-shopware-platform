@@ -166,6 +166,17 @@
             <argument tag="heptacom.heptaconnect_normalizer" type="tagged"/>
             <argument tag="heptacom.heptaconnect_denormalizer" type="tagged"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract"/>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer">
+            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
+            <tag name="heptacom.heptaconnect_denormalizer" priority="200"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer">
+            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
+            <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
