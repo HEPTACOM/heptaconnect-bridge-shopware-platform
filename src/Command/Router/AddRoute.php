@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -41,6 +42,7 @@ class AddRoute extends Command
             ->addArgument('source', InputArgument::REQUIRED)
             ->addArgument('target', InputArgument::REQUIRED)
             ->addArgument('type', InputArgument::REQUIRED)
+            ->addOption('bidirectional', null, InputOption::VALUE_NONE)
         ;
     }
 
@@ -73,18 +75,49 @@ class AddRoute extends Command
             return 1;
         }
 
+        if ($input->getOption('bidirectional')) {
+            if ($source->equals($target)) {
+                $io->error('Source and target of the route are equal (please remove the --bidirectional option)');
+
+                return 2;
+            }
+            if ($this->isRouted($source, $target, $type)) {
+                $io->error('Route from PortalNode:'.$source->jsonSerialize().' to PortalNode:'.$target->jsonSerialize().' already configured.');
+
+                return 2;
+            }
+            if ($this->isRouted($target, $source, $type)) {
+                $io->error('Route from PortalNode:'.$target->jsonSerialize().' to PortalNode:'.$source->jsonSerialize().' already configured.');
+
+                return 2;
+            }
+            $this->routeRepository->create($source, $target, $type);
+            $this->routeRepository->create($target, $source, $type);
+        } else {
+            if ($this->isRouted($source, $target, $type)) {
+                $io->error('Route from PortalNode:'.$source->jsonSerialize().' to PortalNode:'.$target->jsonSerialize().' already configured.');
+
+                return 2;
+            }
+            $this->routeRepository->create($source, $target, $type);
+        }
+
+        return 0;
+    }
+
+    private function isRouted(
+        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $target,
+        string $type
+    ): bool {
         foreach ($this->routeRepository->listBySourceAndEntityType($source, $type) as $routeKey) {
             $route = $this->routeRepository->read($routeKey);
 
             if ($route->getTargetKey()->equals($target)) {
-                $io->error('There is already this route configured');
-
-                return 2;
+                return true;
             }
         }
 
-        $this->routeRepository->create($source, $target, $type);
-
-        return 0;
+        return false;
     }
 }
