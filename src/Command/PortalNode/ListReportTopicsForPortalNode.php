@@ -20,6 +20,7 @@ class ListReportTopicsForPortalNode extends Command
     protected static $defaultName = 'heptaconnect:portal-node:list-status-topics';
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
+    
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     public function __construct(
