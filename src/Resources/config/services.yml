@@ -107,6 +107,10 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface'
 
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListReportTopicsForPortalNode:
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
         arguments:
             - '@heptaconnect_bridge_key_alias.repository'

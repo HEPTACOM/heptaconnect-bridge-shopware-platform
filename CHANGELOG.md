@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` and http handling implementation
 - Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract` and implementation to simplify base URL configuration for integrators
 - Add command `heptaconnect:http-handler:list-handlers` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers` to list available HTTP handlers
+- Add command `heptaconnect:portal-node:list-status-topics` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListReportTopicsForPortalNode` to list all supported status topics
 
 ### Changed
 
