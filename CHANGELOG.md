@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`
 - Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`
 
+### Fixed
+
+- Change hardcoded `prod` environment in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\AbstractIntegration::getLifecycleContainer` to using the current one
+
 ### Removed
 
 - Remove command `heptaconnect:job:cleanup-payloads` and service `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupPayloads` in favour of storages removing unused payloads with their jobs
