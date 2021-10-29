@@ -1,4 +1,4 @@
-image: heptacom/heptaconnect-pipeline:php74-6.0.0
+image: heptacom/heptaconnect-pipeline:php74-6.0.1
 
 definitions:
     services:
@@ -25,6 +25,7 @@ definitions:
                 after-script:
                     - cp -a .build test-results
                     - find test-results -type f -name '*.xml' -exec sed -i .bak -e "s|`pwd`/||" {} +
+                    - 'test ${BITBUCKET_EXIT_CODE} -eq 0 || composer config --list'
         -   step: &github-keyword-gate-step
                 <<: *default-step
                 name: Github Keyword Gate
@@ -52,15 +53,15 @@ definitions:
                 name: Install
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make vendor
-        -   step:  &test-unit
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &test-unit
                 <<: *default-step
                 name: Unit test
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_test;'
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' make -e test
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
                 name: Unit test coverage
@@ -68,19 +69,19 @@ definitions:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_covr;'
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' make -e coverage
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-code-style
                 <<: *default-step
                 name: Code style and static code analysis
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make cs
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs
         -   step: &test-infection
                 <<: *default-step
                 name: Unit test infection detection
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make infection
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
     branches:
