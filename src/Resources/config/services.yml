@@ -48,12 +48,6 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'

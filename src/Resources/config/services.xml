@@ -5,6 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface"/>
+            <tag name="console.command"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface"/>

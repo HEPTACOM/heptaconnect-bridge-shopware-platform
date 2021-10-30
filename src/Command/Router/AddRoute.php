@@ -7,6 +7,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,15 +27,19 @@ class AddRoute extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction;
+
     public function __construct(
         RouteRepositoryContract $routeRepository,
         PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction
     ) {
         parent::__construct();
         $this->routeRepository = $routeRepository;
         $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->routeFindByTargetsAndTypeAction = $routeFindByTargetsAndTypeAction;
     }
 
     protected function configure(): void
@@ -73,14 +80,12 @@ class AddRoute extends Command
             return 1;
         }
 
-        foreach ($this->routeRepository->listBySourceAndEntityType($source, $type) as $routeKey) {
-            $route = $this->routeRepository->read($routeKey);
+        $existingRoute = $this->routeFindByTargetsAndTypeAction->find(new RouteFindByTargetsAndTypeCriteria($source, $target, $type));
 
-            if ($route->getTargetKey()->equals($target)) {
-                $io->error('There is already this route configured');
+        if ($existingRoute instanceof RouteFindByTargetsAndTypeResult) {
+            $io->error('There is already this route configured');
 
-                return 2;
-            }
+            return 2;
         }
 
         $this->routeRepository->create($source, $target, $type);

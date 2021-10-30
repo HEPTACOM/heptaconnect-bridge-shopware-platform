@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList` as `Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteOverview` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFindByTargetsAndType` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface`
 
 ### Changed
 
@@ -40,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change dependency in `Heptacom\HeptaConnect\Core\Emission\EmissionActor` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface`
 - Change service definition id based upon class `Heptacom\HeptaConnect\Core\Emission\EmissionActor` to match its interface `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface`
 - Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` and `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
+- Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface` in the service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute`
 
 ### Fixed
 
