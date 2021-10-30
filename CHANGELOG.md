@@ -12,7 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add command `heptaconnect:job:run` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` to run jobs by key from the commandline
 - Add command `heptaconnect:job:cleanup-finished` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` to remove finished jobs from the storage
 - Add command `heptaconnect:job:cleanup-payloads` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupPayloads` to remove unused job data from the storage
-- Add service definition based upon class `Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList` as `Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface`
 
 ### Changed
 
@@ -34,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add dependency `Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract` in the service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer`
 - Add dependency `Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract` in the service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer`
 - Add dependency `heptacom_heptaconnect.logger` in the service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer`
+- Change dependency in `Heptacom\HeptaConnect\Core\Emission\EmissionActor` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface`
+- Change service definition id based upon class `Heptacom\HeptaConnect\Core\Emission\EmissionActor` to match its interface `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface`
 
 ## [0.7.0] - 2021-09-25
 

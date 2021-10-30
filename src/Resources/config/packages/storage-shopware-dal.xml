@@ -5,6 +5,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper"
@@ -66,5 +73,6 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
+        <service class="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator"/>
     </services>
 </container>

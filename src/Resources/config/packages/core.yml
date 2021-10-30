@@ -15,26 +15,19 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
 
-    Heptacom\HeptaConnect\Core\Emission\EmissionActor:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
