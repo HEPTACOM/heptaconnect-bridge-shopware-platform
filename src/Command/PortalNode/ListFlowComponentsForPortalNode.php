@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Core\Job\Type\Exploration;
 use Heptacom\HeptaConnect\Core\Job\Type\Reception;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Builder\Component\ShorthandFlowComponent;
+use Heptacom\HeptaConnect\Portal\Base\Builder\ShorthandFlowComponent;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
@@ -59,6 +59,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('type', InputArgument::REQUIRED);
         $this->addArgument('job', InputArgument::REQUIRED);
+        $this->addOption('pretty', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -98,48 +99,60 @@ class ListFlowComponentsForPortalNode extends Command
         $flowComponentDecorators = $container->get($this->jobToCollectionMap[$job].'.decorator');
         $flowComponents->push($flowComponentDecorators);
         $portalName = $this->portalNodeRepository->read($portalNodeKey);
-        $io->title('Listing FlowComponents of '.$portalName.' for '.$job);
 
         /**
          * @var FlowComponentContract $flowComponent
          */
+        $flowComponentDescriptions = [];
         foreach ($flowComponents->getIterator() as $flowComponent) {
             if ($flowComponent->supports() === $type) {
                 if ($flowComponent instanceof ShorthandFlowComponent) {
                     foreach ($flowComponent->getMethods() as $methodName => $method) {
                         /**
-                         * @var ReflectionClosure $reflectedExecutionMethod
+                         * @var ReflectionClosure $reflectedMethod
                          */
-                        $reflectedExecutionMethod = $method->getReflector();
-                        $methodDescription = \sprintf(
-                            'Shorthand implementation found in file %s for method \'%s\' from line %d to %d',
-                            $reflectedExecutionMethod->getFileName(),
-                            $methodName,
-                            $reflectedExecutionMethod->getStartLine(),
-                            $reflectedExecutionMethod->getEndLine()
-                        );
-                        $io->info($methodDescription);
+                        $reflectedMethod = $method->getReflector();
+                        $method = [
+                            'method' => $methodName,
+                            'start_line' => $reflectedMethod->getStartLine(),
+                            'end_line' => $reflectedMethod->getEndLine(),
+                        ];
+                        $flowComponentDescription = [
+                            'file_name' => $reflectedMethod->getFileName(),
+                            'type' => 'shorthand_implementation',
+                            'methods' => [$method],
+                        ];
+                        $flowComponentDescriptions[] = $flowComponentDescription;
                     }
                 } else {
                     $reflectedFlowComponent = new ReflectionClass($flowComponent);
-                    $descriptions = [];
-                    $fileDescription = \sprintf('Full implementation found in file %s', $reflectedFlowComponent->getFileName());
-                    \array_push($descriptions, $fileDescription);
-                    foreach ($reflectedFlowComponent->getMethods() as $method) {
-                        if ($method->getDeclaringClass()->getName() === $reflectedFlowComponent->getName()) {
-                            $methodDescription = \sprintf(
-                                'Overridden method \'%s\' found from line %d to %d',
-                                $method->getName(),
-                                $method->getStartLine(),
-                                $method->getEndLine()
-                            );
-                            \array_push($descriptions, $methodDescription);
+                    $methodDescriptions = [];
+                    foreach ($reflectedFlowComponent->getMethods() as $reflectedMethod) {
+                        if ($reflectedMethod->getDeclaringClass()->getName() === $reflectedFlowComponent->getName()) {
+                            $method = [
+                                'method' => $reflectedMethod->getName(),
+                                'start_line' => $reflectedMethod->getStartLine(),
+                                'end_line' => $reflectedMethod->getEndLine(),
+                            ];
+                            $methodDescriptions[] = $method;
                         }
                     }
-                    $io->info($descriptions);
+                    $flowComponentDescription = [
+                        'file_name' => $reflectedFlowComponent->getFileName(),
+                        'type' => 'full_implementation',
+                        'methods' => $methodDescriptions,
+                    ];
+                    $flowComponentDescriptions[] = $flowComponentDescription;
                 }
             }
         }
+        $description = [
+            'portal' => $portalName,
+            'job' => $job,
+            'flowComponents' => $flowComponentDescriptions,
+        ];
+        $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
+        $io->writeln(\json_encode($description, $flags));
 
         return 0;
     }
