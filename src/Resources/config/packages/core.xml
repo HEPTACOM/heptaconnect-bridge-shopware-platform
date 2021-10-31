@@ -96,7 +96,6 @@
             class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
             id="Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface"
         >
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector" type="service"/>
@@ -105,6 +104,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler"

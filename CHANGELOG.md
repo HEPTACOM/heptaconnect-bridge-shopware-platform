@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList` as `Heptacom\HeptaConnect\Storage\Base\Contract\ReceptionRouteListActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteOverview` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFindByTargetsAndType` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteGet` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface`
 
 ### Changed
 
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change service definition id based upon class `Heptacom\HeptaConnect\Core\Emission\EmissionActor` to match its interface `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface`
 - Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` and `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
 - Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface` in the service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute`
+- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface`
 
 ### Fixed
 
