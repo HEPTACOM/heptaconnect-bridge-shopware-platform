@@ -86,15 +86,6 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
-        <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract"
-        >
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="heptaconnect_route.repository.patched" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
-        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor">
             <argument id="heptaconnect_entity_type.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
