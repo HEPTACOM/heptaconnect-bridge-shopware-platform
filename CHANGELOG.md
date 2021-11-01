@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteOverview` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFindByTargetsAndType` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteGet` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface`
 
 ### Changed
 

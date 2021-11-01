@@ -13,6 +13,14 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFindByTargetsAndType"
         >
