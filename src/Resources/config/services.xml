@@ -16,6 +16,10 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface"/>
             <tag name="console.command"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRouteCapabilities">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteCapabilityOverviewActionInterface"/>
+            <tag name="console.command"/>
+        </service>
         <service class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Profiling\ProfilerFactory"
                  id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract">
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
