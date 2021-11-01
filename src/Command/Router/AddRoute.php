@@ -5,8 +5,9 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateParam;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateParams;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
@@ -21,25 +22,21 @@ class AddRoute extends Command
 {
     protected static $defaultName = 'heptaconnect:router:add-route';
 
-    private RouteRepositoryContract $routeRepository;
-
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     private RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction;
 
+    private RouteCreateActionInterface $routeCreateAction;
+
     public function __construct(
-        RouteRepositoryContract $routeRepository,
-        PortalNodeRepositoryContract $portalNodeRepository,
         StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction
+        RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction,
+        RouteCreateActionInterface $routeCreateAction
     ) {
         parent::__construct();
-        $this->routeRepository = $routeRepository;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->routeFindByTargetsAndTypeAction = $routeFindByTargetsAndTypeAction;
+        $this->routeCreateAction = $routeCreateAction;
     }
 
     protected function configure(): void
@@ -71,9 +68,6 @@ class AddRoute extends Command
             return 1;
         }
 
-        $this->portalNodeRepository->read($source);
-        $this->portalNodeRepository->read($target);
-
         if (!\is_a($type, DatasetEntityContract::class, true)) {
             $io->error('The specified type does not implement the DatasetEntityContract.');
 
@@ -88,7 +82,15 @@ class AddRoute extends Command
             return 2;
         }
 
-        $this->routeRepository->create($source, $target, $type);
+        $results = [];
+
+        foreach ($this->routeCreateAction->create(new RouteCreateParams([new RouteCreateParam($source, $target, $type)])) as $result) {
+            $results[] = [
+                'id' => $this->storageKeyGenerator->serialize($result->getRoute()),
+            ];
+        }
+
+        $io->table(['id' => 'id'], $results);
 
         return 0;
     }
