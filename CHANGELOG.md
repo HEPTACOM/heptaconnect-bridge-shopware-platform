@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCapabilityOverview` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCapabilityOverviewActionInterface`
 - Add command `heptaconnect:router:list-capabilities` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRouteCapabilities` to list available route capabilities
+- Add column for capabilities in  `heptaconnect:router:list-routes` to show applied capabilities of routes
 
 ### Changed
 

@@ -40,10 +40,14 @@ class ListRoutes extends Command
         ]);
 
         foreach ($this->routeOverviewAction->overview($criteria) as $route) {
+            $capabilities = $route->getCapabilities();
+            \sort($capabilities);
+
             $targets[] = [
                 'type' => $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSource()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTarget()),
+                'capabilities' => \implode(', ', $capabilities),
             ];
         }
 
