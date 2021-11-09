@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionI
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -84,7 +85,8 @@ class AddRoute extends Command
 
         $results = [];
 
-        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([new RouteCreatePayload($source, $target, $type)])) as $result) {
+        $payload = new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION]);
+        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
             $results[] = [
                 'id' => $this->storageKeyGenerator->serialize($result->getRoute()),
             ];
