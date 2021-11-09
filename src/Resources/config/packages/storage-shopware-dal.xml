@@ -28,8 +28,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor" type="service"/>
         </service>
         <service
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFindByTargetsAndType"
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFind"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>

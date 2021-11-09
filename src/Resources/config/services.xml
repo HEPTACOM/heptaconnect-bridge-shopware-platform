@@ -7,7 +7,7 @@
     <services>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface"/>
             <tag name="console.command"/>

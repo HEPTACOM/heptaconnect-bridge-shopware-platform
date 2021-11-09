@@ -9,9 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -28,7 +28,7 @@ class AddRoute extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction;
+    private RouteFindActionInterface $routeFindAction;
 
     private RouteCreateActionInterface $routeCreateAction;
 
@@ -36,13 +36,13 @@ class AddRoute extends Command
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction,
+        RouteFindActionInterface $routeFindAction,
         RouteCreateActionInterface $routeCreateAction,
         RouteGetActionInterface $routeGetAction
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeFindByTargetsAndTypeAction = $routeFindByTargetsAndTypeAction;
+        $this->routeFindAction = $routeFindAction;
         $this->routeCreateAction = $routeCreateAction;
         $this->routeGetAction = $routeGetAction;
     }
@@ -82,9 +82,9 @@ class AddRoute extends Command
             return 1;
         }
 
-        $existingRoute = $this->routeFindByTargetsAndTypeAction->find(new RouteFindByTargetsAndTypeCriteria($source, $target, $type));
+        $existingRoute = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
 
-        if ($existingRoute instanceof RouteFindByTargetsAndTypeResult) {
+        if ($existingRoute instanceof RouteFindResult) {
             $io->error('There is already this route configured');
 
             return 2;
