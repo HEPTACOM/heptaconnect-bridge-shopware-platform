@@ -6,8 +6,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateParam;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateParams;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
@@ -84,7 +84,7 @@ class AddRoute extends Command
 
         $results = [];
 
-        foreach ($this->routeCreateAction->create(new RouteCreateParams([new RouteCreateParam($source, $target, $type)])) as $result) {
+        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([new RouteCreatePayload($source, $target, $type)])) as $result) {
             $results[] = [
                 'id' => $this->storageKeyGenerator->serialize($result->getRoute()),
             ];
