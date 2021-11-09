@@ -25,6 +25,7 @@
             <argument id="Doctrine\DBAL\Connection" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor" type="service"/>
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface"
@@ -96,6 +97,9 @@
             <argument id="heptaconnect_entity_type.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor">
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator"/>
     </services>
