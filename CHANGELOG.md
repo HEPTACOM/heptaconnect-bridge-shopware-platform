@@ -21,8 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCapabilityOverview` as `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCapabilityOverviewActionInterface`
 - Add command `heptaconnect:router:list-capabilities` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRouteCapabilities` to list available route capabilities
-- Add column for capabilities in  `heptaconnect:router:list-routes` to show applied capabilities of routes
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor`
+- Add column for route primary key and route capabilities to the output of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` named `heptaconnect:router:list-routes`
 
 ### Changed
 
@@ -49,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` and `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface`
 - Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface` in the service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute`
 - Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface`
+- Change output from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` named `heptaconnect:router:add-route` to show all route information like `heptaconnect:router:list-routes`
 
 ### Fixed
 

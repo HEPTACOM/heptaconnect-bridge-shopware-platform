@@ -5,12 +5,15 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteFindByTargetsAndTypeResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Symfony\Component\Console\Command\Command;
@@ -29,15 +32,19 @@ class AddRoute extends Command
 
     private RouteCreateActionInterface $routeCreateAction;
 
+    private RouteGetActionInterface $routeGetAction;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         RouteFindByTargetsAndTypeActionInterface $routeFindByTargetsAndTypeAction,
-        RouteCreateActionInterface $routeCreateAction
+        RouteCreateActionInterface $routeCreateAction,
+        RouteGetActionInterface $routeGetAction
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->routeFindByTargetsAndTypeAction = $routeFindByTargetsAndTypeAction;
         $this->routeCreateAction = $routeCreateAction;
+        $this->routeGetAction = $routeGetAction;
     }
 
     protected function configure(): void
@@ -83,16 +90,35 @@ class AddRoute extends Command
             return 2;
         }
 
+        $payload = new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION]);
+        $ids = new RouteGetCriteria(new RouteKeyCollection());
+
+        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
+            $ids->getRoutes()->push([$result->getRoute()]);
+        }
+
         $results = [];
 
-        $payload = new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION]);
-        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
+        foreach ($this->routeGetAction->get($ids) as $route) {
+            $capabilities = $route->getCapabilities();
+            \sort($capabilities);
+
             $results[] = [
-                'id' => $this->storageKeyGenerator->serialize($result->getRoute()),
+                'id' => $this->storageKeyGenerator->serialize($route->getRoute()),
+                'type' => $route->getEntityType(),
+                'source' => $this->storageKeyGenerator->serialize($route->getSource()),
+                'target' => $this->storageKeyGenerator->serialize($route->getTarget()),
+                'capabilities' => \implode(', ', $capabilities),
             ];
         }
 
-        $io->table(['id' => 'id'], $results);
+        if (\count($results) === 0) {
+            $io->note('There are no routes.');
+
+            return 0;
+        }
+
+        $io->table(\array_keys(\current($results)), $results);
 
         return 0;
     }
