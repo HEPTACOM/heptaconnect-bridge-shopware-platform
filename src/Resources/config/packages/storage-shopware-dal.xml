@@ -5,6 +5,47 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\Overview\RouteCapabilityOverviewActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCapabilityOverview"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFind"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteOverview"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteGet"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper"
@@ -52,19 +93,14 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
-        <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\RouteRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract"
-        >
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="heptaconnect_route.repository.patched" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
-        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor">
             <argument id="heptaconnect_entity_type.repository.patched" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor">
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator"/>
     </services>
 </container>

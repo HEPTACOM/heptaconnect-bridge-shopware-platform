@@ -24,6 +24,8 @@ services:
             - '../../{Resources,Migration,Bundle.php}'
             - '../../Messaging/*/*Message.php'
             - '../../PatchProvider/EntityRepositoryPatch587.php'
+            - '../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}'
+            - '../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}'
 
     heptacom_heptaconnect.logger:
         class: Psr\Log\LoggerInterface
@@ -47,19 +49,6 @@ services:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
         arguments:
