@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\RouteOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
