@@ -179,14 +179,3 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\MigrationSource:
         tags:
             - { name: shopware.migration_source }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
-        arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory'
-        tags:
-            - { name: controller.service_arguments }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider:
-        arguments:
-            - '@router.default'

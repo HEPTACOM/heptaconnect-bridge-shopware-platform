@@ -1,3 +1,0 @@
-controllers:
-    resource: '../../Webhook/WebhookController.php'
-    type: annotation

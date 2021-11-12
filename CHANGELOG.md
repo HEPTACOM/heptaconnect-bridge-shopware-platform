@@ -59,6 +59,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Remove service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract`
+- Remove service definition `Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory`
+- Remove service definition `Heptacom\HeptaConnect\Core\Webhook\WebhookService`
+- Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition`
+- Remove service definition `heptaconnect_webhook.repository.patched`
+- Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository`
+- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController`
+- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider`
 
 ## [0.7.0] - 2021-09-25
 

@@ -187,10 +187,6 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory">
-            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
-        </service>
 
         <!-- PostProcessing of Reception -->
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">

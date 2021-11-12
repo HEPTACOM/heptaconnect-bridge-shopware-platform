@@ -125,16 +125,6 @@ services:
         arguments:
             - '@heptaconnect_route.repository'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_webhook }
-
-    heptaconnect_webhook.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_webhook.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
         arguments:
             - '@heptaconnect_mapping.repository.patched'
@@ -183,12 +173,6 @@ services:
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
         alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository:
-        arguments:
-            - '@heptaconnect_webhook.repository.patched'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
