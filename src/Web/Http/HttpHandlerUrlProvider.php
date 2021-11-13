@@ -21,6 +21,8 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 
     private UrlGeneratorInterface $urlGenerator;
 
+    private ?string $portalNodeId = null;
+
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
         StorageKeyGeneratorContract $storageKeyGenerator,
@@ -34,10 +36,10 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 
     public function resolve(string $path): UriInterface
     {
-        $portalNodeId = $this->storageKeyGenerator->serialize($this->portalNodeKey);
+        $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey);
 
         return $this->uriFactory->createUri($this->urlGenerator->generate('heptaconnect.http.handler', [
-            'portalNodeId' => $portalNodeId,
+            'portalNodeId' => $this->portalNodeId,
             'path' => $path,
         ], UrlGeneratorInterface::ABSOLUTE_URL));
     }
