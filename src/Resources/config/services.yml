@@ -18,14 +18,6 @@ services:
             tags:
                 - { name: messenger.message_handler }
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\:
-        resource: '../../*'
-        exclude:
-            - '../../{Resources,Migration,Bundle.php}'
-            - '../../Messaging/*/*Message.php'
-            - '../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}'
-            - '../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}'
-
     heptacom_heptaconnect.logger:
         class: Psr\Log\LoggerInterface
         factory:
