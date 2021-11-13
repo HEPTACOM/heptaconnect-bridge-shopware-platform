@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInterface
 {
@@ -15,12 +16,20 @@ class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInte
 
     private UrlGeneratorInterface $urlGenerator;
 
+    private HttpHostProviderContract $hostProvider;
+
+    private RequestContext $requestContext;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        HttpHostProviderContract $hostProvider,
+        RequestContext $requestContext
     ) {
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->urlGenerator = $urlGenerator;
+        $this->hostProvider = $hostProvider;
+        $this->requestContext = $requestContext;
     }
 
     public function factory(PortalNodeKeyInterface $portalNodeKey): HttpHandlerUrlProviderInterface
@@ -28,7 +37,9 @@ class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInte
         return new HttpHandlerUrlProvider(
             $portalNodeKey,
             $this->storageKeyGenerator,
-            $this->urlGenerator
+            $this->urlGenerator,
+            $this->requestContext,
+            $this->hostProvider
         );
     }
 }
