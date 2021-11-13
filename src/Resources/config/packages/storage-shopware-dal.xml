@@ -52,8 +52,8 @@
             id="Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract"
         >
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="heptaconnect_mapping_node.repository.patched" type="service"/>
-            <argument id="heptaconnect_mapping.repository.patched" type="service"/>
+            <argument id="heptaconnect_mapping_node.repository" type="service"/>
+            <argument id="heptaconnect_mapping.repository" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
@@ -61,15 +61,15 @@
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\MappingPersister\MappingPersister"
             id="Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract"
         >
-            <argument type="service" id="heptaconnect_mapping.repository.patched"/>
+            <argument type="service" id="heptaconnect_mapping.repository"/>
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"
         >
-            <argument id="heptaconnect_job.repository.patched" type="service"/>
-            <argument id="heptaconnect_job_type.repository.patched" type="service"/>
+            <argument id="heptaconnect_job.repository" type="service"/>
+            <argument id="heptaconnect_job_type.repository" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
@@ -78,7 +78,7 @@
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobPayloadRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"
         >
-            <argument id="heptaconnect_job_payload.repository.patched" type="service"/>
+            <argument id="heptaconnect_job_payload.repository" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess" type="service"/>
@@ -88,13 +88,13 @@
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract"
         >
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="heptaconnect_mapping_node.repository.patched" type="service"/>
-            <argument id="heptaconnect_mapping.repository.patched" type="service"/>
+            <argument id="heptaconnect_mapping_node.repository" type="service"/>
+            <argument id="heptaconnect_mapping.repository" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor">
-            <argument id="heptaconnect_entity_type.repository.patched" type="service"/>
+            <argument id="heptaconnect_entity_type.repository" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>

@@ -23,7 +23,6 @@ services:
         exclude:
             - '../../{Resources,Migration,Bundle.php}'
             - '../../Messaging/*/*Message.php'
-            - '../../PatchProvider/EntityRepositoryPatch587.php'
             - '../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}'
             - '../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}'
 
@@ -160,10 +159,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore:
         arguments:
             - '%kernel.cache_dir%/heptaconnect_lock'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository:
-        arguments:
-            - '%kernel.shopware_version%'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator:
         arguments:
