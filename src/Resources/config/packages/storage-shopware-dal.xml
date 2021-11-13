@@ -7,20 +7,20 @@
     <services>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\ReceptionRouteList"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\Overview\RouteCapabilityOverviewActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCapabilityOverview"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCapability\RouteCapabilityOverview"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteCreate"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\RouteCreate"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
@@ -29,19 +29,19 @@
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteFind"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\RouteFind"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteOverview"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\RouteOverview"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface"
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\RouteGet"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\RouteGet"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
