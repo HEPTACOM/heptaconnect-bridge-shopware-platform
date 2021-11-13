@@ -13,11 +13,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
+    private string $portalNodeId;
 
     private UriFactoryInterface $uriFactory;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
 
     private UrlGeneratorInterface $urlGenerator;
 
@@ -26,18 +24,15 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         StorageKeyGeneratorContract $storageKeyGenerator,
         UrlGeneratorInterface $urlGenerator
     ) {
-        $this->portalNodeKey = $portalNodeKey;
+        $this->portalNodeId = $storageKeyGenerator->serialize($portalNodeKey);
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
-        $this->storageKeyGenerator = $storageKeyGenerator;
         $this->urlGenerator = $urlGenerator;
     }
 
     public function resolve(string $path): UriInterface
     {
-        $portalNodeId = $this->storageKeyGenerator->serialize($this->portalNodeKey);
-
         return $this->uriFactory->createUri($this->urlGenerator->generate('heptaconnect.http.handler', [
-            'portalNodeId' => $portalNodeId,
+            'portalNodeId' => $this->portalNodeId,
             'path' => $path,
         ], UrlGeneratorInterface::ABSOLUTE_URL));
     }
