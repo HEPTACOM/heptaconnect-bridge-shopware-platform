@@ -28,6 +28,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerAccessor`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathAccessor`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver`
+- Add command `heptaconnect:config:base-url:get` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\GetBaseUrlCommand` to get base url for http handlers
+- Add command `heptaconnect:config:base-url:set` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\SetBaseUrlCommand` to set base url for http handlers
+- Add service definition based upon interface `\Psr\Http\Message\ResponseFactoryInterface` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findResponseFactory`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFind` as `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSet` as `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContextFactory` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` and http handling implementation
+- Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract` and implementation to simplify base URL configuration for integrators
 
 ### Changed
 
@@ -56,6 +68,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface`
 - Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface`
 - Change output from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` named `heptaconnect:router:add-route` to show all route information like `heptaconnect:router:list-routes`
+- Add dependency `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface` in the service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage` from `heptaconnect_portal_node_storage.repository.patched` to `heptaconnect_portal_node_storage.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository` from `heptaconnect_cronjob.repository.patched` to `heptaconnect_cronjob.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository` from `heptaconnect_cronjob.repository.patched` to `heptaconnect_cronjob.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository` from `heptaconnect_cronjob_run.repository.patched` to `heptaconnect_cronjob_run.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository` from `heptaconnect_mapping_error_message.repository.patched` to `heptaconnect_mapping_error_message.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` from `heptaconnect_portal_node.repository.patched` to `heptaconnect_portal_node.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` from `heptaconnect_mapping_node.repository.patched` to `heptaconnect_mapping_node.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` from `heptaconnect_job.repository.patched` to `heptaconnect_job.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` from `heptaconnect_job_type.repository.patched` to `heptaconnect_job_type.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract` from `heptaconnect_job_payload.repository.patched` to `heptaconnect_job_payload.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` from `heptaconnect_mapping_node.repository.patched` to `heptaconnect_mapping_node.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
+- Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor` from `heptaconnect_entity_type.repository.patched` to `heptaconnect_entity_type.repository`
+- Move route annotation registration from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController` to `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
 
 ### Fixed
 
@@ -69,8 +100,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition`
 - Remove service definition `heptaconnect_webhook.repository.patched`
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository`
-- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController`
-- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider`
+- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController` in favour of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+- Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider` in favour of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
+- Remove patched entity repository services `heptaconnect_mapping_node.repository.patched`, `heptaconnect_mapping.repository.patched`, `heptaconnect_job.repository.patched`, `heptaconnect_job_type.repository.patched`, `heptaconnect_job_payload.repository.patched`, `heptaconnect_entity_type.repository.patched`, `heptaconnect_route.repository.patched`, `heptaconnect_portal_node_storage.repository.patched`, `heptaconnect_portal_node.repository.patched`, `heptaconnect_mapping_error_message.repository.patched`, `heptaconnect_cronjob_run.repository.patched` and `heptaconnect_cronjob.repository.patched` 
+- Remove support for `shopware/core: 6.2.*` and therefore the compatibility patching process with `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepositoryPatch587`
 
 ## [0.7.0] - 2021-09-25
 
