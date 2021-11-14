@@ -46,6 +46,21 @@
             <argument id="Doctrine\DBAL\Connection" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
         </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFind"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSet"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathAccessor" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerAccessor" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper"
@@ -102,5 +117,14 @@
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator"/>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerAccessor">
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathAccessor">
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver" type="service"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver"/>
     </services>
 </container>
