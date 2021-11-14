@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver`
 - Add command `heptaconnect:config:base-url:get` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\GetBaseUrlCommand` to get base url for http handlers
 - Add command `heptaconnect:config:base-url:set` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\SetBaseUrlCommand` to set base url for http handlers
-- Add service definition based upon interface `\Psr\Http\Message\ResponseFactoryInterface` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findResponseFactory`
+- Add service definition `Psr\Http\Message\ResponseFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findResponseFactory`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFind` as `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSet` as `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandleContextFactory` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface`

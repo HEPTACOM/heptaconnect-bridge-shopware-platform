@@ -5,7 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="Psr\Http\Message\ResponseFactoryInterface">
+        <service
+            id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\ResponseFactoryInterface"
+        >
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
@@ -227,7 +230,7 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
-            <argument id="Psr\Http\Message\ResponseFactoryInterface" type="service"/>
+            <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
         </service>
         <service
