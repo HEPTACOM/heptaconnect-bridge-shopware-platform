@@ -18,15 +18,6 @@ services:
             tags:
                 - { name: messenger.message_handler }
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\:
-        resource: '../../*'
-        exclude:
-            - '../../{Resources,Migration,Bundle.php}'
-            - '../../Messaging/*/*Message.php'
-            - '../../PatchProvider/EntityRepositoryPatch587.php'
-            - '../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}'
-            - '../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}'
-
     heptacom_heptaconnect.logger:
         class: Psr\Log\LoggerInterface
         factory:
@@ -161,10 +152,6 @@ services:
         arguments:
             - '%kernel.cache_dir%/heptaconnect_lock'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository:
-        arguments:
-            - '%kernel.shopware_version%'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
@@ -179,14 +166,3 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\MigrationSource:
         tags:
             - { name: shopware.migration_source }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController:
-        arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Webhook\WebhookContextFactory'
-        tags:
-            - { name: controller.service_arguments }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider:
-        arguments:
-            - '@router.default'

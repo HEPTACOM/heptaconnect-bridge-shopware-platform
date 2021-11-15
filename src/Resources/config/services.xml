@@ -5,6 +5,12 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
+        <prototype resource="../../*" namespace="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\">
+            <exclude>../../{Resources,Migration,Bundle.php}</exclude>
+            <exclude>../../Messaging/*/*Message.php</exclude>
+            <exclude>../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}</exclude>
+            <exclude>../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}</exclude>
+        </prototype>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface"/>
@@ -36,6 +42,39 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\GetBaseUrlCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config\SetBaseUrlCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\GetHandlerConfiguration">
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers">
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\SetHandlerConfiguration">
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface"/>
+            <tag name="console.command"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController" public="true">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
     </services>
 </container>

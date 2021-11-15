@@ -141,8 +141,3 @@ services:
             - { name: heptacom.heptaconnect_normalizer, priority: 100 }
 
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
-
-    Heptacom\HeptaConnect\Core\Webhook\WebhookService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'

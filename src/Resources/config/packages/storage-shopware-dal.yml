@@ -9,158 +9,76 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_cronjob }
 
-    heptaconnect_cronjob.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_cronjob.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_cronjob_run }
-
-    heptaconnect_cronjob_run.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_cronjob_run.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\EntityType\EntityTypeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_entity_type }
 
-    heptaconnect_entity_type.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_entity_type.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_mapping }
-
-    heptaconnect_mapping.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_mapping.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingErrorMessageDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_mapping_error_message }
 
-    heptaconnect_mapping_error_message.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_mapping_error_message.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Mapping\MappingNodeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_mapping_node }
-
-    heptaconnect_mapping_node.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_mapping_node.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_portal_node }
 
-    heptaconnect_portal_node.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_portal_node.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\PortalNode\PortalNodeStorageDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_portal_node_storage }
-
-    heptaconnect_portal_node_storage.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_portal_node_storage.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_job }
 
-    heptaconnect_job.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_job.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobPayloadDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_job_payload }
-
-    heptaconnect_job_payload.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_job_payload.repository'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Job\JobTypeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_job_type }
 
-    heptaconnect_job_type.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_job_type.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Route\RouteDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_route }
 
-    heptaconnect_route.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_route.repository'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Webhook\WebhookDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_webhook }
-
-    heptaconnect_webhook.repository.patched:
-        class: Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface
-        factory: ['@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository', patch]
-        arguments:
-            - '@heptaconnect_webhook.repository'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
         arguments:
-            - '@heptaconnect_mapping.repository.patched'
+            - '@heptaconnect_mapping.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
-            - '@heptaconnect_portal_node_storage.repository.patched'
+            - '@heptaconnect_portal_node_storage.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository:
         arguments:
-            - '@heptaconnect_cronjob.repository.patched'
+            - '@heptaconnect_cronjob.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository:
         arguments:
-            - '@heptaconnect_cronjob.repository.patched'
-            - '@heptaconnect_cronjob_run.repository.patched'
+            - '@heptaconnect_cronjob.repository'
+            - '@heptaconnect_cronjob_run.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
         arguments:
-            - '@heptaconnect_mapping_error_message.repository.patched'
+            - '@heptaconnect_mapping_error_message.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
@@ -168,7 +86,7 @@ services:
         class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_mapping.repository.patched'
+            - '@heptaconnect_mapping.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
@@ -177,18 +95,12 @@ services:
     Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract:
         class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
         arguments:
-            - '@heptaconnect_portal_node.repository.patched'
+            - '@heptaconnect_portal_node.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
         alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository:
-        arguments:
-            - '@heptaconnect_webhook.repository.patched'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
