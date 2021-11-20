@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface;
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -11,32 +13,29 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ReportPortalNode extends Command
+class ListStatusReportTopics extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:status:report';
+    protected static $defaultName = 'heptaconnect:portal-node:status:list-topics';
+
+    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private StatusReportingServiceInterface $statusReportingService;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        StatusReportingServiceInterface $statusReportingService
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
+        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->statusReportingService = $statusReportingService;
     }
 
     protected function configure()
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
-        $this->addArgument('topic', InputArgument::OPTIONAL);
-        $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,16 +54,21 @@ class ReportPortalNode extends Command
             return 1;
         }
 
-        $topic = (string) $input->getArgument('topic');
-        $topic = empty($topic) ? null : $topic;
-        $report = $this->statusReportingService->report($portalNodeKey, $topic);
+        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        /** @var StatusReporterCollection $statusReporters */
+        $statusReporters = $container->get(StatusReporterCollection::class);
 
-        if (!empty($topic)) {
-            $report = $report[$topic] ?? $report;
+        $topics = [];
+
+        /** @var StatusReporterContract $statusReporter */
+        foreach ($statusReporters as $statusReporter) {
+            $topics[] = $statusReporter->supportsTopic();
         }
 
-        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
-        $output->writeln(\json_encode($report, $flags));
+        $topics = \array_keys(\array_flip($topics));
+        $rows = \array_map(static fn (string $topic): array => ['topic' => $topic], $topics);
+
+        $io->table(\array_keys(\current($rows)), $rows);
 
         return 0;
     }

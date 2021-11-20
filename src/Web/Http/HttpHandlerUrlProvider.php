@@ -80,7 +80,7 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         }
 
         if (\is_string($this->baseUrl->getPath())) {
-            $this->requestContext->setBaseUrl(ltrim($this->baseUrl->getPath(), '/'));
+            $this->requestContext->setBaseUrl(\ltrim($this->baseUrl->getPath(), '/'));
         }
     }
 

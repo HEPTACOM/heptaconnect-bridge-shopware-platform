@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` and http handling implementation
 - Add service definition based upon class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract` and implementation to simplify base URL configuration for integrators
 - Add command `heptaconnect:http-handler:list-handlers` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers` to list available HTTP handlers
+- Add command `heptaconnect:portal-node:status:list-topics` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListStatusReportTopics` to list all supported status topics
 
 ### Changed
 
@@ -88,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change dependency in `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` from `heptaconnect_mapping.repository.patched` to `heptaconnect_mapping.repository`
 - Change dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor` from `heptaconnect_entity_type.repository.patched` to `heptaconnect_entity_type.repository`
 - Move route annotation registration from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\WebhookController` to `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+- Change command name from `heptaconnect:portal-node:status` to `heptaconnect:portal-node:status:report`
 
 ### Fixed
 

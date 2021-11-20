@@ -28,8 +28,8 @@ class HttpHostProviderContract
             $baseUrl = 'localhost';
         }
 
-        if (strpos($baseUrl, '//') === false) {
-            $baseUrl = '//' . $baseUrl;
+        if (\strpos($baseUrl, '//') === false) {
+            $baseUrl = '//'.$baseUrl;
         }
 
         $urlComponents = \parse_url($baseUrl);
