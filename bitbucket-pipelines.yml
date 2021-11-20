@@ -1,4 +1,4 @@
-image: heptacom/heptaconnect-pipeline:php74-6.0.1
+image: heptacom/heptaconnect-pipeline:php74-6.0.2
 
 definitions:
     services:
@@ -9,12 +9,9 @@ definitions:
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
                 MYSQL_USER: 'test_user'
                 MYSQL_PASSWORD: 'let_me_in_as_well'
-    caches:
-        heptaconnect-ci: .build
     steps:
         -   step: &default-step
                 caches:
-                    - heptaconnect-ci
                     - composer
                 artifacts:
                     - .build/**
