@@ -87,7 +87,6 @@ class ListHandlers extends Command
                     'url' => $urlFactory->resolve($path),
                 ];
             }
-
         }
 
         if ($result === []) {
