@@ -29,7 +29,7 @@ class HttpHostProviderContract
         }
 
         if (\strpos($baseUrl, '//') === false) {
-            $baseUrl = '//'.$baseUrl;
+            $baseUrl = '//' . $baseUrl;
         }
 
         $urlComponents = \parse_url($baseUrl);

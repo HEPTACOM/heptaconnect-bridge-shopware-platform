@@ -35,9 +35,9 @@ class AbstractIntegrationExtension extends Extension
             (new \ReflectionClass(LocalShopwarePlatformPortal::class))->getFileName()
         );
 
-        $serviceDefinitionFile = $portalSourceLocation.'/../config';
+        $serviceDefinitionFile = $portalSourceLocation . '/../config';
 
-        if (!\is_dir($serviceDefinitionFile) || !\is_file($serviceDefinitionFile.'/bridge-services.xml')) {
+        if (!\is_dir($serviceDefinitionFile) || !\is_file($serviceDefinitionFile . '/bridge-services.xml')) {
             return;
         }
 

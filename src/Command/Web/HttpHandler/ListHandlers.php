@@ -73,7 +73,7 @@ class ListHandlers extends Command
             $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
             $handlers = new HttpHandlerCollection();
             $handlers->push($container->get(HttpHandlerCollection::class));
-            $handlers->push($container->get(HttpHandlerCollection::class.'.decorator'));
+            $handlers->push($container->get(HttpHandlerCollection::class . '.decorator'));
             $paths = \array_unique(\iterable_to_array($handlers->column('getPath')));
             \sort($paths);
             $urlFactory = null;

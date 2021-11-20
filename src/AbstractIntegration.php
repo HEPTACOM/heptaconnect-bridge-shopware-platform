@@ -103,7 +103,7 @@ class AbstractIntegration extends Plugin
             $migrationPaths[$integrationMigrationPath] = $this->getMigrationNamespace();
         }
 
-        $container->register(MigrationSource::class.'_'.$this->getName(), MigrationSource::class)
+        $container->register(MigrationSource::class . '_' . $this->getName(), MigrationSource::class)
             ->addArgument($this->getName())
             ->addArgument($migrationPaths)
             ->addTag('shopware.migration_source')
@@ -130,11 +130,11 @@ class AbstractIntegration extends Plugin
         if ($this->container->hasParameter('kernel.vendor_dir')) {
             $vendorDir = $this->container->getParameter('kernel.vendor_dir');
         } else {
-            $vendorDir = $projectDir.'/vendor/';
+            $vendorDir = $projectDir . '/vendor/';
         }
 
         $pluginLoader = new DbalKernelPluginLoader(
-            require $vendorDir.'/autoload.php',
+            require $vendorDir . '/autoload.php',
             null,
             Kernel::getConnection()
         );

@@ -173,19 +173,19 @@ class ListMappingNodeSiblings extends Command
             /** @var ExplorerCollection $explorers */
             $explorers = $container->get(ExplorerCollection::class);
             /** @var ExplorerCollection $explorerDecorators */
-            $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
+            $explorerDecorators = $container->get(ExplorerCollection::class . '.decorator');
             $explorers->push($explorerDecorators);
 
             /** @var EmitterCollection $emitters */
             $emitters = $container->get(EmitterCollection::class);
             /** @var EmitterCollection $emitterDecorators */
-            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
+            $emitterDecorators = $container->get(EmitterCollection::class . '.decorator');
             $emitters->push($emitterDecorators);
 
             /** @var ReceiverCollection $receivers */
             $receivers = $container->get(ReceiverCollection::class);
             /** @var ReceiverCollection $receiverDecorators */
-            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
+            $receiverDecorators = $container->get(ReceiverCollection::class . '.decorator');
             $receivers->push($receiverDecorators);
 
             /** @var ExplorerContract $explorer */
