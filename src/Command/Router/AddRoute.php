@@ -14,6 +14,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindCrite
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Symfony\Component\Console\Command\Command;
@@ -99,15 +100,16 @@ class AddRoute extends Command
 
         $results = [];
 
+        /** @var RouteGetResult $route */
         foreach ($this->routeGetAction->get($ids) as $route) {
             $capabilities = $route->getCapabilities();
             \sort($capabilities);
 
             $results[] = [
-                'id' => $this->storageKeyGenerator->serialize($route->getRoute()),
+                'id' => $this->storageKeyGenerator->serialize($route->getKey()),
                 'type' => $route->getEntityType(),
-                'source' => $this->storageKeyGenerator->serialize($route->getSource()),
-                'target' => $this->storageKeyGenerator->serialize($route->getTarget()),
+                'source' => $this->storageKeyGenerator->serialize($route->getSourceKey()),
+                'target' => $this->storageKeyGenerator->serialize($route->getTargetKey()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
         }
