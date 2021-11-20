@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ReportPortalNode extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:status';
+    protected static $defaultName = 'heptaconnect:portal-node:status:report';
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
