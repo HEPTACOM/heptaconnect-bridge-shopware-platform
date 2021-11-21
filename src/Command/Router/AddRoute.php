@@ -106,7 +106,7 @@ class AddRoute extends Command
             \sort($capabilities);
 
             $results[] = [
-                'id' => $this->storageKeyGenerator->serialize($route->getKey()),
+                'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSourceKey()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTargetKey()),
