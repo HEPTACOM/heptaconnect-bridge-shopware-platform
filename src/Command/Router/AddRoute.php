@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindResult;
@@ -94,8 +95,9 @@ class AddRoute extends Command
         $payload = new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION]);
         $ids = new RouteGetCriteria(new RouteKeyCollection());
 
+        /** @var RouteCreateResult $result */
         foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
-            $ids->getRouteKeys()->push([$result->getRoute()]);
+            $ids->getRouteKeys()->push([$result->getRouteKey()]);
         }
 
         $results = [];
