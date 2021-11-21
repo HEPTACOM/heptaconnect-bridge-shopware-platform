@@ -109,7 +109,7 @@ class AddRoute extends Command
                 'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSourceKey()),
-                'target' => $this->storageKeyGenerator->serialize($route->getTargetKey()),
+                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
         }
