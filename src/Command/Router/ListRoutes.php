@@ -44,7 +44,7 @@ class ListRoutes extends Command
             \sort($capabilities);
 
             $targets[] = [
-                'id' => $this->storageKeyGenerator->serialize($route->getRoute()),
+                'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSource()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTarget()),
