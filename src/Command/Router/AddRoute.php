@@ -95,7 +95,7 @@ class AddRoute extends Command
         $ids = new RouteGetCriteria(new RouteKeyCollection());
 
         foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
-            $ids->getRoutes()->push([$result->getRoute()]);
+            $ids->getRouteKeys()->push([$result->getRoute()]);
         }
 
         $results = [];
