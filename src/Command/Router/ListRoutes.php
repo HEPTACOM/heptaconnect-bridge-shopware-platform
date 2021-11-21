@@ -46,7 +46,7 @@ class ListRoutes extends Command
             $targets[] = [
                 'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
-                'source' => $this->storageKeyGenerator->serialize($route->getSource()),
+                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTarget()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
