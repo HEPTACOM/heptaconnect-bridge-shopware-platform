@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+ 
+- Remove argument `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent` from service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+
+### Removed
+
+- Remove unused service `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
+
 ## [0.8.0] - 2021-11-22
 
 ### Added
