@@ -126,5 +126,19 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver"/>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobStart"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFinish"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
     </services>
 </container>
