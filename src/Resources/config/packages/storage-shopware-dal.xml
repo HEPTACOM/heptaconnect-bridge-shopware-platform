@@ -22,6 +22,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFinishedList"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
