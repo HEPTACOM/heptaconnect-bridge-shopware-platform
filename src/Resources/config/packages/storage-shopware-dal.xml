@@ -106,15 +106,6 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobPayloadRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"
-        >
-            <argument id="heptaconnect_job_payload.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess" type="service"/>
-        </service>
-        <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract"
         >
