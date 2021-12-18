@@ -109,16 +109,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"
-        >
-            <argument id="heptaconnect_job.repository" type="service"/>
-            <argument id="heptaconnect_job_type.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
-        </service>
-        <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract"
         >
