@@ -38,8 +38,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
         </service>
