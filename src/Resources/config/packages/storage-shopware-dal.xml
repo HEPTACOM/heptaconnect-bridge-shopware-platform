@@ -140,5 +140,12 @@
         >
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFail"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
     </services>
 </container>
