@@ -69,8 +69,7 @@
             </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
@@ -88,8 +87,7 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract"
         >
             <argument id="messenger.bus.shopware" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler"
