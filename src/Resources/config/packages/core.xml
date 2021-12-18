@@ -94,7 +94,8 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
