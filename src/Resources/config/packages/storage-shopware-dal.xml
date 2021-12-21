@@ -6,6 +6,12 @@
 >
     <services>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeDelete"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
