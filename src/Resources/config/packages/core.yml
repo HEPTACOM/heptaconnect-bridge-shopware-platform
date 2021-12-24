@@ -76,6 +76,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:
