@@ -7,7 +7,7 @@ use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,24 +21,24 @@ class ListHandlers extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
     private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory;
 
+    private PortalNodeListActionInterface $portalNodeListAction;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeRepositoryContract $portalNodeRepository,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory
+        HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
+        PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
 
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
         $this->httpHandlerUrlProviderFactory = $httpHandlerUrlProviderFactory;
+        $this->portalNodeListAction = $portalNodeListAction;
     }
 
     protected function configure()
@@ -64,7 +64,7 @@ class ListHandlers extends Command
 
             $portalNodeKeys = [$portalNodeKey];
         } else {
-            $portalNodeKeys = $this->portalNodeRepository->listAll();
+            $portalNodeKeys = $this->portalNodeListAction->list();
         }
 
         $result = [];
