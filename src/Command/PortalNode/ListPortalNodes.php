@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
@@ -20,13 +21,17 @@ class ListPortalNodes extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalNodeListActionInterface $portalNodeListAction;
+
     public function __construct(
         PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
         $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalNodeListAction = $portalNodeListAction;
     }
 
     protected function configure()
@@ -52,7 +57,7 @@ class ListPortalNodes extends Command
 
         $rows = [];
         $iterator = \is_null($portalClass) ?
-            $this->portalNodeRepository->listAll() :
+            $this->portalNodeListAction->list() :
             $this->portalNodeRepository->listByClass($portalClass);
 
         foreach ($iterator as $portalNodeKey) {
