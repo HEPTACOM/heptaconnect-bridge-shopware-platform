@@ -16,6 +16,7 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
@@ -33,8 +34,6 @@ class ListMappingNodeSiblings extends Command
 
     private ComposerPortalLoader $portalLoader;
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private MappingRepositoryContract $mappingRepository;
 
     private MappingNodeRepositoryContract $mappingNodeRepository;
@@ -43,21 +42,23 @@ class ListMappingNodeSiblings extends Command
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
+    private PortalNodeListActionInterface $portalNodeListAction;
+
     public function __construct(
         ComposerPortalLoader $portalLoader,
-        PortalNodeRepositoryContract $portalNodeRepository,
         MappingRepositoryContract $mappingRepository,
         MappingNodeRepositoryContract $mappingNodeRepository,
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
         $this->portalLoader = $portalLoader;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->mappingRepository = $mappingRepository;
         $this->mappingNodeRepository = $mappingNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
+        $this->portalNodeListAction = $portalNodeListAction;
     }
 
     protected function configure()
@@ -97,7 +98,7 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeys = [];
 
         if ($portalNodeKeyParam === '') {
-            $portalNodeKeys = \iterable_to_array($this->portalNodeRepository->listAll());
+            $portalNodeKeys = \iterable_to_array($this->portalNodeListAction->list());
         } else {
             $portalNodeKeys[] = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
         }
