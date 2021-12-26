@@ -26,6 +26,12 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeOverview"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
