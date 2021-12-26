@@ -19,7 +19,6 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
