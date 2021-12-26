@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryIn
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -64,7 +65,10 @@ class ListHandlers extends Command
 
             $portalNodeKeys = [$portalNodeKey];
         } else {
-            $portalNodeKeys = $this->portalNodeListAction->list();
+            $portalNodeKeys = \iterable_map(
+                $this->portalNodeListAction->list(),
+                static fn (PortalNodeListResult $r) => $r->getPortalNodeKey()
+            );
         }
 
         $result = [];
