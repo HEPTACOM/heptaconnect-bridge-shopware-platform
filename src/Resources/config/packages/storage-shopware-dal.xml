@@ -6,6 +6,35 @@
 >
     <services>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobGet"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobCreate"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\JobTypeAccessor" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFinishedList"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobDelete"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeCreate"
         >
@@ -113,25 +142,6 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"
-        >
-            <argument id="heptaconnect_job.repository" type="service"/>
-            <argument id="heptaconnect_job_type.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
-        </service>
-        <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\JobPayloadRepository"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"
-        >
-            <argument id="heptaconnect_job_payload.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess" type="service"/>
-        </service>
-        <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository"
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract"
         >
@@ -146,6 +156,9 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\JobTypeAccessor">
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\RouteCapabilityAccessor">
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
@@ -159,5 +172,33 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\WebHttpHandlerPathIdResolver"/>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobStart"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFinish"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobFail"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobScheduleActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Job\JobSchedule"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
     </services>
 </container>
