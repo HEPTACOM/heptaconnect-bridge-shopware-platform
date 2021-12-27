@@ -69,8 +69,7 @@
             </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
@@ -88,15 +87,15 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract"
         >
             <argument id="messenger.bus.shopware" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler"
             id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
@@ -109,9 +108,10 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface" type="service"/>
-            <argument type="service" id="heptacom_heptaconnect.logger"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler"
@@ -119,7 +119,8 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Exploration\ExploreService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"

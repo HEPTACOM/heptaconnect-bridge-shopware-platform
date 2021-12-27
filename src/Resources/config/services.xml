@@ -32,14 +32,11 @@
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"/>
-        </service>
-        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupPayloads">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
         </service>
