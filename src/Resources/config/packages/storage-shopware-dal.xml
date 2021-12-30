@@ -35,6 +35,39 @@
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeCreate"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeDelete"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeList"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeGet"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalNode\PortalNodeOverview"
+        >
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >

@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,17 +18,18 @@ class RemovePortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:remove';
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalNodeDeleteActionInterface $portalNodeDeleteAction;
+
     public function __construct(
-        PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalNodeDeleteActionInterface $portalNodeDeleteAction
     ) {
         parent::__construct();
-        $this->portalNodeRepository = $portalNodeRepository;
+
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalNodeDeleteAction = $portalNodeDeleteAction;
     }
 
     protected function configure(): void
@@ -45,7 +48,7 @@ class RemovePortalNode extends Command
             return 1;
         }
 
-        $this->portalNodeRepository->delete($key);
+        $this->portalNodeDeleteAction->delete(new PortalNodeDeleteCriteria(new PortalNodeKeyCollection([$key])));
 
         $io->success('The portal node was successfully removed.');
 

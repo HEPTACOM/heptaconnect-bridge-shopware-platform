@@ -92,16 +92,6 @@ services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
         alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract'
 
-    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract:
-        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
-        arguments:
-            - '@heptaconnect_portal_node.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository:
-        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
