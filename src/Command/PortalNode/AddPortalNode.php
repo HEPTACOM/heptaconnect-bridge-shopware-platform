@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,17 +18,18 @@ class AddPortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:add';
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalNodeCreateActionInterface $portalNodeCreateAction;
+
     public function __construct(
-        PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalNodeCreateActionInterface $portalNodeCreateAction
     ) {
         parent::__construct();
-        $this->portalNodeRepository = $portalNodeRepository;
+
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalNodeCreateAction = $portalNodeCreateAction;
     }
 
     protected function configure(): void
@@ -46,9 +49,9 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        $portalNodeKey = $this->portalNodeRepository->create($portalClass);
+        $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass)]));
 
-        $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($portalNodeKey)));
+        $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($result->first()->getPortalNodeKey())));
 
         return 0;
     }

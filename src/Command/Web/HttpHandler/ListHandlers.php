@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,24 +23,24 @@ class ListHandlers extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
     private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory;
 
+    private PortalNodeListActionInterface $portalNodeListAction;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeRepositoryContract $portalNodeRepository,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory
+        HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
+        PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
 
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
         $this->httpHandlerUrlProviderFactory = $httpHandlerUrlProviderFactory;
+        $this->portalNodeListAction = $portalNodeListAction;
     }
 
     protected function configure()
@@ -64,7 +66,10 @@ class ListHandlers extends Command
 
             $portalNodeKeys = [$portalNodeKey];
         } else {
-            $portalNodeKeys = $this->portalNodeRepository->listAll();
+            $portalNodeKeys = \iterable_map(
+                $this->portalNodeListAction->list(),
+                static fn (PortalNodeListResult $r) => $r->getPortalNodeKey()
+            );
         }
 
         $result = [];
@@ -72,8 +77,14 @@ class ListHandlers extends Command
         foreach ($portalNodeKeys as $portalNodeKey) {
             $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
             $handlers = new HttpHandlerCollection();
-            $handlers->push($container->get(HttpHandlerCollection::class));
-            $handlers->push($container->get(HttpHandlerCollection::class . '.decorator'));
+
+            /** @var FlowComponentRegistry $flowComponentRegistry */
+            $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+
+            foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+                $handlers->push($flowComponentRegistry->getWebHttpHandlers($source));
+            }
+
             $paths = \array_unique(\iterable_to_array($handlers->column('getPath')));
             \sort($paths);
             $urlFactory = null;
