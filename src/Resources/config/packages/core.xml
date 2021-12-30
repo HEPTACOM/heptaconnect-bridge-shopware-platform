@@ -138,7 +138,6 @@
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>

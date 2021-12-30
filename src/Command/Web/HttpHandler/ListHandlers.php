@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -76,8 +77,14 @@ class ListHandlers extends Command
         foreach ($portalNodeKeys as $portalNodeKey) {
             $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
             $handlers = new HttpHandlerCollection();
-            $handlers->push($container->get(HttpHandlerCollection::class));
-            $handlers->push($container->get(HttpHandlerCollection::class . '.decorator'));
+
+            /** @var FlowComponentRegistry $flowComponentRegistry */
+            $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+
+            foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+                $handlers->push($flowComponentRegistry->getWebHttpHandlers($source));
+            }
+
             $paths = \array_unique(\iterable_to_array($handlers->column('getPath')));
             \sort($paths);
             $urlFactory = null;

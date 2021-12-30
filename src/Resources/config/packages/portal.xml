@@ -10,7 +10,5 @@
         </instanceof>
 
         <service id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract"/>
-
-        <service id="Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent"/>
     </services>
 </container>
