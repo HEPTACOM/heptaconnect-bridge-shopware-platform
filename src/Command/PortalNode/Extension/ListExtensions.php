@@ -6,8 +6,11 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Exten
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,22 +24,22 @@ class ListExtensions extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private ComposerPortalLoader $portalLoader;
+
+    private PortalNodeGetActionInterface $portalNodeGetAction;
 
     private PortalExtensionFindActionInterface $portalExtensionFindAction;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeRepositoryContract $portalNodeRepository,
         ComposerPortalLoader $portalLoader,
+        PortalNodeGetActionInterface $portalNodeGetAction,
         PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->portalLoader = $portalLoader;
+        $this->portalNodeGetAction = $portalNodeGetAction;
         $this->portalExtensionFindAction = $portalExtensionFindAction;
     }
 
@@ -57,8 +60,19 @@ class ListExtensions extends Command
 
         $portalExtensionFindResult = $this->portalExtensionFindAction->find($portalNodeKey);
 
-        $portalClass = $this->portalNodeRepository->read($portalNodeKey);
-        $extensions = $this->portalLoader->getPortalExtensions()->filterSupported($portalClass);
+        $portalNodeGetResults = \iterable_to_array($this->portalNodeGetAction->get(
+            new PortalNodeGetCriteria(new PortalNodeKeyCollection([$portalNodeKey]))
+        ));
+
+        $portalNodeGetResult = \array_shift($portalNodeGetResults);
+
+        if (!$portalNodeGetResult instanceof PortalNodeGetResult) {
+            throw new \Exception('Unable to find portal-node');
+        }
+
+        $extensions = $this->portalLoader->getPortalExtensions()->filterSupported(
+            $portalNodeGetResult->getPortalClass()
+        );
 
         $extensionList = $extensions->map(static fn (PortalExtensionContract $extension): array => [
             'class' => \get_class($extension),

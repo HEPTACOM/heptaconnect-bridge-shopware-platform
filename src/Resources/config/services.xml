@@ -14,8 +14,8 @@
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
