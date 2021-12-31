@@ -74,6 +74,18 @@
             <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalExtension\PortalExtensionActivate"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalExtension\PortalExtensionDeactivate"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
