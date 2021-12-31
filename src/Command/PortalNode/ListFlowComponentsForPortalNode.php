@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
+use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
@@ -36,29 +36,29 @@ class ListFlowComponentsForPortalNode extends Command
 
     private ExplorerStackBuilderFactory $explorerStackBuilderFactory;
 
-    private EmitterStackBuilderFactoryInterface $emitterStackBuilderFactory;
-
     private ReceiverStackBuilderFactory $receiverStackBuilderFactory;
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
     private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder;
 
+    private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         ExplorerStackBuilderFactory $explorerStackBuilderFactory,
-        EmitterStackBuilderFactoryInterface $emitterStackBuilderFactory,
         ReceiverStackBuilderFactory $receiverStackBuilderFactory,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder
+        HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
+        EmitterCodeOriginFinderInterface $emitterCodeOriginFinder
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->explorerStackBuilderFactory = $explorerStackBuilderFactory;
-        $this->emitterStackBuilderFactory = $emitterStackBuilderFactory;
         $this->receiverStackBuilderFactory = $receiverStackBuilderFactory;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
         $this->httpHandlerCodeOriginFinder = $httpHandlerCodeOriginFinder;
+        $this->emitterCodeOriginFinder = $emitterCodeOriginFinder;
     }
 
     protected function configure()
@@ -151,16 +151,18 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getEmitterImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $emitterStackBuilder = $this->emitterStackBuilderFactory
-            ->createEmitterStackBuilder($portalNodeKey, $entityType)
-            ->pushSource()
-            ->pushDecorators();
-        /**
-         * @var EmitterStack $emitterStack
-         */
-        $emitterStack = $emitterStackBuilder->build();
+        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $components = new EmitterCollection();
 
-        return $emitterStack->listOrigins();
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            $components->push($flowComponentRegistry->getWebHttpHandlers($source));
+        }
+
+        $components = new EmitterCollection($components->bySupport($entityType));
+
+        return \iterable_to_array($components->map([$this->emitterCodeOriginFinder, 'findOrigin']));
     }
 
     private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $path): array

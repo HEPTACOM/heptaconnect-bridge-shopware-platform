@@ -48,6 +48,10 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
             id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
         >

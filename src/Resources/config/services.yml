@@ -111,10 +111,10 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory'
-            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface'
+            - '@Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
         arguments:
