@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface`
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface`
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface`
+- Add service definition based upon class `Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface`
 
 ### Changed
 
@@ -47,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode` from `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface` to `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode` from `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface` to `Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode` from `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface` to `Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode` from `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface` to `Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface`
 
 ### Fixed
 
