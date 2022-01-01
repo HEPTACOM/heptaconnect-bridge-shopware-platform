@@ -59,13 +59,21 @@ class ActivateExtension extends Command
         $payload = new PortalExtensionActivatePayload($portalNodeKey);
         $payload->addExtension($extensionClass);
 
-        $this->portalExtensionActivateAction->activate($payload);
+        $activateResult = $this->portalExtensionActivateAction->activate($payload);
 
-        $io->success(\sprintf(
-            'Extension "%s" is now activated for Portal-Node "%s"',
-            $extensionClass,
-            $this->storageKeyGenerator->serialize($portalNodeKey)
-        ));
+        if ($activateResult->isSuccess()) {
+            $io->success(\sprintf(
+                'Extension "%s" is now activated for portal-node "%s"',
+                $extensionClass,
+                $this->storageKeyGenerator->serialize($portalNodeKey)
+            ));
+        } else {
+            $io->error(\sprintf(
+                'Could not activate extension "%s" for portal-node "%s"',
+                $extensionClass,
+                $this->storageKeyGenerator->serialize($portalNodeKey)
+            ));
+        }
 
         return 0;
     }

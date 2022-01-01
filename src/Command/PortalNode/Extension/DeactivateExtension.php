@@ -59,13 +59,21 @@ class DeactivateExtension extends Command
         $payload = new PortalExtensionDeactivatePayload($portalNodeKey);
         $payload->addExtension($extensionClass);
 
-        $this->portalExtensionDeactivateAction->deactivate($payload);
+        $deactivateResult = $this->portalExtensionDeactivateAction->deactivate($payload);
 
-        $io->success(\sprintf(
-            'Extension "%s" is now deactivated for Portal-Node "%s"',
-            $extensionClass,
-            $this->storageKeyGenerator->serialize($portalNodeKey)
-        ));
+        if ($deactivateResult->isSuccess()) {
+            $io->success(\sprintf(
+                'Extension "%s" is now deactivated for portal-node "%s"',
+                $extensionClass,
+                $this->storageKeyGenerator->serialize($portalNodeKey)
+            ));
+        } else {
+            $io->error(\sprintf(
+                'Could not deactivate extension "%s" for portal-node "%s"',
+                $extensionClass,
+                $this->storageKeyGenerator->serialize($portalNodeKey)
+            ));
+        }
 
         return 0;
     }
