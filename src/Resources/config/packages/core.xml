@@ -59,6 +59,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow"
             id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract"
         >

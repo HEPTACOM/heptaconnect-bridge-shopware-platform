@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory;
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory;
@@ -11,8 +10,9 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerStack;
+use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -34,8 +34,6 @@ class ListFlowComponentsForPortalNode extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private ExplorerStackBuilderFactory $explorerStackBuilderFactory;
-
     private ReceiverStackBuilderFactory $receiverStackBuilderFactory;
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
@@ -44,21 +42,23 @@ class ListFlowComponentsForPortalNode extends Command
 
     private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder;
 
+    private ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        ExplorerStackBuilderFactory $explorerStackBuilderFactory,
         ReceiverStackBuilderFactory $receiverStackBuilderFactory,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
         HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
-        EmitterCodeOriginFinderInterface $emitterCodeOriginFinder
+        EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
+        ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->explorerStackBuilderFactory = $explorerStackBuilderFactory;
         $this->receiverStackBuilderFactory = $receiverStackBuilderFactory;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
         $this->httpHandlerCodeOriginFinder = $httpHandlerCodeOriginFinder;
         $this->emitterCodeOriginFinder = $emitterCodeOriginFinder;
+        $this->explorerCodeOriginFinder = $explorerCodeOriginFinder;
     }
 
     protected function configure()
@@ -122,17 +122,18 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getExplorerImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $explorerStackBuilder = $this->explorerStackBuilderFactory
-            ->createExplorerStackBuilder($portalNodeKey, $entityType)
-            ->pushSource()
-            ->pushDecorators();
+        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $components = new ExplorerCollection();
 
-        /**
-         * @var ExplorerStack $explorerStack
-         */
-        $explorerStack = $explorerStackBuilder->build();
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            $components->push($flowComponentRegistry->getExplorers($source));
+        }
 
-        return $explorerStack->listOrigins();
+        $components = new ExplorerCollection($components->bySupport($entityType));
+
+        return \iterable_to_array($components->map([$this->explorerCodeOriginFinder, 'findOrigin']));
     }
 
     private function getReceiverImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
@@ -157,7 +158,7 @@ class ListFlowComponentsForPortalNode extends Command
         $components = new EmitterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
-            $components->push($flowComponentRegistry->getWebHttpHandlers($source));
+            $components->push($flowComponentRegistry->getEmitters($source));
         }
 
         $components = new EmitterCollection($components->bySupport($entityType));
