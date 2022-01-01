@@ -5,8 +5,9 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory;
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory;
-use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterStack;
@@ -16,8 +17,9 @@ use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStack;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
@@ -38,21 +40,25 @@ class ListFlowComponentsForPortalNode extends Command
 
     private ReceiverStackBuilderFactory $receiverStackBuilderFactory;
 
-    private HttpHandlerStackBuilderFactoryInterface $httpHandlerStackBuilderFactory;
+    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
+
+    private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         ExplorerStackBuilderFactory $explorerStackBuilderFactory,
         EmitterStackBuilderFactoryInterface $emitterStackBuilderFactory,
         ReceiverStackBuilderFactory $receiverStackBuilderFactory,
-        HttpHandlerStackBuilderFactoryInterface $httpHandlerStackBuilderFactory
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->explorerStackBuilderFactory = $explorerStackBuilderFactory;
         $this->emitterStackBuilderFactory = $emitterStackBuilderFactory;
         $this->receiverStackBuilderFactory = $receiverStackBuilderFactory;
-        $this->httpHandlerStackBuilderFactory = $httpHandlerStackBuilderFactory;
+        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
+        $this->httpHandlerCodeOriginFinder = $httpHandlerCodeOriginFinder;
     }
 
     protected function configure()
@@ -87,8 +93,9 @@ class ListFlowComponentsForPortalNode extends Command
             return 1;
         }
 
-        $flowComponentContract = $input->getArgument('flow-component-contract');
+        $flowComponentContract = (string) $input->getArgument('flow-component-contract');
         $flowComponentDescriptions = [];
+
         switch ($flowComponentContract) {
             case ExplorerContract::class:
                 $flowComponentDescriptions = $this->getExplorerImplementations($portalNodeKey, $entityType);
@@ -106,6 +113,7 @@ class ListFlowComponentsForPortalNode extends Command
                 $io->error('The specified flow-component-contract does not exist.');
         }
 
+        $flowComponentDescriptions = \array_map('strval', $flowComponentDescriptions);
         $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
         $io->writeln(\json_encode($flowComponentDescriptions, $flags));
 
@@ -155,17 +163,19 @@ class ListFlowComponentsForPortalNode extends Command
         return $emitterStack->listOrigins();
     }
 
-    private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
+    private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $path): array
     {
-        $httpHandlerStackBuilder = $this->httpHandlerStackBuilderFactory
-            ->createHttpHandlerStackBuilder($portalNodeKey, $entityType)
-            ->pushSource()
-            ->pushDecorators();
-        /**
-         * @var HttpHandlerStack $httpStack
-         */
-        $httpStack = $httpHandlerStackBuilder->build();
+        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $components = new HttpHandlerCollection();
 
-        return $httpStack->listOrigins();
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            $components->push($flowComponentRegistry->getWebHttpHandlers($source));
+        }
+
+        $components = new HttpHandlerCollection($components->bySupport($path));
+
+        return \iterable_to_array($components->map([$this->httpHandlerCodeOriginFinder, 'findOrigin']));
     }
 }

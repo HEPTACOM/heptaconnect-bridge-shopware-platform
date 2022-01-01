@@ -217,6 +217,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory"
             id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface"
         >
