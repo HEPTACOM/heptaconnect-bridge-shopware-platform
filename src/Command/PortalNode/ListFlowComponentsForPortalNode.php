@@ -93,14 +93,18 @@ class ListFlowComponentsForPortalNode extends Command
         }
 
         $entityType = $input->getArgument('entity-type');
+        $flowComponentContract = (string) $input->getArgument('flow-component-contract');
 
-        if (!\is_a($entityType, DatasetEntityContract::class, true)) {
+        if (
+            $flowComponentContract !== HttpHandlerContract::class &&
+            $flowComponentContract !== StatusReporterContract::class &&
+            !\is_a($entityType, DatasetEntityContract::class, true)
+        ) {
             $io->error('The specified type does not implement the DatasetEntityContract.');
 
             return 1;
         }
 
-        $flowComponentContract = (string) $input->getArgument('flow-component-contract');
         $flowComponentDescriptions = [];
 
         switch ($flowComponentContract) {
