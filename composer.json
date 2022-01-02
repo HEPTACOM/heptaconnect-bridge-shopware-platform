@@ -1,21 +1,27 @@
 {
     "name": "heptacom/heptaconnect-bridge-shopware-platform",
-    "type": "library",
     "description": "HEPTAconnect package to support a runtime in a shopware platform project",
-    "keywords": [
-        "heptaconnect-bridge",
-        "shopware-platform"
-    ],
-    "version": "0.8.0",
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "version": "0.8.0",
+    "keywords": [
+        "heptaconnect-bridge",
+        "shopware-platform"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
@@ -71,10 +77,11 @@
     "suggest": {
         "heptacom/heptaconnect-portal-local-shopware-platform": "Access the Shopware Platform runtime as a portal"
     },
-    "extra": {
-        "unused": [
-            "php-http/curl-client"
-        ]
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -86,17 +93,10 @@
             "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
     },
-    "repositories": {
-        "heptaconnect-sources": {
-            "type": "path",
-            "url": "../**"
-        }
-    },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
-        "docs": "https://connect.heptacom.de/",
-        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    "extra": {
+        "unused": [
+            "php-http/curl-client"
+        ]
     },
     "website": "https://heptaconnect.io"
 }

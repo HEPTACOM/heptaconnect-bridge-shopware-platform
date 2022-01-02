@@ -68,6 +68,30 @@
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalExtension\PortalExtensionFind"
+        >
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalExtension\PortalExtensionActivate"
+        >
+            <call method="setLogger">
+                <argument type="service" id="heptacom_heptaconnect.logger"/>
+            </call>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface"
+            class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\PortalExtension\PortalExtensionDeactivate"
+        >
+            <call method="setLogger">
+                <argument type="service" id="heptacom_heptaconnect.logger"/>
+            </call>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface"
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\Action\Route\ReceptionRouteList"
         >
