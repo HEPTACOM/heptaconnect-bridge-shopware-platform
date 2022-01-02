@@ -28,6 +28,7 @@ all: clean it coverage infection ## Cleans up and runs typical tests and style a
 
 .PHONY: clean
 clean: ## Cleans up all ignored files and directories
+	[[ ! -d test/Fixture/ShopwareProject/var ]] || rm -rf test/Fixture/ShopwareProject/var
 	[[ ! -f composer.lock ]] || rm composer.lock
 	[[ ! -d vendor ]] || rm -rf vendor
 	[[ ! -d .build ]] || rm -rf .build
