@@ -58,6 +58,7 @@
         "dq5studios/psalm-junit": ">=2",
         "ergebnis/composer-normalize": ">=2.18",
         "friendsofphp/php-cs-fixer": ">=2.17",
+        "heptacom/heptaconnect-framework": "dev-master",
         "icanhazstring/composer-unused": ">=0.7",
         "infection/infection": ">=0.21",
         "league/flysystem-memory": ">=1",
