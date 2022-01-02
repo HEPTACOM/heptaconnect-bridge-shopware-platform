@@ -115,6 +115,7 @@ services:
             - '@Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface'
+            - '@Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
         arguments:

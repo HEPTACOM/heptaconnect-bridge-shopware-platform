@@ -15,6 +15,9 @@ use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
 use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
+use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface;
@@ -44,13 +47,16 @@ class ListFlowComponentsForPortalNode extends Command
 
     private ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder;
 
+    private StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
         HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
         EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
         ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
-        ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder
+        ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
+        StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
@@ -59,6 +65,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->emitterCodeOriginFinder = $emitterCodeOriginFinder;
         $this->explorerCodeOriginFinder = $explorerCodeOriginFinder;
         $this->receiverCodeOriginFinder = $receiverCodeOriginFinder;
+        $this->statusReporterCodeOriginFinder = $statusReporterCodeOriginFinder;
     }
 
     protected function configure()
@@ -108,6 +115,9 @@ class ListFlowComponentsForPortalNode extends Command
                 break;
             case HttpHandlerContract::class:
                 $flowComponentDescriptions = $this->getHttpHandlerImplementations($portalNodeKey, $entityType);
+                break;
+            case StatusReporterContract::class:
+                $flowComponentDescriptions = $this->getStatusReporterImplementations($portalNodeKey, $entityType);
                 break;
             default:
                 $io->error('The specified flow-component-contract does not exist.');
@@ -182,5 +192,21 @@ class ListFlowComponentsForPortalNode extends Command
         $components = new HttpHandlerCollection($components->bySupport($path));
 
         return \iterable_to_array($components->map([$this->httpHandlerCodeOriginFinder, 'findOrigin']));
+    }
+
+    private function getStatusReporterImplementations(PortalNodeKeyInterface $portalNodeKey, string $topic): array
+    {
+        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $components = new StatusReporterCollection();
+
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            $components->push($flowComponentRegistry->getStatusReporters($source));
+        }
+
+        $components = new StatusReporterCollection($components->bySupportedTopic($topic));
+
+        return \iterable_to_array($components->map([$this->statusReporterCodeOriginFinder, 'findOrigin']));
     }
 }

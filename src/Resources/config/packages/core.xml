@@ -173,6 +173,10 @@
             <argument type="tagged_iterator" tag="heptaconnect.postprocessor" index-by="key" />
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReporterCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory"
             id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface"
         >
