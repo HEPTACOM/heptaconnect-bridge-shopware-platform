@@ -74,7 +74,7 @@ class ListExtensions extends Command
             return 2;
         }
 
-        $extensions = $this->portalLoader->getPortalExtensions()->filterSupported(
+        $extensions = $this->portalLoader->getPortalExtensions()->bySupport(
             $portalNodeGetResult->getPortalClass()
         );
 
