@@ -18,7 +18,8 @@ KernelLifecycleManager::prepare($loader);
 
 $connection = ShopwareKernel::getConnection();
 
-function sqlExec(Connection $connection, string $sql) {
+function sqlExec(Connection $connection, string $sql): void
+{
     // doctrine/dbal 2 support
     if (\method_exists($connection, 'executeStatement')) {
         $connection->executeStatement($sql);
