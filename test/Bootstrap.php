@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Doctrine\DBAL\Connection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwareKernel;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelLifecycleManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -16,7 +17,17 @@ KernelLifecycleManager::prepare($loader);
 (new Dotenv(true))->load(__DIR__ . '/../.env.test');
 
 $connection = ShopwareKernel::getConnection();
-$connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
+
+function sqlExec(Connection $connection, string $sql) {
+    // doctrine/dbal 2 support
+    if (\method_exists($connection, 'executeStatement')) {
+        $connection->executeStatement($sql);
+    } else {
+        $connection->exec($sql);
+    }
+}
+
+sqlExec($connection, 'SET FOREIGN_KEY_CHECKS = 0');
 
 do {
     $tables = $connection->getSchemaManager()->listTableNames();
@@ -34,9 +45,9 @@ do {
         }
     }
 } while ($tables !== []);
-$connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
 
-$connection->executeStatement(\file_get_contents(__DIR__ . '/../vendor/shopware/core/schema.sql'));
+sqlExec($connection, 'SET FOREIGN_KEY_CHECKS = 1');
+sqlExec($connection, \file_get_contents(__DIR__ . '/../vendor/shopware/core/schema.sql'));
 
 $kernel = new ShopwareKernel();
 $kernel->boot();
