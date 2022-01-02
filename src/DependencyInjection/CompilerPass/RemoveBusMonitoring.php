@@ -12,6 +12,8 @@ class RemoveBusMonitoring implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $container->removeDefinition(MonitoringBusDecorator::class);
+        if (\class_exists(MonitoringBusDecorator::class)) {
+            $container->removeDefinition(MonitoringBusDecorator::class);
+        }
     }
 }
