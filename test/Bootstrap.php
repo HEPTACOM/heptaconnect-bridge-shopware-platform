@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwareKernel;
@@ -9,10 +10,10 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Dotenv\Dotenv;
 
 /** @var Composer\Autoload\ClassLoader $loader */
-$loader = require __DIR__.'/../vendor/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
 KernelLifecycleManager::prepare($loader);
 
-(new Dotenv(true))->load(__DIR__.'/../.env.test');
+(new Dotenv(true))->load(__DIR__ . '/../.env.test');
 
 $connection = ShopwareKernel::getConnection();
 $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
@@ -35,7 +36,7 @@ do {
 } while ($tables !== []);
 $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
 
-$connection->executeStatement(\file_get_contents(__DIR__.'/../vendor/shopware/core/schema.sql'));
+$connection->executeStatement(\file_get_contents(__DIR__ . '/../vendor/shopware/core/schema.sql'));
 
 $kernel = new ShopwareKernel();
 $kernel->boot();

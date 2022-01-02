@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob;
@@ -44,7 +45,7 @@ class Queue extends Command
         $this->messageBus = $messageBus;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('for', InputArgument::REQUIRED, 'Seconds for how long it shall be pre-scheduled. Will be rounded up to the next minute');
         $this->addOption('force', null, InputOption::VALUE_NONE);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
@@ -32,7 +33,7 @@ class SetHandlerConfiguration extends Command
         $this->webHttpHandlerConfigurationSetAction = $webHttpHandlerConfigurationSetAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 

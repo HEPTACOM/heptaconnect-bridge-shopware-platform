@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension;
@@ -71,10 +72,10 @@ class DeactivateExtension extends Command
             return 0;
         }
         $io->error(\sprintf(
-                'Could not deactivate extension "%s" for portal-node "%s"',
-                $extensionClass,
-                $this->storageKeyGenerator->serialize($portalNodeKey)
-            ));
+            'Could not deactivate extension "%s" for portal-node "%s"',
+            $extensionClass,
+            $this->storageKeyGenerator->serialize($portalNodeKey)
+        ));
 
         return 2;
     }

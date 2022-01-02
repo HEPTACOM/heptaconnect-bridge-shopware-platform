@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection;
@@ -25,7 +26,7 @@ class AbstractIntegrationExtension extends Extension
         return $this->alias;
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!\class_exists(LocalShopwarePlatformPortal::class)) {
             return;

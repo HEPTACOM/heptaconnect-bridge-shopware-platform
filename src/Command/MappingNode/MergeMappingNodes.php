@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
@@ -29,7 +30,7 @@ class MergeMappingNodes extends Command
         $this->mappingService = $mappingService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('mapping-node-key-from', InputArgument::REQUIRED)
             ->addArgument('mapping-node-key-into', InputArgument::REQUIRED);

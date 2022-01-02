@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
@@ -43,7 +44,7 @@ class ListHandlers extends Command
         $this->portalNodeListAction = $portalNodeListAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
