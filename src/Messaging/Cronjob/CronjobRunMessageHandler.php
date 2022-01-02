@@ -31,6 +31,9 @@ class CronjobRunMessageHandler extends AbstractMessageHandler
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
+    /**
+     * @param CronjobRunMessage|mixed $message
+     */
     public function handle($message): void
     {
         if (!$message instanceof CronjobRunMessage) {

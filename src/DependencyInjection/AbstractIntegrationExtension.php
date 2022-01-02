@@ -17,7 +17,7 @@ class AbstractIntegrationExtension extends Extension
 
     public function __construct(string $bundleName)
     {
-        $basename = \preg_replace('/Bundle$/', '', $bundleName);
+        $basename = \preg_replace('/Bundle$/', '', $bundleName) ?? $bundleName;
         $this->alias = Container::underscore($basename);
     }
 
@@ -32,9 +32,13 @@ class AbstractIntegrationExtension extends Extension
             return;
         }
 
-        $portalSourceLocation = \dirname(
-            (new \ReflectionClass(LocalShopwarePlatformPortal::class))->getFileName()
-        );
+        $fileName = (new \ReflectionClass(LocalShopwarePlatformPortal::class))->getFileName();
+
+        if (!\is_string($fileName)) {
+            return;
+        }
+
+        $portalSourceLocation = \dirname($fileName);
 
         $serviceDefinitionFile = $portalSourceLocation . '/../config';
 

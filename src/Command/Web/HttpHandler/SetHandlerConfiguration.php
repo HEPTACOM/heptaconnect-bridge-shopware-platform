@@ -47,9 +47,12 @@ class SetHandlerConfiguration extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
-        $path = (string) $input->getArgument('path');
-        $key = (string) $input->getArgument('key');
-        $value = (string) $input->getArgument('value');
+        /** @var string $path */
+        $path = $input->getArgument('path');
+        /** @var string $key */
+        $key = $input->getArgument('key');
+        /** @var string|null $value */
+        $value = $input->getArgument('value');
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('portal-node-key is not a portal node key');
@@ -59,7 +62,7 @@ class SetHandlerConfiguration extends Command
 
         $parsed = null;
 
-        if (!empty($value)) {
+        if (\is_string($value)) {
             $jsonDecoded = \json_decode($value);
 
             if (!\is_array($jsonDecoded)) {
