@@ -67,14 +67,16 @@ class DeactivateExtension extends Command
                 $extensionClass,
                 $this->storageKeyGenerator->serialize($portalNodeKey)
             ));
+
+            return 0;
         } else {
             $io->error(\sprintf(
                 'Could not deactivate extension "%s" for portal-node "%s"',
                 $extensionClass,
                 $this->storageKeyGenerator->serialize($portalNodeKey)
             ));
-        }
 
-        return 0;
+            return 2;
+        }
     }
 }
