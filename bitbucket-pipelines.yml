@@ -161,7 +161,6 @@ pipelines:
                     -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
-                    -   step: *test-code-style-soft-require
             -   step: *composer-low-install
             -   parallel:
                     -   step: *test-unit
@@ -170,7 +169,6 @@ pipelines:
                     -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
-                    -   step: *test-code-style-soft-require
             -   step: *composer-high-install-80
             -   step: *test-unit-80
             -   step: *composer-low-install-80
@@ -178,12 +176,14 @@ pipelines:
             -   step: *composer-high-install
             -   parallel:
                     -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
                     -   step: *test-infection
             -   step: *composer-low-install
             -   parallel:
                     -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
                     -   step: *test-infection
@@ -202,7 +202,6 @@ pipelines:
                 -   step: *test-code-style-composer-unused
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
-                -   step: *test-code-style-soft-require
         -   step: *composer-low-install
         -   parallel:
                 -   step: *test-unit
@@ -211,7 +210,6 @@ pipelines:
                 -   step: *test-code-style-composer-unused
                 -   step: *test-code-style-json
                 -   step: *test-code-style-php
-                -   step: *test-code-style-soft-require
         -   step: *composer-high-install-80
         -   step: *test-unit-80
         -   step: *composer-low-install-80
@@ -219,12 +217,14 @@ pipelines:
         -   step: *composer-high-install
         -   parallel:
                 -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
                 -   step: *test-code-style-phpstan
                 -   step: *test-code-style-psalm
                 -   step: *test-infection
         -   step: *composer-low-install
         -   parallel:
                 -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
                 -   step: *test-code-style-phpstan
                 -   step: *test-code-style-psalm
                 -   step: *test-infection
