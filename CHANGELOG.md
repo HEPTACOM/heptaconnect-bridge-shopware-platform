@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface`
+- Add command `heptaconnect:portal-node:extensions:activate` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension` to activate a portal extension on a portal node
+- Add command `heptaconnect:portal-node:extensions:deactivate` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` to deactivate a portal extension on a portal node
+- Add command `heptaconnect:portal-node:extensions:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions` to list activity state of portal extensions on a portal node
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` with dependencies onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
 
 ### Changed
 
@@ -39,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface`
 - Remove argument `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent` from service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` to the service definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
 
 ### Fixed
 
