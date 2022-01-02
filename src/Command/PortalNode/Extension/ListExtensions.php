@@ -55,7 +55,9 @@ class ListExtensions extends Command
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new \Exception('Invalid portal-node-key');
+            $io->error('The portal-node-key is not a portalNodeKey');
+
+            return 1;
         }
 
         $portalExtensionFindResult = $this->portalExtensionFindAction->find($portalNodeKey);
@@ -67,7 +69,9 @@ class ListExtensions extends Command
         $portalNodeGetResult = \array_shift($portalNodeGetResults);
 
         if (!$portalNodeGetResult instanceof PortalNodeGetResult) {
-            throw new \Exception('Unable to find portal-node');
+            $io->error('Unable to find portal-node');
+
+            return 2;
         }
 
         $extensions = $this->portalLoader->getPortalExtensions()->filterSupported(
