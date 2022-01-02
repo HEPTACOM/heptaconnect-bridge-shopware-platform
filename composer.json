@@ -80,6 +80,11 @@
             "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
     },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
     "extra": {
         "unused": [
             "php-http/curl-client"
