@@ -79,7 +79,7 @@ class Get extends Command
         if (\is_string($value)) {
             $output->writeln($value);
         } else {
-            $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
+            $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
             $output->writeln(\json_encode($value, $flags));
         }
 
