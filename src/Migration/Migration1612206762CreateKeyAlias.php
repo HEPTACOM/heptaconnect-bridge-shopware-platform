@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration;
@@ -30,7 +31,12 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 SQL;
-        $connection->exec($sql);
+        // doctrine/dbal 2 support
+        if (\method_exists($connection, 'executeStatement')) {
+            $connection->executeStatement($sql);
+        } else {
+            $connection->exec($sql);
+        }
     }
 
     public function updateDestructive(Connection $connection): void

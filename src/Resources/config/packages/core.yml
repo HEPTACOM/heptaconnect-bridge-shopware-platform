@@ -8,17 +8,12 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
+            - '@cache.system'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
-
-    Heptacom\HeptaConnect\Core\Emission\EmissionActor:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
@@ -26,13 +21,13 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Core\Emission\EmissionActor'
+            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
@@ -78,9 +73,10 @@ services:
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:
@@ -110,7 +106,6 @@ services:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-            - '@Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract'
 
     Heptacom\HeptaConnect\Core\Router\Router.lock_store:
         class: Symfony\Component\Lock\Store\FlockStore
@@ -146,21 +141,4 @@ services:
         tags:
             - { name: heptacom.heptaconnect_normalizer, priority: 100 }
 
-    Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer:
-        arguments:
-            - '@hepta_connect_bridge_shopware_platform.filesystem.private'
-        tags:
-            - { name: heptacom.heptaconnect_denormalizer, priority: 200 }
-
-    Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer:
-        arguments:
-            - '@hepta_connect_bridge_shopware_platform.filesystem.private'
-        tags:
-            - { name: heptacom.heptaconnect_normalizer, priority: 200 }
-
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
-
-    Heptacom\HeptaConnect\Core\Webhook\WebhookService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\WebhookRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider'

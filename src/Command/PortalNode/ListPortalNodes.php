@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,20 +18,20 @@ class ListPortalNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:list';
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private PortalNodeOverviewActionInterface $portalNodeOverviewAction;
+
     public function __construct(
-        PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        PortalNodeOverviewActionInterface $portalNodeOverviewAction
     ) {
         parent::__construct();
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->portalNodeOverviewAction = $portalNodeOverviewAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::OPTIONAL);
     }
@@ -51,14 +53,18 @@ class ListPortalNodes extends Command
         }
 
         $rows = [];
-        $iterator = \is_null($portalClass) ?
-            $this->portalNodeRepository->listAll() :
-            $this->portalNodeRepository->listByClass($portalClass);
+        $criteria = new PortalNodeOverviewCriteria();
+        $criteria->setSort([PortalNodeOverviewCriteria::FIELD_CREATED => PortalNodeOverviewCriteria::SORT_DESC]);
 
-        foreach ($iterator as $portalNodeKey) {
+        if ($portalClass !== null) {
+            $criteria->setClassNameFilter([$portalClass]);
+        }
+
+        foreach ($this->portalNodeOverviewAction->overview($criteria) as $result) {
+            $portalNodeKey = $result->getPortalNodeKey();
             $rows[] = [
                 'portal-node-key' => $this->storageKeyGenerator->serialize($portalNodeKey),
-                'portal-class' => $this->portalNodeRepository->read($portalNodeKey),
+                'portal-class' => $result->getPortalClass(),
             ];
         }
 

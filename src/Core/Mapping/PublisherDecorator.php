@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
@@ -50,9 +51,9 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
                     continue;
                 }
 
-                foreach ($mappingsByType as $datasetEntityClassName => $mappings) {
+                foreach ($mappingsByType as $entityType => $mappings) {
                     foreach (\array_keys($mappings) as $externalId) {
-                        $this->publisher->publish($datasetEntityClassName, $portalNodeId, (string) $externalId);
+                        $this->publisher->publish($entityType, $portalNodeId, (string) $externalId);
                     }
                 }
             }
@@ -63,18 +64,18 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
     }
 
     public function publish(
-        string $datasetEntityClassName,
+        string $entityType,
         PortalNodeKeyInterface $portalNodeId,
         string $externalId
     ): void {
         if (!$this->active) {
-            $this->publisher->publish($datasetEntityClassName, $portalNodeId, $externalId);
+            $this->publisher->publish($entityType, $portalNodeId, $externalId);
 
             return;
         }
 
         $portalNodeKey = $this->storageKeyGenerator->serialize($portalNodeId);
-        $this->cache[$portalNodeKey][$datasetEntityClassName][$externalId] = true;
+        $this->cache[$portalNodeKey][$entityType][$externalId] = true;
     }
 
     public function publishBatch(MappingComponentCollection $mappings): void
@@ -88,7 +89,7 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
         /** @var MappingComponentStructContract $mapping */
         foreach ($mappings as $mapping) {
             $portalNodeKey = $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey());
-            $this->cache[$portalNodeKey][$mapping->getDatasetEntityClassName()][$mapping->getExternalId()] = true;
+            $this->cache[$portalNodeKey][$mapping->getEntityType()][$mapping->getExternalId()] = true;
         }
     }
 }

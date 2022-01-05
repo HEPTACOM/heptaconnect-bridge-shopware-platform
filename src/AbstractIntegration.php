@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform;
@@ -103,7 +104,7 @@ class AbstractIntegration extends Plugin
             $migrationPaths[$integrationMigrationPath] = $this->getMigrationNamespace();
         }
 
-        $container->register(MigrationSource::class.'_'.$this->getName(), MigrationSource::class)
+        $container->register(MigrationSource::class . '_' . $this->getName(), MigrationSource::class)
             ->addArgument($this->getName())
             ->addArgument($migrationPaths)
             ->addTag('shopware.migration_source')
@@ -126,28 +127,30 @@ class AbstractIntegration extends Plugin
     protected function getLifecycleContainer(): ContainerInterface
     {
         $projectDir = $this->container->getParameter('kernel.project_dir');
+        $currentEnv = $this->container->getParameter('kernel.runtime_environment');
 
         if ($this->container->hasParameter('kernel.vendor_dir')) {
             $vendorDir = $this->container->getParameter('kernel.vendor_dir');
         } else {
-            $vendorDir = $projectDir.'/vendor/';
+            $vendorDir = $projectDir . '/vendor/';
         }
 
         $pluginLoader = new DbalKernelPluginLoader(
-            require $vendorDir.'/autoload.php',
+            require $vendorDir . '/autoload.php',
             null,
             Kernel::getConnection()
         );
 
-        $kernel = new class($projectDir, $pluginLoader, $this) extends Kernel {
+        $kernel = new class($projectDir, $pluginLoader, $this, $currentEnv) extends Kernel {
             private AbstractIntegration $plugin;
 
             public function __construct(
                 string $projectDir,
                 KernelPluginLoader $pluginLoader,
-                AbstractIntegration $plugin
+                AbstractIntegration $plugin,
+                string $currentEnv
             ) {
-                parent::__construct('prod', false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);
+                parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);
                 $this->plugin = $plugin;
             }
 
