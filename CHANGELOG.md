@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` with dependencies onto `Doctrine\DBAL\Connection`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
+- Add option `--bidirectional` and its functionality to `heptaconnect:router:add-route` defined in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` to automate creation of the route back
 
 ### Changed
 
