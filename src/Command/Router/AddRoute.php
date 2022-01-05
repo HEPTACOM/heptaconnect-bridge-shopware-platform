@@ -1,13 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Create\RouteCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,21 +30,25 @@ class AddRoute extends Command
 {
     protected static $defaultName = 'heptaconnect:router:add-route';
 
-    private RouteRepositoryContract $routeRepository;
-
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private RouteFindActionInterface $routeFindAction;
+
+    private RouteCreateActionInterface $routeCreateAction;
+
+    private RouteGetActionInterface $routeGetAction;
+
     public function __construct(
-        RouteRepositoryContract $routeRepository,
-        PortalNodeRepositoryContract $portalNodeRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        RouteFindActionInterface $routeFindAction,
+        RouteCreateActionInterface $routeCreateAction,
+        RouteGetActionInterface $routeGetAction
     ) {
         parent::__construct();
-        $this->routeRepository = $routeRepository;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->routeFindAction = $routeFindAction;
+        $this->routeCreateAction = $routeCreateAction;
+        $this->routeGetAction = $routeGetAction;
     }
 
     protected function configure(): void
@@ -66,58 +81,62 @@ class AddRoute extends Command
             return 1;
         }
 
-        $this->portalNodeRepository->read($source);
-        $this->portalNodeRepository->read($target);
-
         if (!\is_a($type, DatasetEntityContract::class, true)) {
             $io->error('The specified type does not implement the DatasetEntityContract.');
 
             return 1;
         }
 
-        if ($input->getOption('bidirectional')) {
-            if ($source->equals($target)) {
-                $io->error('Source and target of the route are equal (please remove the --bidirectional option)');
+        $ids = new RouteGetCriteria(new RouteKeyCollection());
+        $create = new RouteCreatePayloads();
 
-                return 2;
-            }
-            if ($this->isRouted($source, $target, $type)) {
-                $io->error('Route from PortalNode:'.$source->jsonSerialize().' to PortalNode:'.$target->jsonSerialize().' already configured.');
+        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
 
-                return 2;
-            }
-            if ($this->isRouted($target, $source, $type)) {
-                $io->error('Route from PortalNode:'.$target->jsonSerialize().' to PortalNode:'.$source->jsonSerialize().' already configured.');
-
-                return 2;
-            }
-            $this->routeRepository->create($source, $target, $type);
-            $this->routeRepository->create($target, $source, $type);
+        if ($towards instanceof RouteFindResult) {
+            $ids->getRouteKeys()->push([$towards->getRouteKey()]);
         } else {
-            if ($this->isRouted($source, $target, $type)) {
-                $io->error('Route from PortalNode:'.$source->jsonSerialize().' to PortalNode:'.$target->jsonSerialize().' already configured.');
-
-                return 2;
-            }
-            $this->routeRepository->create($source, $target, $type);
+            $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
         }
+
+        if (!($input->getOption('bidirectional') && !$source->equals($target))) {
+            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
+
+            if ($back instanceof RouteFindResult) {
+                $ids->getRouteKeys()->push([$back->getRouteKey()]);
+            } else {
+                $create->push([new RouteCreatePayload($target, $source, $type, [RouteCapability::RECEPTION])]);
+            }
+        }
+
+        /** @var RouteCreateResult $result */
+        foreach ($this->routeCreateAction->create($create) as $result) {
+            $ids->getRouteKeys()->push([$result->getRouteKey()]);
+        }
+
+        $results = [];
+
+        /** @var RouteGetResult $route */
+        foreach ($this->routeGetAction->get($ids) as $route) {
+            $capabilities = $route->getCapabilities();
+            \sort($capabilities);
+
+            $results[] = [
+                'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
+                'type' => $route->getEntityType(),
+                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()),
+                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()),
+                'capabilities' => \implode(', ', $capabilities),
+            ];
+        }
+
+        if (\count($results) === 0) {
+            $io->note('There are no routes.');
+
+            return 0;
+        }
+
+        $io->table(\array_keys(\current($results)), $results);
 
         return 0;
-    }
-
-    private function isRouted(
-        PortalNodeKeyInterface $source,
-        PortalNodeKeyInterface $target,
-        string $type
-    ): bool {
-        foreach ($this->routeRepository->listBySourceAndEntityType($source, $type) as $routeKey) {
-            $route = $this->routeRepository->read($routeKey);
-
-            if ($route->getTargetKey()->equals($target)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

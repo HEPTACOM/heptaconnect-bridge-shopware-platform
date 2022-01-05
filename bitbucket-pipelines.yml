@@ -1,6 +1,9 @@
-image: heptacom/heptaconnect-pipeline:php74-6.0.0
+image: heptacom/heptaconnect-pipeline:php74-6.0.2
 
 definitions:
+    partials:
+        -   step: &php80-image
+                image: heptacom/heptaconnect-pipeline:php80-6.0.2
     services:
         mysql:
             image: mysql:5.7
@@ -9,22 +12,16 @@ definitions:
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
                 MYSQL_USER: 'test_user'
                 MYSQL_PASSWORD: 'let_me_in_as_well'
-    caches:
-        heptaconnect-ci: .build
     steps:
         -   step: &default-step
                 caches:
-                    - heptaconnect-ci
                     - composer
-                artifacts:
-                    - .build/**
-                    - vendor/**
-                    - composer.lock
                 services:
                     - mysql
                 after-script:
                     - cp -a .build test-results
                     - find test-results -type f -name '*.xml' -exec sed -i .bak -e "s|`pwd`/||" {} +
+                    - 'test ${BITBUCKET_EXIT_CODE} -eq 0 || composer config --list'
         -   step: &github-keyword-gate-step
                 <<: *default-step
                 name: Github Keyword Gate
@@ -47,51 +44,151 @@ definitions:
                 script:
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
                     - git push --force github tag $BITBUCKET_TAG
-        -   step: &composer-install
+        -   step: &composer-high-install
                 <<: *default-step
-                name: Install
+                name: Install (High dependencies)
+                artifacts:
+                    - .build/**
+                    - vendor/**
+                    - composer.lock
                 script:
+                    - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make vendor
-        -   step:  &test-unit
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-low-install
+                <<: *default-step
+                name: Install (Low dependencies)
+                artifacts:
+                    - .build/**
+                    - vendor/**
+                    - composer.lock
+                script:
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
+        -   step: &composer-high-install-80
+                <<: *composer-high-install
+                <<: *php80-image
+                name: Install (8.0 + High dependencies)
+        -   step: &composer-low-install-80
+                <<: *composer-low-install
+                <<: *php80-image
+                name: Install (8.0 + Low dependencies)
+        -   step: &test-unit
                 <<: *default-step
                 name: Unit test
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_test;'
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' make -e test
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-80
+                <<: *test-unit
+                <<: *php80-image
+                name: Unit tests (8.0)
         -   step: &test-coverage
                 <<: *default-step
-                name: Unit test coverage
+                name: Test coverage
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_covr;'
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' make -e coverage
-        -   step: &test-code-style
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+        -   step: &test-code-style-php
                 <<: *default-step
-                name: Code style and static code analysis
+                name: ECS (Code style)
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make cs
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-php
+        -   step: &test-code-style-phpstan
+                <<: *default-step
+                name: PHPStan (Static code analysis)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpstan
+        -   step: &test-code-style-psalm
+                <<: *default-step
+                name: Psalm (Static code analysis)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-psalm
+        -   step: &test-code-style-phpmd
+                <<: *default-step
+                name: PHP Mess Detector (Static code analysis)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
+        -   step: &test-code-style-soft-require
+                <<: *default-step
+                name: Composer soft requirements (Requirement analysis)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-soft-require
+        -   step: &test-code-style-composer-unused
+                <<: *default-step
+                name: Composer unused (Requirement analysis)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-unused
+        -   step: &test-code-style-composer-normalize
+                <<: *default-step
+                name: composer.json (Code style)
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-composer-normalize
+        -   step: &test-code-style-json
+                <<: *default-step
+                name: '*.json (Code style)'
+                script:
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-json
         -   step: &test-infection
                 <<: *default-step
-                name: Unit test infection detection
+                name: Test infection
                 script:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - make infection
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e infection
 
 pipelines:
     branches:
         master:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
-            -   step: *composer-install
+            -   step: *composer-high-install
             -   parallel:
                     -   step: *test-unit
                     -   step: *test-coverage
-                    -   step: *test-code-style
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
+            -   step: *composer-low-install
+            -   parallel:
+                    -   step: *test-unit
+                    -   step: *test-coverage
+                    -   step: *test-code-style-composer-normalize
+                    -   step: *test-code-style-composer-unused
+                    -   step: *test-code-style-json
+                    -   step: *test-code-style-php
+            -   step: *composer-high-install-80
+            -   step: *test-unit-80
+            -   step: *composer-low-install-80
+            -   step: *test-unit-80
+            -   step: *composer-high-install
+            -   parallel:
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-infection
+            -   step: *composer-low-install
+            -   parallel:
+                    -   step: *test-code-style-phpmd
+                    -   step: *test-code-style-soft-require
+                    -   step: *test-code-style-phpstan
+                    -   step: *test-code-style-psalm
+                    -   step: *test-infection
 
     tags:
         '*':
@@ -99,8 +196,37 @@ pipelines:
             -   step: *github-mirror-tag
 
     default:
-        -   step: *composer-install
+        -   step: *composer-high-install
         -   parallel:
                 -   step: *test-unit
                 -   step: *test-coverage
-                -   step: *test-code-style
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
+        -   step: *composer-low-install
+        -   parallel:
+                -   step: *test-unit
+                -   step: *test-coverage
+                -   step: *test-code-style-composer-normalize
+                -   step: *test-code-style-composer-unused
+                -   step: *test-code-style-json
+                -   step: *test-code-style-php
+        -   step: *composer-high-install-80
+        -   step: *test-unit-80
+        -   step: *composer-low-install-80
+        -   step: *test-unit-80
+        -   step: *composer-high-install
+        -   parallel:
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-infection
+        -   step: *composer-low-install
+        -   parallel:
+                -   step: *test-code-style-phpmd
+                -   step: *test-code-style-soft-require
+                -   step: *test-code-style-phpstan
+                -   step: *test-code-style-psalm
+                -   step: *test-infection

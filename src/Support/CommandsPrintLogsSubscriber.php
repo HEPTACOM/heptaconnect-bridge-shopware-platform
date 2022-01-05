@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support;
@@ -101,7 +102,13 @@ class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 
     protected function hasLoggerAlreadyHandler(int $logLevel): bool
     {
-        foreach ($this->logger->getHandlers() as $handler) {
+        $logger = $this->logger;
+
+        if (!$logger instanceof Logger) {
+            return false;
+        }
+
+        foreach ($logger->getHandlers() as $handler) {
             if ($this->isErrorStreamHandler($handler, $logLevel)) {
                 return true;
             }

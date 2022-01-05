@@ -1,24 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
-use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerContract;
-use Heptacom\HeptaConnect\Portal\Base\Exploration\ExplorerCollection;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverContract;
-use Heptacom\HeptaConnect\Portal\Base\Reception\ReceiverCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
@@ -33,8 +29,6 @@ class ListMappingNodeSiblings extends Command
 
     private ComposerPortalLoader $portalLoader;
 
-    private PortalNodeRepositoryContract $portalNodeRepository;
-
     private MappingRepositoryContract $mappingRepository;
 
     private MappingNodeRepositoryContract $mappingNodeRepository;
@@ -43,24 +37,26 @@ class ListMappingNodeSiblings extends Command
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
+    private PortalNodeListActionInterface $portalNodeListAction;
+
     public function __construct(
         ComposerPortalLoader $portalLoader,
-        PortalNodeRepositoryContract $portalNodeRepository,
         MappingRepositoryContract $mappingRepository,
         MappingNodeRepositoryContract $mappingNodeRepository,
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
         $this->portalLoader = $portalLoader;
-        $this->portalNodeRepository = $portalNodeRepository;
         $this->mappingRepository = $mappingRepository;
         $this->mappingNodeRepository = $mappingNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
+        $this->portalNodeListAction = $portalNodeListAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('external-ids', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
         $this->addOption('portal-node-key', 'p', InputArgument::OPTIONAL);
@@ -97,7 +93,7 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeys = [];
 
         if ($portalNodeKeyParam === '') {
-            $portalNodeKeys = \iterable_to_array($this->portalNodeRepository->listAll());
+            $portalNodeKeys = \iterable_to_array($this->portalNodeListAction->list());
         } else {
             $portalNodeKeys[] = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
         }
@@ -128,7 +124,7 @@ class ListMappingNodeSiblings extends Command
                     foreach ($mappingKeys as $mappingKey) {
                         $mapping = $this->mappingRepository->read($mappingKey);
 
-                        if (\is_null($mapping->getExternalId())) {
+                        if ($mapping->getExternalId() === null) {
                             continue;
                         }
 
@@ -149,7 +145,9 @@ class ListMappingNodeSiblings extends Command
             return 0;
         }
 
-        \usort($rows, static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
+        \usort(
+            $rows,
+            static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
             + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
             + ($a['portal-node-key'] <=> $b['portal-node-key'])
         );
@@ -169,38 +167,21 @@ class ListMappingNodeSiblings extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
+            /** @var FlowComponentRegistry $flowComponentRegistry */
+            $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
 
-            /** @var ExplorerCollection $explorers */
-            $explorers = $container->get(ExplorerCollection::class);
-            /** @var ExplorerCollection $explorerDecorators */
-            $explorerDecorators = $container->get(ExplorerCollection::class.'.decorator');
-            $explorers->push($explorerDecorators);
+            foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+                foreach ($flowComponentRegistry->getExplorers($source) as $explorer) {
+                    $result[$explorer->supports()] = true;
+                }
 
-            /** @var EmitterCollection $emitters */
-            $emitters = $container->get(EmitterCollection::class);
-            /** @var EmitterCollection $emitterDecorators */
-            $emitterDecorators = $container->get(EmitterCollection::class.'.decorator');
-            $emitters->push($emitterDecorators);
+                foreach ($flowComponentRegistry->getEmitters($source) as $emitter) {
+                    $result[$emitter->supports()] = true;
+                }
 
-            /** @var ReceiverCollection $receivers */
-            $receivers = $container->get(ReceiverCollection::class);
-            /** @var ReceiverCollection $receiverDecorators */
-            $receiverDecorators = $container->get(ReceiverCollection::class.'.decorator');
-            $receivers->push($receiverDecorators);
-
-            /** @var ExplorerContract $explorer */
-            foreach ($explorers as $explorer) {
-                $result[$explorer->supports()] = true;
-            }
-
-            /** @var EmitterContract $emitter */
-            foreach ($emitters as $emitter) {
-                $result[$emitter->supports()] = true;
-            }
-
-            /** @var ReceiverContract $receiver */
-            foreach ($receivers as $receiver) {
-                $result[$receiver->supports()] = true;
+                foreach ($flowComponentRegistry->getReceivers($source) as $receiver) {
+                    $result[$receiver->supports()] = true;
+                }
             }
         }
 
