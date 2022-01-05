@@ -11,6 +11,12 @@
             <exclude>../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}</exclude>
             <exclude>../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}</exclude>
         </prototype>
+        <service
+            id="Heptacom\HeptaConnect\Core\Component\ExceptionCodeLogger"
+            decorates="heptacom_heptaconnect.logger"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Component\ExceptionCodeLogger.inner" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
