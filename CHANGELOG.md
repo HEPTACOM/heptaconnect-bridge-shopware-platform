@@ -47,6 +47,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface`
 - Remove argument `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent` from service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
 - Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` to the service definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Change behavior of command `heptaconnect:portal-node:config:get` to throw an exception when the output cannot be converted to JSON
+- Change output of command `heptaconnect:portal-node:config:get` to not escape slashes in JSON
+- Change output of command `heptaconnect:portal-node:status:report` to not escape slashes in JSON
+- Change behavior of command `heptaconnect:http-handler:get-configuration` to throw an exception when the output cannot be converted to JSON
+- Change output of command `heptaconnect:http-handler:get-configuration` to not escape slashes in JSON
 
 ### Deprecated
 

@@ -64,7 +64,7 @@ class ReportPortalNode extends Command
             $report = $report[$topic] ?? $report;
         }
 
-        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
+        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
         $output->writeln(\json_encode($report, $flags));
 
         return 0;
