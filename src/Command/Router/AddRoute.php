@@ -21,6 +21,7 @@ use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -55,6 +56,7 @@ class AddRoute extends Command
             ->addArgument('source', InputArgument::REQUIRED)
             ->addArgument('target', InputArgument::REQUIRED)
             ->addArgument('type', InputArgument::REQUIRED)
+            ->addOption('bidirectional', null, InputOption::VALUE_NONE)
         ;
     }
 
@@ -84,19 +86,29 @@ class AddRoute extends Command
             return 1;
         }
 
-        $existingRoute = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
+        $ids = new RouteGetCriteria(new RouteKeyCollection());
+        $create = new RouteCreatePayloads();
 
-        if ($existingRoute instanceof RouteFindResult) {
-            $io->error('There is already this route configured');
+        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
 
-            return 2;
+        if ($towards instanceof RouteFindResult) {
+            $ids->getRouteKeys()->push([$towards->getRouteKey()]);
+        } else {
+            $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
         }
 
-        $payload = new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION]);
-        $ids = new RouteGetCriteria(new RouteKeyCollection());
+        if (!($input->getOption('bidirectional') && !$source->equals($target))) {
+            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
 
-        /** @var \Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult $result */
-        foreach ($this->routeCreateAction->create(new RouteCreatePayloads([$payload])) as $result) {
+            if ($back instanceof RouteFindResult) {
+                $ids->getRouteKeys()->push([$back->getRouteKey()]);
+            } else {
+                $create->push([new RouteCreatePayload($target, $source, $type, [RouteCapability::RECEPTION])]);
+            }
+        }
+
+        /** @var RouteCreateResult $result */
+        foreach ($this->routeCreateAction->create($create) as $result) {
             $ids->getRouteKeys()->push([$result->getRouteKey()]);
         }
 
