@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
@@ -30,7 +31,7 @@ class ListPortalNodes extends Command
         $this->portalNodeOverviewAction = $portalNodeOverviewAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::OPTIONAL);
     }

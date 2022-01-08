@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob;
@@ -28,7 +29,7 @@ class EnsureQueue extends Command
         $this->messageBus = $messageBus;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setHidden(true);
     }

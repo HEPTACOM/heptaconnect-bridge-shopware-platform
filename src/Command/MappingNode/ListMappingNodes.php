@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
@@ -30,7 +31,7 @@ class ListMappingNodes extends Command
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('entity-type', InputArgument::REQUIRED)
             ->addArgument('portal-node-key', InputArgument::REQUIRED);

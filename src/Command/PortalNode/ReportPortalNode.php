@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
@@ -32,7 +33,7 @@ class ReportPortalNode extends Command
         $this->statusReportingService = $statusReportingService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('topic', InputArgument::OPTIONAL);

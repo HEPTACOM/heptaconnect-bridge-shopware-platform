@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
@@ -33,7 +34,7 @@ class ListStatusReportTopics extends Command
         $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension;
@@ -43,7 +44,7 @@ class ListExtensions extends Command
         $this->portalExtensionFindAction = $portalExtensionFindAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
