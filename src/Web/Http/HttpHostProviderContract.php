@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
@@ -22,9 +23,10 @@ class HttpHostProviderContract
 
     public function get(): UriInterface
     {
-        $baseUrl = (string) $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
+        /** @var string|null $baseUrl */
+        $baseUrl = $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
 
-        if (!$baseUrl) {
+        if ($baseUrl === null) {
             $baseUrl = 'localhost';
         }
 
@@ -32,9 +34,13 @@ class HttpHostProviderContract
             $baseUrl = '//' . $baseUrl;
         }
 
+        $uri = $this->uriFactory->createUri();
+
         $urlComponents = \parse_url($baseUrl);
 
-        $uri = $this->uriFactory->createUri();
+        if (!\is_array($urlComponents)) {
+            return $uri;
+        }
 
         $uri = $uri->withScheme($urlComponents['scheme'] ?? 'http');
 

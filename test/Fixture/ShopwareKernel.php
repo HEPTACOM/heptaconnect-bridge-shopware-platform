@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture;
@@ -15,7 +16,7 @@ class ShopwareKernel extends Kernel
     public function __construct()
     {
         /** @var \Composer\Autoload\ClassLoader $classLoader */
-        $classLoader = require __DIR__.'/../../vendor/autoload.php';
+        $classLoader = require __DIR__ . '/../../vendor/autoload.php';
         $plugins = [
             (new PluginEntity())->assign([
                 'id' => Uuid::randomHex(),
@@ -23,7 +24,7 @@ class ShopwareKernel extends Kernel
                 'baseClass' => ShopwareProject\Custom\ShopwarePlugin::class,
                 'version' => '1.0.0',
                 'active' => true,
-                'path' => __DIR__.'/ShopwareProject/Custom',
+                'path' => __DIR__ . '/ShopwareProject/Custom',
                 'autoload' => [
                     'psr-4' => [
                         'Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\Fixture\\ShopwareProject\\Custom\\' => '/',
@@ -37,11 +38,11 @@ class ShopwareKernel extends Kernel
         parent::__construct(
             'test',
             true,
-            new StaticKernelPluginLoader($classLoader, __DIR__.'/ShopwareProject/Custom', $plugins),
+            new StaticKernelPluginLoader($classLoader, __DIR__ . '/ShopwareProject/Custom', $plugins),
             'test',
             self::SHOPWARE_FALLBACK_VERSION,
             null,
-            __DIR__.'/ShopwareProject'
+            __DIR__ . '/ShopwareProject'
         );
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass;
@@ -11,6 +12,8 @@ class RemoveBusMonitoring implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $container->removeDefinition(MonitoringBusDecorator::class);
+        if (\class_exists(MonitoringBusDecorator::class)) {
+            $container->removeDefinition(MonitoringBusDecorator::class);
+        }
     }
 }

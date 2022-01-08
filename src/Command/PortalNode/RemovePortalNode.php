@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Delete\PortalNodeDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

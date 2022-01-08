@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
@@ -32,7 +33,7 @@ class ReportPortalNode extends Command
         $this->statusReportingService = $statusReportingService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('topic', InputArgument::OPTIONAL);
@@ -63,7 +64,7 @@ class ReportPortalNode extends Command
             $report = $report[$topic] ?? $report;
         }
 
-        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
+        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
         $output->writeln(\json_encode($report, $flags));
 
         return 0;

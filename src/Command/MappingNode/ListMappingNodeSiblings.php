@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
@@ -11,7 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -55,7 +56,7 @@ class ListMappingNodeSiblings extends Command
         $this->portalNodeListAction = $portalNodeListAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('external-ids', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
         $this->addOption('portal-node-key', 'p', InputArgument::OPTIONAL);
@@ -123,7 +124,7 @@ class ListMappingNodeSiblings extends Command
                     foreach ($mappingKeys as $mappingKey) {
                         $mapping = $this->mappingRepository->read($mappingKey);
 
-                        if (\is_null($mapping->getExternalId())) {
+                        if ($mapping->getExternalId() === null) {
                             continue;
                         }
 
@@ -144,7 +145,9 @@ class ListMappingNodeSiblings extends Command
             return 0;
         }
 
-        \usort($rows, static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
+        \usort(
+            $rows,
+            static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
             + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
             + ($a['portal-node-key'] <=> $b['portal-node-key'])
         );

@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,7 +33,7 @@ class SetHandlerConfiguration extends Command
         $this->webHttpHandlerConfigurationSetAction = $webHttpHandlerConfigurationSetAction;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -46,9 +47,12 @@ class SetHandlerConfiguration extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
-        $path = (string) $input->getArgument('path');
-        $key = (string) $input->getArgument('key');
-        $value = (string) $input->getArgument('value');
+        /** @var string $path */
+        $path = $input->getArgument('path');
+        /** @var string $key */
+        $key = $input->getArgument('key');
+        /** @var string|null $value */
+        $value = $input->getArgument('value');
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('portal-node-key is not a portal node key');
@@ -58,7 +62,7 @@ class SetHandlerConfiguration extends Command
 
         $parsed = null;
 
-        if (!empty($value)) {
+        if (\is_string($value)) {
             $jsonDecoded = \json_decode($value);
 
             if (!\is_array($jsonDecoded)) {

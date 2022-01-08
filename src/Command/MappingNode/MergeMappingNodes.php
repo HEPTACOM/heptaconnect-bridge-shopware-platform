@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
@@ -12,6 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * @deprecated Manually merging mapping nodes is not supported in this way anymore. Future solutions will come later
+ */
 class MergeMappingNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:merge';
@@ -29,7 +33,7 @@ class MergeMappingNodes extends Command
         $this->mappingService = $mappingService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('mapping-node-key-from', InputArgument::REQUIRED)
             ->addArgument('mapping-node-key-into', InputArgument::REQUIRED);

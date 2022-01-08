@@ -12,6 +12,12 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
+            decorates="heptacom_heptaconnect.logger"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger.inner" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract"
             id="heptacom_heptaconnect.profiler.core"
         >

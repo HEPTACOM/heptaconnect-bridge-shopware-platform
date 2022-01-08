@@ -1,21 +1,27 @@
 {
     "name": "heptacom/heptaconnect-bridge-shopware-platform",
-    "type": "library",
     "description": "HEPTAconnect package to support a runtime in a shopware platform project",
-    "keywords": [
-        "heptaconnect-bridge",
-        "shopware-platform"
-    ],
-    "version": "0.8.0",
     "license": [
         "AGPL-3.0-or-later",
         "proprietary"
+    ],
+    "type": "library",
+    "version": "0.8.0",
+    "keywords": [
+        "heptaconnect-bridge",
+        "shopware-platform"
     ],
     "authors": [
         {
             "name": "HEPTACOM GmbH"
         }
     ],
+    "support": {
+        "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
+        "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
+        "docs": "https://connect.heptacom.de/",
+        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
@@ -49,32 +55,20 @@
         "symfony/routing": "^4.4 || ^5.0"
     },
     "require-dev": {
-        "dq5studios/psalm-junit": ">=2",
-        "ergebnis/composer-normalize": ">=2.18",
-        "friendsofphp/php-cs-fixer": ">=2.17",
-        "icanhazstring/composer-unused": ">=0.7",
+        "heptacom/heptaconnect-framework": "dev-master",
         "infection/infection": ">=0.21",
         "league/flysystem-memory": ">=1",
-        "maglnet/composer-require-checker": ">=2",
-        "mavimo/phpstan-junit": ">=0.3",
-        "phpmd/phpmd": "@stable",
-        "phpstan/extension-installer": ">=1",
-        "phpstan/phpstan": ">=0.12.87",
-        "phpstan/phpstan-deprecation-rules": ">=0.12",
-        "phpstan/phpstan-phpunit": ">=0.12",
-        "phpstan/phpstan-strict-rules": ">=0.12",
         "phpunit/phpunit": ">=9.3 <10",
-        "psalm/plugin-phpunit": ">=0.10",
-        "shopware/storefront": ">=6.2",
-        "vimeo/psalm": ">=4"
+        "shopware/storefront": ">=6.2"
     },
     "suggest": {
         "heptacom/heptaconnect-portal-local-shopware-platform": "Access the Shopware Platform runtime as a portal"
     },
-    "extra": {
-        "unused": [
-            "php-http/curl-client"
-        ]
+    "repositories": {
+        "heptaconnect-sources": {
+            "type": "path",
+            "url": "../**"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -86,17 +80,15 @@
             "Heptacom\\HeptaConnect\\Bridge\\ShopwarePlatform\\Test\\": "test/"
         }
     },
-    "repositories": {
-        "heptaconnect-sources": {
-            "type": "path",
-            "url": "../**"
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
         }
     },
-    "support": {
-        "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
-        "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
-        "docs": "https://connect.heptacom.de/",
-        "rss": "https://connect.heptacom.de/feed/rss2.xml"
+    "extra": {
+        "unused": [
+            "php-http/curl-client"
+        ]
     },
     "website": "https://heptaconnect.io"
 }

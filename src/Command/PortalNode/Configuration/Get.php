@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration;
@@ -60,7 +61,7 @@ class Get extends Command
 
         $value = $this->configurationService->getPortalNodeConfiguration($portalNodeKey) ?? [];
 
-        while (!\is_null($subPath = \array_shift($path))) {
+        while (($subPath = \array_shift($path)) !== null) {
             if (!\is_array($value)) {
                 $io->error(\sprintf('Could not get value for path %s as %s is not an array', $name, $subPath));
 
@@ -79,7 +80,7 @@ class Get extends Command
         if (\is_string($value)) {
             $output->writeln($value);
         } else {
-            $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
+            $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
             $output->writeln(\json_encode($value, $flags));
         }
 

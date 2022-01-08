@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job;
 
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

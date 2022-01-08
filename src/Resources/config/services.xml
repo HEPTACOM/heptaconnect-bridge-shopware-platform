@@ -11,6 +11,23 @@
             <exclude>../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}</exclude>
             <exclude>../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}</exclude>
         </prototype>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface"/>

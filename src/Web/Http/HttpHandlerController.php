@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
@@ -86,7 +87,8 @@ class HttpHandlerController
         $symfonyRequest->server = new ServerBag();
         $request = $this->psrHttpFactory->createRequest($symfonyRequest);
 
-        $request = $request->withUri($request->getUri()
+        $request = $request->withUri(
+            $request->getUri()
             ->withScheme('')
             ->withHost('')
             ->withPort(null)
