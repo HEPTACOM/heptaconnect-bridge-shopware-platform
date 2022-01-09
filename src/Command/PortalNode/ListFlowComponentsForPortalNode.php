@@ -34,6 +34,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ListFlowComponentsForPortalNode extends Command
 {
+    private const FLOW_COMPONENT_INPUT_MAP = [
+        'emitter' => EmitterContract::class,
+        'explorer' => ExplorerContract::class,
+        'http-handler' => HttpHandlerContract::class,
+        'receiver' => ReceiverContract::class,
+        'status-reporter' => StatusReporterContract::class,
+    ];
+
     protected static $defaultName = 'heptaconnect:portal-node:list-flow-components';
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
@@ -95,6 +103,7 @@ class ListFlowComponentsForPortalNode extends Command
 
         $entityType = $input->getArgument('entity-type');
         $flowComponentContract = (string) $input->getArgument('flow-component-contract');
+        $flowComponentContract = self::FLOW_COMPONENT_INPUT_MAP[$flowComponentContract] ?? $flowComponentContract;
 
         if (
             $flowComponentContract !== HttpHandlerContract::class
