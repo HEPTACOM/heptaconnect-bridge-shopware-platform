@@ -16,6 +16,11 @@
             decorates="heptacom_heptaconnect.logger"
         >
             <argument id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger.inner" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract"
