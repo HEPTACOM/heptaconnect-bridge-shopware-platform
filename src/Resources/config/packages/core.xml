@@ -12,6 +12,17 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
+            decorates="heptacom_heptaconnect.logger"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger.inner" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract"
             id="heptacom_heptaconnect.profiler.core"
         >
@@ -48,12 +59,20 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
             id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"
+        />
         <service
             class="Heptacom\HeptaConnect\Core\Flow\DirectEmissionFlow\DirectEmissionFlow"
             id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract"
@@ -152,6 +171,10 @@
             <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiveContextFactory"
             id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface"
         >
@@ -160,6 +183,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Support\EntityStatus" type="service"/>
             <argument type="tagged_iterator" tag="heptaconnect.postprocessor" index-by="key" />
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReporterCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface"
+        />
         <service
             class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReportingContextFactory"
             id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface"
@@ -216,6 +243,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder"
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface"
+        />
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackBuilderFactory"
             id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface"
