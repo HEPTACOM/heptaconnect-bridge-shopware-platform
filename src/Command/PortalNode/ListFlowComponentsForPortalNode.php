@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
@@ -68,7 +69,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->statusReporterCodeOriginFinder = $statusReporterCodeOriginFinder;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('entity-type', InputArgument::REQUIRED);
@@ -96,9 +97,9 @@ class ListFlowComponentsForPortalNode extends Command
         $flowComponentContract = (string) $input->getArgument('flow-component-contract');
 
         if (
-            $flowComponentContract !== HttpHandlerContract::class &&
-            $flowComponentContract !== StatusReporterContract::class &&
-            !\is_a($entityType, DatasetEntityContract::class, true)
+            $flowComponentContract !== HttpHandlerContract::class
+            && $flowComponentContract !== StatusReporterContract::class
+            && !\is_a($entityType, DatasetEntityContract::class, true)
         ) {
             $io->error('The specified type does not implement the DatasetEntityContract.');
 
@@ -110,18 +111,23 @@ class ListFlowComponentsForPortalNode extends Command
         switch ($flowComponentContract) {
             case ExplorerContract::class:
                 $flowComponentDescriptions = $this->getExplorerImplementations($portalNodeKey, $entityType);
+
                 break;
             case ReceiverContract::class:
                 $flowComponentDescriptions = $this->getReceiverImplementations($portalNodeKey, $entityType);
+
                 break;
             case EmitterContract::class:
                 $flowComponentDescriptions = $this->getEmitterImplementations($portalNodeKey, $entityType);
+
                 break;
             case HttpHandlerContract::class:
                 $flowComponentDescriptions = $this->getHttpHandlerImplementations($portalNodeKey, $entityType);
+
                 break;
             case StatusReporterContract::class:
                 $flowComponentDescriptions = $this->getStatusReporterImplementations($portalNodeKey, $entityType);
+
                 break;
             default:
                 $io->error('The specified flow-component-contract does not exist.');
