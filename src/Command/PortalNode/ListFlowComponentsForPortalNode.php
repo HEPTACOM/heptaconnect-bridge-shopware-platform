@@ -143,7 +143,7 @@ class ListFlowComponentsForPortalNode extends Command
         }
 
         $flowComponentDescriptions = \array_map('strval', $flowComponentDescriptions);
-        $flags = $input->getOption('pretty') ? \JSON_PRETTY_PRINT : 0;
+        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
         $io->writeln(\json_encode($flowComponentDescriptions, $flags));
 
         return 0;
