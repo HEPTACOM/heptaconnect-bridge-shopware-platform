@@ -75,8 +75,10 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
+            - service:
+                -   factory: [ '@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalNodeGetAction' ]
+            - service:
+                -   factory: [ '@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalExtensionFindAction' ]
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:

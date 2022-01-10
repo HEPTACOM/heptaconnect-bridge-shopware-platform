@@ -15,33 +15,69 @@
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getPortalNodeGetAction"/>
+                </service>
+            </argument>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getPortalExtensionFindAction"/>
+                </service>
+            </argument>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getPortalExtensionActivateAction"/>
+                </service>
+            </argument>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getPortalExtensionDeactivateAction"/>
+                </service>
+            </argument>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getRouteFindAction"/>
+                </service>
+            </argument>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getRouteCreateAction"/>
+                </service>
+            </argument>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getRouteGetAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getRouteOverviewAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRouteCapabilities">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getRouteCapabilityOverviewAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Profiling\ProfilerFactory"
@@ -49,11 +85,23 @@
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getJobListFinishedAction"/>
+                </service>
+            </argument>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getJobDeleteAction"/>
+                </service>
+            </argument>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getJobGetAction"/>
+                </service>
+            </argument>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
         </service>
@@ -82,19 +130,31 @@
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\GetHandlerConfiguration">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getWebHttpHandlerConfigurationFindAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getPortalNodeListAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\SetHandlerConfiguration">
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface"/>
+            <argument type="service">
+                <service>
+                    <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface" method="getWebHttpHandlerConfigurationSetAction"/>
+                </service>
+            </argument>
             <tag name="console.command"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController" public="true">
