@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface`
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface`
 - Add service definition based upon class `Heptacom\HeptaConnect\Core\StatusReporting\StatusReporterCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Bridge\StorageFacade` as `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that is used to create all storage based service
 
 ### Changed
 

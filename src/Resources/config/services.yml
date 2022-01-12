@@ -2,6 +2,7 @@ imports:
     - { resource: packages/core.xml }
     - { resource: packages/core.yml }
     - { resource: packages/portal.xml }
+    - { resource: packages/storage-base.xml }
     - { resource: packages/storage-shopware-dal.xml }
     - { resource: packages/storage-shopware-dal.yml }
 
