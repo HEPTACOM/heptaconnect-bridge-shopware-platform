@@ -2,6 +2,7 @@ imports:
     - { resource: packages/core.xml }
     - { resource: packages/core.yml }
     - { resource: packages/portal.xml }
+    - { resource: packages/storage-base.xml }
     - { resource: packages/storage-shopware-dal.xml }
     - { resource: packages/storage-shopware-dal.yml }
 
@@ -65,8 +66,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - service:
-                - factory: ['@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalNodeListAction']
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
         arguments:
@@ -91,20 +91,17 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - service:
-                -   factory: [ '@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalNodeCreateAction' ]
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - service:
-                -   factory: [ '@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalNodeOverviewAction' ]
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - service:
-                -   factory: [ '@Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface', 'getPortalNodeDeleteAction' ]
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
         arguments:
