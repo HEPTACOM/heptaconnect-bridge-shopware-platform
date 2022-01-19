@@ -49,10 +49,12 @@
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
+            <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run">
+            <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
