@@ -90,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract`
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository` and its alias `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract`
 - Remove unused service `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
+- Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` in favour of `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
 
 ## [0.8.0] - 2021-11-22
 
