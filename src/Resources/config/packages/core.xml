@@ -29,10 +29,6 @@
             <factory service="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" method="factory"/>
             <argument type="string">HeptaConnect\Core::</argument>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory">
-            <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
-        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Emission\EmissionActor"
             id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface"
