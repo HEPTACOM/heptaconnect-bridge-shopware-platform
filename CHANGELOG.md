@@ -91,6 +91,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository` and its alias `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract`
 - Remove unused service `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` in favour of `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
+- Remove command `heptaconnect:cronjob:ensure-queue` and service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue` as the feature of cronjobs in its current implementation is removed
+- Remove command `heptaconnect:cronjob:queue` and service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue` as the feature of cronjobs in its current implementation is removed
+- Remove class and its service `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler` as the feature of cronjobs in its current implementation is removed
+- Remove class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessage` as the feature of cronjobs in its current implementation is removed
 
 ## [0.8.0] - 2021-11-22
 
