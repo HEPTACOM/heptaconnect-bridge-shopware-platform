@@ -72,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change output of command `heptaconnect:http-handler:get-configuration` to not escape slashes in JSON
 - Change service id from `Heptacom\HeptaConnect\Core\Configuration\ConfigurationService` to `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` to prioritize service interface as id
 - Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor` from `heptaconnect_entity_type.repository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` and `Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory` into `Doctrine\DBAL\Connection`
 
 ### Deprecated
 
