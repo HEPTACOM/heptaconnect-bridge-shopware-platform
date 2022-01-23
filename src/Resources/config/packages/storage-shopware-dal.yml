@@ -1,14 +1,6 @@
 services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory: ~
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_cronjob }
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_cronjob_run }
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\EntityType\EntityTypeDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_entity_type }
@@ -57,19 +49,6 @@ services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
             - '@heptaconnect_portal_node_storage.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository:
-        arguments:
-            - '@heptaconnect_cronjob.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository:
-        arguments:
-            - '@heptaconnect_cronjob.repository'
-            - '@heptaconnect_cronjob_run.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
