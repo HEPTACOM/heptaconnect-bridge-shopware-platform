@@ -10,7 +10,6 @@
             id="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
-            <argument id="heptaconnect_entity_type.repository" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
         <service
