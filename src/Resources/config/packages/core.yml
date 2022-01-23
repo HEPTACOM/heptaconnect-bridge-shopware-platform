@@ -4,13 +4,6 @@ services:
             - '%kernel.project_dir%/composer.json'
             - '@cache.system'
 
-    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
-            - '@cache.system'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
     Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'

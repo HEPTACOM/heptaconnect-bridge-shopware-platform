@@ -1,8 +1,4 @@
 services:
-    Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage:
-        arguments:
-            - '@Shopware\Core\System\SystemConfig\SystemConfigService'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory: ~
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition:
