@@ -43,6 +43,11 @@
                      method="getJobStartAction"/>
         </service>
 
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getMappingMapAction"/>
+        </service>
+
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getPortalExtensionActivateAction"/>
