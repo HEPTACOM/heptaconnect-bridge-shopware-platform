@@ -9,45 +9,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Create\JobCreateActionInterface` with dependencies onto `Doctrine\DBAL\Connection`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator`, `Heptacom\HeptaConnect\Storage\ShopwareDal\JobTypeAccessor` and `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface` with dependency onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface` with dependencies onto `Doctrine\DBAL\Connection`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator`, `Heptacom\HeptaConnect\Storage\ShopwareDal\JobTypeAccessor` and `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Support\Query\QueryIterator`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface` with dependency onto `Doctrine\DBAL\Connection`
 - Add service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\JobTypeAccessor` with dependency onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` with dependency onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface` with dependency onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Fail\JobFailActionInterface` with dependency onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Schedule\JobScheduleActionInterface` with dependency onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface` with dependency onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface` with dependency onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface` with dependency onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface` with dependency onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface`
 - Add command `heptaconnect:portal-node:extensions:activate` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension` to activate a portal extension on a portal node
 - Add command `heptaconnect:portal-node:extensions:deactivate` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` to deactivate a portal extension on a portal node
 - Add command `heptaconnect:portal-node:extensions:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions` to list activity state of portal extensions on a portal node
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` with dependencies onto `Doctrine\DBAL\Connection`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Activate\PortalExtensionActivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Deactivate\PortalExtensionDeactivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface` with dependencies onto `Doctrine\DBAL\Connection`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface` with dependencies onto `Doctrine\DBAL\Connection` and `heptacom_heptaconnect.logger`
 - Add option `--bidirectional` and its functionality to `heptaconnect:router:add-route` defined in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` to automate creation of the route back
+- Add service definition `\Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger` for decorating `heptacom_heptaconnect.logger` to stringify flow component into human readable code origins in log messages
+- Add command `heptaconnect:portal-node:list-flow-components` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode` to list all flow components for a given entity type, job type (by base class) and portal node
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\StatusReporting\StatusReporterCodeOriginFinder` as `Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Storage\ShopwareDal\Bridge\StorageFacade` as `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface` that is used to create all storage based service
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger` for decorating `heptacom_heptaconnect.logger` to add exception codes in log messages
 
 ### Changed
 
-- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Listing\JobListFinishedActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Delete\JobDeleteActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Get\JobGetActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`
-- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Start\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\Finish\JobFinishActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface`
-- Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface`
+- Change dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface`
 - Remove argument `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent` from service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
-- Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface` to the service definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface` to the service definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Listing\ReceptionRouteListActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Overview\RouteOverviewActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Find\RouteFindActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteGetActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\Get\RouteCreateActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\Overview\RouteCapabilityOverviewActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\RouteCapability\RouteCapabilityOverviewActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface`
+- Change service id from `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetActionInterface` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface`
+- Change behavior of command `heptaconnect:portal-node:config:get` to throw an exception when the output cannot be converted to JSON
+- Change output of command `heptaconnect:portal-node:config:get` to not escape slashes in JSON
+- Change output of command `heptaconnect:portal-node:status:report` to not escape slashes in JSON
+- Change behavior of command `heptaconnect:http-handler:get-configuration` to throw an exception when the output cannot be converted to JSON
+- Change output of command `heptaconnect:http-handler:get-configuration` to not escape slashes in JSON
+- Change service id from `Heptacom\HeptaConnect\Core\Configuration\ConfigurationService` to `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` to prioritize service interface as id
+- Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
 
 ### Deprecated
 
@@ -56,6 +81,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Change hardcoded `prod` environment in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\AbstractIntegration::getLifecycleContainer` to using the current one
+- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` to make the command available
+- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` to make the command available
 
 ### Removed
 
@@ -64,6 +91,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\JobPayloadRepositoryContract`
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\PortalNodeRepository` and its alias `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\PortalNodeRepositoryContract`
 - Remove unused service `Heptacom\HeptaConnect\Portal\Base\Builder\FlowComponent`
+- Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` in favour of `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
+- Remove command `heptaconnect:cronjob:ensure-queue` and service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue` as the feature of cronjobs in its current implementation is removed
+- Remove command `heptaconnect:cronjob:queue` and service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue` as the feature of cronjobs in its current implementation is removed
+- Remove class and its service `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler` as the feature of cronjobs in its current implementation is removed
+- Remove class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessage` as the feature of cronjobs in its current implementation is removed
+- Remove service `\Heptacom\HeptaConnect\Core\Cronjob\CronjobService`, `Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition` as the feature of cronjobs in its current implementation is removed
 
 ## [0.8.0] - 2021-11-22
 

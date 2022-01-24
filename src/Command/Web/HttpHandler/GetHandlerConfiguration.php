@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,7 +49,6 @@ class GetHandlerConfiguration extends Command
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
         $path = (string) $input->getArgument('path');
         $key = (string) $input->getArgument('key');
-        $pretty = (bool) $input->getOption('pretty');
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('portal-node-key is not a portal node key');
@@ -60,7 +59,8 @@ class GetHandlerConfiguration extends Command
         $criteria = new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, $path, $key);
         $find = $this->webHttpHandlerConfigurationFindAction->find($criteria);
 
-        $io->write(\json_encode($find->getValue(), $pretty ? \JSON_PRETTY_PRINT : 0));
+        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
+        $output->writeln(\json_encode($find->getValue(), $flags));
 
         return 0;
     }

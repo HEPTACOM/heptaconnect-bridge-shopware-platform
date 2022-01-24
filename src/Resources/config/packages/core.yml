@@ -4,17 +4,6 @@ services:
             - '%kernel.project_dir%/composer.json'
             - '@cache.system'
 
-    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
-            - '@cache.system'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
-
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
@@ -75,8 +64,8 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Get\PortalNodeGetActionInterface'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\Find\PortalExtensionFindActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
     Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
         arguments:

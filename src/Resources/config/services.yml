@@ -2,6 +2,7 @@ imports:
     - { resource: packages/core.xml }
     - { resource: packages/core.yml }
     - { resource: packages/portal.xml }
+    - { resource: packages/storage-base.xml }
     - { resource: packages/storage-shopware-dal.xml }
     - { resource: packages/storage-shopware-dal.yml }
 
@@ -41,18 +42,6 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@messenger.bus.shopware'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@messenger.bus.shopware'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
@@ -65,7 +54,7 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Listing\PortalNodeListActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
         arguments:
@@ -74,33 +63,33 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Reset:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Set:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Create\PortalNodeCreateActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Overview\PortalNodeOverviewActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\Delete\PortalNodeDeleteActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
         arguments:
@@ -136,17 +125,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore:
         arguments:
