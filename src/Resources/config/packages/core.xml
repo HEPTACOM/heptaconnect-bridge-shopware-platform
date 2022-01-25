@@ -126,7 +126,7 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler"
