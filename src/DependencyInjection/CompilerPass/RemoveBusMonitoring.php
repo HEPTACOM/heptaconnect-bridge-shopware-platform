@@ -8,7 +8,7 @@ use Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class RemoveBusMonitoring implements CompilerPassInterface
+final class RemoveBusMonitoring implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
+final class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
 {
     private PublisherInterface $publisher;
 

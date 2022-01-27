@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Profiling;
 use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract;
 use Sourceability\Instrumentation\Profiler\ProfilerInterface;
 
-class Profiler extends ProfilerContract
+final class Profiler extends ProfilerContract
 {
     private ProfilerInterface $profiler;
 
