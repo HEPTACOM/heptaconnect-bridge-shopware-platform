@@ -3,9 +3,19 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getIdentityMapAction"/>
+        </service>
+
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getJobCreateAction"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getIdentityPersistAction"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface">
@@ -41,11 +51,6 @@
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getJobStartAction"/>
-        </service>
-
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface">
-            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getMappingMapAction"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface">
@@ -101,6 +106,11 @@
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getRouteCreateAction"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getRouteDeleteAction"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface">
