@@ -20,7 +20,7 @@ services:
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\Mapping\MappingMapActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
