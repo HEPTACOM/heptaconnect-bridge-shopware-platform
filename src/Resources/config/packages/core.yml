@@ -15,12 +15,12 @@ services:
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
