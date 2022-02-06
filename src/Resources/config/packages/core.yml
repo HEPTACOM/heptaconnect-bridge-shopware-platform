@@ -39,9 +39,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptacom_heptaconnect.logger'
 
