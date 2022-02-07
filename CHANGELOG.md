@@ -108,6 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove service `\Heptacom\HeptaConnect\Core\Cronjob\CronjobService`, `Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition` as the feature of cronjobs in its current implementation is removed
 - Remove service `Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface`
 - Remove service `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`
+- Remove service `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
 
 ## [0.8.0] - 2021-11-22
 

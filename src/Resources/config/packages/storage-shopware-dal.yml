@@ -57,16 +57,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
-    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract:
-        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_mapping.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
-        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
