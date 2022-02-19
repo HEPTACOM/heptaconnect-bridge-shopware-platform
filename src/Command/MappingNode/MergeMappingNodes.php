@@ -64,30 +64,25 @@ class MergeMappingNodes extends Command
             return 2;
         }
 
-        return $this->merge($mappingNodeFrom, $mappingNodeInto, $io);
-    }
-
-    public function merge(MappingNodeKeyInterface $mergeFrom, MappingNodeKeyInterface $mergeInto, SymfonyStyle $io): int
-    {
-        if ($mergeFrom->equals($mergeInto)) {
+        if ($mappingNodeFrom->equals($mappingNodeInto)) {
             $io->error('The mapping nodes could not be merged as they overlap');
 
             return 3;
         }
 
         $criteria = new IdentityOverviewCriteria();
-        $criteria->getMappingNodeKeyFilter()->push([$mergeFrom, $mergeInto]);
+        $criteria->getMappingNodeKeyFilter()->push([$mappingNodeFrom, $mappingNodeInto]);
 
         $nodesFrom = [];
         $nodesInto = [];
         $entityTypes = [];
 
         foreach ($this->identityOverviewAction->overview($criteria) as $node) {
-            if ($node->getMappingNodeKey()->equals($mergeFrom)) {
+            if ($node->getMappingNodeKey()->equals($mappingNodeFrom)) {
                 $nodesFrom[] = $node;
             }
 
-            if ($node->getMappingNodeKey()->equals($mergeInto)) {
+            if ($node->getMappingNodeKey()->equals($mappingNodeInto)) {
                 $nodesInto[] = $node;
             }
 
@@ -100,7 +95,7 @@ class MergeMappingNodes extends Command
             return 4;
         }
 
-        if (count($entityTypes) !== 1) {
+        if (\count($entityTypes) !== 1) {
             $io->error('The mapping nodes could not be merged as they overlap');
 
             return 5;
@@ -127,7 +122,7 @@ class MergeMappingNodes extends Command
                 }
             } else {
                 $payloads[$portalNode]->getIdentityPersistPayloads()->push([
-                    new IdentityPersistCreatePayload($mergeInto, $node->getExternalId()),
+                    new IdentityPersistCreatePayload($mappingNodeInto, $node->getExternalId()),
                 ]);
             }
 

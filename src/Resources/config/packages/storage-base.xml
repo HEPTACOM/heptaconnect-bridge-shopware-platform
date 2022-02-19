@@ -13,14 +13,19 @@
                      method="getIdentityOverviewAction"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface">
-            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getJobCreateAction"/>
-        </service>
-
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getIdentityPersistAction"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getIdentityReflectAction"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getJobCreateAction"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface">

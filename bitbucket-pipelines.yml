@@ -94,7 +94,7 @@ definitions:
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_covr;'
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' COMPOSER_EXTRA_ARGS=-vvv make -e coverage
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr' XDEBUG_MODE=coverage COMPOSER_EXTRA_ARGS=-vvv make -e coverage
         -   step: &test-code-style-php
                 <<: *default-step
                 name: ECS (Code style)
