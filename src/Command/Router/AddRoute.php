@@ -98,7 +98,7 @@ class AddRoute extends Command
             $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
         }
 
-        if (($input->getOption('bidirectional') && !$source->equals($target))) {
+        if ($input->getOption('bidirectional') && !$source->equals($target)) {
             $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
 
             if ($back instanceof RouteFindResult) {

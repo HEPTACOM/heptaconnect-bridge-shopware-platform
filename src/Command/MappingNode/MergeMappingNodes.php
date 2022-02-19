@@ -95,7 +95,7 @@ class MergeMappingNodes extends Command
             return 4;
         }
 
-        if (count($entityTypes) !== 1) {
+        if (\count($entityTypes) !== 1) {
             $io->error('The mapping nodes could not be merged as they overlap');
 
             return 5;
