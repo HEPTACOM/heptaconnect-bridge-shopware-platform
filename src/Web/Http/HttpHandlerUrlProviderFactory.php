@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
@@ -21,16 +22,20 @@ class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInte
 
     private RequestContext $requestContext;
 
+    private RequestContextHelper $requestContextHelper;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         UrlGeneratorInterface $urlGenerator,
         HttpHostProviderContract $hostProvider,
-        RequestContext $requestContext
+        RequestContext $requestContext,
+        RequestContextHelper $requestContextHelper
     ) {
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->urlGenerator = $urlGenerator;
         $this->hostProvider = $hostProvider;
         $this->requestContext = $requestContext;
+        $this->requestContextHelper = $requestContextHelper;
     }
 
     public function factory(PortalNodeKeyInterface $portalNodeKey): HttpHandlerUrlProviderInterface
@@ -40,7 +45,8 @@ class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInte
             $this->storageKeyGenerator,
             $this->urlGenerator,
             $this->requestContext,
-            $this->hostProvider
+            $this->hostProvider,
+            $this->requestContextHelper
         );
     }
 }
