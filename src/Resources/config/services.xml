@@ -70,6 +70,22 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListFlowComponentsForPortalNode">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
