@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -31,12 +32,15 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 
     private ?UriInterface $baseUrl = null;
 
+    private RequestContextHelper $requestContextHelper;
+
     public function __construct(
         PortalNodeKeyInterface $portalNodeKey,
         StorageKeyGeneratorContract $storageKeyGenerator,
         UrlGeneratorInterface $urlGenerator,
         RequestContext $requestContext,
-        HttpHostProviderContract $hostProvider
+        HttpHostProviderContract $hostProvider,
+        RequestContextHelper $requestContextHelper
     ) {
         $this->portalNodeKey = $portalNodeKey;
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
@@ -44,6 +48,7 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $this->urlGenerator = $urlGenerator;
         $this->requestContext = $requestContext;
         $this->hostProvider = $hostProvider;
+        $this->requestContextHelper = $requestContextHelper;
     }
 
     public function resolve(string $path): UriInterface
@@ -51,46 +56,17 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey);
         $this->baseUrl ??= $this->hostProvider->get();
 
-        $clonedRequestContext = clone $this->requestContext;
+        $url = $this->requestContextHelper->scope(
+            $this->requestContext,
+            $this->baseUrl,
+            function () use ($path): string {
+                return $this->urlGenerator->generate('heptaconnect.http.handler', [
+                    'portalNodeId' => $this->portalNodeId,
+                    'path' => $path,
+                ], UrlGeneratorInterface::ABSOLUTE_URL);
+            }
+        );
 
-        try {
-            $this->prepareRouteContext();
-
-            return $this->uriFactory->createUri($this->urlGenerator->generate('heptaconnect.http.handler', [
-                'portalNodeId' => $this->portalNodeId,
-                'path' => $path,
-            ], UrlGeneratorInterface::ABSOLUTE_URL));
-        } finally {
-            $this->resetRequestContext($clonedRequestContext);
-        }
-    }
-
-    protected function prepareRouteContext(): void
-    {
-        if (\is_string($this->baseUrl->getScheme())) {
-            $this->requestContext->setScheme($this->baseUrl->getScheme());
-        }
-
-        if (\is_string($this->baseUrl->getHost())) {
-            $this->requestContext->setHost($this->baseUrl->getHost());
-        }
-
-        if (\is_int($this->baseUrl->getPort())) {
-            $this->requestContext->setHttpPort($this->baseUrl->getPort());
-            $this->requestContext->setHttpsPort($this->baseUrl->getPort());
-        }
-
-        if (\is_string($this->baseUrl->getPath())) {
-            $this->requestContext->setBaseUrl(\ltrim($this->baseUrl->getPath(), '/'));
-        }
-    }
-
-    protected function resetRequestContext(RequestContext $clonedRequestContext): void
-    {
-        $this->requestContext->setScheme($clonedRequestContext->getScheme());
-        $this->requestContext->setHost($clonedRequestContext->getHost());
-        $this->requestContext->setHttpPort($clonedRequestContext->getHttpPort());
-        $this->requestContext->setHttpsPort($clonedRequestContext->getHttpsPort());
-        $this->requestContext->setBaseUrl($clonedRequestContext->getBaseUrl());
+        return $this->uriFactory->createUri($url);
     }
 }
