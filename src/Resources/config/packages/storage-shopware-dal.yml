@@ -51,12 +51,6 @@ services:
             - '@heptaconnect_portal_node_storage.repository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
-        arguments:
-            - '@heptaconnect_mapping_error_message.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
