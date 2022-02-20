@@ -41,11 +41,6 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_route }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
-        arguments:
-            - '@heptaconnect_mapping.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
     Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
         arguments:
             - '@heptaconnect_portal_node_storage.repository'
