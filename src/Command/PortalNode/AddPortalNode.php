@@ -36,6 +36,7 @@ class AddPortalNode extends Command
     protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::REQUIRED);
+        $this->addArgument('alias', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,6 +44,7 @@ class AddPortalNode extends Command
         $io = new SymfonyStyle($input, $output);
 
         $portalClass = (string) $input->getArgument('portal-class');
+        $alias = (string) $input->getArgument('alias');
 
         if (!\is_a($portalClass, PortalContract::class, true)) {
             $io->error('The provided portal class does not implement the PortalContract.');
@@ -50,7 +52,7 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass)]));
+        $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, $alias)]));
 
         $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($result->first()->getPortalNodeKey())));
 

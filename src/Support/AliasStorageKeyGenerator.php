@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support;
 
-use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasEntity;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 {
     private StorageKeyGeneratorContract $decorated;
 
-    private EntityRepositoryInterface $aliasRepository;
+    private PortalNodeAliasFindActionInterface $aliasFindAction;
 
-    public function __construct(StorageKeyGeneratorContract $decorated, EntityRepositoryInterface $aliasRepository)
-    {
+    public function __construct(
+        StorageKeyGeneratorContract $decorated,
+        PortalNodeAliasFindActionInterface $aliasFindAction
+    ) {
         $this->decorated = $decorated;
-        $this->aliasRepository = $aliasRepository;
+        $this->aliasFindAction = $aliasFindAction;
     }
 
     public function generateKey(string $keyClassName): StorageKeyInterface
@@ -46,13 +45,11 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 
     protected function replaceWithAlias(string $original): string
     {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('original', $original));
-        $criteria->setLimit(1);
-        $result = $this->aliasRepository->search($criteria, Context::createDefaultContext())->first();
+        $aliasFindCriteria = new PortalNodeAliasFindCriteria([$original]);
+        $portalNodeKeys = $this->aliasFindAction->find($aliasFindCriteria);
 
-        if ($result instanceof KeyAliasEntity) {
-            return $result->getAlias();
+        if (\count($portalNodeKeys) === 1) {
+            return $portalNodeKeys[0]->getAlias() ? : $portalNodeKeys[0]->getKeyData();
         }
 
         return $original;
@@ -60,15 +57,14 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 
     protected function replaceWithOriginal(string $alias): string
     {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('alias', $alias));
-        $criteria->setLimit(1);
-        $result = $this->aliasRepository->search($criteria, Context::createDefaultContext())->first();
+        $aliasFindCriteria = new PortalNodeAliasFindCriteria([$alias]);
+        $portalNodeKeys = $this->aliasFindAction->find($aliasFindCriteria);
 
-        if ($result instanceof KeyAliasEntity) {
-            return $result->getOriginal();
+        if (\count($portalNodeKeys) === 1) {
+            return $portalNodeKeys[0]->getKeyData();
         }
 
         return $alias;
+
     }
 }
