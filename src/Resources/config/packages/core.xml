@@ -281,8 +281,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
             <argument id="cache.system" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationFileReader" type="service"/>
         </service>
     </services>
 </container>
