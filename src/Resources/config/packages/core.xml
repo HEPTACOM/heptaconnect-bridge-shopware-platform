@@ -222,6 +222,12 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer">
+            <tag name="heptacom.heptaconnect_denormalizer"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer">
+            <tag name="heptacom.heptaconnect_normalizer"/>
+        </service>
 
         <!-- PostProcessing of Reception -->
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">
