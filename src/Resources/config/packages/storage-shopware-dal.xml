@@ -10,19 +10,8 @@
             id="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
-            <argument id="heptaconnect_entity_type.repository" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
-        <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityMapper"
-            id="Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract"
-        >
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="heptaconnect_mapping_node.repository" type="service"/>
-            <argument id="heptaconnect_mapping.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
-        </service>
         <service
             class="Heptacom\HeptaConnect\Storage\ShopwareDal\MappingPersister\MappingPersister"
             id="Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract"
@@ -41,9 +30,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor">
-            <argument id="heptaconnect_entity_type.repository" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory" type="service"/>
+            <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
     </services>
 </container>

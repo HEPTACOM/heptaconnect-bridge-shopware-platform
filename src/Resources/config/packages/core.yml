@@ -4,17 +4,6 @@ services:
             - '%kernel.project_dir%/composer.json'
             - '@cache.system'
 
-    Heptacom\HeptaConnect\Core\Configuration\ConfigurationService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage'
-            - '@cache.system'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Core\Cronjob\CronjobService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
-
     Heptacom\HeptaConnect\Core\Emission\EmitService:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
@@ -26,12 +15,12 @@ services:
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
         arguments:
@@ -50,9 +39,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Mapping\MappingService:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptacom_heptaconnect.logger'
 

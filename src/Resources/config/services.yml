@@ -42,50 +42,19 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\EnsureQueue:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@messenger.bus.shopware'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Cronjob\Queue:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@messenger.bus.shopware'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Reset:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Set:
         arguments:
-            - '@Heptacom\HeptaConnect\Core\Configuration\ConfigurationService'
+            - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
@@ -137,17 +106,6 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessageHandler:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunHandler'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore:
         arguments:

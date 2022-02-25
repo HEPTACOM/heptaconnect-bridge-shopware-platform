@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
+use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
@@ -97,7 +98,7 @@ class AddRoute extends Command
             $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
         }
 
-        if (!($input->getOption('bidirectional') && !$source->equals($target))) {
+        if ($input->getOption('bidirectional') && !$source->equals($target)) {
             $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
 
             if ($back instanceof RouteFindResult) {
