@@ -107,5 +107,30 @@
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"
+                 class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileContentsUrlProvider">
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="router.request_context"/>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface"
+                 class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileRequestUrlProvider">
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="router.request_context"/>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController" public="true">
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer"/>
+        </service>
     </services>
 </container>
