@@ -73,12 +73,14 @@ class FileReferenceController
         $httpClient = $container->get(HttpClientContract::class);
 
         // TODO: Move this operation into a new service from the portal-base, so the portal can influence it by decoration
-        $sourceStream = $httpClient->sendRequest($request)->getBody()->detach();
+
+        $response = $httpClient->sendRequest($request);
+        $sourceStream = $response->getBody()->detach();
 
         return new StreamedResponse(function () use ($sourceStream) {
             $outputStream = \fopen('php://output', 'wb');
             \stream_copy_to_stream($sourceStream, $outputStream);
-        });
+        }, $response->getStatusCode(), $response->getHeaders());
     }
 
     /**

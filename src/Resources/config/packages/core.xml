@@ -205,6 +205,7 @@
         <service id="Heptacom\HeptaConnect\Core\Storage\RequestStorage">
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface"/>
         </service>
         <service
