@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
+use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
+use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestInterface;
+use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -21,12 +25,20 @@ class FileReferenceController
 
     private StreamDenormalizer $streamDenormalizer;
 
+    private RequestStorage $requestStorage;
+
+    private PortalStackServiceContainerFactory $portalContainerFactory;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        StreamDenormalizer $streamDenormalizer
+        StreamDenormalizer $streamDenormalizer,
+        RequestStorage $requestStorage,
+        PortalStackServiceContainerFactory $portalContainerFactory
     ) {
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->streamDenormalizer = $streamDenormalizer;
+        $this->requestStorage = $requestStorage;
+        $this->portalContainerFactory = $portalContainerFactory;
     }
 
     /**
@@ -41,17 +53,24 @@ class FileReferenceController
     public function request(string $portalNodeId, string $requestId): Response
     {
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+
+        if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
+            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+        }
+
         $requestKey = $this->storageKeyGenerator->deserialize($requestId);
 
-        // TODO: Read token from request
+        if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
+            throw new UnsupportedStorageKeyException(\get_class($requestKey));
+        }
+
         // TODO: Use token and portalNodeKey and requestKey to check permissions
 
-        /** @var RequestInterface $request */
-        $request = null; // TODO: Use requestKey to fetch request
+        $request = $this->requestStorage->load($portalNodeKey, $requestKey);
 
-        // TODO: Spin up a portalContainer to get an httpClient out of it
-        /** @var ClientInterface $httpClient */
-        $httpClient = null;
+        $container = $this->portalContainerFactory->create($portalNodeKey);
+        /** @var HttpClientContract $httpClient */
+        $httpClient = $container->get(HttpClientContract::class);
 
         // TODO: Move this operation into a new service from the portal-base, so the portal can influence it by decoration
         $sourceStream = $httpClient->sendRequest($request)->getBody()->detach();
