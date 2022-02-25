@@ -161,6 +161,8 @@
             <argument id="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
