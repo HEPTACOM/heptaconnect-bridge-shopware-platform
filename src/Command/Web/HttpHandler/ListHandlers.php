@@ -65,8 +65,10 @@ class ListHandlers extends Command
                 return 1;
             }
 
+            /** @var PortalNodeKeyInterface[] $portalNodeKeys */
             $portalNodeKeys = [$portalNodeKey];
         } else {
+            /** @var PortalNodeKeyInterface[] $portalNodeKeys */
             $portalNodeKeys = \iterable_map(
                 $this->portalNodeListAction->list(),
                 static fn (PortalNodeListResult $r) => $r->getPortalNodeKey()
@@ -86,6 +88,7 @@ class ListHandlers extends Command
                 $handlers->push($flowComponentRegistry->getWebHttpHandlers($source));
             }
 
+            /** @var string[] $paths */
             $paths = \array_unique(\iterable_to_array($handlers->column('getPath')));
             \sort($paths);
             $urlFactory = null;

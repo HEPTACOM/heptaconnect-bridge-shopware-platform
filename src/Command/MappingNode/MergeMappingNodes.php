@@ -89,6 +89,8 @@ class MergeMappingNodes extends Command
             $entityTypes[$node->getEntityType()] = true;
         }
 
+        unset($node);
+
         if ($nodesFrom === [] || $nodesInto === []) {
             $io->error('The mapping nodes could not be merged as they overlap');
 
@@ -108,13 +110,15 @@ class MergeMappingNodes extends Command
             $intoPortalExistences[$portalNode] = $node->getExternalId();
         }
 
+        unset($node);
+
         $payloads = [];
 
         foreach ($nodesFrom as $node) {
             $portalNode = $this->storageKeyGenerator->serialize($node->getPortalNodeKey());
             $payloads[$portalNode] ??= new IdentityPersistPayload($node->getPortalNodeKey(), new IdentityPersistPayloadCollection());
 
-            if (\array_key_exists($portalNode, $intoPortalExistences) && $intoPortalExistences[$portalNode] !== null) {
+            if (\array_key_exists($portalNode, $intoPortalExistences)) {
                 if ($intoPortalExistences[$portalNode] !== $node->getExternalId()) {
                     $io->error('The mapping nodes could not be merged as they overlap');
 

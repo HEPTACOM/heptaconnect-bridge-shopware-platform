@@ -39,7 +39,7 @@ class ListAliases extends Command
             'alias' => $entity->getAlias(),
         ]);
 
-        if (empty($rows)) {
+        if ($rows === []) {
             $io->note('There are no aliases.');
 
             return 0;

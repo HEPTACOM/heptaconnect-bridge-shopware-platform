@@ -7,7 +7,6 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
@@ -89,7 +88,6 @@ class ListMappingNodeSiblings extends Command
 
         $rows = [];
 
-        /** @var IdentityOverviewResult $identity */
         foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
             $rows[] = [
                 'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()),
@@ -99,7 +97,7 @@ class ListMappingNodeSiblings extends Command
             ];
         }
 
-        if (empty($rows)) {
+        if ($rows === []) {
             $io->note('There are no mapping nodes of the selected portal with given external id.');
 
             return 0;
