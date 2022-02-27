@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
-use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
-use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
-use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,33 +19,17 @@ class ListMappingNodeSiblings extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:siblings-list';
 
-    private ComposerPortalLoader $portalLoader;
-
-    private MappingRepositoryContract $mappingRepository;
-
-    private MappingNodeRepositoryContract $mappingNodeRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
-    private PortalNodeListActionInterface $portalNodeListAction;
+    private IdentityOverviewActionInterface $identityOverviewAction;
 
     public function __construct(
-        ComposerPortalLoader $portalLoader,
-        MappingRepositoryContract $mappingRepository,
-        MappingNodeRepositoryContract $mappingNodeRepository,
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        PortalNodeListActionInterface $portalNodeListAction
+        IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
-        $this->mappingRepository = $mappingRepository;
-        $this->mappingNodeRepository = $mappingNodeRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
-        $this->portalNodeListAction = $portalNodeListAction;
+        $this->identityOverviewAction = $identityOverviewAction;
     }
 
     protected function configure(): void
@@ -69,6 +45,7 @@ class ListMappingNodeSiblings extends Command
         $entityType = (string) $input->getOption('entity-type');
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
+        $criteria = new IdentityOverviewCriteria();
 
         if ($entityType !== '' && !\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
@@ -76,10 +53,16 @@ class ListMappingNodeSiblings extends Command
             return 1;
         }
 
-        if ($portalNodeKeyParam !== '' && !\is_a($this->storageKeyGenerator->deserialize($portalNodeKeyParam), PortalNodeKeyInterface::class, false)) {
-            $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');
+        if ($portalNodeKeyParam !== '') {
+            $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
 
-            return 2;
+            if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
+                $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');
+
+                return 2;
+            }
+
+            $criteria->getPortalNodeKeyFilter()->push([$portalNodeKey]);
         }
 
         $externalIds = \array_filter($externalIds);
@@ -90,101 +73,38 @@ class ListMappingNodeSiblings extends Command
             return 3;
         }
 
-        $portalNodeKeys = [];
+        $criteria->setExternalIdFilter($externalIds);
 
-        if ($portalNodeKeyParam === '') {
-            $portalNodeKeys = \iterable_to_array($this->portalNodeListAction->list());
-        } else {
-            $portalNodeKeys[] = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
-        }
+        $othersCriteria = new IdentityOverviewCriteria();
+        $othersCriteria->setSort([
+            IdentityOverviewCriteria::FIELD_ENTITY_TYPE => IdentityOverviewCriteria::SORT_ASC,
+            IdentityOverviewCriteria::FIELD_MAPPING_NODE => IdentityOverviewCriteria::SORT_ASC,
+            IdentityOverviewCriteria::FIELD_PORTAL_NODE => IdentityOverviewCriteria::SORT_ASC,
+        ]);
 
-        $types = [];
-
-        if ($entityType === '') {
-            $types = $this->getEntityTypes();
-        } else {
-            $types[] = $entityType;
+        foreach ($this->identityOverviewAction->overview($criteria) as $identity) {
+            $othersCriteria->getMappingNodeKeyFilter()->push([$identity->getMappingNodeKey()]);
         }
 
         $rows = [];
 
-        foreach ($portalNodeKeys as $portalNodeKey) {
-            foreach ($types as $type) {
-                $nodeKeys = $this->mappingNodeRepository->listByTypeAndPortalNodeAndExternalIds(
-                    $type,
-                    $portalNodeKey,
-                    $externalIds
-                );
-
-                /** @var MappingNodeKeyInterface $nodeKey */
-                foreach ($nodeKeys as $nodeKey) {
-                    $mappingKeys = $this->mappingRepository->listByMappingNode($nodeKey);
-
-                    /** @var MappingKeyInterface $mappingKey */
-                    foreach ($mappingKeys as $mappingKey) {
-                        $mapping = $this->mappingRepository->read($mappingKey);
-
-                        if ($mapping->getExternalId() === null) {
-                            continue;
-                        }
-
-                        $rows[] = [
-                            'portal-node-key' => $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey()),
-                            'external-id' => $mapping->getExternalId(),
-                            'mapping-node-key' => $this->storageKeyGenerator->serialize($mapping->getMappingNodeKey()),
-                            'entity-type' => $mapping->getEntityType(),
-                        ];
-                    }
-                }
-            }
+        foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
+            $rows[] = [
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()),
+                'external-id' => $identity->getExternalId(),
+                'mapping-node-key' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
+                'entity-type' => $identity->getEntityType(),
+            ];
         }
 
-        if (empty($rows)) {
+        if ($rows === []) {
             $io->note('There are no mapping nodes of the selected portal with given external id.');
 
             return 0;
         }
 
-        \usort(
-            $rows,
-            static fn (array $a, array $b) => ($a['entity-type'] <=> $b['entity-type']) * 10
-            + ($a['mapping-node-key'] <=> $b['mapping-node-key']) * 5
-            + ($a['portal-node-key'] <=> $b['portal-node-key'])
-        );
-
         $io->table(\array_keys(\current($rows)), $rows);
 
         return 0;
-    }
-
-    /**
-     * @TODO extract into service and resolve unroutable but mappable subtypes
-     */
-    protected function getEntityTypes(): array
-    {
-        $result = [];
-
-        /** @var PortalContract $portal */
-        foreach ($this->portalLoader->getPortals() as $portal) {
-            $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
-            /** @var FlowComponentRegistry $flowComponentRegistry */
-            $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
-
-            foreach ($flowComponentRegistry->getOrderedSources() as $source) {
-                foreach ($flowComponentRegistry->getExplorers($source) as $explorer) {
-                    $result[$explorer->supports()] = true;
-                }
-
-                foreach ($flowComponentRegistry->getEmitters($source) as $emitter) {
-                    $result[$emitter->supports()] = true;
-                }
-
-                foreach ($flowComponentRegistry->getReceivers($source) as $receiver) {
-                    $result[$receiver->supports()] = true;
-                }
-            }
-        }
-
-        return \array_keys($result);
     }
 }

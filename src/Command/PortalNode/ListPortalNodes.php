@@ -68,7 +68,7 @@ class ListPortalNodes extends Command
             ];
         }
 
-        if (empty($rows)) {
+        if ($rows === []) {
             $io->note('There are no portal nodes of the selected portal.');
 
             return 0;

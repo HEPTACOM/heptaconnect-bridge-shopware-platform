@@ -42,25 +42,6 @@ services:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface'
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Mapping\MappingService'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'

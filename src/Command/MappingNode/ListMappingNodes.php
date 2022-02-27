@@ -6,7 +6,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract;
+use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,17 +19,17 @@ class ListMappingNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:list';
 
-    private MappingRepositoryContract $mappingRepository;
-
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private IdentityOverviewActionInterface $identityOverviewAction;
+
     public function __construct(
-        MappingRepositoryContract $mappingRepository,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
-        $this->mappingRepository = $mappingRepository;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->identityOverviewAction = $identityOverviewAction;
     }
 
     protected function configure(): void
@@ -42,6 +43,7 @@ class ListMappingNodes extends Command
         $io = new SymfonyStyle($input, $output);
         $entityType = (string) $input->getArgument('entity-type');
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+        $criteria = new IdentityOverviewCriteria();
 
         if (!\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
@@ -49,24 +51,27 @@ class ListMappingNodes extends Command
             return 1;
         }
 
+        $criteria->setEntityTypeFilter([$entityType]);
+
         if (!\is_a($portalNodeKey, PortalNodeKeyInterface::class, false)) {
             $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');
 
             return 2;
         }
 
-        $rows = [];
-        $iterator = $this->mappingRepository->listByPortalNodeAndType($portalNodeKey, $entityType);
+        $criteria->getPortalNodeKeyFilter()->push([$portalNodeKey]);
 
-        foreach ($iterator as $mappingKey) {
-            $mapping = $this->mappingRepository->read($mappingKey);
+        $rows = [];
+
+        foreach ($this->identityOverviewAction->overview($criteria) as $identity) {
             $rows[] = [
-                'mapping-node-id' => $this->storageKeyGenerator->serialize($mapping->getMappingNodeKey()),
-                'external-id' => $mapping->getExternalId(),
+                'mapping-node-id' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
+                'portal-node-id' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()),
+                'external-id' => $identity->getExternalId(),
             ];
         }
 
-        if (empty($rows)) {
+        if ($rows === []) {
             $io->note('There are no mapping nodes of the selected portal.');
 
             return 0;

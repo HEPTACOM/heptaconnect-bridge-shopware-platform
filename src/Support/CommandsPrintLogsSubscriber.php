@@ -68,6 +68,9 @@ final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
         ));
     }
 
+    /**
+     * @return callable(HandlerInterface): bool
+     */
     protected function removeErrorStreamHandlerOnce(int $logLevel): callable
     {
         $removedOnce = false;

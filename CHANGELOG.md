@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to a variation of [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
+
+* `GENERATION` version when concepts and APIs are abandoned, but brand and project name stay the same,
+* `MAJOR` version when you make incompatible API changes and provide an upgrade path,
+* `MINOR` version when you add functionality in a backwards compatible manner, and
+* `PATCH` version when you make backwards compatible bug fixes.
 
 ## [Unreleased]
 
@@ -42,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger` for decorating `heptacom_heptaconnect.logger` to add exception codes in log messages
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add command `heptaconnect:router:remove-route` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\RemoveRoute` to remove a route by id seen on `heptaconnect:router:list-routes`
 
@@ -78,17 +87,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `Heptacom\HeptaConnect\Storage\ShopwareDal\ConfigurationStorage` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor` from `heptaconnect_entity_type.repository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` and `Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory` into `Doctrine\DBAL\Connection`
 - Switch dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` from `Heptacom\HeptaConnect\Storage\Base\Contract\EntityReflectorContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` from `Heptacom\HeptaConnect\Core\Mapping\MappingService` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface`
+- Remove dependencies `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingNodeRepository` from `Heptacom\HeptaConnect\Core\Mapping\MappingService`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes` from `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` from `Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract`, `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes` from `Heptacom\HeptaConnect\Core\Mapping\Contract\MappingServiceInterface` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor` from `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`
 - Add final modifier to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveEntityCache`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Profiling\Profiler`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Profiling\ProfilerFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProvider` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` to ensure correct usage of implementation. Decoration by their interfaces or base classes is still possible
 
 ### Deprecated
-
-- Deprecate command `heptaconnect:mapping-node:merge` in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes` for a later more convenient solution
-
-### Fixed
-
-- Change hardcoded `prod` environment in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\AbstractIntegration::getLifecycleContainer` to using the current one
-- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` to make the command available
-- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` to make the command available
 
 ### Removed
 
@@ -104,6 +112,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Messaging\Cronjob\CronjobRunMessage` as the feature of cronjobs in its current implementation is removed
 - Remove service `\Heptacom\HeptaConnect\Core\Cronjob\CronjobService`, `Heptacom\HeptaConnect\Core\Cronjob\CronjobContextFactory`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\CronjobRunRepository`, `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobDefinition` and `Heptacom\HeptaConnect\Storage\ShopwareDal\Content\Cronjob\CronjobRunDefinition` as the feature of cronjobs in its current implementation is removed
 - Remove service `Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface`
+- Remove service `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`
+- Remove composer dependency `dragonmantank/cron-expression`
+
+### Fixed
+
+- Change hardcoded `prod` environment in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\AbstractIntegration::getLifecycleContainer` to using the current one
+- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished` to make the command available
+- Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` to make the command available
+
+### Security
 
 ## [0.8.0] - 2021-11-22
 
@@ -193,10 +211,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add dependency `heptacom_heptaconnect.logger` in the service definition `Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor`
 - Add dependency `heptacom_heptaconnect.logger` in the service definition `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface`
 
-### Fixed
-
-- Change behaviour of command `heptaconnect:router:list-routes` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` to also list created routes that do not have supported flow components (anymore)
-
 ### Removed
 
 - Remove service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\RouteRepositoryContract`
@@ -209,6 +223,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove class and its service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Webhook\UrlProvider` in favour of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
 - Remove patched entity repository services `heptaconnect_mapping_node.repository.patched`, `heptaconnect_mapping.repository.patched`, `heptaconnect_job.repository.patched`, `heptaconnect_job_type.repository.patched`, `heptaconnect_job_payload.repository.patched`, `heptaconnect_entity_type.repository.patched`, `heptaconnect_route.repository.patched`, `heptaconnect_portal_node_storage.repository.patched`, `heptaconnect_portal_node.repository.patched`, `heptaconnect_mapping_error_message.repository.patched`, `heptaconnect_cronjob_run.repository.patched` and `heptaconnect_cronjob.repository.patched` 
 - Remove support for `shopware/core: 6.2.*` and therefore the compatibility patching process with `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepository` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\PatchProvider\EntityRepositoryPatch587`
+
+### Fixed
+
+- Change behaviour of command `heptaconnect:router:list-routes` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\ListRoutes` to also list created routes that do not have supported flow components (anymore)
 
 ## [0.7.0] - 2021-09-25
 
