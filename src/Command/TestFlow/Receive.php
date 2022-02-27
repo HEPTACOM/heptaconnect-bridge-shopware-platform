@@ -8,9 +8,8 @@ use Heptacom\HeptaConnect\Core\Mapping\MappingNodeStruct;
 use Heptacom\HeptaConnect\Core\Mapping\MappingStruct;
 use Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveServiceInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\TypedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingInterface;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\MappedDatasetEntityStruct;
-use Heptacom\HeptaConnect\Portal\Base\Mapping\TypedMappedDatasetEntityCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\MappingNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -68,9 +67,7 @@ class Receive extends Command
         /** @var DatasetEntityContract $entity */
         $entity = $callable();
 
-        $this->receiveService->receive(new TypedMappedDatasetEntityCollection(\get_class($entity), [
-            new MappedDatasetEntityStruct($this->getMapping($portalNodeKey, $entity), $entity),
-        ]));
+        $this->receiveService->receive(new TypedDatasetEntityCollection(\get_class($entity), [$entity]), $portalNodeKey);
 
         return 0;
     }
