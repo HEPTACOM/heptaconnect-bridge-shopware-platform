@@ -64,7 +64,7 @@ class Run extends Command
                 return 2;
             }
 
-            $jobData = new JobData($job->getMapping(), $job->getPayload(), $jobKey);
+            $jobData = new JobData($job->getMappingComponent(), $job->getPayload(), $jobKey);
             $jobType = $job->getJobType();
             $jobDataCollection->push([$jobData]);
 
