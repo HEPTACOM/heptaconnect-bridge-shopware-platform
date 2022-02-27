@@ -11,16 +11,5 @@
         >
             <argument id="Doctrine\DBAL\Connection" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\DalAccess"/>
-        <service
-            class="Heptacom\HeptaConnect\Storage\ShopwareDal\MappingPersister\MappingPersister"
-            id="Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract"
-        >
-            <argument type="service" id="heptaconnect_mapping.repository"/>
-            <argument type="service" id="Doctrine\DBAL\Connection"/>
-        </service>
-        <service id="Heptacom\HeptaConnect\Storage\ShopwareDal\EntityTypeAccessor">
-            <argument id="Doctrine\DBAL\Connection" type="service"/>
-        </service>
     </services>
 </container>
