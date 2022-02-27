@@ -120,6 +120,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove service `Heptacom\HeptaConnect\Core\Mapping\MappingService`
 - Remove service `Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository`
 - Remove service `Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector`
+- Remove service `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract`
 - Remove composer dependency `dragonmantank/cron-expression`
 
 ### Fixed
