@@ -65,12 +65,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
-    Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage'
-            - '@heptacom_heptaconnect.logger'
-
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
