@@ -123,6 +123,11 @@
                      method="getPortalNodeStorageDeleteAction"/>
         </service>
 
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getPortalNodeStorageGetAction"/>
+        </service>
+
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getRouteCreateAction"/>

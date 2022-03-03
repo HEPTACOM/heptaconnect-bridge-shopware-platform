@@ -167,6 +167,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
