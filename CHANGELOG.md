@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2022-03-04
+
+### Fixed
+
+- Add missing service tag for command `heptaconnect:job:run`
+- Add missing service tag for command `heptaconnect:job:cleanup-finished`
+
 ## [0.8.0] - 2021-11-22
 
 ### Added
