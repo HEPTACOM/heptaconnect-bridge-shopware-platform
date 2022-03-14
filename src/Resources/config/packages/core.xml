@@ -160,6 +160,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\RequestStorage" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
@@ -201,6 +202,15 @@
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\File\FileReferenceResolver"
+            id="Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\RequestStorage"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\RequestStorage">
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer"/>
