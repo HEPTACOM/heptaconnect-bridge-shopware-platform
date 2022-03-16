@@ -25,6 +25,19 @@
             </argument>
         </service>
         <service
+            class="Symfony\Component\Lock\LockFactory"
+            id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory"
+        >
+            <argument type="service">
+                <service class="Symfony\Component\Lock\Store\PdoStore">
+                    <argument id="Doctrine\DBAL\Connection" type="service"/>
+                    <argument type="collection">
+                        <argument key="db_table">heptaconnect_portal_node_resource_lock</argument>
+                    </argument>
+                </service>
+            </argument>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Core\Component\Logger\ExceptionCodeLogger"
             decorates="heptacom_heptaconnect.logger"
         >

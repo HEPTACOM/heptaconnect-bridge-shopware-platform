@@ -73,7 +73,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
