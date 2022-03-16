@@ -6,7 +6,7 @@
         "proprietary"
     ],
     "type": "library",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "keywords": [
         "heptaconnect-bridge",
         "shopware-platform"

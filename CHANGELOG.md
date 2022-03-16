@@ -122,6 +122,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Security
 
+## [0.8.1] - 2022-03-04
+
+### Fixed
+
+- Add missing service tag for command `heptaconnect:job:run`
+- Add missing service tag for command `heptaconnect:job:cleanup-finished`
+
 ## [0.8.0] - 2021-11-22
 
 ### Added
