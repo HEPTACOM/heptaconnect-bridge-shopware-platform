@@ -94,14 +94,6 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
 
-    Heptacom\HeptaConnect\Core\Router\Router.lock_store:
-        class: Symfony\Component\Lock\Store\FlockStore
-
-    Heptacom\HeptaConnect\Core\Router\Router.lock_factory:
-        class: Symfony\Component\Lock\LockFactory
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_store'
-
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:
             - { name: heptacom.heptaconnect_denormalizer }
