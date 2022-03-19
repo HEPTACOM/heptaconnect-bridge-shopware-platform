@@ -31,16 +31,9 @@ services:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract'
 
-
     Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
-            - '@heptacom_heptaconnect.logger'
-
-    Heptacom\HeptaConnect\Core\Mapping\MappingService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@heptacom_heptaconnect.logger'
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
@@ -65,15 +58,9 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
-    Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory:
-        arguments:
-            - '@Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage'
-            - '@heptacom_heptaconnect.logger'
-
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
@@ -93,14 +80,6 @@ services:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-
-    Heptacom\HeptaConnect\Core\Router\Router.lock_store:
-        class: Symfony\Component\Lock\Store\FlockStore
-
-    Heptacom\HeptaConnect\Core\Router\Router.lock_factory:
-        class: Symfony\Component\Lock\LockFactory
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_store'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:

@@ -49,12 +49,13 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
     public function resolve(string $path): UriInterface
     {
         $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey);
-        $this->baseUrl ??= $this->hostProvider->get();
+        $baseUrl = $this->baseUrl ?? $this->hostProvider->get();
+        $this->baseUrl = $baseUrl;
 
         $clonedRequestContext = clone $this->requestContext;
 
         try {
-            $this->prepareRouteContext();
+            $this->prepareRouteContext($baseUrl);
 
             return $this->uriFactory->createUri($this->urlGenerator->generate('heptaconnect.http.handler', [
                 'portalNodeId' => $this->portalNodeId,
@@ -65,23 +66,25 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         }
     }
 
-    protected function prepareRouteContext(): void
+    protected function prepareRouteContext(UriInterface $baseUrl): void
     {
-        if (\is_string($this->baseUrl->getScheme())) {
-            $this->requestContext->setScheme($this->baseUrl->getScheme());
+        if ($baseUrl->getScheme() !== '') {
+            $this->requestContext->setScheme($baseUrl->getScheme());
         }
 
-        if (\is_string($this->baseUrl->getHost())) {
-            $this->requestContext->setHost($this->baseUrl->getHost());
+        if ($baseUrl->getHost() !== '') {
+            $this->requestContext->setHost($baseUrl->getHost());
         }
 
-        if (\is_int($this->baseUrl->getPort())) {
-            $this->requestContext->setHttpPort($this->baseUrl->getPort());
-            $this->requestContext->setHttpsPort($this->baseUrl->getPort());
+        $port = $baseUrl->getPort();
+
+        if (\is_int($port)) {
+            $this->requestContext->setHttpPort($port);
+            $this->requestContext->setHttpsPort($port);
         }
 
-        if (\is_string($this->baseUrl->getPath())) {
-            $this->requestContext->setBaseUrl(\ltrim($this->baseUrl->getPath(), '/'));
+        if ($baseUrl->getPath() !== '') {
+            $this->requestContext->setBaseUrl(\ltrim($baseUrl->getPath(), '/'));
         }
     }
 

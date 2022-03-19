@@ -57,10 +57,9 @@ class ReportPortalNode extends Command
         }
 
         $topic = (string) $input->getArgument('topic');
-        $topic = empty($topic) ? null : $topic;
-        $report = $this->statusReportingService->report($portalNodeKey, $topic);
+        $report = $this->statusReportingService->report($portalNodeKey, $topic === '' ? null : $topic);
 
-        if (!empty($topic)) {
+        if ($topic !== '') {
             $report = $report[$topic] ?? $report;
         }
 
