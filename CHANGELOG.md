@@ -118,6 +118,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove composer dependency `dragonmantank/cron-expression`
 - Integrate service definition `Heptacom\HeptaConnect\Core\Router\Router.lock_store` as anonymous service parameter directly into the definition of `Heptacom\HeptaConnect\Core\Router\Router.lock_factory`
 - Integrate service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_store` as anonymous service parameter directly into the definition of `Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory`
+- Remove support for `symfony/lock: >4 <5.2` so the `Symfony\Component\Lock\Store\PdoStore` will automatically create the lock tables
+- Remove support for `shopware/core: 6.3.*`
 
 ### Fixed
 
