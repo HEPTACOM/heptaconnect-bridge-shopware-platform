@@ -99,6 +99,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` from `Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract`, `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract`, `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes` from `Heptacom\HeptaConnect\Core\Mapping\Contract\MappingServiceInterface` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor` from `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`
+- Switch implementation of `Heptacom\HeptaConnect\Core\Router\Router.lock_factory` from `Symfony\Component\Lock\Store\FlockStore` to `Symfony\Component\Lock\Store\PdoStore` to support horizontally scaled setups out of the box
+- Switch implementation of `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_factory` from `Symfony\Component\Lock\Store\FlockStore` to `Symfony\Component\Lock\Store\PdoStore` to support horizontally scaled setups out of the box
+- Change id and implementation of `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage` to `Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract` implemented by `Heptacom\HeptaConnect\Core\Parallelization\ResourceLockStorage`
 - Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory` from `Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface`
 
 ### Deprecated
@@ -119,6 +122,10 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove service `Heptacom\HeptaConnect\Storage\Base\Contract\EntityMapperContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface`
 - Remove service `Heptacom\HeptaConnect\Storage\Base\MappingPersister\Contract\MappingPersisterContract` in favour of storage action `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface`
 - Remove composer dependency `dragonmantank/cron-expression`
+- Integrate service definition `Heptacom\HeptaConnect\Core\Router\Router.lock_store` as anonymous service parameter directly into the definition of `Heptacom\HeptaConnect\Core\Router\Router.lock_factory`
+- Integrate service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_store` as anonymous service parameter directly into the definition of `Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory`
+- Remove support for `symfony/lock: >4 <5.2` so the `Symfony\Component\Lock\Store\PdoStore` will automatically create the lock tables
+- Remove support for `shopware/core: 6.3.*`
 - Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage` in favour of storage actions `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface`
 
 ### Fixed
@@ -128,6 +135,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add tag `console.command` to service definition of `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run` to make the command available
 
 ### Security
+
+## [0.8.1] - 2022-03-04
+
+### Fixed
+
+- Add missing service tag for command `heptaconnect:job:run`
+- Add missing service tag for command `heptaconnect:job:cleanup-finished`
 
 ## [0.8.0] - 2021-11-22
 

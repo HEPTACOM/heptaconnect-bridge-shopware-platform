@@ -67,7 +67,7 @@ services:
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage'
+            - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
@@ -87,14 +87,6 @@ services:
         arguments:
             - '@heptacom_heptaconnect.logger'
             - '@Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract'
-
-    Heptacom\HeptaConnect\Core\Router\Router.lock_store:
-        class: Symfony\Component\Lock\Store\FlockStore
-
-    Heptacom\HeptaConnect\Core\Router\Router.lock_factory:
-        class: Symfony\Component\Lock\LockFactory
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Router\Router.lock_store'
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:

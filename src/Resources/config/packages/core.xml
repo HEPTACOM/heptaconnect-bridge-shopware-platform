@@ -86,6 +86,7 @@
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
         <service
@@ -142,6 +143,12 @@
             id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Parallelization\ResourceLockStorage"
+            id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
