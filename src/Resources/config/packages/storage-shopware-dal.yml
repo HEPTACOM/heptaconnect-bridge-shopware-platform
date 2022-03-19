@@ -41,26 +41,6 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_route }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\EntityReflector:
-        arguments:
-            - '@heptaconnect_mapping.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingExceptionRepository:
-        arguments:
-            - '@heptaconnect_mapping_error_message.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract:
-        class: 'Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository'
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_mapping.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\Repository\MappingRepository:
-        alias: 'Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingRepositoryContract'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
