@@ -52,6 +52,11 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add command `heptaconnect:router:remove-route` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\RemoveRoute` to remove a route by id seen on `heptaconnect:router:list-routes`
 
 ### Changed
@@ -97,6 +102,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch implementation of `Heptacom\HeptaConnect\Core\Router\Router.lock_factory` from `Symfony\Component\Lock\Store\FlockStore` to `Symfony\Component\Lock\Store\PdoStore` to support horizontally scaled setups out of the box
 - Switch implementation of `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_factory` from `Symfony\Component\Lock\Store\FlockStore` to `Symfony\Component\Lock\Store\PdoStore` to support horizontally scaled setups out of the box
 - Change id and implementation of `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage` to `Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract` implemented by `Heptacom\HeptaConnect\Core\Parallelization\ResourceLockStorage`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory` from `Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage` into `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface`
 
 ### Deprecated
 
@@ -120,6 +126,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Integrate service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_store` as anonymous service parameter directly into the definition of `Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory`
 - Remove support for `symfony/lock: >4 <5.2` so the `Symfony\Component\Lock\Store\PdoStore` will automatically create the lock tables
 - Remove support for `shopware/core: 6.3.*`
+- Remove service definition `Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage` in favour of storage actions `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface`, `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface`
 
 ### Fixed
 
