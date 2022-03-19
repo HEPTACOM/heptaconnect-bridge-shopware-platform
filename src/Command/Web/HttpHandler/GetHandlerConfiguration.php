@@ -49,6 +49,7 @@ class GetHandlerConfiguration extends Command
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
         $path = (string) $input->getArgument('path');
         $key = (string) $input->getArgument('key');
+        $isPretty = (bool) $input->getOption('pretty');
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('portal-node-key is not a portal node key');
@@ -58,9 +59,8 @@ class GetHandlerConfiguration extends Command
 
         $criteria = new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, $path, $key);
         $find = $this->webHttpHandlerConfigurationFindAction->find($criteria);
-
-        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
-        $output->writeln(\json_encode($find->getValue(), $flags));
+        $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
+        $output->writeln((string) \json_encode($find->getValue(), $flags | \JSON_THROW_ON_ERROR));
 
         return 0;
     }

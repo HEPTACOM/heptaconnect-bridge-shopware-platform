@@ -117,10 +117,6 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore:
-        arguments:
-            - '%kernel.cache_dir%/heptaconnect_lock'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'

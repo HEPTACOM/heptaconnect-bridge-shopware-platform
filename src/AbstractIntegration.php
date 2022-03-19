@@ -126,11 +126,11 @@ class AbstractIntegration extends Plugin
 
     protected function getLifecycleContainer(): ContainerInterface
     {
-        $projectDir = $this->container->getParameter('kernel.project_dir');
-        $currentEnv = $this->container->getParameter('kernel.runtime_environment');
+        $projectDir = (string) $this->container->getParameter('kernel.project_dir');
+        $currentEnv = (string) $this->container->getParameter('kernel.runtime_environment');
 
         if ($this->container->hasParameter('kernel.vendor_dir')) {
-            $vendorDir = $this->container->getParameter('kernel.vendor_dir');
+            $vendorDir = (string) $this->container->getParameter('kernel.vendor_dir');
         } else {
             $vendorDir = $projectDir . '/vendor/';
         }
