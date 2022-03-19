@@ -42,8 +42,6 @@ class FileReferenceController
     }
 
     /**
-     * // TODO: Maybe the portalContainer should be for the source portal, so the request can be controlled better
-     *
      * @Route(
      *     "/api/heptaconnect/file/{portalNodeId}/request/{requestId}",
      *     name="heptaconnect.file.request",
@@ -64,6 +62,7 @@ class FileReferenceController
             throw new UnsupportedStorageKeyException(\get_class($requestKey));
         }
 
+        // TODO: Read token from request
         // TODO: Use token and portalNodeKey and requestKey to check permissions
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
@@ -71,8 +70,6 @@ class FileReferenceController
         $container = $this->portalContainerFactory->create($portalNodeKey);
         /** @var HttpClientContract $httpClient */
         $httpClient = $container->get(HttpClientContract::class);
-
-        // TODO: Move this operation into a new service from the portal-base, so the portal can influence it by decoration
 
         $response = $httpClient->sendRequest($request);
         $sourceStream = $response->getBody()->detach();
@@ -98,8 +95,6 @@ class FileReferenceController
         // TODO: Read token from request
         // TODO: Use token and portalNodeKey to check permissions
 
-        // TODO: Spin up a portalContainer to get a streamDenormalizer out of it
-        // TODO: Move this operation into a new service from the portal-base, so the portal can influence it by decoration
         $sourceStream = $this->streamDenormalizer->denormalize($normalizedStream, 'stream')->detach();
 
         $response = new StreamedResponse(function () use ($sourceStream) {
