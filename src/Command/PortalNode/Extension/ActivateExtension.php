@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension;
 
+use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload;
@@ -56,6 +57,12 @@ class ActivateExtension extends Command
         }
 
         $extensionClass = (string) $input->getArgument('extension-class');
+
+        if (!\is_a($extensionClass, PortalExtensionContract::class, true)) {
+            $io->error('The extension-class is not a class of a portal extension');
+
+            return 3;
+        }
 
         $payload = new PortalExtensionActivatePayload($portalNodeKey);
         $payload->addExtension($extensionClass);

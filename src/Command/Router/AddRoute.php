@@ -9,11 +9,9 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\RouteKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
-use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Find\RouteFindResult;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
@@ -68,6 +66,7 @@ class AddRoute extends Command
         $source = $this->storageKeyGenerator->deserialize((string) $input->getArgument('source'));
         $target = $this->storageKeyGenerator->deserialize((string) $input->getArgument('target'));
         $type = (string) $input->getArgument('type');
+        $isBidirectional = (bool) $input->getOption('bidirectional');
 
         if (!$source instanceof PortalNodeKeyInterface) {
             $io->error('The source is not a portalNodeKey');
@@ -98,7 +97,7 @@ class AddRoute extends Command
             $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
         }
 
-        if ($input->getOption('bidirectional') && !$source->equals($target)) {
+        if ($isBidirectional && !$source->equals($target)) {
             $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
 
             if ($back instanceof RouteFindResult) {
@@ -108,14 +107,12 @@ class AddRoute extends Command
             }
         }
 
-        /** @var RouteCreateResult $result */
         foreach ($this->routeCreateAction->create($create) as $result) {
             $ids->getRouteKeys()->push([$result->getRouteKey()]);
         }
 
         $results = [];
 
-        /** @var RouteGetResult $route */
         foreach ($this->routeGetAction->get($ids) as $route) {
             $capabilities = $route->getCapabilities();
             \sort($capabilities);

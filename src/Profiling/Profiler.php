@@ -21,7 +21,7 @@ class Profiler extends ProfilerContract
 
     public function start(string $name, ?string $kind = null): void
     {
-        $this->profiler->start($name, $this->prefix . $kind);
+        $this->profiler->start($name, $this->prefix . ($kind ?? ''));
     }
 
     public function stop(?\Throwable $exception = null): void

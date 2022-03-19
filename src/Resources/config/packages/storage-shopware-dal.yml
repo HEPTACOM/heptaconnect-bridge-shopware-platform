@@ -41,22 +41,9 @@ services:
         tags:
             - { name: shopware.entity.definition, entity: heptaconnect_route }
 
-    Heptacom\HeptaConnect\Storage\ShopwareDal\PortalStorage:
-        arguments:
-            - '@heptaconnect_portal_node_storage.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ContextFactory'
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
 
     Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_factory'
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\ResourceLockStorage.lock_factory:
-        class: Symfony\Component\Lock\LockFactory
-        arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\FlockStore'
