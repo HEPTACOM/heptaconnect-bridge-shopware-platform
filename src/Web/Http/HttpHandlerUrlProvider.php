@@ -54,7 +54,8 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
     public function resolve(string $path): UriInterface
     {
         $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey);
-        $this->baseUrl ??= $this->hostProvider->get();
+        $baseUrl = $this->baseUrl ?? $this->hostProvider->get();
+        $this->baseUrl = $baseUrl;
 
         $url = $this->requestContextHelper->scope(
             $this->requestContext,

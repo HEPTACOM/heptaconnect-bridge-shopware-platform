@@ -101,8 +101,10 @@ class ListFlowComponentsForPortalNode extends Command
             return 1;
         }
 
-        $entityType = $input->getArgument('entity-type');
+        /** @var class-string<DatasetEntityContract>|string $entityType */
+        $entityType = (string) $input->getArgument('entity-type');
         $flowComponentContract = (string) $input->getArgument('flow-component-contract');
+        $isPretty = (bool) $input->getOption('pretty');
         $flowComponentContract = self::FLOW_COMPONENT_INPUT_MAP[$flowComponentContract] ?? $flowComponentContract;
 
         if (
@@ -143,8 +145,8 @@ class ListFlowComponentsForPortalNode extends Command
         }
 
         $flowComponentDescriptions = \array_map('strval', $flowComponentDescriptions);
-        $flags = $input->getOption('pretty') ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR) : \JSON_THROW_ON_ERROR;
-        $io->writeln(\json_encode($flowComponentDescriptions, $flags));
+        $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
+        $io->writeln((string) \json_encode($flowComponentDescriptions, $flags | \JSON_THROW_ON_ERROR));
 
         return 0;
     }
