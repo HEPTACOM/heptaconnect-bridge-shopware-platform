@@ -145,6 +145,12 @@
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Parallelization\ResourceLockStorage"
+            id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
             id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
         >
