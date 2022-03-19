@@ -8,6 +8,7 @@ use Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract;
 use Heptacom\HeptaConnect\Core\Job\JobData;
 use Heptacom\HeptaConnect\Core\Job\JobDataCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -57,6 +58,7 @@ class Run extends Command
 
         $jobDataCollection = new JobDataCollection();
 
+        /** @var JobGetResult $job */
         foreach ($this->jobGetAction->get(new JobGetCriteria(new JobKeyCollection([$jobKey]))) as $job) {
             if ($jobDataCollection->count() > 0) {
                 return 2;

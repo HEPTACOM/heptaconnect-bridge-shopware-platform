@@ -81,9 +81,9 @@ class Explore extends Command
             }
         } else {
             if ($input->getOption('use-queue')) {
-                $this->exploreService->dispatchExploreJob($portalNodeKey, empty($types) ? null : $types);
+                $this->exploreService->dispatchExploreJob($portalNodeKey, $types === [] ? null : $types);
             } else {
-                $this->exploreService->explore($portalNodeKey, empty($types) ? null : $types);
+                $this->exploreService->explore($portalNodeKey, $types === [] ? null : $types);
             }
         }
 

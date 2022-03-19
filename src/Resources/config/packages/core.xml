@@ -44,8 +44,7 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Emission\EmitterStackBuilderFactory"
@@ -86,6 +85,7 @@
         <service id="Heptacom\HeptaConnect\Core\Flow\MessageQueueFlow\MessageHandler">
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="messenger.message_handler"/>
         </service>
         <service
@@ -118,7 +118,6 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface" type="service"/>
@@ -144,6 +143,12 @@
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Parallelization\ResourceLockStorage"
+            id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
             id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
         >
@@ -165,6 +170,15 @@
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
             </call>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory">
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>
@@ -247,7 +261,7 @@
         <!-- PostProcessing of Reception -->
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">
             <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor"/>
-            <argument id="Heptacom\HeptaConnect\Core\Mapping\MappingService" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor">

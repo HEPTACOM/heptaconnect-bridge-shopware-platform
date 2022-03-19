@@ -29,16 +29,13 @@ class SetBaseUrlCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $baseUrl = $input->getArgument('base-url');
+        $baseUrl = (string) $input->getArgument('base-url');
 
-        if (!$baseUrl) {
+        if ($baseUrl === '') {
             throw new \Exception('Missing parameter "base-url"');
         }
 
-        $this->systemConfigService->set(
-            'heptacom.heptaConnect.globalConfiguration.baseUrl',
-            (string) $baseUrl
-        );
+        $this->systemConfigService->set('heptacom.heptaConnect.globalConfiguration.baseUrl', $baseUrl);
 
         return 0;
     }

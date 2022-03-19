@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
 
+use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
@@ -18,6 +19,9 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    /**
+     * @var array<string, array<class-string<DatasetEntityContract>, string[]>>
+     */
     private array $cache = [];
 
     private bool $active = false;
