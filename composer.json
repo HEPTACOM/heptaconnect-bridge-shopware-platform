@@ -6,7 +6,7 @@
         "proprietary"
     ],
     "type": "library",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "keywords": [
         "heptaconnect-bridge",
         "shopware-platform"
@@ -40,7 +40,7 @@
         "psr/http-message": "^1",
         "psr/log": "^1",
         "ramsey/uuid": "^3.5 || ^4",
-        "shopware/core": ">=6.3",
+        "shopware/core": ">=6.4",
         "sourceability/instrumentation": "^0.2.3",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/console": "^4.4 || ^5.0",
@@ -48,7 +48,7 @@
         "symfony/event-dispatcher": "^4.4 || ^5.0",
         "symfony/http-foundation": "^4.4 || ^5.0",
         "symfony/http-kernel": "^4.4 || ^5.0",
-        "symfony/lock": ">=4",
+        "symfony/lock": ">=5.2",
         "symfony/messenger": "^4.4 || ^5.0",
         "symfony/psr-http-message-bridge": "^2",
         "symfony/routing": "^4.4 || ^5.0"
