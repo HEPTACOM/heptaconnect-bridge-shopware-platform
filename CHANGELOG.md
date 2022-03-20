@@ -59,6 +59,21 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add command `heptaconnect:router:remove-route` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\RemoveRoute` to remove a route by id seen on `heptaconnect:router:list-routes`
+- Implement `\Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileContentsUrlProvider`
+- Implement `\Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileRequestUrlProvider`
+- Add HTTP route `heptaconnect.file.request` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController::request` to send a stored request of a file reference and pass the response through to the client
+- Add HTTP route `heptaconnect.file.contents` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController::contents` to read a normalized stream of a file reference and respond with its contents and an arbitrary mime type
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract`
+- Add service definition `Heptacom\HeptaConnect\Core\Storage\RequestStorage`
+- Add service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer`
+- Add service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer`
+- Add service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface`
+- Add service definition `Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface`
+- Add service definition `Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface`
+- Add service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController`
+- Add class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to scope a request context to a base url
 
 ### Changed
 
@@ -107,6 +122,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch dependency in `Heptacom\HeptaConnect\Core\Emission\EmitContextFactory` from `Heptacom\HeptaConnect\Storage\Core\Mapping\Contract\MappingServiceInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface` as previous services are removed
 - Switch dependency in `Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor` from `Heptacom\HeptaConnect\Storage\Core\Mapping\Contract\MappingServiceInterface` to `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface` as previous service is removed
 - Remove argument `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` from service definition `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface`
+- Add argument `Heptacom\HeptaConnect\Core\Storage\RequestStorage` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
+- Add call to `\Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder::setFileReferenceResolver` with argument `Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
+- Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to service definition `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface`
 
 ### Deprecated
 
