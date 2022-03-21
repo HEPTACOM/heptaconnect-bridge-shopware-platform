@@ -108,9 +108,3 @@ services:
             - { name: heptacom.heptaconnect_normalizer, priority: 100 }
 
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
-
-    Heptacom\HeptaConnect\Core\Configuration\ConfigurationFileReader:
-        arguments:
-            - '@heptacom_heptaconnect.logger'
-            - '%kernel.project_dir%/%env(ALIAS_CONFIG_FILE)%'
-            - '%env(json:ALIAS_CONFIG_PORTALS)%'
