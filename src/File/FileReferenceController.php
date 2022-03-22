@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
@@ -74,7 +75,7 @@ class FileReferenceController
         $response = $httpClient->sendRequest($request);
         $sourceStream = $response->getBody()->detach();
 
-        return new StreamedResponse(function () use ($sourceStream) {
+        return new StreamedResponse(function () use ($sourceStream): void {
             $outputStream = \fopen('php://output', 'wb');
             \stream_copy_to_stream($sourceStream, $outputStream);
         }, $response->getStatusCode(), $response->getHeaders());
@@ -97,7 +98,7 @@ class FileReferenceController
 
         $sourceStream = $this->streamDenormalizer->denormalize($normalizedStream, 'stream')->detach();
 
-        $response = new StreamedResponse(function () use ($sourceStream) {
+        $response = new StreamedResponse(function () use ($sourceStream): void {
             $outputStream = \fopen('php://output', 'wb');
             \stream_copy_to_stream($sourceStream, $outputStream);
         });
