@@ -64,7 +64,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add HTTP route `heptaconnect.file.request` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController::request` to send a stored request of a file reference and pass the response through to the client
 - Add HTTP route `heptaconnect.file.contents` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController::contents` to read a normalized stream of a file reference and respond with its contents and an arbitrary mime type
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract`
-- Add service definition `Heptacom\HeptaConnect\Core\Storage\RequestStorage`
+- Add service definition `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract`
 - Add service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer`
 - Add service definition `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer`
 - Add service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper`
@@ -122,7 +122,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch dependency in `Heptacom\HeptaConnect\Core\Emission\EmitContextFactory` from `Heptacom\HeptaConnect\Storage\Core\Mapping\Contract\MappingServiceInterface` and `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` to `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface` as previous services are removed
 - Switch dependency in `Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor` from `Heptacom\HeptaConnect\Storage\Core\Mapping\Contract\MappingServiceInterface` to `\Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface` as previous service is removed
 - Remove argument `Heptacom\HeptaConnect\Storage\Base\Contract\Repository\MappingNodeRepositoryContract` from service definition `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface`
-- Add argument `Heptacom\HeptaConnect\Core\Storage\RequestStorage` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
+- Add argument `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
 - Add call to `\Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder::setFileReferenceResolver` with argument `Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
 - Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to service definition `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface`
 

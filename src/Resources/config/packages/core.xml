@@ -162,7 +162,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Storage\RequestStorage" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
@@ -224,10 +224,11 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\RequestStorage"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Storage\RequestStorage">
+        <service id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract"
+                 class="Heptacom\HeptaConnect\Core\Storage\RequestStorage">
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface"/>

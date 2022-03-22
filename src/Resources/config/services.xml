@@ -184,7 +184,7 @@
             <argument type="service"
                       id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\RequestStorage"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
         </service>
     </services>

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
+use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
-use Heptacom\HeptaConnect\Core\Storage\RequestStorage;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
@@ -26,14 +26,14 @@ class FileReferenceController
 
     private StreamDenormalizer $streamDenormalizer;
 
-    private RequestStorage $requestStorage;
+    private RequestStorageContract $requestStorage;
 
     private PortalStackServiceContainerFactory $portalContainerFactory;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         StreamDenormalizer $streamDenormalizer,
-        RequestStorage $requestStorage,
+        RequestStorageContract $requestStorage,
         PortalStackServiceContainerFactory $portalContainerFactory
     ) {
         $this->storageKeyGenerator = $storageKeyGenerator;
