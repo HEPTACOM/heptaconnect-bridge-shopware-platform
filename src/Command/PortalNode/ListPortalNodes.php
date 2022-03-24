@@ -64,6 +64,7 @@ class ListPortalNodes extends Command
             $portalNodeKey = $result->getPortalNodeKey();
             $rows[] = [
                 'portal-node-key' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                'alias' => $result->getAlias(),
                 'portal-class' => $result->getPortalClass(),
             ];
         }

@@ -64,7 +64,7 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
