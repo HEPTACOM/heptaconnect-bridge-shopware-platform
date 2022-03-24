@@ -46,10 +46,9 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
     protected function replaceWithAlias(string $original): string
     {
         $aliasFindCriteria = new PortalNodeAliasFindCriteria([$original]);
-        $portalNodeKeys = $this->aliasFindAction->find($aliasFindCriteria);
-
+        $portalNodeKeys = \iterable_to_array($this->aliasFindAction->find($aliasFindCriteria));
         if (\count($portalNodeKeys) === 1) {
-            return $portalNodeKeys[0]->getAlias() ? : $portalNodeKeys[0]->getKeyData();
+            return $portalNodeKeys[0]->getAlias() ?: $this->decorated->serialize($portalNodeKeys[0]->getKey());
         }
 
         return $original;
@@ -58,13 +57,12 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
     protected function replaceWithOriginal(string $alias): string
     {
         $aliasFindCriteria = new PortalNodeAliasFindCriteria([$alias]);
-        $portalNodeKeys = $this->aliasFindAction->find($aliasFindCriteria);
+        $portalNodeKeys = \iterable_to_array($this->aliasFindAction->find($aliasFindCriteria));
 
         if (\count($portalNodeKeys) === 1) {
-            return $portalNodeKeys[0]->getKeyData();
+            return $this->decorated->serialize($portalNodeKeys[0]->getKey());
         }
 
         return $alias;
-
     }
 }

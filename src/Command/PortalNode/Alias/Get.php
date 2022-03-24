@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -57,11 +58,11 @@ class Get extends Command
                 return 1;
             }
         }
-        $criteria = new PortalNodeAliasGetCriteria($portalNodeKeys);
+        $criteria = new PortalNodeAliasGetCriteria(new PortalNodeKeyCollection($portalNodeKeys));
         $results = $this->aliasGetAction->get($criteria) ?? [];
         $alias = [];
         foreach ($results as $result) {
-            $alias[] = [$result->getKeyData(), $result->getAlias()];
+            $alias[] = [$this->storageKeyGenerator->serialize($result->getKey()), $result->getAlias()];
         }
         if ($input->getOption('pretty')) {
             $io->table(['PortalNodeKey', 'Alias'], $alias);

@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,11 +20,15 @@ class Find extends Command
 
     private PortalNodeAliasFindActionInterface $aliasFindAction;
 
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
     public function __construct(
-        PortalNodeAliasFindActionInterface $aliasFindAction
+        PortalNodeAliasFindActionInterface $aliasFindAction,
+        StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
         $this->aliasFindAction = $aliasFindAction;
+        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
@@ -39,12 +44,12 @@ class Find extends Command
         $results = $this->aliasFindAction->find($aliasFindCriteria);
         $alias = [];
         foreach ($results as $result) {
-            $alias[] = [$result->getKeyData(), $result->getAlias()];
+            $alias[] = [$this->storageKeyGenerator->serialize($result->getKey()), $result->getAlias()];
         }
         if ($input->getOption('pretty')) {
             $io->table(['PortalNodeKey', 'Alias'], $alias);
         } else {
-            print(\json_encode($alias, JSON_PRETTY_PRINT));
+            print(\json_encode($alias, \JSON_PRETTY_PRINT));
         }
 
         return 0;

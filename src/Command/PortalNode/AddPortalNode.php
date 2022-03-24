@@ -52,7 +52,11 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, $alias)]));
+        if ($alias) {
+            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, $alias)]));
+        } else {
+            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, null)]));
+        }
 
         $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($result->first()->getPortalNodeKey())));
 

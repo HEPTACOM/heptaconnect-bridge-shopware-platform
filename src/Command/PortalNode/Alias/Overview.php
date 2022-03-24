@@ -7,7 +7,9 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -18,10 +20,20 @@ class Overview extends Command
 
     private PortalNodeAliasOverviewActionInterface $aliasOverviewAction;
 
-    public function __construct(PortalNodeAliasOverviewActionInterface $aliasOverviewAction)
-    {
+    private StorageKeyGeneratorContract $storageKeyGenerator;
+
+    public function __construct(
+        PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
+        StorageKeyGeneratorContract $storageKeyGenerator
+    ) {
         parent::__construct();
         $this->aliasOverviewAction = $aliasOverviewAction;
+        $this->storageKeyGenerator = $storageKeyGenerator;
+    }
+
+    public function configure(): void
+    {
+        $this->addArgument('sort', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -29,11 +41,17 @@ class Overview extends Command
         $io = new SymfonyStyle($input, $output);
 
         $criteria = new PortalNodeAliasOverviewCriteria();
+        $sort = (string) $input->getArgument('sort');
+        if ($sort === 'desc') {
+            $criteria->setSort([PortalNodeAliasOverviewCriteria::FIELD_ALIAS => PortalNodeAliasOverviewCriteria::SORT_DESC]);
+        } else {
+            $criteria->setSort([PortalNodeAliasOverviewCriteria::FIELD_ALIAS => PortalNodeAliasOverviewCriteria::SORT_ASC]);
+        }
         $rows = [];
         /** @var PortalNodeAliasOverviewResult $result */
         foreach ($this->aliasOverviewAction->overview($criteria) as $result) {
             $rows[] = [
-                'portal-node-key' => $result->getKeyData(),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getKey()),
                 'alias' => $result->getAlias(),
             ];
         }
