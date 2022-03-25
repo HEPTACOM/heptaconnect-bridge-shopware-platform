@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -76,8 +78,14 @@ class Explore extends Command
         $externalId = $input->getOption('external-id');
 
         if (\is_string($externalId)) {
+            $mappingComponents = [];
             foreach ($types as $type) {
-                $this->publisher->publish($type, $portalNodeKey, $externalId);
+                $mappingComponents[] = new MappingComponentStruct(
+                    $portalNodeKey,
+                    $type,
+                    $externalId
+                );
+                $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
             }
         } else {
             if ($input->getOption('use-queue')) {
