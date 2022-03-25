@@ -7,6 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
+use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -55,31 +56,24 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
                     continue;
                 }
 
+                $mappingComponents = [];
+
                 foreach ($mappingsByType as $entityType => $mappings) {
                     foreach (\array_keys($mappings) as $externalId) {
-                        $this->publisher->publish($entityType, $portalNodeId, (string) $externalId);
+                        $mappingComponents[] = new MappingComponentStruct(
+                            $portalNodeId,
+                            $entityType,
+                            (string) $externalId
+                        );
                     }
                 }
+
+                $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
             }
         } finally {
             $this->cache = [];
             $this->active = false;
         }
-    }
-
-    public function publish(
-        string $entityType,
-        PortalNodeKeyInterface $portalNodeId,
-        string $externalId
-    ): void {
-        if (!$this->active) {
-            $this->publisher->publish($entityType, $portalNodeId, $externalId);
-
-            return;
-        }
-
-        $portalNodeKey = $this->storageKeyGenerator->serialize($portalNodeId);
-        $this->cache[$portalNodeKey][$entityType][$externalId] = true;
     }
 
     public function publishBatch(MappingComponentCollection $mappings): void
