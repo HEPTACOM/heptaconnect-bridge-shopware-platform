@@ -79,14 +79,12 @@ class Explore extends Command
 
         if (\is_string($externalId)) {
             $mappingComponents = [];
+
             foreach ($types as $type) {
-                $mappingComponents[] = new MappingComponentStruct(
-                    $portalNodeKey,
-                    $type,
-                    $externalId
-                );
-                $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
+                $mappingComponents[] = new MappingComponentStruct($portalNodeKey, $type, $externalId);
             }
+
+            $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
         } else {
             if ($input->getOption('use-queue')) {
                 $this->exploreService->dispatchExploreJob($portalNodeKey, $types === [] ? null : $types);

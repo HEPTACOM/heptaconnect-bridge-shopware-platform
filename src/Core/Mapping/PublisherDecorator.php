@@ -55,7 +55,9 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
                 if (!$portalNodeId instanceof PortalNodeKeyInterface) {
                     continue;
                 }
+
                 $mappingComponents = [];
+
                 foreach ($mappingsByType as $entityType => $mappings) {
                     foreach (\array_keys($mappings) as $externalId) {
                         $mappingComponents[] = new MappingComponentStruct(
@@ -65,6 +67,7 @@ class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
                         );
                     }
                 }
+
                 $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
             }
         } finally {
