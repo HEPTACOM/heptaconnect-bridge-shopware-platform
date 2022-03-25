@@ -24,11 +24,6 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
         $this->aliasRepository = $aliasRepository;
     }
 
-    public function generateKey(string $keyClassName): StorageKeyInterface
-    {
-        return $this->decorated->generateKey($keyClassName);
-    }
-
     public function generateKeys(string $keyClassName, int $count): iterable
     {
         return $this->decorated->generateKeys($keyClassName, $count);
