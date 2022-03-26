@@ -66,7 +66,7 @@ class ListMappingNodes extends Command
         foreach ($this->identityOverviewAction->overview($criteria) as $identity) {
             $rows[] = [
                 'mapping-node-id' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
-                'portal-node-id' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()),
+                'portal-node-id' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
                 'external-id' => $identity->getExternalId(),
             ];
         }

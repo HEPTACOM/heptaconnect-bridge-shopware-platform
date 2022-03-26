@@ -198,6 +198,11 @@
                      method="getRouteCapabilityOverviewAction"/>
         </service>
 
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getStorageKeyGenerator"/>
+        </service>
+
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getWebHttpHandlerConfigurationFindAction"/>

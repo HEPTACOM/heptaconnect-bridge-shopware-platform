@@ -90,7 +90,7 @@ class ListMappingNodeSiblings extends Command
 
         foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
                 'external-id' => $identity->getExternalId(),
                 'mapping-node-key' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
                 'entity-type' => $identity->getEntityType(),

@@ -50,6 +50,8 @@ class DeactivateExtension extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
+
+            $portalNodeKey = $portalNodeKey->withAlias();
         } catch (UnsupportedStorageKeyException $exception) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
