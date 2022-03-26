@@ -9,7 +9,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAli
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 
-class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
+final class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 {
     private StorageKeyGeneratorContract $decorated;
 
@@ -21,11 +21,6 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
     ) {
         $this->decorated = $decorated;
         $this->aliasFindAction = $aliasFindAction;
-    }
-
-    public function generateKey(string $keyClassName): StorageKeyInterface
-    {
-        return $this->decorated->generateKey($keyClassName);
     }
 
     public function generateKeys(string $keyClassName, int $count): iterable

@@ -10,7 +10,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Cache\CachedEntitySearcher;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class RemoveEntityCache implements CompilerPassInterface
+final class RemoveEntityCache implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

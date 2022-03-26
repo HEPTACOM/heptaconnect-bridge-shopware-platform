@@ -52,7 +52,7 @@ class HttpHandlerController
     /**
      * @Route(
      *     "/api/heptaconnect/flow/{portalNodeId}/http-handler/{path}",
-     *     name="heptaconnect.http.handler",
+     *     name="api.heptaconnect.http.handler",
      *     requirements={"path"=".+"},
      *     defaults={"auth_required"=false}
      * )
