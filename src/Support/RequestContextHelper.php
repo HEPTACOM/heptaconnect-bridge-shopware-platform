@@ -14,11 +14,11 @@ class RequestContextHelper
         $clonedContext = clone $context;
 
         try {
-            if (\is_string($baseUrl->getScheme())) {
+            if ($baseUrl->getScheme() !== '') {
                 $context->setScheme($baseUrl->getScheme());
             }
 
-            if (\is_string($baseUrl->getHost())) {
+            if ($baseUrl->getHost() !== '') {
                 $context->setHost($baseUrl->getHost());
             }
 
@@ -27,7 +27,7 @@ class RequestContextHelper
                 $context->setHttpsPort($baseUrl->getPort());
             }
 
-            if (\is_string($baseUrl->getPath())) {
+            if ($baseUrl->getPath() !== '') {
                 $context->setBaseUrl(\ltrim($baseUrl->getPath(), '/'));
             }
 
