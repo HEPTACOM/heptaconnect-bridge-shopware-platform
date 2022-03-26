@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
-class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
+final class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 {
     private StorageKeyGeneratorContract $decorated;
 
@@ -22,11 +22,6 @@ class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
     {
         $this->decorated = $decorated;
         $this->aliasRepository = $aliasRepository;
-    }
-
-    public function generateKey(string $keyClassName): StorageKeyInterface
-    {
-        return $this->decorated->generateKey($keyClassName);
     }
 
     public function generateKeys(string $keyClassName, int $count): iterable
