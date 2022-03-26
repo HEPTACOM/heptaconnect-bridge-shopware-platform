@@ -63,9 +63,6 @@ class FileReferenceController
             throw new UnsupportedStorageKeyException(\get_class($requestKey));
         }
 
-        // TODO: Read token from request
-        // TODO: Use token and portalNodeKey and requestKey to check permissions
-
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
 
         $container = $this->portalContainerFactory->create($portalNodeKey);
@@ -92,9 +89,6 @@ class FileReferenceController
     public function contents(string $portalNodeId, string $normalizedStream, string $mimeType): Response
     {
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
-
-        // TODO: Read token from request
-        // TODO: Use token and portalNodeKey to check permissions
 
         $sourceStream = $this->streamDenormalizer->denormalize($normalizedStream, 'stream')->detach();
 
