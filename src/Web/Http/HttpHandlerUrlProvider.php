@@ -13,7 +13,7 @@ use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
+final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
@@ -57,7 +57,7 @@ class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         try {
             $this->prepareRouteContext($baseUrl);
 
-            return $this->uriFactory->createUri($this->urlGenerator->generate('heptaconnect.http.handler', [
+            return $this->uriFactory->createUri($this->urlGenerator->generate('api.heptaconnect.http.handler', [
                 'portalNodeId' => $this->portalNodeId,
                 'path' => $path,
             ], UrlGeneratorInterface::ABSOLUTE_URL));

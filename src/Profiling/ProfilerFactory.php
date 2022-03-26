@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerContract;
 use Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract;
 use Sourceability\Instrumentation\Profiler\ProfilerInterface;
 
-class ProfilerFactory extends ProfilerFactoryContract
+final class ProfilerFactory extends ProfilerFactoryContract
 {
     private ProfilerInterface $profiler;
 
