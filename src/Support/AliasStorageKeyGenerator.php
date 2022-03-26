@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
-class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
+final class AliasStorageKeyGenerator extends StorageKeyGeneratorContract
 {
     private StorageKeyGeneratorContract $decorated;
 

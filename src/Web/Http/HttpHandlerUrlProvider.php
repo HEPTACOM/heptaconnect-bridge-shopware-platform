@@ -13,7 +13,7 @@ use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
+final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 {
     private PortalNodeKeyInterface $portalNodeKey;
 
