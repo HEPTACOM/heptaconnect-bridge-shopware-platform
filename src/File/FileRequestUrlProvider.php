@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
+namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract;
+use Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\UriFactoryInterface;
@@ -14,10 +16,8 @@ use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
+final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
     private UriFactoryInterface $uriFactory;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
@@ -28,21 +28,17 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 
     private HttpHostProviderContract $hostProvider;
 
-    private ?string $portalNodeId = null;
-
     private ?UriInterface $baseUrl = null;
 
     private RequestContextHelper $requestContextHelper;
 
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
         StorageKeyGeneratorContract $storageKeyGenerator,
         UrlGeneratorInterface $urlGenerator,
         RequestContext $requestContext,
         HttpHostProviderContract $hostProvider,
         RequestContextHelper $requestContextHelper
     ) {
-        $this->portalNodeKey = $portalNodeKey;
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->urlGenerator = $urlGenerator;
@@ -51,19 +47,21 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $this->requestContextHelper = $requestContextHelper;
     }
 
-    public function resolve(string $path): UriInterface
-    {
-        $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey->withoutAlias());
-        $baseUrl = $this->baseUrl ?? $this->hostProvider->get();
-        $this->baseUrl = $baseUrl;
+    public function resolve(
+        PortalNodeKeyInterface $portalNodeKey,
+        FileReferenceRequestKeyInterface $requestKey
+    ): UriInterface {
+        $portalNodeId ??= $this->storageKeyGenerator->serialize($portalNodeKey);
+        $this->baseUrl ??= $this->hostProvider->get();
+        $requestId = $this->storageKeyGenerator->serialize($requestKey);
 
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            function () use ($path): string {
-                return $this->urlGenerator->generate('api.heptaconnect.http.handler', [
-                    'portalNodeId' => $this->portalNodeId,
-                    'path' => $path,
+            function () use ($portalNodeId, $requestId): string {
+                return $this->urlGenerator->generate('api.heptaconnect.file.request', [
+                    'portalNodeId' => $portalNodeId,
+                    'requestId' => $requestId,
                 ], UrlGeneratorInterface::ABSOLUTE_URL);
             }
         );
