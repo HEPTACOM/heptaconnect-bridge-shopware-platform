@@ -74,6 +74,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Core\Bridge\File\FileRequestUrlProviderInterface`
 - Add service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileReferenceController`
 - Add class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to scope a request context to a base URL
+- Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor` with dependency onto `heptacom_heptaconnect.logger`, `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator`, `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` and all tagged services by tag `heptaconnect_core.portal_node_configuration.instruction_file_loader` tagged as `heptaconnect_core.portal_node_configuration.processor`
+- Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor` with dependency onto `cache.system` and `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` tagged as `heptaconnect_core.portal_node_configuration.processor`
 
 ### Changed
 
@@ -128,6 +130,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add argument `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
 - Add call to `\Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder::setFileReferenceResolver` with argument `Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract` to service definition `Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder`
 - Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to service definition `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface`
+- Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `cache.system`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` and `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator` to all tagged services by tag `heptaconnect_core.portal_node_configuration.processor`
 
 ### Deprecated
 

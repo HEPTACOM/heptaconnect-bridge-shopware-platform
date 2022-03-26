@@ -323,10 +323,23 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
                  class="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService">
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
-            <argument id="cache.system" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface" type="service"/>
+            <argument tag="heptaconnect_core.portal_node_configuration.processor" type="tagged"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor">
+            <tag name="heptaconnect_core.portal_node_configuration.processor"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
+            <argument tag="heptaconnect_core.portal_node_configuration.instruction_file_loader" type="tagged"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor">
+            <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
+            <argument id="cache.system" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
         </service>
     </services>
 </container>
