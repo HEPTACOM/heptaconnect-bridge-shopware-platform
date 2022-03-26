@@ -45,7 +45,7 @@ class FileReferenceController
     /**
      * @Route(
      *     "/api/heptaconnect/file/{portalNodeId}/request/{requestId}",
-     *     name="heptaconnect.file.request",
+     *     name="api.heptaconnect.file.request",
      *     defaults={"auth_required"=false}
      * )
      */
@@ -84,7 +84,7 @@ class FileReferenceController
     /**
      * @Route(
      *     "/api/heptaconnect/file/{portalNodeId}/contents/{normalizedStream}/{mimeType}",
-     *     name="heptaconnect.file.contents",
+     *     name="api.heptaconnect.file.contents",
      *     requirements={"mimeType"=".+"},
      *     defaults={"auth_required"=false}
      * )

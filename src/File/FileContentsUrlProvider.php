@@ -59,7 +59,7 @@ class FileContentsUrlProvider implements FileContentsUrlProviderInterface
             $this->requestContext,
             $this->baseUrl,
             function () use ($portalNodeId, $normalizedStream, $mimeType): string {
-                return $this->urlGenerator->generate('heptaconnect.file.contents', [
+                return $this->urlGenerator->generate('api.heptaconnect.file.contents', [
                     'portalNodeId' => $portalNodeId,
                     'normalizedStream' => $normalizedStream,
                     'mimeType' => $mimeType,
