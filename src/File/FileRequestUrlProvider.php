@@ -16,7 +16,7 @@ use Psr\Http\Message\UriInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
-class FileRequestUrlProvider implements FileRequestUrlProviderInterface
+final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
 {
     private UriFactoryInterface $uriFactory;
 
@@ -47,7 +47,6 @@ class FileRequestUrlProvider implements FileRequestUrlProviderInterface
         $this->requestContextHelper = $requestContextHelper;
     }
 
-    // TODO: Add token for one-time permission
     public function resolve(
         PortalNodeKeyInterface $portalNodeKey,
         FileReferenceRequestKeyInterface $requestKey
