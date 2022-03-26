@@ -62,7 +62,7 @@ class Get extends Command
         $results = $this->aliasGetAction->get($criteria) ?? [];
         $alias = [];
         foreach ($results as $result) {
-            $alias[] = [$this->storageKeyGenerator->serialize($result->getKey()), $result->getAlias()];
+            $alias[] = [$this->storageKeyGenerator->serialize($result->getPortalNodeKey()), $result->getAlias()];
         }
         if ($input->getOption('pretty')) {
             $io->table(['PortalNodeKey', 'Alias'], $alias);
