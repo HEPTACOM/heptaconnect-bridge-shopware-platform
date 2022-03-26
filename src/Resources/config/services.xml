@@ -186,6 +186,8 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
         </service>
     </services>
 </container>
