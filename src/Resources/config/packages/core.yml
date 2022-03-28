@@ -106,5 +106,7 @@ services:
     Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableCompressNormalizer:
         tags:
             - { name: heptacom.heptaconnect_normalizer, priority: 100 }
+        arguments:
+            - '@Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer'
 
     Heptacom\HeptaConnect\Core\Support\EntityStatus: ~

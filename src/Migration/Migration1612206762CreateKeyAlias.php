@@ -31,12 +31,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 SQL;
-        // doctrine/dbal 2 support
-        if (\method_exists($connection, 'executeStatement')) {
-            $connection->executeStatement($sql);
-        } else {
-            $connection->exec($sql);
-        }
+        $connection->executeStatement($sql);
     }
 
     public function updateDestructive(Connection $connection): void
