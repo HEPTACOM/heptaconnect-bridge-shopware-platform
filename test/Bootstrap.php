@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Doctrine\DBAL\Connection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture\ShopwareKernel;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelLifecycleManager;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
