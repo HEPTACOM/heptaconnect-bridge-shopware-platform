@@ -120,8 +120,8 @@ class AddRoute extends Command
             $results[] = [
                 'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
-                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()),
-                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()),
+                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()->withAlias()),
+                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()->withAlias()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
         }

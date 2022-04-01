@@ -8,7 +8,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
 
@@ -19,7 +19,7 @@ services:
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
             - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface'
 
     Heptacom\HeptaConnect\Core\Exploration\ExploreService:
@@ -48,20 +48,20 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
         arguments:
@@ -72,7 +72,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface'
             - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceptionActor'
 

@@ -97,7 +97,7 @@ class ListHandlers extends Command
                 $urlFactory ??= $this->httpHandlerUrlProviderFactory->factory($portalNodeKey);
 
                 $result[] = [
-                    'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                    'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey->withAlias()),
                     'path' => $path,
                     'url' => $urlFactory->resolve($path),
                 ];

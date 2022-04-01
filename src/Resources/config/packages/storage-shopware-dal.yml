@@ -2,5 +2,3 @@ services:
     Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource:
         tags:
             - { name: shopware.migration_source }
-
-    Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator: ~

@@ -39,78 +39,83 @@ services:
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Explore:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Exploration\ExploreService'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Reset:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Configuration\Set:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface'
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\RemovePortalNode:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Get:
         arguments:
-            - '@heptaconnect_bridge_key_alias.repository'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Reset:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Find:
         arguments:
-            - '@heptaconnect_bridge_key_alias.repository'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Set:
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Set:
         arguments:
-            - '@heptaconnect_bridge_key_alias.repository'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Reset:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+
+    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Overview:
+        arguments:
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\TestFlow\Receive:
         arguments:
-            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator:
         decorates: 'Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
         arguments:
             - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator.inner'
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
         tags:
             - { name: kernel.event_subscriber }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition:
-        tags:
-            - { name: shopware.entity.definition, entity: heptaconnect_bridge_key_alias }
-
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator'
-            - '@heptaconnect_bridge_key_alias.repository'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber:
         arguments:

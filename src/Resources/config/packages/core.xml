@@ -35,7 +35,7 @@
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface" type="service"/>
         </service>
         <service
@@ -117,7 +117,7 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiveService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface" type="service"/>
@@ -132,7 +132,7 @@
             id="Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Exploration\ExploreService" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
         </service>
@@ -157,7 +157,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
@@ -181,7 +181,7 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
         </service>
         <service
@@ -213,7 +213,7 @@
             id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"
         >
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface" type="service"/>
         </service>
@@ -233,7 +233,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry"
@@ -300,7 +300,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
         </service>
@@ -313,7 +313,7 @@
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
         <service id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface"
                  class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory">
-            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service" id="router"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
             <argument type="service" id="router.request_context"/>
@@ -331,7 +331,7 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor">
             <tag name="heptaconnect_core.portal_node_configuration.processor"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
             <argument tag="heptaconnect_core.portal_node_configuration.instruction_file_loader" type="tagged"/>
         </service>
@@ -339,7 +339,7 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor">
             <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
             <argument id="cache.system" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
     </services>
 </container>
