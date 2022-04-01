@@ -44,7 +44,7 @@ class Overview extends Command
         $criteria = new PortalNodeAliasOverviewCriteria();
         $sortDirection = $sort === 'desc' ? PortalNodeAliasOverviewCriteria::SORT_DESC : PortalNodeAliasOverviewCriteria::SORT_ASC;
         $criteria->setSort([
-            PortalNodeAliasOverviewCriteria::FIELD_ALIAS => $sortDirection
+            PortalNodeAliasOverviewCriteria::FIELD_ALIAS => $sortDirection,
         ]);
 
         $rows = [];

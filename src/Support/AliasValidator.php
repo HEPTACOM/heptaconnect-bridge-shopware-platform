@@ -35,6 +35,7 @@ class AliasValidator
 
         try {
             $this->storageKeyGenerator->deserialize($alias);
+
             throw new \RuntimeException('Alias looks like a storage key');
         } catch (UnsupportedStorageKeyException $exception) {
         }
