@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
@@ -23,14 +24,18 @@ class AddPortalNode extends Command
 
     private PortalNodeCreateActionInterface $portalNodeCreateAction;
 
+    private AliasValidator $aliasValidator;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeCreateActionInterface $portalNodeCreateAction
+        PortalNodeCreateActionInterface $portalNodeCreateAction,
+        AliasValidator $aliasValidator
     ) {
         parent::__construct();
 
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalNodeCreateAction = $portalNodeCreateAction;
+        $this->aliasValidator = $aliasValidator;
     }
 
     protected function configure(): void
@@ -52,7 +57,9 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        if ($alias) {
+        if ($alias !== '') {
+            $this->aliasValidator->validate($alias);
+
             $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, $alias)]));
         } else {
             $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, null)]));

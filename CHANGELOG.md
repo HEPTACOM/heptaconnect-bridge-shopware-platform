@@ -76,6 +76,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to scope a request context to a base URL
 - Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor` with dependency onto `heptacom_heptaconnect.logger`, `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator`, `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` and all tagged services by tag `heptaconnect_core.portal_node_configuration.instruction_file_loader` tagged as `heptaconnect_core.portal_node_configuration.processor`
 - Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor` with dependency onto `cache.system` and `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` tagged as `heptaconnect_core.portal_node_configuration.processor`
+- Add service and definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator` to validate portal node aliases
 
 ### Changed
 
@@ -132,6 +133,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper` to service definition `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface`
 - Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `cache.system`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` and `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator` to all tagged services by tag `heptaconnect_core.portal_node_configuration.processor`
 - Change service id from `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` to `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` and provide by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator` to service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode`
 
 ### Deprecated
 

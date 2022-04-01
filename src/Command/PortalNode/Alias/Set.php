@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias;
 
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload;
@@ -27,13 +28,17 @@ class Set extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
+    private AliasValidator $aliasValidator;
+
     public function __construct(
         PortalNodeAliasSetActionInterface $aliasSetAction,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        StorageKeyGeneratorContract $storageKeyGenerator,
+        AliasValidator $aliasValidator
     ) {
         parent::__construct();
         $this->aliasSetAction = $aliasSetAction;
         $this->storageKeyGenerator = $storageKeyGenerator;
+        $this->aliasValidator = $aliasValidator;
     }
 
     protected function configure(): void
@@ -57,7 +62,11 @@ class Set extends Command
             return 1;
         }
 
-        $aliasSetPayload = new PortalNodeAliasSetPayload($portalNodeKey, (string) $input->getArgument('alias'));
+        $alias = (string) $input->getArgument('alias');
+
+        $this->aliasValidator->validate($alias);
+
+        $aliasSetPayload = new PortalNodeAliasSetPayload($portalNodeKey, $alias);
         $aliasSetPayloads = new PortalNodeAliasSetPayloads([$aliasSetPayload]);
 
         try {

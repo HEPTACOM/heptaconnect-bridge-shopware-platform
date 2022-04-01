@@ -61,6 +61,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ListPortalNodes:
         arguments:
@@ -91,6 +92,7 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+            - '@Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator'
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Reset:
         arguments:
