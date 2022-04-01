@@ -51,7 +51,7 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
         string $normalizedStream,
         string $mimeType
     ): UriInterface {
-        $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey);
+        $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
         $this->baseUrl ??= $this->hostProvider->get();
 
         $url = $this->requestContextHelper->scope(

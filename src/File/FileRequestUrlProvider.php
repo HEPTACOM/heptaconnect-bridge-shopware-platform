@@ -51,7 +51,7 @@ final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
         PortalNodeKeyInterface $portalNodeKey,
         FileReferenceRequestKeyInterface $requestKey
     ): UriInterface {
-        $portalNodeId ??= $this->storageKeyGenerator->serialize($portalNodeKey);
+        $portalNodeId ??= $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
         $this->baseUrl ??= $this->hostProvider->get();
         $requestId = $this->storageKeyGenerator->serialize($requestKey);
 

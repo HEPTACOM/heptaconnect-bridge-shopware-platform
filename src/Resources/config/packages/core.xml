@@ -233,7 +233,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Storage\NormalizationRegistry"
@@ -332,7 +332,7 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor">
             <tag name="heptaconnect_core.portal_node_configuration.processor"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
             <argument tag="heptaconnect_core.portal_node_configuration.instruction_file_loader" type="tagged"/>
         </service>
@@ -340,7 +340,7 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor">
             <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
             <argument id="cache.system" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
     </services>
 </container>
