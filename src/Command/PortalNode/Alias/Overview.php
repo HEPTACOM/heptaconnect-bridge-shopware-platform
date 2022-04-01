@@ -39,19 +39,20 @@ class Overview extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+        $sort = (string) $input->getArgument('sort');
 
         $criteria = new PortalNodeAliasOverviewCriteria();
-        $sort = (string) $input->getArgument('sort');
-        if ($sort === 'desc') {
-            $criteria->setSort([PortalNodeAliasOverviewCriteria::FIELD_ALIAS => PortalNodeAliasOverviewCriteria::SORT_DESC]);
-        } else {
-            $criteria->setSort([PortalNodeAliasOverviewCriteria::FIELD_ALIAS => PortalNodeAliasOverviewCriteria::SORT_ASC]);
-        }
+        $sortDirection = $sort === 'desc' ? PortalNodeAliasOverviewCriteria::SORT_DESC : PortalNodeAliasOverviewCriteria::SORT_ASC;
+        $criteria->setSort([
+            PortalNodeAliasOverviewCriteria::FIELD_ALIAS => $sortDirection
+        ]);
+
         $rows = [];
+
         /** @var PortalNodeAliasOverviewResult $result */
         foreach ($this->aliasOverviewAction->overview($criteria) as $result) {
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getKey()),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }

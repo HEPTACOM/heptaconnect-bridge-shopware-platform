@@ -45,12 +45,15 @@ class Get extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKeys = [];
+
         foreach ($input->getArgument('portal-node-keys') as $keyData) {
             try {
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
+
                 if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                     throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
                 }
+
                 $portalNodeKeys[] = $portalNodeKey;
             } catch (UnsupportedStorageKeyException $exception) {
                 $io->error('The portal-node-key is not a portalNodeKey');
@@ -58,17 +61,21 @@ class Get extends Command
                 return 1;
             }
         }
+
         $criteria = new PortalNodeAliasGetCriteria(new PortalNodeKeyCollection($portalNodeKeys));
         $results = $this->aliasGetAction->get($criteria) ?? [];
         $alias = [];
+
         foreach ($results as $result) {
-            $alias[] = [$this->storageKeyGenerator->serialize($result->getPortalNodeKey()), $result->getAlias()];
+            $alias[] = [
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()),
+                'alias' => $result->getAlias(),
+            ];
         }
-        if ($input->getOption('pretty')) {
-            $io->table(['PortalNodeKey', 'Alias'], $alias);
-        } else {
-            print(\json_encode($alias, \JSON_PRETTY_PRINT));
-        }
+
+        $isPretty = $input->getOption('pretty');
+        $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
+        $output->writeln((string) \json_encode($alias, $flags | \JSON_THROW_ON_ERROR));
 
         return 0;
     }

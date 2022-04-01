@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class Find extends Command
 {
@@ -39,18 +38,20 @@ class Find extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
         $aliasFindCriteria = new PortalNodeAliasFindCriteria($input->getArgument('identifier'));
         $results = $this->aliasFindAction->find($aliasFindCriteria);
         $alias = [];
+
         foreach ($results as $result) {
-            $alias[] = [$this->storageKeyGenerator->serialize($result->getPortalNodeKey()), $result->getAlias()];
+            $alias[] = [
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()),
+                'alias' => $result->getAlias(),
+            ];
         }
-        if ($input->getOption('pretty')) {
-            $io->table(['PortalNodeKey', 'Alias'], $alias);
-        } else {
-            print(\json_encode($alias, \JSON_PRETTY_PRINT));
-        }
+
+        $isPretty = $input->getOption('pretty');
+        $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
+        $output->writeln((string) \json_encode($alias, $flags | \JSON_THROW_ON_ERROR));
 
         return 0;
     }
