@@ -77,6 +77,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor` with dependency onto `heptacom_heptaconnect.logger`, `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator`, `Heptacom\HeptaConnect\Core\Portal\PortalRegistry` and all tagged services by tag `heptaconnect_core.portal_node_configuration.instruction_file_loader` tagged as `heptaconnect_core.portal_node_configuration.processor`
 - Add service definition `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationCacheProcessor` with dependency onto `cache.system` and `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` tagged as `heptaconnect_core.portal_node_configuration.processor`
 - Add service and definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator` to validate portal node aliases
+- Add command `heptaconnect:portal-node:alias:find` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Find` to resolve alias to a portal node key
+- Add command `heptaconnect:portal-node:alias:get` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Get` to get an alias by a portal node key
 
 ### Changed
 
@@ -134,6 +136,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch dependency in `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` from `cache.system`, `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` and `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator` to all tagged services by tag `heptaconnect_core.portal_node_configuration.processor`
 - Change service id from `Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKeyGenerator` to `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` and provide by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add argument `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator` to service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode`
+- Replace `heptaconnect:support:alias:list` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases` with new command `heptaconnect:portal-node:alias:overview` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Overview` to list all portal node keys and their aliases
+- Replace `heptaconnect:support:alias:reset` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Reset` with new command `heptaconnect:portal-node:alias:reset` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Reset` to remove an alias from a portal node key
+- Replace `heptaconnect:support:alias:set` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Set` with new command `heptaconnect:portal-node:alias:set` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Set` to set an alias to a portal node key
 
 ### Deprecated
 
@@ -170,6 +175,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove deprecated `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator::publish` inherited by `Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface::publish`
 - Remove support for `doctrine/dbal: >=2.1 <2.11`
 - Remove implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasStorageKeyGenerator` as portal node alias support is integrated into `heptacom/heptaconnect-core`
+- Remove Shopware entity classes `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasCollection`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasDefinition` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Content\KeyAlias\KeyAliasEntity` for table `heptaconnect_bridge_key_alias`
 
 ### Fixed
 
