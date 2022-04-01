@@ -32,19 +32,19 @@ class Find extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('identifier', InputArgument::IS_ARRAY);
+        $this->addArgument('alias', InputArgument::IS_ARRAY);
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $aliasFindCriteria = new PortalNodeAliasFindCriteria($input->getArgument('identifier'));
+        $aliasFindCriteria = new PortalNodeAliasFindCriteria($input->getArgument('alias'));
         $results = $this->aliasFindAction->find($aliasFindCriteria);
         $alias = [];
 
         foreach ($results as $result) {
             $alias[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }

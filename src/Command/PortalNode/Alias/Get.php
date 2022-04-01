@@ -45,8 +45,9 @@ class Get extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKeys = [];
+        $portalNodeKeyArguments = (array) $input->getArgument('portal-node-keys');
 
-        foreach ($input->getArgument('portal-node-keys') as $keyData) {
+        foreach ($portalNodeKeyArguments as $keyData) {
             try {
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
 
@@ -63,12 +64,12 @@ class Get extends Command
         }
 
         $criteria = new PortalNodeAliasGetCriteria(new PortalNodeKeyCollection($portalNodeKeys));
-        $results = $this->aliasGetAction->get($criteria) ?? [];
+        $results = $this->aliasGetAction->get($criteria);
         $alias = [];
 
         foreach ($results as $result) {
             $alias[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }

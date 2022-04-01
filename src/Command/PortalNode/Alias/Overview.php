@@ -57,8 +57,8 @@ class Overview extends Command
             ];
         }
 
-        if (empty($rows)) {
-            $io->note('There are no portal nodes of the selected portal.');
+        if ($rows === []) {
+            $io->note('There are no portal node aliases.');
 
             return 0;
         }
