@@ -26,6 +26,15 @@ services:
             - createRotating
         arguments:
             - heptacom_heptaconnect
+        calls:
+            - pushHandler:
+                - '@heptacom_heptaconnect.logger_handler'
+
+    heptacom_heptaconnect.logger_handler:
+        class: Monolog\Handler\StreamHandler
+        arguments:
+            - 'php://stderr'
+            - 1000
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalList:
         arguments:
@@ -119,7 +128,7 @@ services:
 
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber:
         arguments:
-            - '@heptacom_heptaconnect.logger'
+            - '@heptacom_heptaconnect.logger_handler'
         tags:
             - { name: kernel.event_subscriber }
 

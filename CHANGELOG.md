@@ -138,6 +138,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Replace `heptaconnect:support:alias:list` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\ListAliases` with new command `heptaconnect:portal-node:alias:overview` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Overview` to list all portal node keys and their aliases
 - Replace `heptaconnect:support:alias:reset` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Reset` with new command `heptaconnect:portal-node:alias:reset` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Reset` to remove an alias from a portal node key
 - Replace `heptaconnect:support:alias:set` in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Support\Alias\Set` with new command `heptaconnect:portal-node:alias:set` in service definition `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Set` to set an alias to a portal node key
+- Change implementation of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber` to support decoration of the logger. Replace argument `\Psr\Log\LoggerInterface` with `\Monolog\Handler\StreamHandler`.
 
 ### Removed
 
