@@ -15,6 +15,20 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.0.0] - 2022-04-02
+
+### Added
+
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
