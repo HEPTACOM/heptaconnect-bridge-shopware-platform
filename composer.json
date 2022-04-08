@@ -33,6 +33,7 @@
         "heptacom/heptaconnect-portal-base": "^0.9",
         "heptacom/heptaconnect-storage-base": "^0.9",
         "heptacom/heptaconnect-storage-shopware-dal": "^0.9",
+        "heptacom/heptaconnect-ui-admin-symfony": "^0.9",
         "monolog/monolog": "^1.22 || ^2",
         "nyholm/psr7": "^1.2",
         "php-http/curl-client": "^2.2",
