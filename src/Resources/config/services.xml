@@ -17,7 +17,11 @@
         >
             <argument type="service">
                 <service class="Symfony\Component\Lock\Store\PdoStore">
-                    <argument id="Doctrine\DBAL\Connection" type="service"/>
+                    <argument type="service">
+                        <service class="PDO">
+                            <factory service="Doctrine\DBAL\Connection" method="getWrappedConnection"/>
+                        </service>
+                    </argument>
                     <argument type="collection">
                         <argument key="db_table">heptaconnect_core_reception_lock</argument>
                     </argument>
@@ -30,7 +34,11 @@
         >
             <argument type="service">
                 <service class="Symfony\Component\Lock\Store\PdoStore">
-                    <argument id="Doctrine\DBAL\Connection" type="service"/>
+                    <argument type="service">
+                        <service class="PDO">
+                            <factory service="Doctrine\DBAL\Connection" method="getWrappedConnection"/>
+                        </service>
+                    </argument>
                     <argument type="collection">
                         <argument key="db_table">heptaconnect_portal_node_resource_lock</argument>
                     </argument>

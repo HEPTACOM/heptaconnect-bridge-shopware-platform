@@ -23,6 +23,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Use different locking implementation to follow Shopware master-slave database setup warning in `\Shopware\Core\Profiling\Doctrine\DebugStack`
+
 ### Security
 
 ## [0.9.0.0] - 2022-04-02
