@@ -17,6 +17,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 - Add composer dependency `heptacom/heptaconnect-ui-admin-symfony: ^0.9` to provide CLI commands
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface`
 
 ### Changed
 
