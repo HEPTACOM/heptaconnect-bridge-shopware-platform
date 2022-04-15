@@ -21,6 +21,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- Remove command `heptaconnect:portal-node:extensions:list` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions` in favour of `portal:node:extension:browse` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
+
 ### Deprecated
 
 ### Removed
