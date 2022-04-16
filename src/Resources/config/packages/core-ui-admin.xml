@@ -24,5 +24,11 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStatusReportUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"/>
+        </service>
     </services>
 </container>
