@@ -12,10 +12,11 @@
             <argument type="service" id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface"/>
         </service>
         <service
-            class="\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi"
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi"
