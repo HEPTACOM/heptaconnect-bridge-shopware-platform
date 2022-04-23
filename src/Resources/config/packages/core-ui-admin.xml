@@ -9,16 +9,22 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface"
         >
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface"/>
         </service>
         <service
             class="\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi"
