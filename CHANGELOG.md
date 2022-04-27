@@ -23,9 +23,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
-- Create lock tables `heptaconnect_core_reception_lock` and `heptaconnect_portal_node_resource_lock` manually as `Symfony\Component\Lock\Store\PdoStore` does not create them automatically for MySQL driver
-
 ### Security
+
+## [0.9.0.2] - 2022-04-27
+
+### Fixed
+
+- Create lock tables `heptaconnect_core_reception_lock` and `heptaconnect_portal_node_resource_lock` manually as `Symfony\Component\Lock\Store\PdoStore` does not create them automatically for MySQL driver
 
 ## [0.9.0.1] - 2022-04-19
 
