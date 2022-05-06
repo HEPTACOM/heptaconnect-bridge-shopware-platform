@@ -29,6 +29,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -82,7 +83,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('entity-type', InputArgument::REQUIRED);
         $this->addArgument('flow-component-contract', InputArgument::REQUIRED);
-        $this->addOption('pretty', InputArgument::OPTIONAL);
+        $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
