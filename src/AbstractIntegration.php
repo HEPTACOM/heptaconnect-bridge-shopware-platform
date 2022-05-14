@@ -10,6 +10,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\AbstractIn
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveEntityCache;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource as DalStorageMigrationSource;
+use Heptacom\HeptaConnect\Ui\Admin\Symfony\UiAdminSymfony;
 use Shopware\Core\Framework\Migration\MigrationCollectionLoader;
 use Shopware\Core\Framework\Migration\MigrationSource;
 use Shopware\Core\Framework\Parameter\AdditionalBundleParameters;
@@ -30,11 +31,14 @@ class AbstractIntegration extends Plugin
 
     private ?SourceabilityInstrumentationBundle $instrumentationBundle = null;
 
+    private ?UiAdminSymfony $uiAdmin = null;
+
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
     {
         return [
             $this->getBridge(),
             $this->getInstrumentationBundle(),
+            $this->getUiAdminBundle(),
         ];
     }
 
@@ -54,6 +58,15 @@ class AbstractIntegration extends Plugin
         }
 
         return $this->instrumentationBundle;
+    }
+
+    public function getUiAdminBundle(): UiAdminSymfony
+    {
+        if (!$this->uiAdmin instanceof UiAdminSymfony) {
+            $this->uiAdmin = new UiAdminSymfony();
+        }
+
+        return $this->uiAdmin;
     }
 
     public function install(InstallContext $installContext): void
