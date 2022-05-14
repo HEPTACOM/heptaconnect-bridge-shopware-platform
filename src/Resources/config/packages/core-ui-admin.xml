@@ -14,5 +14,13 @@
             <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
+        </service>
     </services>
 </container>
