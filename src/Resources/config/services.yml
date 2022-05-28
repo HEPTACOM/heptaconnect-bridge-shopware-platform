@@ -83,11 +83,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
-            - '@Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias\Get:
         arguments:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface'
