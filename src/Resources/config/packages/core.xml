@@ -180,6 +180,12 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher"
+            id="Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
@@ -331,8 +337,8 @@
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor">
             <tag name="heptaconnect_core.portal_node_configuration.processor"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface" type="service"/>
             <argument tag="heptaconnect_core.portal_node_configuration.instruction_file_loader" type="tagged"/>
         </service>
 
