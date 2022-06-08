@@ -23,6 +23,20 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+### Security
+
+## [0.9.0.3] - 2022-06-08
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 - Fix command `heptaconnect:portal-node:status:list-topics` by using the `Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry` from the portal container
 - Fix command `heptaconnect:job:cleanup-finished` by using only the job-keys of the `Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult` objects
 
