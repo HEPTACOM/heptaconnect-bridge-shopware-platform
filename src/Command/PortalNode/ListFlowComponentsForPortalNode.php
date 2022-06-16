@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
@@ -153,9 +152,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getExplorerImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ExplorerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -169,9 +166,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getReceiverImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ReceiverCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -185,9 +180,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getEmitterImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new EmitterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -201,9 +194,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $path): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new HttpHandlerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -217,9 +208,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getStatusReporterImplementations(PortalNodeKeyInterface $portalNodeKey, string $topic): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new StatusReporterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
