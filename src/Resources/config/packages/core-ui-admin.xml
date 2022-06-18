@@ -46,6 +46,15 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
         >
