@@ -201,6 +201,7 @@
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\XAppFactory" public="true">
             <argument type="service" id="service_container"/>
             <argument type="service" id="router.default"/>
+            <argument type="service" id="kernel"/>
         </service>
     </services>
 </container>

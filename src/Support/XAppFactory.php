@@ -10,10 +10,10 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Shopware\Core\HttpKernel;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -23,16 +23,20 @@ class XAppFactory
 
     private RouterInterface $router;
 
+    private KernelInterface $kernel;
+
     private PsrHttpFactory $psrHttpFactory;
 
     private HttpFoundationFactory $httpFoundationFactory;
 
     public function __construct(
         ContainerInterface $container,
-        RouterInterface $router
+        RouterInterface $router,
+        KernelInterface $kernel
     ) {
         $this->container = $container;
         $this->router = $router;
+        $this->kernel = $kernel;
         $this->psrHttpFactory = new PsrHttpFactory(
             Psr17FactoryDiscovery::findServerRequestFactory(),
             Psr17FactoryDiscovery::findStreamFactory(),
@@ -42,14 +46,14 @@ class XAppFactory
         $this->httpFoundationFactory = new HttpFoundationFactory();
     }
 
-    public function factory(HttpKernel $httpKernel): App
+    public function factory(): App
     {
         if (!\class_exists(App::class)) {
             throw new \LogicException('Framework X must be installed to use this factory. Try running "composer require clue/framework-x:dev-main".');
         }
 
         $app = new App(new Container($this->container));
-        $handler = $this->getHandler($httpKernel);
+        $handler = $this->getHandler();
 
         /** @var Route $route */
         foreach ($this->router->getRouteCollection() as $name => $route) {
@@ -77,13 +81,12 @@ class XAppFactory
         return $app;
     }
 
-    public function getHandler(HttpKernel $httpKernel): \Closure
+    private function getHandler(): \Closure
     {
-        return function (ServerRequestInterface $psrRequest) use ($httpKernel): ResponseInterface {
+        return function (ServerRequestInterface $psrRequest): ResponseInterface {
             $symfonyRequest = $this->httpFoundationFactory->createRequest($psrRequest);
 
-            $symfonyResponse = $httpKernel->handle($symfonyRequest, HttpKernelInterface::SUB_REQUEST)
-                ->getResponse();
+            $symfonyResponse = $this->kernel->handle($symfonyRequest, HttpKernelInterface::SUB_REQUEST);
 
             return $this->psrHttpFactory->createResponse($symfonyResponse);
         };
