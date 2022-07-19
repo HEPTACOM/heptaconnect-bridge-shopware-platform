@@ -6,12 +6,11 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support;
 
 use FrameworkX\App;
 use FrameworkX\Container;
-use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
-use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
+use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
@@ -25,25 +24,22 @@ class XAppFactory
 
     private KernelInterface $kernel;
 
-    private PsrHttpFactory $psrHttpFactory;
+    private HttpMessageFactoryInterface $psrHttpFactory;
 
-    private HttpFoundationFactory $httpFoundationFactory;
+    private HttpFoundationFactoryInterface $httpFoundationFactory;
 
     public function __construct(
         ContainerInterface $container,
         RouterInterface $router,
-        KernelInterface $kernel
+        KernelInterface $kernel,
+        HttpMessageFactoryInterface $psrHttpFactory,
+        HttpFoundationFactoryInterface $httpFoundationFactory
     ) {
         $this->container = $container;
         $this->router = $router;
         $this->kernel = $kernel;
-        $this->psrHttpFactory = new PsrHttpFactory(
-            Psr17FactoryDiscovery::findServerRequestFactory(),
-            Psr17FactoryDiscovery::findStreamFactory(),
-            Psr17FactoryDiscovery::findUploadedFileFactory(),
-            Psr17FactoryDiscovery::findResponseFactory()
-        );
-        $this->httpFoundationFactory = new HttpFoundationFactory();
+        $this->psrHttpFactory = $psrHttpFactory;
+        $this->httpFoundationFactory = $httpFoundationFactory;
     }
 
     public function factory(): App
