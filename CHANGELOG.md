@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
+
 ### Changed
 
 ### Deprecated
