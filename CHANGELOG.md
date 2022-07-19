@@ -15,8 +15,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
-
 ### Changed
 
 ### Deprecated
@@ -27,22 +25,18 @@ Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactor
 
 ### Security
 
-## [0.9.0.3] - 2022-06-08
+## [0.9.1.0] - 2022-07-19
 
 ### Added
 
-### Changed
+Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
 
-### Deprecated
-
-### Removed
+## [0.9.0.3] - 2022-06-08
 
 ### Fixed
 
 - Fix command `heptaconnect:portal-node:status:list-topics` by using the `Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry` from the portal container
 - Fix command `heptaconnect:job:cleanup-finished` by using only the job-keys of the `Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult` objects
-
-### Security
 
 ## [0.9.0.2] - 2022-04-27
 
