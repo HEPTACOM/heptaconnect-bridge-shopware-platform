@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support;
+namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX;
 
 use FrameworkX\App;
 
