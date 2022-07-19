@@ -68,7 +68,7 @@ class XAppFactory implements XAppFactoryInterface
             $methods = $route->getMethods();
 
             if ($methods === []) {
-                $methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+                $methods = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
             }
 
             $app->map($methods, $path, $handler);
