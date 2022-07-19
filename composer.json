@@ -61,6 +61,7 @@
         "shopware/storefront": ">=6.2"
     },
     "suggest": {
+        "clue/framework-x": "Run a web-server based on ReactPHP",
         "heptacom/heptaconnect-portal-local-shopware-platform": "Access the Shopware Platform runtime as a portal"
     },
     "repositories": {
