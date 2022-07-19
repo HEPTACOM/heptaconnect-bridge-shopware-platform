@@ -200,7 +200,9 @@
         </service>
         <service id="Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface"
                  class="Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory"/>
-        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\XAppFactory" public="true">
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\XAppFactoryInterface"
+                 class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\XAppFactory"
+                 public="true">
             <argument type="service" id="service_container"/>
             <argument type="service" id="router.default"/>
             <argument type="service" id="kernel"/>

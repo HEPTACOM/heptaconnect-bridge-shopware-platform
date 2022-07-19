@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
-class XAppFactory
+class XAppFactory implements XAppFactoryInterface
 {
     private ContainerInterface $container;
 
