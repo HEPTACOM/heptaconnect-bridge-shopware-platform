@@ -23,13 +23,15 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
+
 ### Security
 
 ## [0.9.1.0] - 2022-07-19
 
 ### Added
 
-Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
+- Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
 
 ## [0.9.0.3] - 2022-06-08
 
