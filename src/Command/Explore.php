@@ -6,6 +6,8 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\EntityTypeCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
@@ -76,20 +78,25 @@ class Explore extends Command
         }
 
         $externalId = $input->getOption('external-id');
+        $entityTypes = new EntityTypeCollection();
 
         if (\is_string($externalId)) {
             $mappingComponents = [];
 
             foreach ($types as $type) {
-                $mappingComponents[] = new MappingComponentStruct($portalNodeKey, $type, $externalId);
+                $mappingComponents[] = new MappingComponentStruct($portalNodeKey, new EntityType($type), $externalId);
             }
 
             $this->publisher->publishBatch(new MappingComponentCollection($mappingComponents));
         } else {
+            foreach ($types as $type) {
+                $entityTypes->push([new EntityType($type)]);
+            }
+
             if ($input->getOption('use-queue')) {
-                $this->exploreService->dispatchExploreJob($portalNodeKey, $types === [] ? null : $types);
+                $this->exploreService->dispatchExploreJob($portalNodeKey, $entityTypes->count() > 0 ? $entityTypes : null);
             } else {
-                $this->exploreService->explore($portalNodeKey, $types === [] ? null : $types);
+                $this->exploreService->explore($portalNodeKey, $entityTypes->count() > 0 ? $entityTypes : null);
             }
         }
 

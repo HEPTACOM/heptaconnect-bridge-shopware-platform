@@ -89,21 +89,21 @@ class AddRoute extends Command
         $ids = new RouteGetCriteria(new RouteKeyCollection());
         $create = new RouteCreatePayloads();
 
-        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
+        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type::class()));
 
         if ($towards instanceof RouteFindResult) {
             $ids->getRouteKeys()->push([$towards->getRouteKey()]);
         } else {
-            $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
+            $create->push([new RouteCreatePayload($source, $target, $type::class(), [RouteCapability::RECEPTION])]);
         }
 
         if ($isBidirectional && !$source->equals($target)) {
-            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
+            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type::class()));
 
             if ($back instanceof RouteFindResult) {
                 $ids->getRouteKeys()->push([$back->getRouteKey()]);
             } else {
-                $create->push([new RouteCreatePayload($target, $source, $type, [RouteCapability::RECEPTION])]);
+                $create->push([new RouteCreatePayload($target, $source, $type::class(), [RouteCapability::RECEPTION])]);
             }
         }
 
@@ -119,7 +119,7 @@ class AddRoute extends Command
 
             $results[] = [
                 'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
-                'type' => $route->getEntityType(),
+                'type' => (string) $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()->withAlias()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()->withAlias()),
                 'capabilities' => \implode(', ', $capabilities),
