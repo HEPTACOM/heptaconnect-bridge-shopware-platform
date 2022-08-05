@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\Contract\MappingComponentStructContract;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
@@ -21,7 +22,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
     /**
-     * @var array<string, array<class-string<DatasetEntityContract>, string[]>>
+     * @var array<string, array<class-string<DatasetEntityContract>, array<string, bool>>>
      */
     private array $cache = [];
 
@@ -62,7 +63,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
                     foreach (\array_keys($mappings) as $externalId) {
                         $mappingComponents[] = new MappingComponentStruct(
                             $portalNodeId,
-                            $entityType,
+                            new EntityType($entityType),
                             (string) $externalId
                         );
                     }
@@ -87,7 +88,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
         /** @var MappingComponentStructContract $mapping */
         foreach ($mappings as $mapping) {
             $portalNodeKey = $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey());
-            $this->cache[$portalNodeKey][$mapping->getEntityType()][$mapping->getExternalId()] = true;
+            $this->cache[$portalNodeKey][(string) $mapping->getEntityType()][$mapping->getExternalId()] = true;
         }
     }
 }
