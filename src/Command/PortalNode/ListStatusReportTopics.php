@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
+use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
-use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -56,14 +56,16 @@ class ListStatusReportTopics extends Command
         }
 
         $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var StatusReporterCollection $statusReporters */
-        $statusReporters = $container->get(StatusReporterCollection::class);
+        /** @var FlowComponentRegistry $flowComponentRegistry */
+        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
 
         $topics = [];
 
-        /** @var StatusReporterContract $statusReporter */
-        foreach ($statusReporters as $statusReporter) {
-            $topics[] = $statusReporter->supportsTopic();
+        foreach ($flowComponentRegistry->getOrderedSources() as $source) {
+            /** @var StatusReporterContract $statusReporter */
+            foreach ($flowComponentRegistry->getStatusReporters($source) as $statusReporter) {
+                $topics[] = $statusReporter->supportsTopic();
+            }
         }
 
         $topics = \array_keys(\array_flip($topics));
