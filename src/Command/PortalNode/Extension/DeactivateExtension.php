@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension;
 
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalExtensionType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Deactivate\PortalExtensionDeactivatePayload;
@@ -67,7 +68,7 @@ class DeactivateExtension extends Command
         }
 
         $payload = new PortalExtensionDeactivatePayload($portalNodeKey);
-        $payload->addExtension($extensionClass);
+        $payload->addExtension(new PortalExtensionType($extensionClass));
 
         $deactivateResult = $this->portalExtensionDeactivateAction->deactivate($payload);
 
