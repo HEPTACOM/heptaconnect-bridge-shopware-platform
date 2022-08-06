@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job;
 
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Delete\JobDeleteCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
@@ -32,7 +33,12 @@ class CleanupFinished extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->jobDeleteAction->delete(new JobDeleteCriteria(new JobKeyCollection($this->jobListFinishedAction->list())));
+        $jobKeys = \iterable_map(
+            $this->jobListFinishedAction->list(),
+            static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
+        );
+
+        $this->jobDeleteAction->delete(new JobDeleteCriteria(new JobKeyCollection($jobKeys)));
 
         return 0;
     }

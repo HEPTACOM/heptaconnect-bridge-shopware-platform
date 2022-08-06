@@ -67,7 +67,7 @@ class Receive extends Command
         /** @var DatasetEntityContract $entity */
         $entity = $callable();
 
-        $this->receiveService->receive(new TypedDatasetEntityCollection(\get_class($entity), [$entity]), $portalNodeKey);
+        $this->receiveService->receive(new TypedDatasetEntityCollection($entity::class(), [$entity]), $portalNodeKey);
 
         return 0;
     }
@@ -82,7 +82,7 @@ class Receive extends Command
 
         $mapping = new MappingStruct($portalNodeKey, new MappingNodeStruct(
             \reset($mappingNodeKeys),
-            \get_class($entity)
+            $entity::class()
         ));
 
         $mapping->setExternalId($entity->getPrimaryKey());
