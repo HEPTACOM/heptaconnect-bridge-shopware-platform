@@ -86,7 +86,7 @@ class MergeMappingNodes extends Command
                 $nodesInto[] = $node;
             }
 
-            $entityTypes[$node->getEntityType()] = true;
+            $entityTypes[(string) $node->getEntityType()] = true;
         }
 
         unset($node);
