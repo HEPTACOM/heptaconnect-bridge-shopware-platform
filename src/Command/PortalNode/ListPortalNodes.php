@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
@@ -57,14 +58,14 @@ class ListPortalNodes extends Command
         $criteria->setSort([PortalNodeOverviewCriteria::FIELD_CREATED => PortalNodeOverviewCriteria::SORT_DESC]);
 
         if ($portalClass !== null) {
-            $criteria->setClassNameFilter([$portalClass]);
+            $criteria->getClassNameFilter()->push([new UnsafeClassString($portalClass)]);
         }
 
         foreach ($this->portalNodeOverviewAction->overview($criteria) as $result) {
             $portalNodeKey = $result->getPortalNodeKey()->withAlias();
             $rows[] = [
                 'portal-node-key' => $this->storageKeyGenerator->serialize($portalNodeKey),
-                'portal-class' => $result->getPortalClass(),
+                'portal-class' => (string) $result->getPortalClass(),
             ];
         }
 

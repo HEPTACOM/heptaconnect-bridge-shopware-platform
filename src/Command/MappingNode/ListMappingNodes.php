@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
@@ -51,7 +52,7 @@ class ListMappingNodes extends Command
             return 1;
         }
 
-        $criteria->setEntityTypeFilter([$entityType]);
+        $criteria->setEntityTypeFilter([new UnsafeClassString($entityType)]);
 
         if (!\is_a($portalNodeKey, PortalNodeKeyInterface::class, false)) {
             $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');

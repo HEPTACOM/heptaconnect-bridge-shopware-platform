@@ -9,7 +9,6 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -76,11 +75,7 @@ class FileReferenceController
         }
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
-
-        $container = $this->portalContainerFactory->create($portalNodeKey);
-        /** @var HttpClientContract $httpClient */
-        $httpClient = $container->get(HttpClientContract::class);
-
+        $httpClient = $this->portalContainerFactory->create($portalNodeKey)->getWebHttpClient();
         $response = $httpClient->sendRequest($request);
         $sourceStream = $response->getBody()->detach();
 

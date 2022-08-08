@@ -16,6 +16,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Added
 
 - Add composer dependency `heptacom/heptaconnect-ui-admin-symfony: ^0.9` to provide CLI commands
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher` as `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface`
@@ -27,6 +29,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- Switch parameter in `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor` from `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
 - Remove command `heptaconnect:portal-node:extensions:list` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions` in favour of `portal:node:extension:browse` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:status:report` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode` in favour of `portal:node:status:report` and `portal:node:healthy` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:extensions:activate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension` in favour of `portal:node:extension:activate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
@@ -39,7 +42,34 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
+
 ### Security
+
+## [0.9.1.0] - 2022-07-19
+
+### Added
+
+- Add service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactoryInterface` to initialize a framework-x app. Requires optional dependency `clue/framework-x`.
+
+## [0.9.0.3] - 2022-06-08
+
+### Fixed
+
+- Fix command `heptaconnect:portal-node:status:list-topics` by using the `Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry` from the portal container
+- Fix command `heptaconnect:job:cleanup-finished` by using only the job-keys of the `Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult` objects
+
+## [0.9.0.2] - 2022-04-27
+
+### Fixed
+
+- Create lock tables `heptaconnect_core_reception_lock` and `heptaconnect_portal_node_resource_lock` manually as `Symfony\Component\Lock\Store\PdoStore` does not create them automatically for MySQL driver
+
+## [0.9.0.1] - 2022-04-19
+
+### Fixed
+
+- Use different locking implementation to follow Shopware master-slave database setup warning in `\Shopware\Core\Profiling\Doctrine\DebugStack`
 
 ## [0.9.0.0] - 2022-04-02
 

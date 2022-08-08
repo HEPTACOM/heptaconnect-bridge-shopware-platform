@@ -34,6 +34,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
         </service>
         <service
@@ -51,6 +52,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
         </service>
         <service
@@ -65,6 +67,12 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStatusReportUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface"/>
         </service>
     </services>
 </container>

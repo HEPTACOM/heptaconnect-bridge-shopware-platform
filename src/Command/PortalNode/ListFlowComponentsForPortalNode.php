@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\InvalidSubtypeClassNameException;
+use Heptacom\HeptaConnect\Dataset\Base\Exception\UnexpectedLeadingNamespaceSeparatorInClassNameException;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterContract;
 use Heptacom\HeptaConnect\Portal\Base\Emission\EmitterCollection;
@@ -29,6 +31,7 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -82,7 +85,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
         $this->addArgument('entity-type', InputArgument::REQUIRED);
         $this->addArgument('flow-component-contract', InputArgument::REQUIRED);
-        $this->addOption('pretty', InputArgument::OPTIONAL);
+        $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -101,7 +104,6 @@ class ListFlowComponentsForPortalNode extends Command
             return 1;
         }
 
-        /** @var class-string<DatasetEntityContract>|string $entityType */
         $entityType = (string) $input->getArgument('entity-type');
         $flowComponentContract = (string) $input->getArgument('flow-component-contract');
         $isPretty = (bool) $input->getOption('pretty');
@@ -110,11 +112,14 @@ class ListFlowComponentsForPortalNode extends Command
         if (
             $flowComponentContract !== HttpHandlerContract::class
             && $flowComponentContract !== StatusReporterContract::class
-            && !\is_a($entityType, DatasetEntityContract::class, true)
         ) {
-            $io->error('The specified type does not implement the DatasetEntityContract.');
+            try {
+                new EntityType($entityType);
+            } catch (\Throwable $_) {
+                $io->error('The specified type does not implement the DatasetEntityContract.');
 
-            return 1;
+                return 1;
+            }
         }
 
         $flowComponentDescriptions = [];
@@ -151,59 +156,66 @@ class ListFlowComponentsForPortalNode extends Command
         return 0;
     }
 
+    /**
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
     private function getExplorerImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ExplorerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
             $components->push($flowComponentRegistry->getExplorers($source));
         }
 
-        $components = new ExplorerCollection($components->bySupport($entityType));
+        $components = new ExplorerCollection($components->bySupport(new EntityType($entityType)));
 
         return \iterable_to_array($components->map([$this->explorerCodeOriginFinder, 'findOrigin']));
     }
 
+    /**
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
     private function getReceiverImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ReceiverCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
             $components->push($flowComponentRegistry->getReceivers($source));
         }
 
-        $components = new ReceiverCollection($components->bySupport($entityType));
+        $components = new ReceiverCollection($components->bySupport(new EntityType($entityType)));
 
         return \iterable_to_array($components->map([$this->receiverCodeOriginFinder, 'findOrigin']));
     }
 
+    /**
+     * @throws InvalidClassNameException
+     * @throws InvalidSubtypeClassNameException
+     * @throws UnexpectedLeadingNamespaceSeparatorInClassNameException
+     */
     private function getEmitterImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new EmitterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
             $components->push($flowComponentRegistry->getEmitters($source));
         }
 
-        $components = new EmitterCollection($components->bySupport($entityType));
+        $components = new EmitterCollection($components->bySupport(new EntityType($entityType)));
 
         return \iterable_to_array($components->map([$this->emitterCodeOriginFinder, 'findOrigin']));
     }
 
     private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $path): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new HttpHandlerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -217,9 +229,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getStatusReporterImplementations(PortalNodeKeyInterface $portalNodeKey, string $topic): array
     {
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
-        /** @var FlowComponentRegistry $flowComponentRegistry */
-        $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new StatusReporterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
