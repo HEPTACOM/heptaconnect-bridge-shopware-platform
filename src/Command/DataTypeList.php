@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
 use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
-use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Storage\Base\PreviewPortalNodeKey;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,21 +38,21 @@ class DataTypeList extends Command
 
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
-            $container = $this->portalStackServiceContainerFactory->create(new PreviewPortalNodeKey(\get_class($portal)));
-            /** @var FlowComponentRegistry $flowComponentRegistry */
-            $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
+            $flowComponentRegistry = $this->portalStackServiceContainerFactory
+                ->create(new PreviewPortalNodeKey(new PortalType(\get_class($portal))))
+                ->getFlowComponentRegistry();
 
             foreach ($flowComponentRegistry->getOrderedSources() as $source) {
                 foreach ($flowComponentRegistry->getExplorers($source) as $explorer) {
-                    $types[$explorer->supports()] = true;
+                    $types[(string) $explorer->getSupportedEntityType()] = true;
                 }
 
                 foreach ($flowComponentRegistry->getEmitters($source) as $emitter) {
-                    $types[$emitter->supports()] = true;
+                    $types[(string) $emitter->getSupportedEntityType()] = true;
                 }
 
                 foreach ($flowComponentRegistry->getReceivers($source) as $receiver) {
-                    $types[$receiver->supports()] = true;
+                    $types[(string) $receiver->getSupportedEntityType()] = true;
                 }
             }
         }
