@@ -66,6 +66,10 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
         >
