@@ -54,6 +54,12 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Emission\EmitterStackProcessor"
+            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface"
+        >
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"
         />
