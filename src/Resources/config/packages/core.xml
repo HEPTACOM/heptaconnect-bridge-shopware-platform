@@ -143,6 +143,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter"
+            id="Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
             id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface"
         >
