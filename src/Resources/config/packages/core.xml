@@ -156,6 +156,12 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter"
+            id="Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface"
+        >
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
             id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface"
         >
