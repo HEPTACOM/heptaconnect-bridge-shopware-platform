@@ -4,14 +4,6 @@ services:
             - '%kernel.project_dir%/composer.json'
             - '@cache.system'
 
-    Heptacom\HeptaConnect\Core\Emission\EmitService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface'
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
-            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface'
-            - '@Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface'
-
     Heptacom\HeptaConnect\Core\Exploration\ExplorationActor:
         arguments:
             - '@heptacom_heptaconnect.logger'

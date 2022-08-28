@@ -45,6 +45,14 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\ReceptionRouteListActionInterface" type="service"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Emission\EmitService">
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface" type="service"/>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory"
             id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface"
