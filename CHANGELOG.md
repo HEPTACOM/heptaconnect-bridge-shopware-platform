@@ -16,6 +16,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Added
 
 - Add composer dependency `heptacom/heptaconnect-ui-admin-symfony: ^0.9` to provide CLI commands
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmitterStackProcessor` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
@@ -39,6 +40,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove command `heptaconnect:portal-node:add` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` in favour of `portal:node:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 
 ### Deprecated
+
+- Service definition `Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator` is deprecated as the class itself is also deprecated and will be removed in future major version
 
 ### Removed
 
