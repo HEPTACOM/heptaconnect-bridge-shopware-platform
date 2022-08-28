@@ -377,7 +377,7 @@
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandleService"
             id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface"
         >
-            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleContextFactoryInterface" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackBuilderFactoryInterface" type="service"/>
@@ -386,8 +386,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor"
-            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface"
+            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface"
         >
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
