@@ -127,7 +127,8 @@
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface"/>
             <call method="setLogger">
                 <argument type="service" id="heptacom_heptaconnect.logger"/>
             </call>
