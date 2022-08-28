@@ -18,6 +18,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add composer dependency `heptacom/heptaconnect-ui-admin-symfony: ^0.9` to provide CLI commands
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmitterStackProcessor` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface`
@@ -29,6 +30,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionActivateUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionDeactivateUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface`
+- Add service container parameter `heptacom_heptaconnect.emission_flow.job_dispatch_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory`
 
 ### Changed
 
