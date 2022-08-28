@@ -21,6 +21,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory` as `Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationExplorersFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher` as `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
@@ -33,6 +34,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface`
 - Add service container parameter `heptacom_heptaconnect.emission_flow.job_dispatch_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory`
 - Add service container parameter `heptacom_heptaconnect.direct_emission_flow.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.job_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.direct_emission_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory`
 
 ### Changed
 

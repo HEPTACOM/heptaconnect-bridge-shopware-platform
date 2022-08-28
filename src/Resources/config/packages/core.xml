@@ -7,6 +7,9 @@
     <parameters>
         <parameter key="heptacom_heptaconnect.emission_flow.job_dispatch_batch_size">10</parameter>
         <parameter key="heptacom_heptaconnect.direct_emission_flow.identity_batch_size">10</parameter>
+        <parameter key="heptacom_heptaconnect.exploration.job_batch_size">50</parameter>
+        <parameter key="heptacom_heptaconnect.exploration.identity_batch_size">50</parameter>
+        <parameter key="heptacom_heptaconnect.exploration.direct_emission_batch_size">50</parameter>
     </parameters>
     <services>
         <service
@@ -83,6 +86,23 @@
             <argument id="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
             <argument>%heptacom_heptaconnect.direct_emission_flow.identity_batch_size%</argument>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationExplorersFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument>%heptacom_heptaconnect.exploration.job_batch_size%</argument>
+            <argument>%heptacom_heptaconnect.exploration.identity_batch_size%</argument>
+            <argument>%heptacom_heptaconnect.exploration.direct_emission_batch_size%</argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
