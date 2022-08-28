@@ -119,6 +119,15 @@
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Exploration\ExploreService">
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationExplorersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExplorerCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"
