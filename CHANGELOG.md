@@ -56,6 +56,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Removed
 
+- Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
+
 ### Fixed
 
 - Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
