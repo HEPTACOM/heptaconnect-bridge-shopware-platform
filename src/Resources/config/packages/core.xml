@@ -6,6 +6,7 @@
 >
     <parameters>
         <parameter key="heptacom_heptaconnect.emission_flow.job_dispatch_batch_size">10</parameter>
+        <parameter key="heptacom_heptaconnect.direct_emission_flow.identity_batch_size">10</parameter>
     </parameters>
     <services>
         <service
@@ -74,6 +75,15 @@
             class="Heptacom\HeptaConnect\Core\Emission\EmitterCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"
         />
+        <service
+            class="Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
+            <argument>%heptacom_heptaconnect.direct_emission_flow.identity_batch_size%</argument>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Exploration\ExploreContextFactory"
             id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface"
