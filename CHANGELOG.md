@@ -57,6 +57,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Removed
 
 - Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
+- Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 
 ### Fixed
 
