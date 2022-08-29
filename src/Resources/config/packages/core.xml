@@ -363,6 +363,10 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandleHttpHandlersFactory"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleHttpHandlersFactoryInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface"
         />
@@ -384,6 +388,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleHttpHandlersFactoryInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor"
