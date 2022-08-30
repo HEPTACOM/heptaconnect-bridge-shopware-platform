@@ -41,14 +41,6 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
 
-    Heptacom\HeptaConnect\Core\Reception\ReceiveService:
-        arguments:
-            - '@Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface'
-            - '@heptacom_heptaconnect.logger'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory'
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceptionActor'
-
     Heptacom\HeptaConnect\Core\Reception\ReceptionActor:
         arguments:
             - '@heptacom_heptaconnect.logger'

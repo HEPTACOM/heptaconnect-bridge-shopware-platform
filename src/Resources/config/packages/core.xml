@@ -278,6 +278,20 @@
             <argument id="Heptacom\HeptaConnect\Core\Support\EntityStatus" type="service"/>
             <argument type="tagged_iterator" tag="heptaconnect.postprocessor" index-by="key" />
         </service>
+        <service id="Heptacom\HeptaConnect\Core\Reception\ReceiveService">
+            <argument id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveContextFactoryInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Reception\ReceptionActor" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Reception\ReceptionReceiversFactory"
+            id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface"
+        >
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\StatusReporting\StatusReporterCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCodeOriginFinderInterface"
