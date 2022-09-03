@@ -41,12 +41,12 @@
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Core\Emission\EmissionEmittersFactory"
-            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface"
+            class="Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory"
+            id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface"
         >
             <argument id="Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Job\Contract\JobDispatcherContract" type="service"/>
@@ -78,19 +78,19 @@
             id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"
         />
         <service
-            class="Heptacom\HeptaConnect\Core\Exploration\DirectEmissionEmittersFactory"
-            id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface"
+            class="Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface"
         >
-            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
             <argument>%heptacom_heptaconnect.direct_emission_flow.identity_batch_size%</argument>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Core\Exploration\ExplorationExplorersFactory"
-            id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationExplorersFactoryInterface"
+            class="Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory"
+            id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationFlowExplorersFactoryInterface"
         >
-            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface" type="service"/>
@@ -113,7 +113,7 @@
         <service id="Heptacom\HeptaConnect\Core\Exploration\ExploreService">
             <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreContextFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationExplorersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationFlowExplorersFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
@@ -136,7 +136,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackBuilderFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitContextFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionEmittersFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface"/>
             <call method="setLogger">
                 <argument type="service" id="heptacom_heptaconnect.logger"/>
             </call>
@@ -284,11 +284,11 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackProcessorInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Core\Reception\ReceptionReceiversFactory"
-            id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionReceiversFactoryInterface"
+            class="Heptacom\HeptaConnect\Core\Reception\ReceptionFlowReceiversFactory"
+            id="Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface"
         >
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
@@ -384,8 +384,8 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory" type="service"/>
         </service>
         <service
-            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandleHttpHandlersFactory"
-            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleHttpHandlersFactoryInterface"
+            class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandleFlowHttpHandlersFactory"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFactoryInterface"
         />
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerCodeOriginFinder"
@@ -409,7 +409,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleHttpHandlersFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFactoryInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlerStackProcessor"
