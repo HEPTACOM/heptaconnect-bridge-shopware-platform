@@ -170,7 +170,7 @@ class ListFlowComponentsForPortalNode extends Command
             $components->push($flowComponentRegistry->getExplorers($source));
         }
 
-        $components = new ExplorerCollection($components->bySupport(new EntityType($entityType)));
+        $components = $components->bySupport(new EntityType($entityType));
 
         return \iterable_to_array($components->map([$this->explorerCodeOriginFinder, 'findOrigin']));
     }
@@ -189,7 +189,7 @@ class ListFlowComponentsForPortalNode extends Command
             $components->push($flowComponentRegistry->getReceivers($source));
         }
 
-        $components = new ReceiverCollection($components->bySupport(new EntityType($entityType)));
+        $components = $components->bySupport(new EntityType($entityType));
 
         return \iterable_to_array($components->map([$this->receiverCodeOriginFinder, 'findOrigin']));
     }
@@ -208,7 +208,7 @@ class ListFlowComponentsForPortalNode extends Command
             $components->push($flowComponentRegistry->getEmitters($source));
         }
 
-        $components = new EmitterCollection($components->bySupport(new EntityType($entityType)));
+        $components = $components->bySupport(new EntityType($entityType));
 
         return \iterable_to_array($components->map([$this->emitterCodeOriginFinder, 'findOrigin']));
     }
@@ -222,7 +222,7 @@ class ListFlowComponentsForPortalNode extends Command
             $components->push($flowComponentRegistry->getWebHttpHandlers($source));
         }
 
-        $components = new HttpHandlerCollection($components->bySupport($path));
+        $components = $components->bySupport($path);
 
         return \iterable_to_array($components->map([$this->httpHandlerCodeOriginFinder, 'findOrigin']));
     }
@@ -236,7 +236,7 @@ class ListFlowComponentsForPortalNode extends Command
             $components->push($flowComponentRegistry->getStatusReporters($source));
         }
 
-        $components = new StatusReporterCollection($components->bySupportedTopic($topic));
+        $components = $components->bySupportedTopic($topic);
 
         return \iterable_to_array($components->map([$this->statusReporterCodeOriginFinder, 'findOrigin']));
     }

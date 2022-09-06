@@ -60,7 +60,7 @@ class Run extends Command
 
         /** @var JobGetResult $job */
         foreach ($this->jobGetAction->get(new JobGetCriteria(new JobKeyCollection([$jobKey]))) as $job) {
-            if ($jobDataCollection->count() > 0) {
+            if (!$jobDataCollection->isEmpty()) {
                 return 2;
             }
 
