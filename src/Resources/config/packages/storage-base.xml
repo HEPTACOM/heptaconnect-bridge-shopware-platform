@@ -222,5 +222,7 @@
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getWebHttpHandlerConfigurationSetAction"/>
         </service>
+
+        <service id="Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator"/>
     </services>
 </container>

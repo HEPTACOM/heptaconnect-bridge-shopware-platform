@@ -16,6 +16,16 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Added
 
 - Add composer dependency `heptacom/heptaconnect-ui-admin-symfony: ^0.9` to provide CLI commands
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmitterStackProcessor` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorerStackProcessor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory` as `Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationFlowExplorersFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Reception\ReceptionFlowReceiversFactory` as `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\HttpHandleFlowHttpHandlersFactory` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFactoryInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher` as `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface`
@@ -26,10 +36,22 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\RouteAddUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface`
+- Add service container parameter `heptacom_heptaconnect.emission_flow.job_dispatch_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory`
+- Add service container parameter `heptacom_heptaconnect.direct_emission_flow.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.job_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
+- Add service container parameter `heptacom_heptaconnect.exploration.direct_emission_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
 
 ### Changed
 
 - Switch parameter in `Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor` from `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
+- Switch parameter in `Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract` from `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` to `Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface` and `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
+- Switch parameter in `Heptacom\HeptaConnect\Core\Emission\EmitService` from `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` to `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface` and `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
+- Switch parameter in `Heptacom\HeptaConnect\Core\Exploration\ExploreService` from `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationActorInterface` to `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationFlowExplorersFactoryInterface` and `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
+- Rename service `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface` to `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackProcessorInterface` to match class and interface rename
+- Rename service `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface` to `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface` to match class and interface rename
+- Add parameter of `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface` to service definition `Heptacom\HeptaConnect\Core\Reception\ReceiveService`
+- Add parameter of `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleFlowHttpHandlersFactoryInterface` to service definition `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface`
 - Remove command `heptaconnect:portal-node:extensions:list` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ListExtensions` in favour of `portal:node:extension:browse` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:status:report` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\ReportPortalNode` in favour of `portal:node:status:report` and `portal:node:healthy` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:extensions:activate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension` in favour of `portal:node:extension:activate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
@@ -39,7 +61,12 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Deprecated
 
+- Service definition `Heptacom\HeptaConnect\Core\Storage\PrimaryKeyToEntityHydrator` is deprecated as the class itself is also deprecated and will be removed in future major version
+
 ### Removed
+
+- Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
+- Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 
 ### Fixed
 
