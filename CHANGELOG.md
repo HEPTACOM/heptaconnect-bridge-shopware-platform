@@ -34,6 +34,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionActivateUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionDeactivateUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\RouteAddUiActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface`
 - Add service container parameter `heptacom_heptaconnect.emission_flow.job_dispatch_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory`
 - Add service container parameter `heptacom_heptaconnect.direct_emission_flow.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory`
 - Add service container parameter `heptacom_heptaconnect.exploration.job_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
@@ -55,6 +57,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove command `heptaconnect:portal-node:extensions:activate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\ActivateExtension` in favour of `portal:node:extension:activate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:extensions:deactivate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` in favour of `portal:node:extension:deactivate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:add` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` in favour of `portal:node:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
+- Remove command `heptaconnect:router:add-route` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` in favour of `route:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 
 ### Deprecated
 
