@@ -80,6 +80,12 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface"
         />
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer"
+            id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface"
+        >
+            <argument type="service" id="heptacom_heptaconnect.logger"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
         >
