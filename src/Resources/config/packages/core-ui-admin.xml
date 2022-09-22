@@ -76,6 +76,10 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface"
         />
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface"
+        />
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
         >
