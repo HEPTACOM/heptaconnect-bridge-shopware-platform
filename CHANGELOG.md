@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Show progress-bar in command `heptaconnect:job:cleanup-finished`
+
 ### Changed
 
 ### Deprecated
