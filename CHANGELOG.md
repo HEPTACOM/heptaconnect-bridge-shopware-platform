@@ -15,8 +15,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-- Show progress-bar in command `heptaconnect:job:cleanup-finished`
-
 ### Changed
 
 ### Deprecated
@@ -25,10 +23,18 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+### Security
+
+## [0.9.1.1] - 2022-10-03
+
+### Added
+
+- Show progress-bar in command `heptaconnect:job:cleanup-finished`
+
+### Fixed
+
 - Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
 - Fix command `heptaconnect:portal-node:status:list-topics` when there are no topics
-
-### Security
 
 ## [0.9.1.0] - 2022-07-19
 
