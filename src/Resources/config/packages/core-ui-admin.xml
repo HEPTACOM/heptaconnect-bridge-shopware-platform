@@ -94,6 +94,7 @@
             id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface"
         >
             <argument type="service" id="heptacom_heptaconnect.logger"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory"
