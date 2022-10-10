@@ -92,6 +92,7 @@ definitions:
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testlow80;'
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
                     - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testlow80' COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-unit-high-install-81
                 <<: *php81-image
@@ -110,6 +111,7 @@ definitions:
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testlow81;'
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
                     - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testlow81' COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
