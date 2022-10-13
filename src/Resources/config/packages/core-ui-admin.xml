@@ -86,6 +86,14 @@
             <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteRemoveUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteRemoveUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface"
         />
