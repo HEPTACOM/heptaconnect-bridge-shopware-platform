@@ -19,6 +19,12 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Psr\Http\Message\StreamFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\StreamFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findStreamFactory"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
             decorates="heptacom_heptaconnect.logger"
         >

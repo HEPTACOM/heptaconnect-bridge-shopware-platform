@@ -51,6 +51,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 
 ### Changed
 
