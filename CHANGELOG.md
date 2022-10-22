@@ -69,6 +69,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove command `heptaconnect:portal-node:extensions:deactivate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` in favour of `portal:node:extension:deactivate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:add` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` in favour of `portal:node:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:router:add-route` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` in favour of `route:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
+- Remove `heptacom_heptaconnect.logger` dependency from `\Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor`
 
 ### Deprecated
 
