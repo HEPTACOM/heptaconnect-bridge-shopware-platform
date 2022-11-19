@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add composer dependency `kor3k/flysystem-stream-wrapper: ^1.0.11` to register flysystem filesystems to a stream wrapper
+
 ### Changed
 
 ### Deprecated
