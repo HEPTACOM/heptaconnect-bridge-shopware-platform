@@ -27,7 +27,7 @@ class HttpHostProviderContract
             $baseUrl = 'localhost';
         }
 
-        if (\strpos($baseUrl, '//') === false) {
+        if (!str_contains($baseUrl, '//')) {
             $baseUrl = '//' . $baseUrl;
         }
 

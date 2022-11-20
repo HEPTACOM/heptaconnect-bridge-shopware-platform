@@ -33,7 +33,7 @@ class XAppFactory implements XAppFactoryInterface
 
         /** @var Route $route */
         foreach ($this->router->getRouteCollection() as $name => $route) {
-            if (\strpos((string) $name, 'api.heptaconnect.') !== 0) {
+            if (!str_starts_with((string) $name, 'api.heptaconnect.')) {
                 continue;
             }
 
