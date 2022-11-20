@@ -42,12 +42,10 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            function () use ($path): string {
-                return $this->urlGenerator->generate('api.heptaconnect.http.handler', [
-                    'portalNodeId' => $this->portalNodeId,
-                    'path' => $path,
-                ], UrlGeneratorInterface::ABSOLUTE_URL);
-            }
+            fn(): string => $this->urlGenerator->generate('api.heptaconnect.http.handler', [
+                'portalNodeId' => $this->portalNodeId,
+                'path' => $path,
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         return $this->uriFactory->createUri($url);
