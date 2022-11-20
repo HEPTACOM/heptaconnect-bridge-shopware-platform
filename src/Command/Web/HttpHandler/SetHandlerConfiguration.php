@@ -19,18 +19,11 @@ class SetHandlerConfiguration extends Command
 {
     protected static $defaultName = 'heptaconnect:http-handler:set-configuration';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->webHttpHandlerConfigurationSetAction = $webHttpHandlerConfigurationSetAction;
     }
 
     protected function configure(): void

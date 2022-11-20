@@ -24,21 +24,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class HttpHandlerController
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private HttpHandleServiceInterface $httpHandleService;
-
     private PsrHttpFactory $psrHttpFactory;
 
     private HttpFoundationFactory $httpFoundationFactory;
 
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        HttpHandleServiceInterface $httpHandleService
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private HttpHandleServiceInterface $httpHandleService
     ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->httpHandleService = $httpHandleService;
-
         $this->psrHttpFactory = new PsrHttpFactory(
             Psr17FactoryDiscovery::findServerRequestFactory(),
             Psr17FactoryDiscovery::findStreamFactory(),

@@ -16,17 +16,11 @@ class ListRoutes extends Command
 {
     protected static $defaultName = 'heptaconnect:router:list-routes';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private RouteOverviewActionInterface $routeOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteOverviewActionInterface $routeOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private RouteOverviewActionInterface $routeOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeOverviewAction = $routeOverviewAction;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

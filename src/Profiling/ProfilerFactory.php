@@ -10,11 +10,8 @@ use Sourceability\Instrumentation\Profiler\ProfilerInterface;
 
 final class ProfilerFactory extends ProfilerFactoryContract
 {
-    private ProfilerInterface $profiler;
-
-    public function __construct(ProfilerInterface $profiler)
+    public function __construct(private ProfilerInterface $profiler)
     {
-        $this->profiler = $profiler;
     }
 
     public function factory(?string $prefix = null): ProfilerContract

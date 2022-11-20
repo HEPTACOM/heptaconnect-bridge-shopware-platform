@@ -21,17 +21,11 @@ class ListStatusReportTopics extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:status:list-topics';
 
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void

@@ -19,17 +19,11 @@ class Reset extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:config:reset';
 
-    private ConfigurationServiceInterface $configurationService;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        ConfigurationServiceInterface $configurationService,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private ConfigurationServiceInterface $configurationService,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->configurationService = $configurationService;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void

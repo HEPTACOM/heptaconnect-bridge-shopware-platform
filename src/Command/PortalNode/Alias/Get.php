@@ -22,17 +22,11 @@ class Get extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:alias:get';
 
-    private PortalNodeAliasGetActionInterface $aliasGetAction;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalNodeAliasGetActionInterface $aliasGetAction,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalNodeAliasGetActionInterface $aliasGetAction,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->aliasGetAction = $aliasGetAction;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void

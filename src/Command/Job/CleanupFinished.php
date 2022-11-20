@@ -17,18 +17,11 @@ class CleanupFinished extends Command
 {
     protected static $defaultName = 'heptaconnect:job:cleanup-finished';
 
-    private JobListFinishedActionInterface $jobListFinishedAction;
-
-    private JobDeleteActionInterface $jobDeleteAction;
-
     public function __construct(
-        JobListFinishedActionInterface $jobListFinishedAction,
-        JobDeleteActionInterface $jobDeleteAction
+        private JobListFinishedActionInterface $jobListFinishedAction,
+        private JobDeleteActionInterface $jobDeleteAction
     ) {
         parent::__construct();
-
-        $this->jobListFinishedAction = $jobListFinishedAction;
-        $this->jobDeleteAction = $jobDeleteAction;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

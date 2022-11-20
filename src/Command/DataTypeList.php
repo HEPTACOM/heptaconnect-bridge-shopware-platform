@@ -18,17 +18,11 @@ class DataTypeList extends Command
 {
     protected static $defaultName = 'heptaconnect:data-type:list';
 
-    private ComposerPortalLoader $portalLoader;
-
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
     public function __construct(
-        ComposerPortalLoader $portalLoader,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        private ComposerPortalLoader $portalLoader,
+        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

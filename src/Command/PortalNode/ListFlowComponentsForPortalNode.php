@@ -47,37 +47,16 @@ class ListFlowComponentsForPortalNode extends Command
 
     protected static $defaultName = 'heptaconnect:portal-node:list-flow-components';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
-    private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder;
-
-    private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder;
-
-    private ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder;
-
-    private ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder;
-
-    private StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
-        EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
-        ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
-        ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
-        StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
+        private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
+        private ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
+        private ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
+        private StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
-        $this->httpHandlerCodeOriginFinder = $httpHandlerCodeOriginFinder;
-        $this->emitterCodeOriginFinder = $emitterCodeOriginFinder;
-        $this->explorerCodeOriginFinder = $explorerCodeOriginFinder;
-        $this->receiverCodeOriginFinder = $receiverCodeOriginFinder;
-        $this->statusReporterCodeOriginFinder = $statusReporterCodeOriginFinder;
     }
 
     protected function configure(): void

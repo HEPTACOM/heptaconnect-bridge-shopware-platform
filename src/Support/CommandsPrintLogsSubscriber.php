@@ -15,11 +15,8 @@ final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 {
     public const LOGGER_STREAM = 'php://stderr';
 
-    private StreamHandler $loggerHandler;
-
-    public function __construct(StreamHandler $loggerHandler)
+    public function __construct(private StreamHandler $loggerHandler)
     {
-        $this->loggerHandler = $loggerHandler;
     }
 
     public static function getSubscribedEvents()

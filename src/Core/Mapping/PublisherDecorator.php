@@ -17,10 +17,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class PublisherDecorator implements PublisherInterface, EventSubscriberInterface
 {
-    private PublisherInterface $publisher;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     /**
      * @var array<string, array<class-string<DatasetEntityContract>, array<string, bool>>>
      */
@@ -28,10 +24,8 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
 
     private bool $active = false;
 
-    public function __construct(PublisherInterface $publisher, StorageKeyGeneratorContract $storageKeyGenerator)
+    public function __construct(private PublisherInterface $publisher, private StorageKeyGeneratorContract $storageKeyGenerator)
     {
-        $this->publisher = $publisher;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     public static function getSubscribedEvents()

@@ -18,28 +18,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class XAppFactory implements XAppFactoryInterface
 {
-    private ContainerInterface $container;
-
-    private RouterInterface $router;
-
-    private KernelInterface $kernel;
-
-    private HttpMessageFactoryInterface $psrHttpFactory;
-
-    private HttpFoundationFactoryInterface $httpFoundationFactory;
-
-    public function __construct(
-        ContainerInterface $container,
-        RouterInterface $router,
-        KernelInterface $kernel,
-        HttpMessageFactoryInterface $psrHttpFactory,
-        HttpFoundationFactoryInterface $httpFoundationFactory
-    ) {
-        $this->container = $container;
-        $this->router = $router;
-        $this->kernel = $kernel;
-        $this->psrHttpFactory = $psrHttpFactory;
-        $this->httpFoundationFactory = $httpFoundationFactory;
+    public function __construct(private ContainerInterface $container, private RouterInterface $router, private KernelInterface $kernel, private HttpMessageFactoryInterface $psrHttpFactory, private HttpFoundationFactoryInterface $httpFoundationFactory)
+    {
     }
 
     public function factory(): App

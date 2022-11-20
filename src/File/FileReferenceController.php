@@ -25,28 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FileReferenceController
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private StreamDenormalizer $streamDenormalizer;
-
-    private RequestStorageContract $requestStorage;
-
-    private PortalStackServiceContainerFactory $portalContainerFactory;
-
-    private PortalNodeGetActionInterface $portalNodeGetAction;
-
-    public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        StreamDenormalizer $streamDenormalizer,
-        RequestStorageContract $requestStorage,
-        PortalStackServiceContainerFactory $portalContainerFactory,
-        PortalNodeGetActionInterface $portalNodeGetAction
-    ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->streamDenormalizer = $streamDenormalizer;
-        $this->requestStorage = $requestStorage;
-        $this->portalContainerFactory = $portalContainerFactory;
-        $this->portalNodeGetAction = $portalNodeGetAction;
+    public function __construct(private StorageKeyGeneratorContract $storageKeyGenerator, private StreamDenormalizer $streamDenormalizer, private RequestStorageContract $requestStorage, private PortalStackServiceContainerFactory $portalContainerFactory, private PortalNodeGetActionInterface $portalNodeGetAction)
+    {
     }
 
     /**

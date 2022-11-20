@@ -23,17 +23,11 @@ class Reset extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:alias:reset';
 
-    private PortalNodeAliasSetActionInterface $aliasSetAction;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalNodeAliasSetActionInterface $aliasSetAction,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalNodeAliasSetActionInterface $aliasSetAction,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->aliasSetAction = $aliasSetAction;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
