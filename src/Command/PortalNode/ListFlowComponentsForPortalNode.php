@@ -77,7 +77,7 @@ class ListFlowComponentsForPortalNode extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
@@ -94,7 +94,7 @@ class ListFlowComponentsForPortalNode extends Command
         ) {
             try {
                 new EntityType($entityType);
-            } catch (\Throwable $_) {
+            } catch (\Throwable) {
                 $io->error('The specified type does not implement the DatasetEntityContract.');
 
                 return 1;

@@ -47,7 +47,7 @@ class Set extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
@@ -62,11 +62,11 @@ class Set extends Command
 
         try {
             $this->aliasSetAction->set($aliasSetPayloads);
-        } catch (InvalidCreatePayloadException $invalidCreatePayloadException) {
+        } catch (InvalidCreatePayloadException) {
             $io->error('Invalid values defined.');
 
             return 1;
-        } catch (UpdateException $updateException) {
+        } catch (UpdateException) {
             $io->error('Database update failed.');
 
             return 1;

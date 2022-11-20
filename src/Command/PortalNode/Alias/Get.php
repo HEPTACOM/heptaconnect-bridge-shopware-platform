@@ -50,7 +50,7 @@ class Get extends Command
                 }
 
                 $portalNodeKeys[] = $portalNodeKey;
-            } catch (UnsupportedStorageKeyException $exception) {
+            } catch (UnsupportedStorageKeyException) {
                 $io->error('The portal-node-key is not a portalNodeKey');
 
                 return 1;
