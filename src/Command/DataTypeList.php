@@ -33,7 +33,7 @@ class DataTypeList extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $flowComponentRegistry = $this->portalStackServiceContainerFactory
-                ->create(new PreviewPortalNodeKey(new PortalType(\get_class($portal))))
+                ->create(new PreviewPortalNodeKey(new PortalType($portal::class)))
                 ->getFlowComponentRegistry();
 
             foreach ($flowComponentRegistry->getOrderedSources() as $source) {

@@ -30,7 +30,7 @@ class PortalList extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $portals[] = [
-                'class' => \get_class($portal),
+                'class' => $portal::class,
             ];
         }
 
@@ -38,7 +38,7 @@ class PortalList extends Command
 
         foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
             $portalExtensions[] = [
-                'class' => \get_class($portalExtension),
+                'class' => $portalExtension::class,
             ];
         }
 

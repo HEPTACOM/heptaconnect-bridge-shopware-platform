@@ -41,7 +41,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {
@@ -51,7 +51,7 @@ class FileReferenceController
         $requestKey = $this->storageKeyGenerator->deserialize($requestId);
 
         if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($requestKey));
+            throw new UnsupportedStorageKeyException($requestKey::class);
         }
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
@@ -78,7 +78,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {
