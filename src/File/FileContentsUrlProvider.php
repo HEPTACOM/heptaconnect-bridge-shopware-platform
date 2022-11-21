@@ -42,7 +42,7 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            fn(): string => $this->urlGenerator->generate('api.heptaconnect.file.contents', [
+            fn (): string => $this->urlGenerator->generate('api.heptaconnect.file.contents', [
                 'portalNodeId' => $portalNodeId,
                 'normalizedStream' => $normalizedStream,
                 'mimeType' => $mimeType,

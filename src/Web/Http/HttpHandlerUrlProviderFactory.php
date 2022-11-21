@@ -14,8 +14,13 @@ use Symfony\Component\Routing\RequestContext;
 
 final class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInterface
 {
-    public function __construct(private StorageKeyGeneratorContract $storageKeyGenerator, private UrlGeneratorInterface $urlGenerator, private HttpHostProviderContract $hostProvider, private RequestContext $requestContext, private RequestContextHelper $requestContextHelper)
-    {
+    public function __construct(
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private UrlGeneratorInterface $urlGenerator,
+        private HttpHostProviderContract $hostProvider,
+        private RequestContext $requestContext,
+        private RequestContextHelper $requestContextHelper
+    ) {
     }
 
     public function factory(PortalNodeKeyInterface $portalNodeKey): HttpHandlerUrlProviderInterface

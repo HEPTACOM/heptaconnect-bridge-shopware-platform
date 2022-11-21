@@ -82,10 +82,10 @@ class HttpHandlerController
 
         $request = $request->withUri(
             $request->getUri()
-            ->withScheme('')
-            ->withHost('')
-            ->withPort(null)
-            ->withPath($path)
+                ->withScheme('')
+                ->withHost('')
+                ->withPort(null)
+                ->withPath($path)
         );
 
         $request = $request->withoutHeader('host');

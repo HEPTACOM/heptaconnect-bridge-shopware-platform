@@ -11,8 +11,10 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 class AliasValidator
 {
-    public function __construct(private StorageKeyGeneratorContract $storageKeyGenerator, private PortalNodeAliasFindActionInterface $portalNodeAliasFindAction)
-    {
+    public function __construct(
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeAliasFindActionInterface $portalNodeAliasFindAction
+    ) {
     }
 
     public function validate(string $alias): void

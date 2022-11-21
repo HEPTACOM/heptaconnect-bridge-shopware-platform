@@ -43,7 +43,7 @@ final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            fn(): string => $this->urlGenerator->generate('api.heptaconnect.file.request', [
+            fn (): string => $this->urlGenerator->generate('api.heptaconnect.file.request', [
                 'portalNodeId' => $portalNodeId,
                 'requestId' => $requestId,
             ], UrlGeneratorInterface::ABSOLUTE_URL)

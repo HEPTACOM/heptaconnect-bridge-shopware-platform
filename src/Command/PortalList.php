@@ -15,8 +15,9 @@ class PortalList extends Command
 {
     protected static $defaultName = 'heptaconnect:portal:list';
 
-    public function __construct(private ComposerPortalLoader $portalLoader)
-    {
+    public function __construct(
+        private ComposerPortalLoader $portalLoader
+    ) {
         parent::__construct();
     }
 

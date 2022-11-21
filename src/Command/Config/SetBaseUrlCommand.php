@@ -14,8 +14,9 @@ class SetBaseUrlCommand extends Command
 {
     protected static $defaultName = 'heptaconnect:config:base-url:set';
 
-    public function __construct(private SystemConfigService $systemConfigService)
-    {
+    public function __construct(
+        private SystemConfigService $systemConfigService
+    ) {
         parent::__construct();
     }
 

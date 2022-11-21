@@ -11,8 +11,10 @@ final class Profiler extends ProfilerContract
 {
     private string $prefix;
 
-    public function __construct(private ProfilerInterface $profiler, ?string $prefix = null)
-    {
+    public function __construct(
+        private ProfilerInterface $profiler,
+        ?string $prefix = null
+    ) {
         $this->prefix = $prefix ?? '';
     }
 

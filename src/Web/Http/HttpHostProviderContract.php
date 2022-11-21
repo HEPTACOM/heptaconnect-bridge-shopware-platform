@@ -13,8 +13,9 @@ class HttpHostProviderContract
 {
     private UriFactoryInterface $uriFactory;
 
-    public function __construct(private SystemConfigService $systemConfigService)
-    {
+    public function __construct(
+        private SystemConfigService $systemConfigService
+    ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 

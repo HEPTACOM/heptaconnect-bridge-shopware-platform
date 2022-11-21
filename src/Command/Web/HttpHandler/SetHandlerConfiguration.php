@@ -56,7 +56,7 @@ class SetHandlerConfiguration extends Command
         $parsed = null;
 
         if (\is_string($value)) {
-            $jsonDecoded = \json_decode($value, null, 512, JSON_THROW_ON_ERROR);
+            $jsonDecoded = \json_decode($value, null, 512, \JSON_THROW_ON_ERROR);
 
             if (!\is_array($jsonDecoded)) {
                 $jsonDecoded = ['value' => $jsonDecoded];

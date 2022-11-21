@@ -15,8 +15,9 @@ class ListRouteCapabilities extends Command
 {
     protected static $defaultName = 'heptaconnect:router:list-capabilities';
 
-    public function __construct(private RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction)
-    {
+    public function __construct(
+        private RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction
+    ) {
         parent::__construct();
     }
 
