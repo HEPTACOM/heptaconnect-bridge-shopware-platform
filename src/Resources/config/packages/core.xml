@@ -195,7 +195,12 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
+            <argument type="service">
+                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
+                    <argument type="service" id="shopware.filesystem.private"/>
+                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
+                </service>
+            </argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
