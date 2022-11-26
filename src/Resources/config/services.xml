@@ -168,6 +168,16 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Repl">
+            <tag name="console.command"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface"/>
+            <argument type="service"
+                      id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingContextFactoryInterface"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController" public="true">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
