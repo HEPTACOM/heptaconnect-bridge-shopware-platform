@@ -33,29 +33,14 @@ final class Emit extends Command
 {
     protected static $defaultName = 'heptaconnect:emit';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityMapActionInterface $identityMapAction;
-
-    private JobCreateActionInterface $jobCreateAction;
-
-    private JobGetActionInterface $jobGetAction;
-
-    private EmissionHandlerInterface $emissionHandler;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityMapActionInterface $identityMapAction,
-        JobCreateActionInterface $jobCreateAction,
-        JobGetActionInterface $jobGetAction,
-        EmissionHandlerInterface $emissionHandler
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityMapActionInterface $identityMapAction,
+        private JobCreateActionInterface $jobCreateAction,
+        private JobGetActionInterface $jobGetAction,
+        private EmissionHandlerInterface $emissionHandler
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityMapAction = $identityMapAction;
-        $this->jobCreateAction = $jobCreateAction;
-        $this->jobGetAction = $jobGetAction;
-        $this->emissionHandler = $emissionHandler;
     }
 
     protected function configure(): void
@@ -132,6 +117,8 @@ final class Emit extends Command
     }
 
     /**
+     * TODO replace with service
+     *
      * @param class-string<DatasetEntityContract> $entityType
      * @param array<string> $externalIds
      */
