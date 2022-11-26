@@ -15,14 +15,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-- Add composer dependency `kor3k/flysystem-stream-wrapper: ^1.0.11` to register flysystem filesystems to a stream wrapper
-- Add service definition for implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` described by `\Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface` to provide stream wrapper protocol and register flysystem filesystems for portal nodes
-- Add service definition `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` for class `\Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory`
-- Add dependency `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
-- Add command `heptaconnect:emit` to emit one or more entities
-- Add composer suggestion `psy/psysh` for an interactive read–eval–print loop in the scope of a portal-node
-- Add command `heptaconnect:repl` for an interactive read–eval–print loop in the scope of a portal-node
-
 ### Changed
 
 ### Deprecated
@@ -31,9 +23,23 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
-- Change base filesystem for portal nodes in `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` from the Shopware bundle provided private filesystem to a custom prefixed filesystem based on the Shopware instance private filesystem to keep the same default directory but to support adapter access on the file system 
-
 ### Security
+
+## [0.9.2.0] - 2022-11-26
+
+### Added
+
+- Add composer dependency `kor3k/flysystem-stream-wrapper: ^1.0.11` to register flysystem filesystems to a stream wrapper
+- Add service definition for implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` described by `\Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface` to provide stream wrapper protocol and register flysystem filesystems for portal nodes
+- Add service definition `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` for class `\Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory`
+- Add dependency `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add command `heptaconnect:emit` to emit one or more entities
+- Add composer suggestion `psy/psysh` for an interactive read–eval–print loop in the scope of a portal-node
+- Add command `heptaconnect:repl` for an interactive read–eval–print loop in the scope of a portal-node
+
+### Fixed
+
+- Change base filesystem for portal nodes in `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` from the Shopware bundle provided private filesystem to a custom prefixed filesystem based on the Shopware instance private filesystem to keep the same default directory but to support adapter access on the file system 
 
 ## [0.9.1.1] - 2022-10-03
 
