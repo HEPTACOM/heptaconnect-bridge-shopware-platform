@@ -63,7 +63,8 @@
     },
     "suggest": {
         "clue/framework-x": "Run a web-server based on ReactPHP",
-        "heptacom/heptaconnect-portal-local-shopware-platform": "Access the Shopware Platform runtime as a portal"
+        "heptacom/heptaconnect-portal-local-shopware-platform": "Access the Shopware Platform runtime as a portal",
+        "psy/psysh": "Run a read–eval–print loop in the scope of a portal-node"
     },
     "repositories": {
         "heptaconnect-sources": {
