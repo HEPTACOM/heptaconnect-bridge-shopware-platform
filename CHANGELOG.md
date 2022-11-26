@@ -19,6 +19,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition for implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` described by `\Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface` to provide stream wrapper protocol and register flysystem filesystems for portal nodes
 - Add service definition `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` for class `\Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory`
 - Add dependency `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add command `heptaconnect:emit` to emit one or more entities
 
 ### Changed
 
