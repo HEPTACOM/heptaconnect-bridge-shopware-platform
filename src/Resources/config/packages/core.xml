@@ -19,6 +19,12 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Psr\Http\Message\StreamFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\StreamFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findStreamFactory"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
             decorates="heptacom_heptaconnect.logger"
         >
@@ -224,6 +230,18 @@
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory"
+            id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface" type="service"/>
+            <argument type="service">
+                <service class="Psr\Http\Message\UriFactoryInterface">
+                    <factory class="\Http\Discovery\Psr17FactoryDiscovery" method="findUriFactory"/>
+                </service>
+            </argument>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
             id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
         >
@@ -238,6 +256,7 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
@@ -263,7 +282,12 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
+            <argument type="service">
+                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
+                    <argument type="service" id="shopware.filesystem.private"/>
+                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
+                </service>
+            </argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
@@ -331,8 +355,8 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract"
                  class="Heptacom\HeptaConnect\Core\Storage\RequestStorage">
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferenceGetRequestActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\FileReference\FileReferencePersistRequestActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
@@ -367,7 +391,6 @@
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor">
             <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface" type="service"/>
-            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor">
             <tag name="heptaconnect.postprocessor" key="Heptacom\HeptaConnect\Core\Reception\PostProcessing\SaveMappingsPostProcessor"/>
@@ -426,6 +449,18 @@
             <argument type="service" id="router.request_context"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
         </service>
+
+        <service
+            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface"
+            class="Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer"
+        >
+            <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
+            <argument id="Psr\Http\Message\StreamFactoryInterface.heptaconnect" type="service"/>
+        </service>
+        <service
+            id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface"
+            class="Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer"
+        />
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
                  class="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService">

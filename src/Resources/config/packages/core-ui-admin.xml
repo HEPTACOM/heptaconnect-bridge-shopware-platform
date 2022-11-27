@@ -9,12 +9,14 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeAddUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeAddUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface"/>
         </service>
@@ -22,6 +24,7 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory"/>
             <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Exploration\Contract\ExplorerCodeOriginFinderInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Emission\Contract\EmitterCodeOriginFinderInterface"/>
@@ -31,6 +34,7 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionActivateUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionActivateUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface"/>
@@ -41,6 +45,7 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader"/>
@@ -49,6 +54,7 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionDeactivateUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionDeactivateUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface"/>
@@ -66,12 +72,14 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStatusReportUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\StatusReporting\Contract\StatusReportingServiceInterface"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
@@ -81,7 +89,40 @@
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteRemoveUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteRemoveUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface"
         />
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer"
+            id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface"
+        >
+            <argument type="service" id="heptacom_heptaconnect.logger"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory"
+            id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface"/>
+            <argument type="service" id="heptacom_heptaconnect.logger"/>
+        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"

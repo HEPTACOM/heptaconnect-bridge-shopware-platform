@@ -27,8 +27,11 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher` as `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface`
@@ -39,11 +42,19 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeRemoveUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\RouteAddUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteAddUiDefaultProviderInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteRemoveUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Route\RouteRemoveUiActionInterface`
 - Add service container parameter `heptacom_heptaconnect.emission_flow.job_dispatch_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Emission\EmissionFlowEmittersFactory`
 - Add service container parameter `heptacom_heptaconnect.direct_emission_flow.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\DirectEmissionFlowEmittersFactory`
 - Add service container parameter `heptacom_heptaconnect.exploration.job_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
 - Add service container parameter `heptacom_heptaconnect.exploration.identity_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
 - Add service container parameter `heptacom_heptaconnect.exploration.direct_emission_batch_size` to influence batch size parameter in `\Heptacom\HeptaConnect\Core\Exploration\ExplorationFlowExplorersFactory`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailBeginActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface`
 
 ### Changed
 
@@ -61,6 +72,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove command `heptaconnect:portal-node:extensions:deactivate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` in favour of `portal:node:extension:deactivate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:add` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` in favour of `portal:node:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:router:add-route` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` in favour of `route:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
+- Remove `heptacom_heptaconnect.logger` dependency from `\Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor`
+- Switch parameter in `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract` from `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer` to `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
 
 ### Deprecated
 
@@ -73,9 +86,34 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
-- Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
-
 ### Security
+
+## [0.9.2.0] - 2022-11-26
+
+### Added
+
+- Add composer dependency `kor3k/flysystem-stream-wrapper: ^1.0.11` to register flysystem filesystems to a stream wrapper
+- Add service definition for implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` described by `\Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface` to provide stream wrapper protocol and register flysystem filesystems for portal nodes
+- Add service definition `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` for class `\Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory`
+- Add dependency `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add command `heptaconnect:emit` to emit one or more entities
+- Add composer suggestion `psy/psysh` for an interactive read–eval–print loop in the scope of a portal-node
+- Add command `heptaconnect:repl` for an interactive read–eval–print loop in the scope of a portal-node
+
+### Fixed
+
+- Change base filesystem for portal nodes in `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` from the Shopware bundle provided private filesystem to a custom prefixed filesystem based on the Shopware instance private filesystem to keep the same default directory but to support adapter access on the file system 
+
+## [0.9.1.1] - 2022-10-03
+
+### Added
+
+- Show progress-bar in command `heptaconnect:job:cleanup-finished`
+
+### Fixed
+
+- Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
+- Fix command `heptaconnect:portal-node:status:list-topics` when there are no topics
 
 ## [0.9.1.0] - 2022-07-19
 
