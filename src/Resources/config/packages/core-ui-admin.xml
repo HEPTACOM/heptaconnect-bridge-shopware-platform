@@ -65,6 +65,7 @@
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeRemoveUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeRemoveUiActionInterface"
         >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface"/>
         </service>
