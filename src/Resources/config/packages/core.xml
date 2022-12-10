@@ -230,6 +230,18 @@
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory"
+            id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface" type="service"/>
+            <argument type="service">
+                <service class="Psr\Http\Message\UriFactoryInterface">
+                    <factory class="\Http\Discovery\Psr17FactoryDiscovery" method="findUriFactory"/>
+                </service>
+            </argument>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
             id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface"
         >
@@ -244,6 +256,7 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
@@ -269,7 +282,12 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
+            <argument type="service">
+                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
+                    <argument type="service" id="shopware.filesystem.private"/>
+                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
+                </service>
+            </argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"

@@ -35,7 +35,7 @@ class ListRoutes extends Command
         ]);
 
         foreach ($this->routeOverviewAction->overview($criteria) as $route) {
-            $capabilities = $route->getCapabilities();
+            $capabilities = $route->getCapabilities()->asArray();
             \sort($capabilities);
 
             $targets[] = [

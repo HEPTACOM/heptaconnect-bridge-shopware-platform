@@ -65,6 +65,12 @@ class ListStatusReportTopics extends Command
         $topics = \array_keys(\array_flip($topics));
         $rows = \array_map(static fn (string $topic): array => ['topic' => $topic], $topics);
 
+        if ($rows === []) {
+            $io->note('There are no topics.');
+
+            return 0;
+        }
+
         $io->table(\array_keys(\current($rows)), $rows);
 
         return 0;
