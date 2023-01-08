@@ -483,5 +483,11 @@
             <argument id="cache.system" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService"
+            id="Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface"
+        >
+            <argument tag="heptaconnect_core.portal_node_configuration.processor" type="tagged"/>
+        </service>
     </services>
 </container>
