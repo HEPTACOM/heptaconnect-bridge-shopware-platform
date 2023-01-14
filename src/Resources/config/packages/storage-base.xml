@@ -13,6 +13,11 @@
                      method="getFileReferencePersistRequestAction"/>
         </service>
 
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface">
+            <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
+                     method="getIdentityDirectionCreateAction"/>
+        </service>
+
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
                      method="getIdentityDirectionDeleteAction"/>
