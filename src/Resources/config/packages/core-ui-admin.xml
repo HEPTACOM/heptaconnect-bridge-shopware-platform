@@ -43,6 +43,7 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionActivateUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface"/>
@@ -63,6 +64,7 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionDeactivateUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionDeactivateActionInterface"/>
@@ -74,7 +76,7 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeRemoveUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface"/>
         </service>
         <service
@@ -82,7 +84,7 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStorageGetUiActionInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory"/>
         </service>
         <service
@@ -101,7 +103,7 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\RouteAddUiDefault"
@@ -152,6 +154,9 @@
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator">
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor"
