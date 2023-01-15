@@ -19,6 +19,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add command `heptaconnect:identity-direction:add` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\AddDirectionalIdentity` to add an identity direction
+- Add command `heptaconnect:identity-direction:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\ListDirectionalIdentities` to list identity directions
 
 ### Changed
 
