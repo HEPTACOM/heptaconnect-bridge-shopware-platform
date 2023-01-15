@@ -93,6 +93,11 @@
                  id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract">
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\AddDirectionalIdentity">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface"/>
