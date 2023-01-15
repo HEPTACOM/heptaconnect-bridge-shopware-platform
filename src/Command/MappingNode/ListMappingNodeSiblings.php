@@ -150,7 +150,7 @@ class ListMappingNodeSiblings extends Command
         foreach ($this->identityRedirectOverviewAction->overview($targetIdentityRedirectCriteria) as $identityRedirect) {
             $groupKey = $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey());
 
-            if (\in_array($groupKey, $groupKeys)) {
+            if (\in_array($groupKey, $groupKeys, true)) {
                 continue;
             }
 

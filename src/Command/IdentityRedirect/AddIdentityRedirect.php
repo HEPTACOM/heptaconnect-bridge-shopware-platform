@@ -70,7 +70,6 @@ final class AddIdentityRedirect extends Command
         $targetExternalId = (string) $input->getArgument('target-external-id');
         $type = (string) $input->getArgument('type');
 
-
         if (!\is_a($type, DatasetEntityContract::class, true)) {
             $io->error('The specified type does not implement the DatasetEntityContract.');
 
