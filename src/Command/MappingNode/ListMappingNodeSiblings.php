@@ -50,6 +50,8 @@ class ListMappingNodeSiblings extends Command
         if ($entityType !== '' && !\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
+            $criteria->setEntityTypeFilter([$entityType]);
+
             return 1;
         }
 

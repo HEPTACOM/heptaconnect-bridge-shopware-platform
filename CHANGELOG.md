@@ -30,6 +30,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Interpret `entity-type` option in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` as filter criteria for identities
+
 ### Security
 
 ## [0.9.2.0] - 2022-11-26
