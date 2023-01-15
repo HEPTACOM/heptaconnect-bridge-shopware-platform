@@ -8,10 +8,10 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewCriteria;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Overview\IdentityDirectionOverviewResult;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,17 +27,17 @@ class ListMappingNodeSiblings extends Command
 
     private IdentityOverviewActionInterface $identityOverviewAction;
 
-    private IdentityDirectionOverviewActionInterface $identityDirectionOverviewAction;
+    private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         IdentityOverviewActionInterface $identityOverviewAction,
-        IdentityDirectionOverviewActionInterface $identityDirectionOverviewAction
+        IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->identityOverviewAction = $identityOverviewAction;
-        $this->identityDirectionOverviewAction = $identityDirectionOverviewAction;
+        $this->identityRedirectOverviewAction = $identityRedirectOverviewAction;
     }
 
     protected function configure(): void
@@ -54,13 +54,13 @@ class ListMappingNodeSiblings extends Command
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
         $identityCriteria = new IdentityOverviewCriteria();
-        $sourceIdentityDirectionCriteria = new IdentityDirectionOverviewCriteria();
+        $sourceIdentityRedirectCriteria = new IdentityRedirectOverviewCriteria();
 
         if ($entityType !== '' && !\is_a($entityType, DatasetEntityContract::class, true)) {
             $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
 
             $identityCriteria->setEntityTypeFilter([$entityType]);
-            $sourceIdentityDirectionCriteria->setEntityTypeFilter(new StringCollection($identityCriteria->getEntityTypeFilter()));
+            $sourceIdentityRedirectCriteria->setEntityTypeFilter(new StringCollection($identityCriteria->getEntityTypeFilter()));
 
             return 1;
         }
@@ -75,7 +75,7 @@ class ListMappingNodeSiblings extends Command
             }
 
             $identityCriteria->getPortalNodeKeyFilter()->push([$portalNodeKey]);
-            $sourceIdentityDirectionCriteria->setSourcePortalNodeKeyFilter($identityCriteria->getPortalNodeKeyFilter());
+            $sourceIdentityRedirectCriteria->setSourcePortalNodeKeyFilter($identityCriteria->getPortalNodeKeyFilter());
         }
 
         $externalIds = \array_filter($externalIds);
@@ -87,7 +87,7 @@ class ListMappingNodeSiblings extends Command
         }
 
         $identityCriteria->setExternalIdFilter($externalIds);
-        $sourceIdentityDirectionCriteria->setSourceExternalIdFilter(new StringCollection($identityCriteria->getExternalIdFilter()));
+        $sourceIdentityRedirectCriteria->setSourceExternalIdFilter(new StringCollection($identityCriteria->getExternalIdFilter()));
 
         $rows = [];
 
@@ -97,10 +97,10 @@ class ListMappingNodeSiblings extends Command
             IdentityOverviewCriteria::FIELD_MAPPING_NODE => IdentityOverviewCriteria::SORT_ASC,
             IdentityOverviewCriteria::FIELD_PORTAL_NODE => IdentityOverviewCriteria::SORT_ASC,
         ]);
-        $sourceIdentityDirectionCriteria->setSort([
-            IdentityDirectionOverviewCriteria::FIELD_ENTITY_TYPE => IdentityDirectionOverviewCriteria::SORT_ASC,
-            IdentityDirectionOverviewCriteria::FIELD_TARGET_PORTAL_NODE => IdentityDirectionOverviewCriteria::SORT_ASC,
-            IdentityDirectionOverviewCriteria::FIELD_TARGET_EXTERNAL_ID => IdentityDirectionOverviewCriteria::SORT_ASC,
+        $sourceIdentityRedirectCriteria->setSort([
+            IdentityRedirectOverviewCriteria::FIELD_ENTITY_TYPE => IdentityRedirectOverviewCriteria::SORT_ASC,
+            IdentityRedirectOverviewCriteria::FIELD_TARGET_PORTAL_NODE => IdentityRedirectOverviewCriteria::SORT_ASC,
+            IdentityRedirectOverviewCriteria::FIELD_TARGET_EXTERNAL_ID => IdentityRedirectOverviewCriteria::SORT_ASC,
         ]);
 
         foreach ($this->identityOverviewAction->overview($identityCriteria) as $identity) {
@@ -120,51 +120,51 @@ class ListMappingNodeSiblings extends Command
 
         $groupKeys = [];
 
-        /** @var IdentityDirectionOverviewResult $identityDirection */
-        foreach ($this->identityDirectionOverviewAction->overview($sourceIdentityDirectionCriteria) as $identityDirection) {
-            $groupKey = $this->storageKeyGenerator->serialize($identityDirection->getIdentityDirectionKey());
+        /** @var IdentityRedirectOverviewResult $identityRedirect */
+        foreach ($this->identityRedirectOverviewAction->overview($sourceIdentityRedirectCriteria) as $identityRedirect) {
+            $groupKey = $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey());
 
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityDirection->getSourcePortalNodeKey()->withAlias()),
-                'external-id' => $identityDirection->getSourceExternalId(),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
+                'external-id' => $identityRedirect->getSourceExternalId(),
                 'group-key' => $groupKey,
-                'entity-type' => $identityDirection->getEntityType(),
+                'entity-type' => $identityRedirect->getEntityType(),
             ];
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityDirection->getTargetPortalNodeKey()->withAlias()),
-                'external-id' => $identityDirection->getTargetExternalId(),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
+                'external-id' => $identityRedirect->getTargetExternalId(),
                 'group-key' => $groupKey,
-                'entity-type' => $identityDirection->getEntityType(),
+                'entity-type' => $identityRedirect->getEntityType(),
             ];
 
             $groupKeys[] = $groupKey;
         }
 
-        $targetIdentityDirectionCriteria = new IdentityDirectionOverviewCriteria();
-        $targetIdentityDirectionCriteria->setSort($sourceIdentityDirectionCriteria->getSort());
-        $targetIdentityDirectionCriteria->setTargetExternalIdFilter($sourceIdentityDirectionCriteria->getSourceExternalIdFilter());
-        $targetIdentityDirectionCriteria->setTargetPortalNodeKeyFilter($sourceIdentityDirectionCriteria->getSourcePortalNodeKeyFilter());
-        $targetIdentityDirectionCriteria->setEntityTypeFilter($sourceIdentityDirectionCriteria->getEntityTypeFilter());
+        $targetIdentityRedirectCriteria = new IdentityRedirectOverviewCriteria();
+        $targetIdentityRedirectCriteria->setSort($sourceIdentityRedirectCriteria->getSort());
+        $targetIdentityRedirectCriteria->setTargetExternalIdFilter($sourceIdentityRedirectCriteria->getSourceExternalIdFilter());
+        $targetIdentityRedirectCriteria->setTargetPortalNodeKeyFilter($sourceIdentityRedirectCriteria->getSourcePortalNodeKeyFilter());
+        $targetIdentityRedirectCriteria->setEntityTypeFilter($sourceIdentityRedirectCriteria->getEntityTypeFilter());
 
-        /** @var IdentityDirectionOverviewResult $identityDirection */
-        foreach ($this->identityDirectionOverviewAction->overview($targetIdentityDirectionCriteria) as $identityDirection) {
-            $groupKey = $this->storageKeyGenerator->serialize($identityDirection->getIdentityDirectionKey());
+        /** @var IdentityRedirectOverviewResult $identityRedirect */
+        foreach ($this->identityRedirectOverviewAction->overview($targetIdentityRedirectCriteria) as $identityRedirect) {
+            $groupKey = $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey());
 
             if (\in_array($groupKey, $groupKeys)) {
                 continue;
             }
 
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityDirection->getSourcePortalNodeKey()->withAlias()),
-                'external-id' => $identityDirection->getSourceExternalId(),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
+                'external-id' => $identityRedirect->getSourceExternalId(),
                 'group-key' => $groupKey,
-                'entity-type' => $identityDirection->getEntityType(),
+                'entity-type' => $identityRedirect->getEntityType(),
             ];
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityDirection->getTargetPortalNodeKey()->withAlias()),
-                'external-id' => $identityDirection->getTargetExternalId(),
+                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
+                'external-id' => $identityRedirect->getTargetExternalId(),
                 'group-key' => $groupKey,
-                'entity-type' => $identityDirection->getEntityType(),
+                'entity-type' => $identityRedirect->getEntityType(),
             ];
         }
 

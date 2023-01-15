@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection;
+namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect;
 
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayload;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreatePayloadCollection;
-use Heptacom\HeptaConnect\Storage\Base\Action\IdentityDirection\Create\IdentityDirectionCreateResult;
-use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
+use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Command\Command;
@@ -18,21 +18,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class AddDirectionalIdentity extends Command
+final class AddIdentityRedirect extends Command
 {
-    protected static $defaultName = 'heptaconnect:identity-direction:add';
+    protected static $defaultName = 'heptaconnect:identity-redirect:add';
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private IdentityDirectionCreateActionInterface $identityDirectionCreateAction;
+    private IdentityRedirectCreateActionInterface $identityRedirectCreateAction;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityDirectionCreateActionInterface $identityDirectionCreateAction
+        IdentityRedirectCreateActionInterface $identityRedirectCreateAction
     ) {
         parent::__construct();
         $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityDirectionCreateAction = $identityDirectionCreateAction;
+        $this->identityRedirectCreateAction = $identityRedirectCreateAction;
     }
 
     protected function configure(): void
@@ -77,14 +77,14 @@ final class AddDirectionalIdentity extends Command
             return 1;
         }
 
-        $createResults = $this->identityDirectionCreateAction->create(new IdentityDirectionCreatePayloadCollection([
-            new IdentityDirectionCreatePayload($sourcePortalNode, $sourceExternalId, $targetPortalNode, $targetExternalId, $type),
+        $createResults = $this->identityRedirectCreateAction->create(new IdentityRedirectCreatePayloadCollection([
+            new IdentityRedirectCreatePayload($sourcePortalNode, $sourceExternalId, $targetPortalNode, $targetExternalId, $type),
         ]));
 
-        /** @var IdentityDirectionCreateResult $createResult */
+        /** @var IdentityRedirectCreateResult $createResult */
         foreach ($createResults as $createResult) {
-            $id = $this->storageKeyGenerator->serialize($createResult->getIdentityDirectionKey());
-            $io->success(\sprintf('A new identity direction was created. ID: %s', $id));
+            $id = $this->storageKeyGenerator->serialize($createResult->getIdentityRedirectKey());
+            $io->success(\sprintf('A new identity redirect was created. ID: %s', $id));
         }
 
         return Command::SUCCESS;

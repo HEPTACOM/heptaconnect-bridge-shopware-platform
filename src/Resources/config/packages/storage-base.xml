@@ -13,19 +13,19 @@
                      method="getFileReferencePersistRequestAction"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface">
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getIdentityDirectionCreateAction"/>
+                     method="getIdentityRedirectCreateAction"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface">
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getIdentityDirectionDeleteAction"/>
+                     method="getIdentityRedirectDeleteAction"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface">
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getIdentityDirectionOverviewAction"/>
+                     method="getIdentityRedirectOverviewAction"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityError\IdentityErrorCreateActionInterface">

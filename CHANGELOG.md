@@ -15,13 +15,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
-- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityDirection\IdentityDirectionOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
-- Add command `heptaconnect:identity-direction:add` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\AddDirectionalIdentity` to add an identity direction
-- Add command `heptaconnect:identity-direction:remove` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\RemoveDirectionalIdentity` to remove an identity direction
-- Add command `heptaconnect:identity-direction:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityDirection\ListDirectionalIdentities` to list identity directions
-- Add identity directions into evaluation of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add command `heptaconnect:identity-redirect:add` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\AddIdentityRedirect` to add an identity redirect
+- Add command `heptaconnect:identity-redirect:remove` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\RemoveIdentityRedirect` to remove an identity redirect
+- Add command `heptaconnect:identity-redirect:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\ListIdentityRedirects` to list identity redirects
+- Add identity redirect into evaluation of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
 
 ### Changed
 
