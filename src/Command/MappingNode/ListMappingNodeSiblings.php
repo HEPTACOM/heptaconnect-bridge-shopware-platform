@@ -107,13 +107,15 @@ class ListMappingNodeSiblings extends Command
             $othersCriteria->getMappingNodeKeyFilter()->push([$identity->getMappingNodeKey()]);
         }
 
-        foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
-            $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
-                'external-id' => $identity->getExternalId(),
-                'group-key' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
-                'entity-type' => $identity->getEntityType(),
-            ];
+        if (!$othersCriteria->getMappingNodeKeyFilter()->isEmpty()) {
+            foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
+                $rows[] = [
+                    'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
+                    'external-id' => $identity->getExternalId(),
+                    'group-key' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
+                    'entity-type' => $identity->getEntityType(),
+                ];
+            }
         }
 
         $groupKeys = [];
