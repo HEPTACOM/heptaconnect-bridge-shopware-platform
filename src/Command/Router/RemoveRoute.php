@@ -19,18 +19,11 @@ class RemoveRoute extends Command
 {
     protected static $defaultName = 'heptaconnect:router:remove-route';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private RouteDeleteActionInterface $routeDeleteAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteDeleteActionInterface $routeDeleteAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private RouteDeleteActionInterface $routeDeleteAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeDeleteAction = $routeDeleteAction;
     }
 
     protected function configure(): void

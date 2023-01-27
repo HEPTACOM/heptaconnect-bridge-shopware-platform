@@ -16,39 +16,21 @@ use Symfony\Component\Routing\RequestContext;
 
 final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 {
-    private PortalNodeKeyInterface $portalNodeKey;
-
     private UriFactoryInterface $uriFactory;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private UrlGeneratorInterface $urlGenerator;
-
-    private RequestContext $requestContext;
-
-    private HttpHostProviderContract $hostProvider;
 
     private ?string $portalNodeId = null;
 
     private ?UriInterface $baseUrl = null;
 
-    private RequestContextHelper $requestContextHelper;
-
     public function __construct(
-        PortalNodeKeyInterface $portalNodeKey,
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        RequestContext $requestContext,
-        HttpHostProviderContract $hostProvider,
-        RequestContextHelper $requestContextHelper
+        private PortalNodeKeyInterface $portalNodeKey,
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestContext $requestContext,
+        private HttpHostProviderContract $hostProvider,
+        private RequestContextHelper $requestContextHelper
     ) {
-        $this->portalNodeKey = $portalNodeKey;
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->requestContext = $requestContext;
-        $this->hostProvider = $hostProvider;
-        $this->requestContextHelper = $requestContextHelper;
     }
 
     public function resolve(string $path): UriInterface
@@ -60,12 +42,10 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            function () use ($path): string {
-                return $this->urlGenerator->generate('api.heptaconnect.http.handler', [
-                    'portalNodeId' => $this->portalNodeId,
-                    'path' => $path,
-                ], UrlGeneratorInterface::ABSOLUTE_URL);
-            }
+            fn (): string => $this->urlGenerator->generate('api.heptaconnect.http.handler', [
+                'portalNodeId' => $this->portalNodeId,
+                'path' => $path,
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         return $this->uriFactory->createUri($url);

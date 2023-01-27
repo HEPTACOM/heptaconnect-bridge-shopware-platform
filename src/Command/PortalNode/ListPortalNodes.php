@@ -19,17 +19,11 @@ class ListPortalNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:list';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalNodeOverviewActionInterface $portalNodeOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeOverviewActionInterface $portalNodeOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeOverviewActionInterface $portalNodeOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeOverviewAction = $portalNodeOverviewAction;
     }
 
     protected function configure(): void

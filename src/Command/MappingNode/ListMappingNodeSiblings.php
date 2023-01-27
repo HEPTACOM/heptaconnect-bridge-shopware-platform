@@ -19,17 +19,11 @@ class ListMappingNodeSiblings extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:siblings-list';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityOverviewActionInterface $identityOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityOverviewActionInterface $identityOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityOverviewAction = $identityOverviewAction;
     }
 
     protected function configure(): void

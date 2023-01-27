@@ -24,21 +24,12 @@ class Explore extends Command
 {
     protected static $defaultName = 'heptaconnect:explore';
 
-    private ExploreServiceInterface $exploreService;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PublisherInterface $publisher;
-
     public function __construct(
-        ExploreServiceInterface $exploreService,
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PublisherInterface $publisher
+        private ExploreServiceInterface $exploreService,
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PublisherInterface $publisher
     ) {
         parent::__construct();
-        $this->exploreService = $exploreService;
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->publisher = $publisher;
     }
 
     public function configure(): void

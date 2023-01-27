@@ -24,21 +24,12 @@ class Set extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:alias:set';
 
-    private PortalNodeAliasSetActionInterface $aliasSetAction;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private AliasValidator $aliasValidator;
-
     public function __construct(
-        PortalNodeAliasSetActionInterface $aliasSetAction,
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        AliasValidator $aliasValidator
+        private PortalNodeAliasSetActionInterface $aliasSetAction,
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private AliasValidator $aliasValidator
     ) {
         parent::__construct();
-        $this->aliasSetAction = $aliasSetAction;
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->aliasValidator = $aliasValidator;
     }
 
     protected function configure(): void
@@ -56,7 +47,7 @@ class Set extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
@@ -71,11 +62,11 @@ class Set extends Command
 
         try {
             $this->aliasSetAction->set($aliasSetPayloads);
-        } catch (InvalidCreatePayloadException $invalidCreatePayloadException) {
+        } catch (InvalidCreatePayloadException) {
             $io->error('Invalid values defined.');
 
             return 1;
-        } catch (UpdateException $updateException) {
+        } catch (UpdateException) {
             $io->error('Database update failed.');
 
             return 1;

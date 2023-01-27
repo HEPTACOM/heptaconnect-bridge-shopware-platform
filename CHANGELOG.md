@@ -86,6 +86,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Removed
 
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
 - Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 

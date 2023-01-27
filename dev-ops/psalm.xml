@@ -8,6 +8,7 @@
 >
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+        <ImplicitToStringCast errorLevel="info" />
         <InternalMethod>
             <errorLevel type="info">
                 <referencedMethod name="Shopware\Core\Framework\Context::createDefaultContext"/>

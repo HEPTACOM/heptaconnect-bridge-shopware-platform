@@ -21,17 +21,11 @@ class ListStatusReportTopics extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:status:list-topics';
 
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
@@ -49,7 +43,7 @@ class ListStatusReportTopics extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;

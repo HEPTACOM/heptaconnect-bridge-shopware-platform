@@ -19,18 +19,11 @@ class SetHandlerConfiguration extends Command
 {
     protected static $defaultName = 'heptaconnect:http-handler:set-configuration';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->webHttpHandlerConfigurationSetAction = $webHttpHandlerConfigurationSetAction;
     }
 
     protected function configure(): void
@@ -63,7 +56,7 @@ class SetHandlerConfiguration extends Command
         $parsed = null;
 
         if (\is_string($value)) {
-            $jsonDecoded = \json_decode($value);
+            $jsonDecoded = \json_decode($value, null, 512, \JSON_THROW_ON_ERROR);
 
             if (!\is_array($jsonDecoded)) {
                 $jsonDecoded = ['value' => $jsonDecoded];
