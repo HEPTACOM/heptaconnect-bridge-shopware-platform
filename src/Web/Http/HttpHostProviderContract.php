@@ -14,15 +14,20 @@ class HttpHostProviderContract
     private UriFactoryInterface $uriFactory;
 
     public function __construct(
-        private SystemConfigService $systemConfigService
+        private SystemConfigService $systemConfigService,
+        private string $appUrl
     ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 
     public function get(): UriInterface
     {
-        /** @var string|null $baseUrl */
-        $baseUrl = $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
+        if ($this->appUrl === '') {
+            /** @var string|null $baseUrl */
+            $baseUrl = $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
+        } else {
+            $baseUrl = $this->appUrl;
+        }
 
         if ($baseUrl === null) {
             $baseUrl = 'localhost';

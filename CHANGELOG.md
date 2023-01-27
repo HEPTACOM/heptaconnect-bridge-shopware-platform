@@ -59,6 +59,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface`
+- The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
 
 ### Changed
 
