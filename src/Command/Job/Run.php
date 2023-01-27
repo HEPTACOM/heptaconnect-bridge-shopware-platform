@@ -23,21 +23,12 @@ class Run extends Command
 {
     protected static $defaultName = 'heptaconnect:job:run';
 
-    private JobGetActionInterface $jobGetAction;
-
-    private DelegatingJobActorContract $jobActor;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        JobGetActionInterface $jobGetAction,
-        DelegatingJobActorContract $jobActor,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private JobGetActionInterface $jobGetAction,
+        private DelegatingJobActorContract $jobActor,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->jobGetAction = $jobGetAction;
-        $this->jobActor = $jobActor;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void

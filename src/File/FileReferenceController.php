@@ -25,28 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FileReferenceController
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private StreamDenormalizer $streamDenormalizer;
-
-    private RequestStorageContract $requestStorage;
-
-    private PortalStackServiceContainerFactory $portalContainerFactory;
-
-    private PortalNodeGetActionInterface $portalNodeGetAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        StreamDenormalizer $streamDenormalizer,
-        RequestStorageContract $requestStorage,
-        PortalStackServiceContainerFactory $portalContainerFactory,
-        PortalNodeGetActionInterface $portalNodeGetAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StreamDenormalizer $streamDenormalizer,
+        private RequestStorageContract $requestStorage,
+        private PortalStackServiceContainerFactory $portalContainerFactory,
+        private PortalNodeGetActionInterface $portalNodeGetAction
     ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->streamDenormalizer = $streamDenormalizer;
-        $this->requestStorage = $requestStorage;
-        $this->portalContainerFactory = $portalContainerFactory;
-        $this->portalNodeGetAction = $portalNodeGetAction;
     }
 
     /**
@@ -61,7 +46,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {
@@ -71,7 +56,7 @@ class FileReferenceController
         $requestKey = $this->storageKeyGenerator->deserialize($requestId);
 
         if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($requestKey));
+            throw new UnsupportedStorageKeyException($requestKey::class);
         }
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
@@ -98,7 +83,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {

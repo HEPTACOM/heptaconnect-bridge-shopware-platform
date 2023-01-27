@@ -18,17 +18,11 @@ class DataTypeList extends Command
 {
     protected static $defaultName = 'heptaconnect:data-type:list';
 
-    private ComposerPortalLoader $portalLoader;
-
-    private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
-
     public function __construct(
-        ComposerPortalLoader $portalLoader,
-        PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        private ComposerPortalLoader $portalLoader,
+        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
-        $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,7 +33,7 @@ class DataTypeList extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $flowComponentRegistry = $this->portalStackServiceContainerFactory
-                ->create(new PreviewPortalNodeKey(new PortalType(\get_class($portal))))
+                ->create(new PreviewPortalNodeKey(new PortalType($portal::class)))
                 ->getFlowComponentRegistry();
 
             foreach ($flowComponentRegistry->getOrderedSources() as $source) {

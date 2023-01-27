@@ -13,12 +13,10 @@ class GetBaseUrlCommand extends Command
 {
     protected static $defaultName = 'heptaconnect:config:base-url:get';
 
-    private HttpHostProviderContract $httpHostProvider;
-
-    public function __construct(HttpHostProviderContract $httpHostProvider)
-    {
+    public function __construct(
+        private HttpHostProviderContract $httpHostProvider
+    ) {
         parent::__construct();
-        $this->httpHostProvider = $httpHostProvider;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

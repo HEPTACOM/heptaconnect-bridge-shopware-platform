@@ -9,13 +9,12 @@ use Sourceability\Instrumentation\Profiler\ProfilerInterface;
 
 final class Profiler extends ProfilerContract
 {
-    private ProfilerInterface $profiler;
-
     private string $prefix;
 
-    public function __construct(ProfilerInterface $profiler, ?string $prefix = null)
-    {
-        $this->profiler = $profiler;
+    public function __construct(
+        private ProfilerInterface $profiler,
+        ?string $prefix = null
+    ) {
         $this->prefix = $prefix ?? '';
     }
 

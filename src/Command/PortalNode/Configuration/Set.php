@@ -19,17 +19,11 @@ class Set extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:config:set';
 
-    private ConfigurationServiceInterface $configurationService;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        ConfigurationServiceInterface $configurationService,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private ConfigurationServiceInterface $configurationService,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->configurationService = $configurationService;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void
@@ -49,7 +43,7 @@ class Set extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;
@@ -63,7 +57,7 @@ class Set extends Command
         try {
             $jsonValue = \json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
             $jsonParsing = true;
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
         }
 
         if ($name === '') {
