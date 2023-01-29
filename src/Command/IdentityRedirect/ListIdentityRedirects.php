@@ -54,7 +54,7 @@ class ListIdentityRedirects extends Command
         }
 
         if (\count($identities) === 0) {
-            $io->note('There are no identity redirect.');
+            $io->note('There are no identity redirects.');
 
             return 0;
         }
