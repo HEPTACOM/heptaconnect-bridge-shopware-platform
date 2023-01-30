@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
+use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
+use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
@@ -32,9 +34,12 @@ class HttpHandlerController
 
     private HttpFoundationFactory $httpFoundationFactory;
 
+    private WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction;
+
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        HttpHandleServiceInterface $httpHandleService
+        HttpHandleServiceInterface $httpHandleService,
+        WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction
     ) {
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->httpHandleService = $httpHandleService;
@@ -47,6 +52,7 @@ class HttpHandlerController
         );
 
         $this->httpFoundationFactory = new HttpFoundationFactory();
+        $this->webHttpHandlerConfigurationFindAction = $webHttpHandlerConfigurationFindAction;
     }
 
     /**
@@ -59,10 +65,15 @@ class HttpHandlerController
      */
     public function handle(Request $symfonyRequest, string $portalNodeId, string $path): Response
     {
-        $response = $this->httpHandleService->handle(
-            $this->getRequest($symfonyRequest, $path),
-            $this->getPortalNodeKey($portalNodeId)
-        );
+        $portalNodeKey = $this->getPortalNodeKey($portalNodeId);
+        $dumpSampleRate = $this->getDumpSampleRate($portalNodeKey, $path);
+        $request = $this->getRequest($symfonyRequest, $path);
+
+        if ($dumpSampleRate > 0 && \random_int(1, 100) <= $dumpSampleRate) {
+            $request = $request->withAttribute(HttpHandleServiceInterface::REQUEST_ATTRIBUTE_DUMPS_EXPECTED, true);
+        }
+
+        $response = $this->httpHandleService->handle($request, $portalNodeKey);
 
         return $this->httpFoundationFactory->createResponse($response);
     }
@@ -96,6 +107,8 @@ class HttpHandlerController
 
         $request = $this->withoutConnectionAndProxyHeaders($request);
         $request = $this->withoutSymfonyHeaders($request);
+
+        $request = $request->withAttribute(HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST, $request);
         $request = $request->withUri(
             $request->getUri()
             ->withScheme('')
@@ -134,5 +147,21 @@ class HttpHandlerController
     private function withoutSymfonyHeaders(ServerRequestInterface $request): ServerRequestInterface
     {
         return $request->withoutHeader('x-php-ob-level');
+    }
+
+    /**
+     * @throws UnsupportedStorageKeyException
+     *
+     * @return int<0, 100>
+     */
+    private function getDumpSampleRate(PortalNodeStorageKey $portalNodeKey, string $path): int
+    {
+        $result = $this->webHttpHandlerConfigurationFindAction->find(
+            new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, $path, 'bridge-dump-sample-rate')
+        );
+
+        $sampleRate = (int) ($result->getValue()['value'] ?? 0);
+
+        return \min(100, \max(0, $sampleRate));
     }
 }
