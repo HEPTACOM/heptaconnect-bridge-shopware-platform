@@ -17,6 +17,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- Removed Symfony, connection, proxy and transfer related header from requests handled in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+
 ### Deprecated
 
 ### Removed
