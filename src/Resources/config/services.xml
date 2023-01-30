@@ -190,6 +190,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface" type="service"/>
         </service>
+        <service
+            id="Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpDirectoryPathProviderInterface"
+            class="\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\HttpHandlerDumpDirectoryPathProvider"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="string">%kernel.project_dir%/var/log/http/inbound</argument>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"
                  class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileContentsUrlProvider">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
