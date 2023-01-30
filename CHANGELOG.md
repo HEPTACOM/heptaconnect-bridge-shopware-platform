@@ -31,6 +31,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Ensure missing query parameters in the request's URI passed on to the HTTP handler in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+
 ### Security
 
 ## [0.9.2.0] - 2022-11-26

@@ -84,7 +84,10 @@ class HttpHandlerController
 
     protected function getRequest(Request $symfonyRequest, string $path): ServerRequestInterface
     {
-        $symfonyRequest->server = new ServerBag();
+        $serverBag = new ServerBag();
+        // needed for PSR HTTP Factory to set the query parameters in the URL
+        $serverBag->set('QUERY_STRING', $symfonyRequest->server->get('QUERY_STRING'));
+        $symfonyRequest->server = $serverBag;
         $request = $this->psrHttpFactory->createRequest($symfonyRequest);
 
         foreach (\array_keys($request->getAttributes()) as $attributeKey) {
