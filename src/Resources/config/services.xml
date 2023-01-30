@@ -196,7 +196,7 @@
             class="\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\HttpHandlerDumpDirectoryPathProvider"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="string">%kernel.project_dir%/var/log/http/inbound</argument>
+            <argument type="string">%kernel.logs_dir%/http/inbound</argument>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"
                  class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileContentsUrlProvider">
