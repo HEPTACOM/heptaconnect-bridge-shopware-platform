@@ -10,5 +10,20 @@
         </instanceof>
 
         <service id="Heptacom\HeptaConnect\Portal\Base\Support\Contract\DeepObjectIteratorContract"/>
+
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter"
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract"/>
+            <argument>curl</argument>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter"
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"/>
+        </service>
     </services>
 </container>

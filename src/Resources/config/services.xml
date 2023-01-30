@@ -234,5 +234,9 @@
             <argument type="service" id="Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory"/>
             <argument type="service" id="Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface"/>
         </service>
+        <service
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract"
+            alias="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract"
+        />
     </services>
 </container>
