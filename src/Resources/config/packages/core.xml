@@ -341,7 +341,10 @@
             <argument type="service" id="router.request_context"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"/>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface"
+        />
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
                  class="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService">
