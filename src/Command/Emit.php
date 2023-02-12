@@ -133,7 +133,7 @@ final class Emit extends Command
 
     /**
      * @param class-string<DatasetEntityContract> $entityType
-     * @param array<string> $externalIds
+     * @param array<string>                       $externalIds
      */
     private function factorizeEntities(string $entityType, array $externalIds): DatasetEntityCollection
     {
