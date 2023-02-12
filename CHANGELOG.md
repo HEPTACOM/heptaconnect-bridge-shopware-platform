@@ -18,6 +18,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility`
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter`
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter`
+- Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestDumpCheckerInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestDumpChecker`
 - Add service alias `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to set `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` as default implementation
 - Implement `\Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\HttpHandlerDumpPathProvider`
 - Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\RequestResponsePairDumperInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\RequestResponsePairDumper`

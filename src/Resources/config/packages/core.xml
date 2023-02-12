@@ -352,6 +352,12 @@
             <argument id="Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract" type="service"/>
         </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestDumpChecker"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestDumpCheckerInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
+        </service>
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
                  class="Heptacom\HeptaConnect\Core\Configuration\ConfigurationService">
