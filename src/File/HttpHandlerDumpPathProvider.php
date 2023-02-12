@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
-use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpDirectoryPathProviderInterface;
+use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 
-final class HttpHandlerDumpDirectoryPathProvider implements HttpHandlerDumpDirectoryPathProviderInterface
+final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderInterface
 {
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
