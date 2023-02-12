@@ -24,8 +24,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\RequestResponsePairDumperInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\RequestResponsePairDumper`
 - Add dependency `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestDumpCheckerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\RequestResponsePairDumperInterface` to service `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface`
 - Add dependency `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` and `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
-- Add configuration `bridge-dump-sample-rate` for HTTP handlers, which can be an integer between 0 and 100, that will be used to determine whether a request-response-pair will be dumped. Use value 100 for a request-response dump on every request
-- Add dependency `Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface` to service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
 
 ### Changed
 
