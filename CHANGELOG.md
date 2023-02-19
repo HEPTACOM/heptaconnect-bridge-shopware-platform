@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add option `time-limit` to command `heptaconnect:job:cleanup-finished` to limit the time the command is running measured in seconds
+
 ### Changed
 
 ### Deprecated

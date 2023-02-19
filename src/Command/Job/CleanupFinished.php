@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanupFinished extends Command
@@ -32,8 +33,23 @@ class CleanupFinished extends Command
         $this->jobDeleteAction = $jobDeleteAction;
     }
 
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'The time limit in seconds the cleanup process can run');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $startTime = \microtime(true);
+        $endTime = null;
+        $timeLimit = (string) $input->getOption('time-limit');
+
+        if (\is_numeric($timeLimit) && $timeLimit !== '') {
+            $endTime = $startTime + (int) $timeLimit;
+        }
+
         $jobKeys = \iterable_map(
             $this->jobListFinishedAction->list(),
             static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
@@ -45,6 +61,11 @@ class CleanupFinished extends Command
         foreach (self::iterableChunk($jobKeys, 1000) as $jobKeys) {
             $this->jobDeleteAction->delete(new JobDeleteCriteria(new JobKeyCollection($jobKeys)));
             $progressBar->advance();
+
+            if ($endTime && $endTime < \microtime(true)) {
+                $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
+                break;
+            }
         }
 
         $progressBar->finish();
