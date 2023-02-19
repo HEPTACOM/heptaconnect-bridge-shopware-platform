@@ -58,9 +58,10 @@ class CleanupFinished extends Command
         $progressBar = new ProgressBar($output);
         $progressBar->start();
 
-        foreach (self::iterableChunk($jobKeys, 1000) as $jobKeys) {
-            $this->jobDeleteAction->delete(new JobDeleteCriteria(new JobKeyCollection($jobKeys)));
-            $progressBar->advance();
+        foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {
+            $jobKeys = new JobKeyCollection($jobKeysChunk);
+            $this->jobDeleteAction->delete(new JobDeleteCriteria($jobKeys));
+            $progressBar->advance($jobKeys->count());
 
             if ($endTime && $endTime < \microtime(true)) {
                 $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
