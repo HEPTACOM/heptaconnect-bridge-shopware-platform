@@ -50,24 +50,29 @@ class CleanupFinished extends Command
             $endTime = $startTime + (int) $timeLimit;
         }
 
-        $jobKeys = \iterable_map(
-            $this->jobListFinishedAction->list(),
-            static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
-        );
-
         $progressBar = new ProgressBar($output);
         $progressBar->start();
 
-        foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {
-            $jobKeys = new JobKeyCollection($jobKeysChunk);
-            $this->jobDeleteAction->delete(new JobDeleteCriteria($jobKeys));
-            $progressBar->advance($jobKeys->count());
+        do {
+            $deletedAny = false;
 
-            if ($endTime && $endTime < \microtime(true)) {
-                $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
-                break;
+            $jobKeys = \iterable_map(
+                $this->jobListFinishedAction->list(),
+                static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
+            );
+
+            foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {
+                $jobKeys = new JobKeyCollection($jobKeysChunk);
+                $this->jobDeleteAction->delete(new JobDeleteCriteria($jobKeys));
+                $deletedAny = true;
+                $progressBar->advance($jobKeys->count());
+
+                if ($endTime && $endTime < \microtime(true)) {
+                    $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
+                    break;
+                }
             }
-        }
+        } while ($deletedAny);
 
         $progressBar->finish();
 

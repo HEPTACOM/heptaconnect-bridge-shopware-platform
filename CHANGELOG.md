@@ -20,6 +20,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Changed
 
 - Use count of deleted jobs as progress indicator in command `heptaconnect:job:cleanup-finished`
+- Delete jobs, that have not been finished at the start of the command `heptaconnect:job:cleanup-finished`, but finished during the command run
 
 ### Deprecated
 
