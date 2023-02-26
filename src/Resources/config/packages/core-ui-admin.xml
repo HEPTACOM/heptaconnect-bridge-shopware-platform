@@ -14,6 +14,15 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobScheduleUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Job\JobScheduleUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="messenger.bus.shopware"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobScheduleActionInterface"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface"
         >
