@@ -69,12 +69,6 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\Run">
-            <tag name="console.command"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Job\Contract\DelegatingJobActorContract"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodes">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
