@@ -19,18 +19,11 @@ class RemovePortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:remove';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalNodeDeleteActionInterface $portalNodeDeleteAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeDeleteActionInterface $portalNodeDeleteAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeDeleteActionInterface $portalNodeDeleteAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeDeleteAction = $portalNodeDeleteAction;
     }
 
     protected function configure(): void

@@ -18,28 +18,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class XAppFactory implements XAppFactoryInterface
 {
-    private ContainerInterface $container;
-
-    private RouterInterface $router;
-
-    private KernelInterface $kernel;
-
-    private HttpMessageFactoryInterface $psrHttpFactory;
-
-    private HttpFoundationFactoryInterface $httpFoundationFactory;
-
     public function __construct(
-        ContainerInterface $container,
-        RouterInterface $router,
-        KernelInterface $kernel,
-        HttpMessageFactoryInterface $psrHttpFactory,
-        HttpFoundationFactoryInterface $httpFoundationFactory
+        private ContainerInterface $container,
+        private RouterInterface $router,
+        private KernelInterface $kernel,
+        private HttpMessageFactoryInterface $psrHttpFactory,
+        private HttpFoundationFactoryInterface $httpFoundationFactory
     ) {
-        $this->container = $container;
-        $this->router = $router;
-        $this->kernel = $kernel;
-        $this->psrHttpFactory = $psrHttpFactory;
-        $this->httpFoundationFactory = $httpFoundationFactory;
     }
 
     public function factory(): App
@@ -53,7 +38,7 @@ class XAppFactory implements XAppFactoryInterface
 
         /** @var Route $route */
         foreach ($this->router->getRouteCollection() as $name => $route) {
-            if (\strpos((string) $name, 'api.heptaconnect.') !== 0) {
+            if (!str_starts_with((string) $name, 'api.heptaconnect.')) {
                 continue;
             }
 

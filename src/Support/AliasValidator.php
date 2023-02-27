@@ -11,16 +11,10 @@ use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 class AliasValidator
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalNodeAliasFindActionInterface $portalNodeAliasFindAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeAliasFindActionInterface $portalNodeAliasFindAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeAliasFindActionInterface $portalNodeAliasFindAction
     ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeAliasFindAction = $portalNodeAliasFindAction;
     }
 
     public function validate(string $alias): void
@@ -37,7 +31,7 @@ class AliasValidator
             $this->storageKeyGenerator->deserialize($alias);
 
             throw new \RuntimeException('Alias looks like a storage key');
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
         }
     }
 }

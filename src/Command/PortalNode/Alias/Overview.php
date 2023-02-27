@@ -18,17 +18,11 @@ class Overview extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:alias:overview';
 
-    private PortalNodeAliasOverviewActionInterface $aliasOverviewAction;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->aliasOverviewAction = $aliasOverviewAction;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     public function configure(): void

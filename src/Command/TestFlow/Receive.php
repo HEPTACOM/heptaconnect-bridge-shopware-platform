@@ -23,17 +23,11 @@ class Receive extends Command
 {
     protected static $defaultName = 'heptaconnect:test-flow:receive';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private ReceiveServiceInterface $receiveService;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        ReceiveServiceInterface $receiveService
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private ReceiveServiceInterface $receiveService
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->receiveService = $receiveService;
     }
 
     protected function configure(): void

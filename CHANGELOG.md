@@ -27,6 +27,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\EmittedEntitiesToReceiveJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\EmittedEntitiesToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Job\Transition\ExploredPrimaryKeysToEmissionJobsConverter` as `Heptacom\HeptaConnect\Core\Job\Transition\Contract\ExploredPrimaryKeysToJobsConverterInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\PackageQueryMatcher` as `Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService` as `Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface`
@@ -34,7 +35,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Job\JobRunUiActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobScheduleUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Job\JobScheduleUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Portal\PortalEntityListUiActionInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeConfigurationGetUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeConfigurationGetUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeEntityListUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeEntityListUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeExtensionBrowseUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeExtensionBrowseUiActionInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStatusReportUiActionInterface`
@@ -61,6 +64,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker`
+- The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
 
 ### Changed
 
@@ -79,8 +83,10 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove command `heptaconnect:portal-node:extensions:deactivate` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension\DeactivateExtension` in favour of `portal:node:extension:deactivate` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:portal-node:add` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\AddPortalNode` in favour of `portal:node:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove command `heptaconnect:router:add-route` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\AddRoute` in favour of `route:add` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
+- Remove command `heptaconnect:router:remove-route` from `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router\RemoveRoute` in favour of `route:remove` shipped with composer dependency `heptacom/heptaconnect-ui-admin-symfony`
 - Remove `heptacom_heptaconnect.logger` dependency from `\Heptacom\HeptaConnect\Core\Reception\PostProcessing\MarkAsFailedPostProcessor`
 - Switch parameter in `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract` from `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer` to `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
+- Extract dependency `tagged: heptaconnect_core.portal_node_configuration.processor` from `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` into own service `Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface`
 
 ### Deprecated
 
@@ -88,6 +94,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Removed
 
+- Remove support for `php: 7.4` as it will not receive any updates anymore, it is unlikely to be used. By raising the minimum PHP version we also make use of features introduced by PHP 8.0, which mainly have no effect on public API
 - Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
 - Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 

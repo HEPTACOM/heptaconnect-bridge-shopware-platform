@@ -476,7 +476,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\PortalRegistry" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeConfiguration\PortalNodeConfigurationSetActionInterface" type="service"/>
-            <argument tag="heptaconnect_core.portal_node_configuration.processor" type="tagged"/>
+            <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface" type="service"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationInstructionProcessor">
@@ -491,6 +491,12 @@
             <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
             <argument id="cache.system" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Configuration\PortalNodeConfigurationProcessorService"
+            id="Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface"
+        >
+            <argument tag="heptaconnect_core.portal_node_configuration.processor" type="tagged"/>
         </service>
     </services>
 </container>

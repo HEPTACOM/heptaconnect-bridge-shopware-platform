@@ -19,31 +19,16 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
 {
     private UriFactoryInterface $uriFactory;
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private UrlGeneratorInterface $urlGenerator;
-
-    private RequestContext $requestContext;
-
-    private HttpHostProviderContract $hostProvider;
-
     private ?UriInterface $baseUrl = null;
 
-    private RequestContextHelper $requestContextHelper;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        RequestContext $requestContext,
-        HttpHostProviderContract $hostProvider,
-        RequestContextHelper $requestContextHelper
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestContext $requestContext,
+        private HttpHostProviderContract $hostProvider,
+        private RequestContextHelper $requestContextHelper
     ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->requestContext = $requestContext;
-        $this->hostProvider = $hostProvider;
-        $this->requestContextHelper = $requestContextHelper;
     }
 
     public function resolve(
@@ -57,13 +42,11 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
         $url = $this->requestContextHelper->scope(
             $this->requestContext,
             $this->baseUrl,
-            function () use ($portalNodeId, $normalizedStream, $mimeType): string {
-                return $this->urlGenerator->generate('api.heptaconnect.file.contents', [
-                    'portalNodeId' => $portalNodeId,
-                    'normalizedStream' => $normalizedStream,
-                    'mimeType' => $mimeType,
-                ], UrlGeneratorInterface::ABSOLUTE_URL);
-            }
+            fn (): string => $this->urlGenerator->generate('api.heptaconnect.file.contents', [
+                'portalNodeId' => $portalNodeId,
+                'normalizedStream' => $normalizedStream,
+                'mimeType' => $mimeType,
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         return $this->uriFactory->createUri($url);
