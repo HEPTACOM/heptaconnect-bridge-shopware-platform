@@ -31,6 +31,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditableDataSerializer` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailDataSerializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Audit\AuditTrailFactory` as `Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeAliasResolver` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\PortalNodeAliasResolverInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\PortalNodeExistenceSeparator` as `Heptacom\HeptaConnect\Core\Ui\Admin\Support\Contract\PortalNodeExistenceSeparatorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Support\StorageKeyAccessor` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Support\StorageKeyAccessorInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\Context\UiActionContextFactory` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\UiActionContextFactoryInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Ui\Admin\Action\JobRunUi` as `Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\Job\JobRunUiActionInterface`
@@ -61,6 +62,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface`
+- Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface`
 - The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
 
 ### Changed
@@ -69,6 +72,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch parameter in `Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract` from `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` to `Heptacom\HeptaConnect\Core\Exploration\Contract\DirectEmissionFlowEmittersFactoryInterface` and `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
 - Switch parameter in `Heptacom\HeptaConnect\Core\Emission\EmitService` from `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` to `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionFlowEmittersFactoryInterface` and `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface`
 - Switch parameter in `Heptacom\HeptaConnect\Core\Exploration\ExploreService` from `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationActorInterface` to `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationFlowExplorersFactoryInterface` and `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface`
+- Switch parameter in `Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory` from `Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract` to `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface` and `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface`
 - Rename service `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface` to `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackProcessorInterface` to match class and interface rename
 - Rename service `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlingActorInterface` to `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerStackProcessorInterface` to match class and interface rename
 - Add parameter of `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionFlowReceiversFactoryInterface` to service definition `Heptacom\HeptaConnect\Core\Reception\ReceiveService`
