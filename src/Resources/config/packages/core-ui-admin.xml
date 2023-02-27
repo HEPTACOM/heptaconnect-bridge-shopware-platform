@@ -95,6 +95,14 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeDeleteActionInterface"/>
         </service>
         <service
+            class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStorageGetUi"
+            id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStorageGetUiActionInterface"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Ui\Admin\Audit\Contract\AuditTrailFactoryInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory"/>
+        </service>
+        <service
             class="Heptacom\HeptaConnect\Core\Ui\Admin\Action\PortalNodeStatusReportUi"
             id="Heptacom\HeptaConnect\Ui\Admin\Base\Contract\Action\PortalNode\PortalNodeStatusReportUiActionInterface"
         >
