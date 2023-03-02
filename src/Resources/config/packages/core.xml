@@ -266,12 +266,27 @@
             </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory">
-            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageClearActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageDeleteActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageGetActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageListActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeStorage\PortalNodeStorageSetActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker"
+            id="Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker"
+            id="Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
