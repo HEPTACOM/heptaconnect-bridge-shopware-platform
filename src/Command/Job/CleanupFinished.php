@@ -12,6 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanupFinished extends Command
@@ -32,20 +33,46 @@ class CleanupFinished extends Command
         $this->jobDeleteAction = $jobDeleteAction;
     }
 
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'The time limit in seconds the cleanup process can run');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $jobKeys = \iterable_map(
-            $this->jobListFinishedAction->list(),
-            static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
-        );
+        $startTime = \microtime(true);
+        $endTime = null;
+        $timeLimit = (string) $input->getOption('time-limit');
+
+        if (\is_numeric($timeLimit) && $timeLimit !== '') {
+            $endTime = $startTime + (int) $timeLimit;
+        }
 
         $progressBar = new ProgressBar($output);
         $progressBar->start();
 
-        foreach (self::iterableChunk($jobKeys, 1000) as $jobKeys) {
-            $this->jobDeleteAction->delete(new JobDeleteCriteria(new JobKeyCollection($jobKeys)));
-            $progressBar->advance();
-        }
+        do {
+            $deletedAny = false;
+
+            $jobKeys = \iterable_map(
+                $this->jobListFinishedAction->list(),
+                static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
+            );
+
+            foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {
+                $jobKeys = new JobKeyCollection($jobKeysChunk);
+                $this->jobDeleteAction->delete(new JobDeleteCriteria($jobKeys));
+                $deletedAny = true;
+                $progressBar->advance($jobKeys->count());
+
+                if ($endTime && $endTime < \microtime(true)) {
+                    $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
+                    break;
+                }
+            }
+        } while ($deletedAny);
 
         $progressBar->finish();
 

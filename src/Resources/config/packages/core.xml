@@ -176,6 +176,8 @@
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
@@ -321,6 +323,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor"
@@ -336,6 +340,23 @@
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
             <argument type="service" id="router.request_context"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface"
+        />
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
