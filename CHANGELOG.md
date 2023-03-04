@@ -15,6 +15,20 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.3.0] - 2023-03-04
+
+### Added
+
 - Add option `time-limit` to command `heptaconnect:job:cleanup-finished` to limit the time the command is running measured in seconds
 - Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility`
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter`
@@ -38,18 +52,14 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Use count of deleted jobs as progress indicator in command `heptaconnect:job:cleanup-finished`
 - Delete jobs, that have not been finished at the start of the command `heptaconnect:job:cleanup-finished`, but finished during the command run
 - Remove Symfony, connection, proxy and transfer related header from requests handled in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
-
-### Deprecated
-
-### Removed
+- Raise composer dependency constraint for `heptacom/heptaconnect-core`, `heptacom/heptaconnect-dataset-base`, `heptacom/heptaconnect-portal-base` and `heptacom/heptaconnect-storage-base` from `^0.9.3` to `^0.9.4`
+- Raise composer dependency constraint for `heptacom/heptaconnect-storage-shopware-dal` from `^0.9` to `^0.9.1`
 
 ### Fixed
 
 - Ensure missing query parameters in the request's URI passed on to the HTTP handler in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
 - Interpret `entity-type` option in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` as filter criteria for identities
 - Show an empty result if first search did not find a mapping node to search for its siblings `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
-
-### Security
 
 ## [0.9.2.0] - 2022-11-26
 
