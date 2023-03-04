@@ -86,7 +86,7 @@ final class AddIdentityRedirect extends Command
             $io->success(\sprintf('A new identity redirect was created. ID: %s', $id));
         }
 
-        return Command::SUCCESS;
+        return 0;
     }
 
     /**
