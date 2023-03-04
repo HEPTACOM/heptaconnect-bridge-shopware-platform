@@ -25,6 +25,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper`
 - Add dependency `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface` to service `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface`
 - Add dependency `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` and `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add command `heptaconnect:identity-redirect:add` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\AddIdentityRedirect` to add an identity redirect
+- Add command `heptaconnect:identity-redirect:remove` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\RemoveIdentityRedirect` to remove an identity redirect
+- Add command `heptaconnect:identity-redirect:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\ListIdentityRedirects` to list identity redirects
+- Add identity redirect into evaluation of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
 
 ### Changed
 
@@ -39,6 +46,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 - Ensure missing query parameters in the request's URI passed on to the HTTP handler in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+- Interpret `entity-type` option in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` as filter criteria for identities
+- Show an empty result if first search did not find a mapping node to search for its siblings `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
 
 ### Security
 

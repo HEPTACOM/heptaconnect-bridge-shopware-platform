@@ -93,6 +93,21 @@
                  id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract">
             <argument type="service" id="Sourceability\Instrumentation\Profiler\ProfilerInterface"/>
         </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\AddIdentityRedirect">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\ListIdentityRedirects">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface"/>
+        </service>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\RemoveIdentityRedirect">
+            <tag name="console.command"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface"/>
+        </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Job\CleanupFinished">
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface"/>
@@ -113,6 +128,7 @@
             <tag name="console.command"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\MergeMappingNodes">
             <tag name="console.command"/>
