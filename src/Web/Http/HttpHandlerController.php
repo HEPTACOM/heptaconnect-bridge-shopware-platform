@@ -86,6 +86,8 @@ class HttpHandlerController
         $serverBag = new ServerBag();
         // needed for PSR HTTP Factory to set the query parameters in the URL
         $serverBag->set('QUERY_STRING', $symfonyRequest->server->get('QUERY_STRING'));
+        // needed for PSR HTTP Factory to set the protocol in the URL
+        $serverBag->set('HTTPS', $symfonyRequest->server->get('HTTPS'));
         $symfonyRequest->server = $serverBag;
         $request = $this->psrHttpFactory->createRequest($symfonyRequest);
 
