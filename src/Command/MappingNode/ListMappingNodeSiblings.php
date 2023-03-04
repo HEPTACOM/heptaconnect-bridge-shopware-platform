@@ -56,13 +56,15 @@ class ListMappingNodeSiblings extends Command
         $identityCriteria = new IdentityOverviewCriteria();
         $sourceIdentityRedirectCriteria = new IdentityRedirectOverviewCriteria();
 
-        if ($entityType !== '' && !\is_a($entityType, DatasetEntityContract::class, true)) {
-            $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
+        if ($entityType !== '') {
+            if (!\is_a($entityType, DatasetEntityContract::class, true)) {
+                $io->error('The provided dataset entity class does not implement the DatasetEntityContract.');
+
+                return 1;
+            }
 
             $identityCriteria->setEntityTypeFilter([$entityType]);
             $sourceIdentityRedirectCriteria->setEntityTypeFilter(new StringCollection($identityCriteria->getEntityTypeFilter()));
-
-            return 1;
         }
 
         if ($portalNodeKeyParam !== '') {
