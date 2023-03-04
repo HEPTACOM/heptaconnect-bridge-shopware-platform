@@ -83,7 +83,7 @@ final class AddIdentityRedirect extends Command
         /** @var IdentityRedirectCreateResult $createResult */
         foreach ($createResults as $createResult) {
             $id = $this->storageKeyGenerator->serialize($createResult->getIdentityRedirectKey());
-            $io->success(\sprintf('A new identity redirect was created. ID: %s', $id));
+            $io->success(\sprintf('A new identity redirect was created. Key: %s', $id));
         }
 
         return 0;
