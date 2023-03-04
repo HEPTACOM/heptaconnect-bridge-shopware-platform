@@ -68,13 +68,17 @@ class CleanupFinished extends Command
                 $progressBar->advance($jobKeys->count());
 
                 if ($endTime && $endTime < \microtime(true)) {
+                    $progressBar->finish();
+                    $output->writeln('');
                     $output->writeln(\sprintf('Cleanup command stopped due to time limit of %ds seconds reached', $timeLimit));
-                    break;
+
+                    return 0;
                 }
             }
         } while ($deletedAny);
 
         $progressBar->finish();
+        $output->writeln('');
 
         return 0;
     }
