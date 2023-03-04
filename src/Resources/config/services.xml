@@ -190,6 +190,13 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface" type="service"/>
         </service>
+        <service
+            id="Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface"
+            class="\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\HttpHandlerDumpPathProvider"
+        >
+            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
+            <argument type="string">%kernel.logs_dir%/http/inbound</argument>
+        </service>
         <service id="Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface"
                  class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\FileContentsUrlProvider">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
@@ -234,5 +241,9 @@
             <argument type="service" id="Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory"/>
             <argument type="service" id="Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface"/>
         </service>
+        <service
+            id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract"
+            alias="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract"
+        />
     </services>
 </container>
