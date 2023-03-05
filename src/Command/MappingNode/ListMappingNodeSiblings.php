@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
@@ -25,7 +26,7 @@ class ListMappingNodeSiblings extends Command
 
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction
+        private IdentityOverviewActionInterface $identityOverviewAction,
         private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
     ) {
         parent::__construct();
@@ -55,7 +56,9 @@ class ListMappingNodeSiblings extends Command
             }
 
             $identityCriteria->setEntityTypeFilter([$entityType]);
-            $sourceIdentityRedirectCriteria->setEntityTypeFilter(new StringCollection($identityCriteria->getEntityTypeFilter()));
+            $sourceIdentityRedirectCriteria->setEntityTypeFilter(new ClassStringReferenceCollection(
+                $identityCriteria->getEntityTypeFilter()
+            ));
         }
 
         if ($portalNodeKeyParam !== '') {
