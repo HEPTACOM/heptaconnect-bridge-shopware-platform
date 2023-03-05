@@ -52,10 +52,9 @@ class HttpHandlerController
      */
     public function handle(Request $symfonyRequest, string $portalNodeId, string $path): Response
     {
-        $response = $this->httpHandleService->handle(
-            $this->getRequest($symfonyRequest, $path),
-            $this->getPortalNodeKey($portalNodeId)
-        );
+        $portalNodeKey = $this->getPortalNodeKey($portalNodeId);
+        $request = $this->getRequest($symfonyRequest, $path);
+        $response = $this->httpHandleService->handle($request, $portalNodeKey);
 
         return $this->httpFoundationFactory->createResponse($response);
     }
@@ -77,9 +76,22 @@ class HttpHandlerController
 
     protected function getRequest(Request $symfonyRequest, string $path): ServerRequestInterface
     {
-        $symfonyRequest->server = new ServerBag();
+        $serverBag = new ServerBag();
+        // needed for PSR HTTP Factory to set the query parameters in the URL
+        $serverBag->set('QUERY_STRING', $symfonyRequest->server->get('QUERY_STRING'));
+        // needed for PSR HTTP Factory to set the protocol in the URL
+        $serverBag->set('HTTPS', $symfonyRequest->server->get('HTTPS'));
+        $symfonyRequest->server = $serverBag;
         $request = $this->psrHttpFactory->createRequest($symfonyRequest);
 
+        foreach (\array_keys($request->getAttributes()) as $attributeKey) {
+            $request = $request->withoutAttribute($attributeKey);
+        }
+
+        $request = $this->withoutConnectionAndProxyHeaders($request);
+        $request = $this->withoutSymfonyHeaders($request);
+
+        $request = $request->withAttribute(HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST, $request);
         $request = $request->withUri(
             $request->getUri()
                 ->withScheme('')
@@ -90,10 +102,33 @@ class HttpHandlerController
 
         $request = $request->withoutHeader('host');
 
-        foreach (\array_keys($request->getAttributes()) as $attributeKey) {
-            $request = $request->withoutAttribute($attributeKey);
+        return $request;
+    }
+
+    private function withoutConnectionAndProxyHeaders(ServerRequestInterface $request): ServerRequestInterface
+    {
+        $headersToRemove = [
+            'connection',
+            'forwarded',
+            'proxy-connection',
+        ];
+
+        foreach (\array_keys($request->getHeaders()) as $headerName) {
+            // check every x-forwarded header to also support non "standard" headers from proxies like Traefik and AWS ELB
+            if (\preg_match('/^x[-_]forwarded[-_]/i', $headerName) === 1) {
+                $headersToRemove[] = $headerName;
+            }
+        }
+
+        foreach ($headersToRemove as $header) {
+            $request = $request->withoutHeader($header);
         }
 
         return $request;
+    }
+
+    private function withoutSymfonyHeaders(ServerRequestInterface $request): ServerRequestInterface
+    {
+        return $request->withoutHeader('x-php-ob-level');
     }
 }
