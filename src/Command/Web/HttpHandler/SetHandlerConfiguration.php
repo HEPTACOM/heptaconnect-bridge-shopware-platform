@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Set\WebHttpHandlerConfigurationSetPayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationSetActionInterface;
@@ -65,7 +66,7 @@ class SetHandlerConfiguration extends Command
             $parsed = $jsonDecoded;
         }
 
-        $payload = new WebHttpHandlerConfigurationSetPayload($portalNodeKey, $path, $key, $parsed);
+        $payload = new WebHttpHandlerConfigurationSetPayload(new HttpHandlerStackIdentifier($portalNodeKey, $path), $key, $parsed);
         $this->webHttpHandlerConfigurationSetAction->set(new WebHttpHandlerConfigurationSetPayloads([$payload]));
 
         return 0;
