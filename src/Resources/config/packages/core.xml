@@ -185,6 +185,9 @@
             <call method="setFileReferenceResolver">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract" type="service"/>
             </call>
+            <call method="setHttpHandleService">
+                <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface" type="service"/>
+            </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory">
             <argument id="Heptacom\HeptaConnect\Portal\Base\Serialization\Contract\NormalizationRegistryContract" type="service"/>
