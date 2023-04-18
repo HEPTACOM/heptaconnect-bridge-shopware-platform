@@ -17,6 +17,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+
 ### Deprecated
 
 ### Removed
