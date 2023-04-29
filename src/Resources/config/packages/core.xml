@@ -399,7 +399,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder">
+        <service id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface"
+                 class="Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder">
             <argument id="Psr\Http\Message\StreamFactoryInterface.heptaconnect" type="service"/>
         </service>
     </services>
