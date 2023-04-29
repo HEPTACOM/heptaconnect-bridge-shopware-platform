@@ -193,7 +193,7 @@
             <argument id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
