@@ -12,6 +12,18 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Psr\Http\Message\StreamFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\StreamFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findStreamFactory"/>
+        </service>
+        <service
+            id="Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\UploadedFileFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findUploadedFileFactory"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
             decorates="heptacom_heptaconnect.logger"
         >
@@ -385,6 +397,10 @@
             <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
             <argument id="cache.system" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder">
+            <argument id="Psr\Http\Message\StreamFactoryInterface.heptaconnect" type="service"/>
         </service>
     </services>
 </container>
