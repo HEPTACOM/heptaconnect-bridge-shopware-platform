@@ -17,6 +17,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
 - Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
 
 ### Deprecated
