@@ -15,11 +15,19 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
+- Add service definition `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findUploadedFileFactory`
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` for class `Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder`
+
 ### Changed
 
 - Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
 - Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
 - Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\StreamFactoryInterface.heptaconnect`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect`
 
 ### Deprecated
 

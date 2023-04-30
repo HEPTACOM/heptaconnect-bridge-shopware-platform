@@ -198,6 +198,9 @@
             <tag name="controller.service_arguments"/>
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface"/>
+            <argument type="service" id="Psr\Http\Message\StreamFactoryInterface.heptaconnect"/>
+            <argument type="service" id="Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect"/>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
