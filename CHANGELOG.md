@@ -18,6 +18,18 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 - Add service definition `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findUploadedFileFactory`
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` for class `Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Component\Composer\Contract\PackageConfigurationLoaderInterface` for definition `Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Emission\Contract\EmitServiceInterface` for definition `Heptacom\HeptaConnect\Core\Emission\EmitService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationActorInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExploreService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract` for definition `Heptacom\HeptaConnect\Core\Portal\PortalFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface` for definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract` for definition `Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveServiceInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiveService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceptionActor`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract` for definition `Heptacom\HeptaConnect\Core\Support\EntityStatus`
 
 ### Changed
 
