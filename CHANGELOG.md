@@ -37,6 +37,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
 - Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
 - Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\StreamFactoryInterface.heptaconnect`
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect`
