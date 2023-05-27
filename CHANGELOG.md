@@ -15,6 +15,20 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.4.0] - 2023-05-27
+
+### Added
+
 - Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 - Add service definition `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findUploadedFileFactory`
 - Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` for class `Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder`
@@ -41,14 +55,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\StreamFactoryInterface.heptaconnect`
 - Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect`
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.9.3.0] - 2023-03-04
 
