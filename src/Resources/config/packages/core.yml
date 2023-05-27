@@ -1,13 +1,21 @@
 services:
-    Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
+    Heptacom\HeptaConnect\Core\Component\Composer\Contract\PackageConfigurationLoaderInterface:
+        class: Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader
         arguments:
             - '%kernel.project_dir%/composer.json'
             - '@cache.system'
 
-    Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
+    Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader:
+        alias: Heptacom\HeptaConnect\Core\Component\Composer\Contract\PackageConfigurationLoaderInterface
+
+    Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface:
+        class: Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
+
+    Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory:
+        alias: Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface
 
     Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader:
         arguments:
@@ -15,7 +23,11 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@heptacom_heptaconnect.logger'
 
-    Heptacom\HeptaConnect\Core\Portal\PortalFactory: ~
+    Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract:
+        class: Heptacom\HeptaConnect\Core\Portal\PortalFactory
+
+    Heptacom\HeptaConnect\Core\Portal\PortalFactory:
+        alias: Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract
 
     Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory:
         arguments:
@@ -23,7 +35,8 @@ services:
             - '@Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
-    Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
+    Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface:
+        class: Heptacom\HeptaConnect\Core\Portal\PortalRegistry
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
@@ -31,15 +44,26 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
-    Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
+    Heptacom\HeptaConnect\Core\Portal\PortalRegistry:
+        alias: Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface
+
+    Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract:
+        class: Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking
         arguments:
             - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
-    Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
+    Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
+        alias: Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract
+
+    Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface:
+        class: Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory'
             - '@heptacom_heptaconnect.logger'
+
+    Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory:
+        alias: Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface
 
     Heptacom\HeptaConnect\Core\Storage\Normalizer\ScalarDenormalizer:
         tags:
@@ -69,4 +93,8 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Storage\Normalizer\SerializableNormalizer'
 
-    Heptacom\HeptaConnect\Core\Support\EntityStatus: ~
+    Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract:
+        class: Heptacom\HeptaConnect\Core\Support\EntityStatus
+
+    Heptacom\HeptaConnect\Core\Support\EntityStatus:
+        alias: Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract

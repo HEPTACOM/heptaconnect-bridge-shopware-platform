@@ -60,7 +60,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailEndActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogErrorActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
 - Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\UiAuditTrail\UiAuditTrailLogOutputActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
-- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestDeserializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Web\Http\RequestSerializer` as `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface`
@@ -103,6 +102,37 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 ### Security
+
+## [0.9.4.0] - 2023-05-27
+
+### Added
+
+- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
+- Add service definition `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findUploadedFileFactory`
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` for class `Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Component\Composer\Contract\PackageConfigurationLoaderInterface` for definition `Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Emission\Contract\EmitServiceInterface` for definition `Heptacom\HeptaConnect\Core\Emission\EmitService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationActorInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExploreService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract` for definition `Heptacom\HeptaConnect\Core\Portal\PortalFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface` for definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract` for definition `Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveServiceInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiveService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceptionActor`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract` for definition `Heptacom\HeptaConnect\Core\Support\EntityStatus`
+
+### Changed
+
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\StreamFactoryInterface.heptaconnect`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect`
 
 ## [0.9.3.0] - 2023-03-04
 
