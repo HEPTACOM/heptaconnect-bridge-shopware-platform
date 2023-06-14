@@ -124,6 +124,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
@@ -150,6 +151,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
