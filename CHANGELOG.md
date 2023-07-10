@@ -15,9 +15,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler`
-- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler`
-
 ### Changed
 
 ### Deprecated
@@ -27,6 +24,13 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 ### Security
+
+## [0.9.5.0] - 2023-07-10
+
+### Added
+
+- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler`
+- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler`
 
 ## [0.9.4.0] - 2023-05-27
 
