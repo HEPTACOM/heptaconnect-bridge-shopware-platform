@@ -32,6 +32,10 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler`
 - Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler`
 
+### Changed
+
+- Raise composer dependency constraint for `heptacom/heptaconnect-core`, `heptacom/heptaconnect-dataset-base`, `heptacom/heptaconnect-portal-base` and `heptacom/heptaconnect-storage-base` from `^0.9.4` to `^0.9.6`
+
 ## [0.9.4.0] - 2023-05-27
 
 ### Added

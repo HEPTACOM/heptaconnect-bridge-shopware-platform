@@ -28,10 +28,10 @@
         "bentools/iterable-functions": "^1.4",
         "composer/composer": ">=1",
         "doctrine/dbal": ">=2.11.0",
-        "heptacom/heptaconnect-core": "^0.9.4",
-        "heptacom/heptaconnect-dataset-base": "^0.9.4",
-        "heptacom/heptaconnect-portal-base": "^0.9.4",
-        "heptacom/heptaconnect-storage-base": "^0.9.4",
+        "heptacom/heptaconnect-core": "^0.9.6",
+        "heptacom/heptaconnect-dataset-base": "^0.9.6",
+        "heptacom/heptaconnect-portal-base": "^0.9.6",
+        "heptacom/heptaconnect-storage-base": "^0.9.6",
         "heptacom/heptaconnect-storage-shopware-dal": "^0.9.1",
         "kor3k/flysystem-stream-wrapper": "^1.0.11",
         "monolog/monolog": "^1.22 || ^2",
@@ -84,7 +84,8 @@
     },
     "config": {
         "allow-plugins": {
-            "infection/extension-installer": true
+            "infection/extension-installer": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
