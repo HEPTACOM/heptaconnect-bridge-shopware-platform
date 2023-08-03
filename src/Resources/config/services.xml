@@ -11,17 +11,18 @@
             <exclude>../../Command/Router/{AddRoute.php,ListRoutes.php,ListRouteCapabilities.php}</exclude>
             <exclude>../../Command/Job/{CleanupFinished.php,CleanupPayloads.php,Run.php}</exclude>
         </prototype>
+        <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface"
+                 class="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
         <service
             class="Symfony\Component\Lock\LockFactory"
             id="Heptacom\HeptaConnect\Core\Router\Router.lock_factory"
         >
             <argument type="service">
-                <service class="Symfony\Component\Lock\Store\PdoStore">
-                    <argument type="service">
-                        <service class="PDO">
-                            <factory service="Doctrine\DBAL\Connection" method="getWrappedConnection"/>
-                        </service>
-                    </argument>
+                <service class="Symfony\Component\Lock\PersistingStoreInterface">
+                    <factory method="factory"
+                             service="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface"/>
                     <argument type="collection">
                         <argument key="db_table">heptaconnect_core_reception_lock</argument>
                     </argument>
@@ -33,12 +34,9 @@
             id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory"
         >
             <argument type="service">
-                <service class="Symfony\Component\Lock\Store\PdoStore">
-                    <argument type="service">
-                        <service class="PDO">
-                            <factory service="Doctrine\DBAL\Connection" method="getWrappedConnection"/>
-                        </service>
-                    </argument>
+                <service class="Symfony\Component\Lock\PersistingStoreInterface">
+                    <factory method="factory"
+                             service="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface"/>
                     <argument type="collection">
                         <argument key="db_table">heptaconnect_portal_node_resource_lock</argument>
                     </argument>
