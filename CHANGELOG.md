@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add interface `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface` with corresponding implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory` to provide lock stores for parallelization
+
 ### Changed
 
 ### Deprecated
@@ -22,6 +24,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Removed
 
 ### Fixed
+
+- Fix service container when no database url is configured by catching connection errors and falling back to in-memory lock store in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`
 
 ### Security
 
