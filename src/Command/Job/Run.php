@@ -42,35 +42,63 @@ class Run extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('job-key', InputArgument::REQUIRED, 'The key of the job');
+        $this->addArgument(
+            'job-key',
+            InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            'The key of the job'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $jobKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('job-key'));
-
-        if (!\is_a($jobKey, JobKeyInterface::class, true)) {
-            $io->error('The provided job-key is not a JobKeyInterface.');
+        try {
+            $jobKeys = $this->getJobKeys($input);
+        } catch (\Throwable $exception) {
+            (new SymfonyStyle($input, $output))->error($exception->getMessage());
 
             return 1;
         }
 
-        $jobDataCollection = new JobDataCollection();
+        $jobDataCollections = [];
 
         /** @var JobGetResult $job */
-        foreach ($this->jobGetAction->get(new JobGetCriteria(new JobKeyCollection([$jobKey]))) as $job) {
-            if ($jobDataCollection->count() > 0) {
-                return 2;
-            }
+        foreach ($this->jobGetAction->get(new JobGetCriteria($jobKeys)) as $job) {
+            $jobData = new JobData(
+                $job->getMappingComponent(),
+                $job->getPayload(),
+                $job->getJobKey()
+            );
 
-            $jobData = new JobData($job->getMappingComponent(), $job->getPayload(), $jobKey);
             $jobType = $job->getJobType();
-            $jobDataCollection->push([$jobData]);
 
+            $jobDataCollections[$jobType] ??= new JobDataCollection();
+            $jobDataCollections[$jobType]->push([$jobData]);
+        }
+
+        foreach ($jobDataCollections as $jobType => $jobDataCollection) {
             $this->jobActor->performJobs($jobType, $jobDataCollection);
         }
 
         return 0;
+    }
+
+    private function getJobKeys(InputInterface $input): JobKeyCollection
+    {
+        $jobKeys = [];
+
+        foreach ((array) $input->getArgument('job-key') as $keyData) {
+            $jobKey = $this->storageKeyGenerator->deserialize($keyData);
+
+            if (!\is_a($jobKey, JobKeyInterface::class, true)) {
+                throw new \InvalidArgumentException(
+                    'The provided job-key is not a JobKeyInterface: ' . $keyData,
+                    1700157129
+                );
+            }
+
+            $jobKeys[] = $jobKey;
+        }
+
+        return new JobKeyCollection($jobKeys);
     }
 }
