@@ -95,5 +95,5 @@
             "php-http/curl-client"
         ]
     },
-    "website": "https://heptaconnect.io"
+    "homepage": "https://heptaconnect.io"
 }
