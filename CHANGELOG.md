@@ -17,8 +17,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
-- Command `heptaconnect:job:run` now accepts multiple values for argument `job-key` and runs the jobs simultaneously
-
 ### Deprecated
 
 ### Removed
@@ -26,6 +24,12 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 ### Security
+
+## [0.9.7.0] - 2024-02-10
+
+### Changed
+
+- Command `heptaconnect:job:run` now accepts multiple values for argument `job-key` and runs the jobs simultaneously
 
 ## [0.9.6.0] - 2024-01-03
 
