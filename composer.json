@@ -6,7 +6,7 @@
         "proprietary"
     ],
     "type": "library",
-    "version": "0.9.5.0",
+    "version": "0.9.7.0",
     "keywords": [
         "heptaconnect-bridge",
         "shopware-platform"
@@ -28,10 +28,10 @@
         "bentools/iterable-functions": "^1.4",
         "composer/composer": ">=1",
         "doctrine/dbal": ">=2.11.0",
-        "heptacom/heptaconnect-core": "^0.9.4",
-        "heptacom/heptaconnect-dataset-base": "^0.9.4",
-        "heptacom/heptaconnect-portal-base": "^0.9.4",
-        "heptacom/heptaconnect-storage-base": "^0.9.4",
+        "heptacom/heptaconnect-core": "^0.9.6",
+        "heptacom/heptaconnect-dataset-base": "^0.9.6",
+        "heptacom/heptaconnect-portal-base": "^0.9.6",
+        "heptacom/heptaconnect-storage-base": "^0.9.6",
         "heptacom/heptaconnect-storage-shopware-dal": "^0.9.1",
         "heptacom/heptaconnect-ui-admin-symfony": "^0.9",
         "kor3k/flysystem-stream-wrapper": "^1.0.11",

@@ -103,12 +103,32 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Security
 
+## [0.9.7.0] - 2024-02-10
+
+### Changed
+
+- Command `heptaconnect:job:run` now accepts multiple values for argument `job-key` and runs the jobs simultaneously
+
+## [0.9.6.0] - 2024-01-03
+
+### Added
+
+- Add interface `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface` with corresponding implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory` to provide lock stores for parallelization
+
+### Fixed
+
+- Fix service container when no database url is configured by catching connection errors and falling back to in-memory lock store in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`
+
 ## [0.9.5.0] - 2023-07-10
 
 ### Added
 
 - Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler`
 - Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler`
+
+### Changed
+
+- Raise composer dependency constraint for `heptacom/heptaconnect-core`, `heptacom/heptaconnect-dataset-base`, `heptacom/heptaconnect-portal-base` and `heptacom/heptaconnect-storage-base` from `^0.9.4` to `^0.9.6`
 
 ## [0.9.4.0] - 2023-05-27
 
