@@ -35,6 +35,7 @@
         "heptacom/heptaconnect-storage-base": "^0.9.6",
         "heptacom/heptaconnect-storage-shopware-dal": "0.10.x-dev",
         "kor3k/flysystem-stream-wrapper": "^1.0.11",
+        "league/flysystem": "^3.10.3",
         "monolog/monolog": "^1.22 || ^2",
         "nyholm/psr7": "^1.2",
         "php-http/curl-client": "^2.2",
