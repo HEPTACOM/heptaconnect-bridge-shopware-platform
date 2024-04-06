@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
-use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Bridge\Portal\PortalLoaderInterface;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
@@ -19,7 +19,7 @@ class DataTypeList extends Command
     protected static $defaultName = 'heptaconnect:data-type:list';
 
     public function __construct(
-        private ComposerPortalLoader $portalLoader,
+        private PortalLoaderInterface $portalLoader,
         private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
     ) {
         parent::__construct();

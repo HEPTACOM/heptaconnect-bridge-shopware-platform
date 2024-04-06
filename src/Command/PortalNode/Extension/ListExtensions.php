@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Extension;
 
-use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Bridge\Portal\PortalLoaderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalExtensionContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
@@ -25,7 +25,7 @@ class ListExtensions extends Command
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
-    private ComposerPortalLoader $portalLoader;
+    private PortalLoaderInterface $portalLoader;
 
     private PortalNodeGetActionInterface $portalNodeGetAction;
 
@@ -33,7 +33,7 @@ class ListExtensions extends Command
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
-        ComposerPortalLoader $portalLoader,
+        PortalLoaderInterface $portalLoader,
         PortalNodeGetActionInterface $portalNodeGetAction,
         PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {

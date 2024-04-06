@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command;
 
-use Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader;
+use Heptacom\HeptaConnect\Core\Bridge\Portal\PortalLoaderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ class PortalList extends Command
     protected static $defaultName = 'heptaconnect:portal:list';
 
     public function __construct(
-        private ComposerPortalLoader $portalLoader
+        private PortalLoaderInterface $portalLoader
     ) {
         parent::__construct();
     }
