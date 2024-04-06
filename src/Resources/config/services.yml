@@ -114,11 +114,6 @@ services:
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
 
-    Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\TestFlow\Receive:
-        arguments:
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
-            - '@Heptacom\HeptaConnect\Core\Reception\ReceiveService'
-
     Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\Mapping\PublisherDecorator:
         decorates: 'Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface'
         arguments:
