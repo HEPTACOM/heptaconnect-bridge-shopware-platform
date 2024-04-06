@@ -21,17 +21,11 @@ class DeactivateExtension extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:extensions:deactivate';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalExtensionDeactivateActionInterface $portalExtensionDeactivateAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalExtensionDeactivateActionInterface $portalExtensionDeactivateAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalExtensionDeactivateActionInterface $portalExtensionDeactivateAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalExtensionDeactivateAction = $portalExtensionDeactivateAction;
     }
 
     protected function configure(): void
@@ -52,7 +46,7 @@ class DeactivateExtension extends Command
             }
 
             $portalNodeKey = $portalNodeKey->withAlias();
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;

@@ -19,18 +19,11 @@ class RemoveIdentityRedirect extends Command
 {
     protected static $defaultName = 'heptaconnect:identity-redirect:remove';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityRedirectDeleteAction = $identityRedirectDeleteAction;
     }
 
     protected function configure(): void

@@ -21,22 +21,12 @@ class AddPortalNode extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:add';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalNodeCreateActionInterface $portalNodeCreateAction;
-
-    private AliasValidator $aliasValidator;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeCreateActionInterface $portalNodeCreateAction,
-        AliasValidator $aliasValidator
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeCreateActionInterface $portalNodeCreateAction,
+        private AliasValidator $aliasValidator
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalNodeCreateAction = $portalNodeCreateAction;
-        $this->aliasValidator = $aliasValidator;
     }
 
     protected function configure(): void

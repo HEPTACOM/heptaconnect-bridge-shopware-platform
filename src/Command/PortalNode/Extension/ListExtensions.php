@@ -23,25 +23,16 @@ class ListExtensions extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:extensions:list';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     private PortalLoaderInterface $portalLoader;
 
-    private PortalNodeGetActionInterface $portalNodeGetAction;
-
-    private PortalExtensionFindActionInterface $portalExtensionFindAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
+        private StorageKeyGeneratorContract $storageKeyGenerator,
         PortalLoaderInterface $portalLoader,
-        PortalNodeGetActionInterface $portalNodeGetAction,
-        PortalExtensionFindActionInterface $portalExtensionFindAction
+        private PortalNodeGetActionInterface $portalNodeGetAction,
+        private PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalLoader = $portalLoader;
-        $this->portalNodeGetAction = $portalNodeGetAction;
-        $this->portalExtensionFindAction = $portalExtensionFindAction;
     }
 
     protected function configure(): void
@@ -80,7 +71,7 @@ class ListExtensions extends Command
         );
 
         $extensionList = $extensions->map(static fn (PortalExtensionContract $extension): array => [
-            'class' => \get_class($extension),
+            'class' => $extension::class,
             'active' => $portalExtensionFindResult->isActive($extension) ? 'yes' : 'no',
         ]);
 

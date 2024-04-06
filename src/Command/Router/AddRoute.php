@@ -28,25 +28,13 @@ class AddRoute extends Command
 {
     protected static $defaultName = 'heptaconnect:router:add-route';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private RouteFindActionInterface $routeFindAction;
-
-    private RouteCreateActionInterface $routeCreateAction;
-
-    private RouteGetActionInterface $routeGetAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteFindActionInterface $routeFindAction,
-        RouteCreateActionInterface $routeCreateAction,
-        RouteGetActionInterface $routeGetAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private RouteFindActionInterface $routeFindAction,
+        private RouteCreateActionInterface $routeCreateAction,
+        private RouteGetActionInterface $routeGetAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeFindAction = $routeFindAction;
-        $this->routeCreateAction = $routeCreateAction;
-        $this->routeGetAction = $routeGetAction;
     }
 
     protected function configure(): void

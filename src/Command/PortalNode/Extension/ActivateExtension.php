@@ -21,17 +21,11 @@ class ActivateExtension extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:extensions:activate';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalExtensionActivateActionInterface $portalExtensionActivateAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalExtensionActivateActionInterface $portalExtensionActivateAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalExtensionActivateActionInterface $portalExtensionActivateAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->portalExtensionActivateAction = $portalExtensionActivateAction;
     }
 
     protected function configure(): void
@@ -52,7 +46,7 @@ class ActivateExtension extends Command
             }
 
             $portalNodeKey = $portalNodeKey->withAlias();
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;

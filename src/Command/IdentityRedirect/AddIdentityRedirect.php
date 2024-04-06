@@ -22,17 +22,11 @@ final class AddIdentityRedirect extends Command
 {
     protected static $defaultName = 'heptaconnect:identity-redirect:add';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityRedirectCreateActionInterface $identityRedirectCreateAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityRedirectCreateActionInterface $identityRedirectCreateAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityRedirectCreateActionInterface $identityRedirectCreateAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityRedirectCreateAction = $identityRedirectCreateAction;
     }
 
     protected function configure(): void
@@ -52,7 +46,7 @@ final class AddIdentityRedirect extends Command
 
         try {
             $sourcePortalNode = $this->getPortalNodeKey($sourcePortalNodeId);
-        } catch (UnsupportedStorageKeyException $_) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error(\sprintf('Invalid portal-node "%s"', $sourcePortalNodeId));
 
             return 1;
@@ -60,7 +54,7 @@ final class AddIdentityRedirect extends Command
 
         try {
             $targetPortalNode = $this->getPortalNodeKey($targetPortalNodeId);
-        } catch (UnsupportedStorageKeyException $_) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error(\sprintf('Invalid portal-node "%s"', $targetPortalNodeId));
 
             return 1;
@@ -100,7 +94,7 @@ final class AddIdentityRedirect extends Command
         if ($portalNodeKey instanceof PortalNodeKeyInterface) {
             $portalNodeKey = $portalNodeKey->withoutAlias();
         } else {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         return $portalNodeKey;

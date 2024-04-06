@@ -16,17 +16,11 @@ class ListIdentityRedirects extends Command
 {
     protected static $defaultName = 'heptaconnect:identity-redirect:list';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityRedirectOverviewAction = $identityRedirectOverviewAction;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
