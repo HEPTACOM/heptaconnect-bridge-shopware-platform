@@ -23,6 +23,7 @@ use Shopware\Core\Kernel;
 use Sourceability\Instrumentation\Bundle\SourceabilityInstrumentationBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 class AbstractIntegration extends Plugin
 {
@@ -80,7 +81,7 @@ class AbstractIntegration extends Plugin
         $container->setParameter('shopware.admin_worker.enable_admin_worker', false);
     }
 
-    protected function createContainerExtension()
+    protected function createContainerExtension(): ?ExtensionInterface
     {
         return new AbstractIntegrationExtension($this->getName());
     }
