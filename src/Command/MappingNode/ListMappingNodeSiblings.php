@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode;
 
+use Heptacom\HeptaConnect\Dataset\Base\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\ScalarCollection\StringCollection;
+use Heptacom\HeptaConnect\Dataset\Base\UnsafeClassString;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
@@ -23,21 +25,12 @@ class ListMappingNodeSiblings extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:siblings-list';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityOverviewActionInterface $identityOverviewAction;
-
-    private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityOverviewActionInterface $identityOverviewAction,
-        IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityOverviewActionInterface $identityOverviewAction,
+        private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityOverviewAction = $identityOverviewAction;
-        $this->identityRedirectOverviewAction = $identityRedirectOverviewAction;
     }
 
     protected function configure(): void
@@ -50,7 +43,7 @@ class ListMappingNodeSiblings extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $entityType = (string) $input->getOption('entity-type');
+        $entityType = new UnsafeClassString((string) $input->getArgument('entity-type'));
         $portalNodeKeyParam = (string) $input->getOption('portal-node-key');
         $externalIds = (array) $input->getArgument('external-ids');
         $identityCriteria = new IdentityOverviewCriteria();
@@ -64,7 +57,9 @@ class ListMappingNodeSiblings extends Command
             }
 
             $identityCriteria->setEntityTypeFilter([$entityType]);
-            $sourceIdentityRedirectCriteria->setEntityTypeFilter(new StringCollection($identityCriteria->getEntityTypeFilter()));
+            $sourceIdentityRedirectCriteria->setEntityTypeFilter(new ClassStringReferenceCollection(
+                $identityCriteria->getEntityTypeFilter()
+            ));
         }
 
         if ($portalNodeKeyParam !== '') {

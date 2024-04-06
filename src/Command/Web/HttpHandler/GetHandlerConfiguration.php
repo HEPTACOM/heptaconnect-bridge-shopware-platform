@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerStackIdentifier;
 use Heptacom\HeptaConnect\Storage\Base\Action\WebHttpHandlerConfiguration\Find\WebHttpHandlerConfigurationFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -19,18 +20,11 @@ class GetHandlerConfiguration extends Command
 {
     protected static $defaultName = 'heptaconnect:http-handler:get-configuration';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->webHttpHandlerConfigurationFindAction = $webHttpHandlerConfigurationFindAction;
     }
 
     protected function configure(): void
@@ -57,7 +51,7 @@ class GetHandlerConfiguration extends Command
             return 1;
         }
 
-        $criteria = new WebHttpHandlerConfigurationFindCriteria($portalNodeKey, $path, $key);
+        $criteria = new WebHttpHandlerConfigurationFindCriteria(new HttpHandlerStackIdentifier($portalNodeKey, $path), $key);
         $find = $this->webHttpHandlerConfigurationFindAction->find($criteria);
         $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
         $output->writeln((string) \json_encode($find->getValue(), $flags | \JSON_THROW_ON_ERROR));

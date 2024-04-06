@@ -29,30 +29,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class HttpHandlerController
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private HttpHandleServiceInterface $httpHandleService;
-
     private PsrHttpFactory $psrHttpFactory;
 
     private HttpFoundationFactory $httpFoundationFactory;
 
-    private Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder;
-
-    private StreamFactoryInterface $streamFactory;
-
-    private UploadedFileFactoryInterface $uploadedFileFactory;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        HttpHandleServiceInterface $httpHandleService,
-        Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder,
-        StreamFactoryInterface $streamFactory,
-        UploadedFileFactoryInterface $uploadedFileFactory
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private HttpHandleServiceInterface $httpHandleService,
+        private Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder,
+        private StreamFactoryInterface $streamFactory,
+        private UploadedFileFactoryInterface $uploadedFileFactory,
     ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->httpHandleService = $httpHandleService;
-
         $this->psrHttpFactory = new PsrHttpFactory(
             Psr17FactoryDiscovery::findServerRequestFactory(),
             Psr17FactoryDiscovery::findStreamFactory(),
@@ -61,9 +48,6 @@ class HttpHandlerController
         );
 
         $this->httpFoundationFactory = new HttpFoundationFactory();
-        $this->multiPartFormDataBuilder = $multiPartFormDataBuilder;
-        $this->streamFactory = $streamFactory;
-        $this->uploadedFileFactory = $uploadedFileFactory;
     }
 
     /**
@@ -119,10 +103,10 @@ class HttpHandlerController
         $request = $request->withAttribute(HttpHandleServiceInterface::REQUEST_ATTRIBUTE_ORIGINAL_REQUEST, $request);
         $request = $request->withUri(
             $request->getUri()
-            ->withScheme('')
-            ->withHost('')
-            ->withPort(null)
-            ->withPath($path)
+                ->withScheme('')
+                ->withHost('')
+                ->withPort(null)
+                ->withPath($path)
         );
 
         $request = $request->withoutHeader('host');

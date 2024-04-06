@@ -17,17 +17,11 @@ class Find extends Command
 {
     protected static $defaultName = 'heptaconnect:portal-node:alias:find';
 
-    private PortalNodeAliasFindActionInterface $aliasFindAction;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
     public function __construct(
-        PortalNodeAliasFindActionInterface $aliasFindAction,
-        StorageKeyGeneratorContract $storageKeyGenerator
+        private PortalNodeAliasFindActionInterface $aliasFindAction,
+        private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
-        $this->aliasFindAction = $aliasFindAction;
-        $this->storageKeyGenerator = $storageKeyGenerator;
     }
 
     protected function configure(): void

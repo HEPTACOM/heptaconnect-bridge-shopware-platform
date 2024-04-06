@@ -23,21 +23,12 @@ class MergeMappingNodes extends Command
 {
     protected static $defaultName = 'heptaconnect:mapping-node:merge';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityOverviewActionInterface $identityOverviewAction;
-
-    private IdentityPersistActionInterface $identityPersistAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityOverviewActionInterface $identityOverviewAction,
-        IdentityPersistActionInterface $identityPersistAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityOverviewActionInterface $identityOverviewAction,
+        private IdentityPersistActionInterface $identityPersistAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityOverviewAction = $identityOverviewAction;
-        $this->identityPersistAction = $identityPersistAction;
     }
 
     protected function configure(): void
@@ -86,7 +77,7 @@ class MergeMappingNodes extends Command
                 $nodesInto[] = $node;
             }
 
-            $entityTypes[$node->getEntityType()] = true;
+            $entityTypes[(string) $node->getEntityType()] = true;
         }
 
         unset($node);

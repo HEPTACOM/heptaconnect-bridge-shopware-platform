@@ -9,7 +9,6 @@ use Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract;
 use Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
-use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpClientContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
@@ -26,28 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FileReferenceController
 {
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private StreamDenormalizer $streamDenormalizer;
-
-    private RequestStorageContract $requestStorage;
-
-    private PortalStackServiceContainerFactory $portalContainerFactory;
-
-    private PortalNodeGetActionInterface $portalNodeGetAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        StreamDenormalizer $streamDenormalizer,
-        RequestStorageContract $requestStorage,
-        PortalStackServiceContainerFactory $portalContainerFactory,
-        PortalNodeGetActionInterface $portalNodeGetAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StreamDenormalizer $streamDenormalizer,
+        private RequestStorageContract $requestStorage,
+        private PortalStackServiceContainerFactory $portalContainerFactory,
+        private PortalNodeGetActionInterface $portalNodeGetAction
     ) {
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->streamDenormalizer = $streamDenormalizer;
-        $this->requestStorage = $requestStorage;
-        $this->portalContainerFactory = $portalContainerFactory;
-        $this->portalNodeGetAction = $portalNodeGetAction;
     }
 
     /**
@@ -62,7 +46,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {
@@ -72,15 +56,11 @@ class FileReferenceController
         $requestKey = $this->storageKeyGenerator->deserialize($requestId);
 
         if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($requestKey));
+            throw new UnsupportedStorageKeyException($requestKey::class);
         }
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
-
-        $container = $this->portalContainerFactory->create($portalNodeKey);
-        /** @var HttpClientContract $httpClient */
-        $httpClient = $container->get(HttpClientContract::class);
-
+        $httpClient = $this->portalContainerFactory->create($portalNodeKey)->getWebHttpClient();
         $response = $httpClient->sendRequest($request);
         $sourceStream = $response->getBody()->detach();
 
@@ -103,7 +83,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_class($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey::class);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {

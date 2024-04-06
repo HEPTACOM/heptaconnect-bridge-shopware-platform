@@ -142,16 +142,13 @@ class AbstractIntegration extends Plugin
         );
 
         $kernel = new class($projectDir, $pluginLoader, $this, $currentEnv) extends Kernel {
-            private AbstractIntegration $plugin;
-
             public function __construct(
                 string $projectDir,
                 KernelPluginLoader $pluginLoader,
-                AbstractIntegration $plugin,
+                private AbstractIntegration $plugin,
                 string $currentEnv
             ) {
                 parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);
-                $this->plugin = $plugin;
             }
 
             public function registerBundles()

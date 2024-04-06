@@ -29,25 +29,13 @@ final class Repl extends Command
 
     protected static $defaultName = 'heptaconnect:repl';
 
-    private string $projectDir;
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private PortalNodeListActionInterface $portalNodeListAction;
-
-    private StatusReportingContextFactoryInterface $statusReportingContextFactory;
-
     public function __construct(
-        string $projectDir,
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalNodeListActionInterface $portalNodeListAction,
-        StatusReportingContextFactoryInterface $statusReportingContextFactory
+        private string $projectDir,
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private PortalNodeListActionInterface $portalNodeListAction,
+        private StatusReportingContextFactoryInterface $statusReportingContextFactory
     ) {
         parent::__construct();
-        $this->projectDir = $projectDir;
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->statusReportingContextFactory = $statusReportingContextFactory;
-        $this->portalNodeListAction = $portalNodeListAction;
     }
 
     protected function configure(): void

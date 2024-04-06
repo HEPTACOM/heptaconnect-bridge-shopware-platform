@@ -1,12 +1,12 @@
-image: heptacom/heptaconnect-pipeline:php74-6.0.2
+image: heptacom/heptaconnect-pipeline:php81-8.0.0
 
 definitions:
     partials:
-        -   step: &php80-image
-                image: heptacom/heptaconnect-pipeline:php80-6.0.2
+        -   step: &php82-image
+                image: heptacom/heptaconnect-pipeline:php82-8.0.0
     services:
         mysql:
-            image: mysql:5.7
+            image: mysql:8.0
             variables:
                 MYSQL_DATABASE: 'pipelines'
                 MYSQL_ROOT_PASSWORD: 'let_me_in'
@@ -43,7 +43,7 @@ definitions:
                 name: Mirror tags to Github
                 script:
                     - git remote add github "git@github.com:HEPTACOM/${BITBUCKET_REPO_SLUG}.git"
-                    - git push --force github tag $BITBUCKET_TAG
+                    - git push --force github tag "${BITBUCKET_TAG}"
         -   step: &composer-high-install
                 <<: *default-step
                 name: Install (High dependencies)
@@ -53,7 +53,6 @@ definitions:
                     - setup-vendor.sh
                 script:
                     - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
                     - make .build
                     - mv vendor .build/vendor-high
@@ -67,46 +66,30 @@ definitions:
                     - setup-vendor.sh
                 script:
                     - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
                     - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
                     - make .build
                     - mv vendor .build/vendor-low
                     - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low vendor' > setup-vendor.sh
-        -   step: &composer-high-install-80
-                <<: *composer-high-install
-                <<: *php80-image
-                name: Install (8.0 + High dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-high-80
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-high-80 vendor' > setup-vendor.sh
-        -   step: &composer-low-install-80
-                <<: *composer-low-install
-                <<: *php80-image
-                name: Install (8.0 + Low dependencies)
-                script:
-                    - make clean
-                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - COMPOSER_EXTRA_ARGS=-vvv make -e vendor
-                    - make .build
-                    - mv vendor .build/vendor-low-80
-                    - echo 'mkdir -p vendor; rm -rf vendor; mv .build/vendor-low-80 vendor' > setup-vendor.sh
-        -   step: &test-unit
-                <<: *default-step
-                name: Unit test
+        -   step: &test-unit-high-install-82
+                <<: *php82-image
+                name: Install and Unit test (8.2 + High dependencies)
                 script:
                     - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
-                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_test;'
-                    - bash setup-vendor.sh
-                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_test' COMPOSER_EXTRA_ARGS=-vvv make -e test
-        -   step: &test-unit-80
-                <<: *test-unit
-                <<: *php80-image
-                name: Unit tests (8.0)
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testhigh81;'
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testhigh81' COMPOSER_EXTRA_ARGS=-vvv make -e test
+        -   step: &test-unit-low-install-82
+                <<: *php82-image
+                name: Install and Unit test (8.2 + Low dependencies)
+                script:
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testlow81;'
+                    - make clean
+                    - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
+                    - composer update --prefer-lowest --prefer-stable
+                    - DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testlow81' COMPOSER_EXTRA_ARGS=-vvv make -e test
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
@@ -139,6 +122,12 @@ definitions:
                 script:
                     - bash setup-vendor.sh
                     - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpmd
+        -   step: &test-code-style-phpcpd
+                <<: *default-step
+                name: PHP Copy Paste Detector (Static code analysis)
+                script:
+                    - bash setup-vendor.sh
+                    - COMPOSER_EXTRA_ARGS=-vvv make -e cs-phpcpd
         -   step: &test-code-style-soft-require
                 <<: *default-step
                 name: Composer soft requirements (Requirement analysis)
@@ -176,80 +165,49 @@ pipelines:
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
             -   step: *composer-high-install
-            -   parallel:
-                    -   step: *test-unit
+            -   parallel: &steps-blocking-tests
                     -   step: *test-coverage
                     -   step: *test-code-style-composer-normalize
                     -   step: *test-code-style-composer-unused
                     -   step: *test-code-style-json
                     -   step: *test-code-style-php
+                    -   step: *test-code-style-phpcpd
             -   step: *composer-low-install
-            -   parallel:
-                    -   step: *test-unit
+            -   parallel: &steps-blocking-low-tests
                     -   step: *test-coverage
-                    -   step: *test-code-style-composer-normalize
                     -   step: *test-code-style-composer-unused
-                    -   step: *test-code-style-json
-                    -   step: *test-code-style-php
-            -   step: *composer-high-install-80
-            -   step: *test-unit-80
-            -   step: *composer-low-install-80
-            -   step: *test-unit-80
+            -   parallel: &steps-blocking-non-min-php-version-tests
+                    -   step: *test-unit-high-install-82
+                    -   step: *test-unit-low-install-82
             -   step: *composer-high-install
-            -   parallel:
+            -   parallel: &steps-non-blocking-tests
                     -   step: *test-code-style-phpmd
                     -   step: *test-code-style-soft-require
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
                     -   step: *test-infection
             -   step: *composer-low-install
-            -   parallel:
-                    -   step: *test-code-style-phpmd
-                    -   step: *test-code-style-soft-require
+            -   parallel: &steps-non-blocking-low-tests
                     -   step: *test-code-style-phpstan
                     -   step: *test-code-style-psalm
-                    -   step: *test-infection
         '*.*.x':
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-branch
 
     tags:
         '*':
+            -   step: *composer-low-install
+            -   step: *composer-high-install
             -   step: *github-keyword-gate-step
             -   step: *github-mirror-tag
 
     default:
         -   step: *composer-high-install
-        -   parallel:
-                -   step: *test-unit
-                -   step: *test-coverage
-                -   step: *test-code-style-composer-normalize
-                -   step: *test-code-style-composer-unused
-                -   step: *test-code-style-json
-                -   step: *test-code-style-php
+        -   parallel: *steps-blocking-tests
         -   step: *composer-low-install
-        -   parallel:
-                -   step: *test-unit
-                -   step: *test-coverage
-                -   step: *test-code-style-composer-normalize
-                -   step: *test-code-style-composer-unused
-                -   step: *test-code-style-json
-                -   step: *test-code-style-php
-        -   step: *composer-high-install-80
-        -   step: *test-unit-80
-        -   step: *composer-low-install-80
-        -   step: *test-unit-80
+        -   parallel: *steps-blocking-low-tests
+        -   parallel: *steps-blocking-non-min-php-version-tests
         -   step: *composer-high-install
-        -   parallel:
-                -   step: *test-code-style-phpmd
-                -   step: *test-code-style-soft-require
-                -   step: *test-code-style-phpstan
-                -   step: *test-code-style-psalm
-                -   step: *test-infection
+        -   parallel: *steps-non-blocking-tests
         -   step: *composer-low-install
-        -   parallel:
-                -   step: *test-code-style-phpmd
-                -   step: *test-code-style-soft-require
-                -   step: *test-code-style-phpstan
-                -   step: *test-code-style-psalm
-                -   step: *test-infection
+        -   parallel: *steps-non-blocking-low-tests

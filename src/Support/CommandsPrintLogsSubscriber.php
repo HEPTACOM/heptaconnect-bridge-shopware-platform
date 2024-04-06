@@ -15,11 +15,9 @@ final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 {
     public const LOGGER_STREAM = 'php://stderr';
 
-    private StreamHandler $loggerHandler;
-
-    public function __construct(StreamHandler $loggerHandler)
-    {
-        $this->loggerHandler = $loggerHandler;
+    public function __construct(
+        private StreamHandler $loggerHandler
+    ) {
     }
 
     public static function getSubscribedEvents()
@@ -37,7 +35,7 @@ final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
         $this->loggerHandler->setLevel($this->getLogLevelForOutput($output));
     }
 
-    protected function getLogLevelForOutput(OutputInterface $output): int
+    private function getLogLevelForOutput(OutputInterface $output): int
     {
         if ($output->isDebug()) {
             return Logger::DEBUG;

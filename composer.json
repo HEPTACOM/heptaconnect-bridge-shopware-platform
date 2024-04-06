@@ -23,7 +23,7 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-json": "*",
         "bentools/iterable-functions": "^1.4",
         "composer/composer": ">=1",
@@ -85,6 +85,7 @@
     "config": {
         "allow-plugins": {
             "infection/extension-installer": true,
+            "ocramius/package-versions": true,
             "php-http/discovery": true
         }
     },
@@ -93,5 +94,5 @@
             "php-http/curl-client"
         ]
     },
-    "website": "https://heptaconnect.io"
+    "homepage": "https://heptaconnect.io"
 }

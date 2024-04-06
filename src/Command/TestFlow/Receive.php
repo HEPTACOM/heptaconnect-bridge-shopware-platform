@@ -23,17 +23,11 @@ class Receive extends Command
 {
     protected static $defaultName = 'heptaconnect:test-flow:receive';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private ReceiveServiceInterface $receiveService;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        ReceiveServiceInterface $receiveService
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private ReceiveServiceInterface $receiveService
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->receiveService = $receiveService;
     }
 
     protected function configure(): void
@@ -67,7 +61,7 @@ class Receive extends Command
         /** @var DatasetEntityContract $entity */
         $entity = $callable();
 
-        $this->receiveService->receive(new TypedDatasetEntityCollection(\get_class($entity), [$entity]), $portalNodeKey);
+        $this->receiveService->receive(new TypedDatasetEntityCollection($entity::class(), [$entity]), $portalNodeKey);
 
         return 0;
     }
@@ -82,7 +76,7 @@ class Receive extends Command
 
         $mapping = new MappingStruct($portalNodeKey, new MappingNodeStruct(
             \reset($mappingNodeKeys),
-            \get_class($entity)
+            $entity::class()
         ));
 
         $mapping->setExternalId($entity->getPrimaryKey());

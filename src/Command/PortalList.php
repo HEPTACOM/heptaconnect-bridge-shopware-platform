@@ -15,12 +15,10 @@ class PortalList extends Command
 {
     protected static $defaultName = 'heptaconnect:portal:list';
 
-    private ComposerPortalLoader $portalLoader;
-
-    public function __construct(ComposerPortalLoader $portalLoader)
-    {
+    public function __construct(
+        private ComposerPortalLoader $portalLoader
+    ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -33,7 +31,7 @@ class PortalList extends Command
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
             $portals[] = [
-                'class' => \get_class($portal),
+                'class' => $portal::class,
             ];
         }
 
@@ -41,7 +39,7 @@ class PortalList extends Command
 
         foreach ($this->portalLoader->getPortalExtensions() as $portalExtension) {
             $portalExtensions[] = [
-                'class' => \get_class($portalExtension),
+                'class' => $portalExtension::class,
             ];
         }
 

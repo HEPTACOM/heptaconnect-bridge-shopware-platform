@@ -202,6 +202,7 @@
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="string">%env(string:APP_URL)%</argument>
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator">
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>

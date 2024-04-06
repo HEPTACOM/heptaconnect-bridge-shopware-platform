@@ -13,24 +13,27 @@ class HttpHostProviderContract
 {
     private UriFactoryInterface $uriFactory;
 
-    private SystemConfigService $systemConfigService;
-
-    public function __construct(SystemConfigService $systemConfigService)
-    {
+    public function __construct(
+        private SystemConfigService $systemConfigService,
+        private string $appUrl
+    ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
-        $this->systemConfigService = $systemConfigService;
     }
 
     public function get(): UriInterface
     {
-        /** @var string|null $baseUrl */
-        $baseUrl = $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
+        if ($this->appUrl === '') {
+            /** @var string|null $baseUrl */
+            $baseUrl = $this->systemConfigService->get('heptacom.heptaConnect.globalConfiguration.baseUrl');
+        } else {
+            $baseUrl = $this->appUrl;
+        }
 
         if ($baseUrl === null) {
             $baseUrl = 'localhost';
         }
 
-        if (\strpos($baseUrl, '//') === false) {
+        if (!\str_contains($baseUrl, '//')) {
             $baseUrl = '//' . $baseUrl;
         }
 

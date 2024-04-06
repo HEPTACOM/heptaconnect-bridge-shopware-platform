@@ -16,17 +16,11 @@ class ListRoutes extends Command
 {
     protected static $defaultName = 'heptaconnect:router:list-routes';
 
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private RouteOverviewActionInterface $routeOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteOverviewActionInterface $routeOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private RouteOverviewActionInterface $routeOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeOverviewAction = $routeOverviewAction;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -41,12 +35,12 @@ class ListRoutes extends Command
         ]);
 
         foreach ($this->routeOverviewAction->overview($criteria) as $route) {
-            $capabilities = $route->getCapabilities();
+            $capabilities = $route->getCapabilities()->asArray();
             \sort($capabilities);
 
             $targets[] = [
                 'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
-                'type' => $route->getEntityType(),
+                'type' => (string) $route->getEntityType(),
                 'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()->withAlias()),
                 'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()->withAlias()),
                 'capabilities' => \implode(', ', $capabilities),

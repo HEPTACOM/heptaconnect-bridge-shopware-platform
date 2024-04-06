@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
@@ -68,10 +68,11 @@ final class AddIdentityRedirect extends Command
 
         $sourceExternalId = (string) $input->getArgument('source-external-id');
         $targetExternalId = (string) $input->getArgument('target-external-id');
-        $type = (string) $input->getArgument('type');
 
-        if (!\is_a($type, DatasetEntityContract::class, true)) {
-            $io->error('The specified type does not implement the DatasetEntityContract.');
+        try {
+            $type = new EntityType((string) $input->getArgument('type'));
+        } catch (\Throwable $exception) {
+            $io->error('Given type is invalid: ' . $exception->getMessage());
 
             return 1;
         }
