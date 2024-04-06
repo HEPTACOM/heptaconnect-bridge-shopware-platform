@@ -6,6 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\AliasValidator;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
+use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
@@ -60,9 +61,9 @@ class AddPortalNode extends Command
         if ($alias !== '') {
             $this->aliasValidator->validate($alias);
 
-            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, $alias)]));
+            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), $alias)]));
         } else {
-            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload($portalClass, null)]));
+            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), null)]));
         }
 
         $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($result->first()->getPortalNodeKey())));
