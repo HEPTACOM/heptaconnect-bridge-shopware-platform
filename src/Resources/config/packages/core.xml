@@ -434,10 +434,12 @@
             <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer">
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface"/>
             <tag name="heptacom.heptaconnect_denormalizer"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer">
             <tag name="heptacom.heptaconnect_normalizer"/>
+            <argument type="service" id="Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface"/>
         </service>
 
         <!-- PostProcessing of Reception -->
