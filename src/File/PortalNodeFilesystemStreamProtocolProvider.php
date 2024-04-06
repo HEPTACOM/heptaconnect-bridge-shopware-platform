@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolPro
 use Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use Twistor\FlysystemStreamWrapper;
+use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
 
 final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
 {
@@ -23,6 +23,7 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);
         $streamScheme = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
 
+        // TODO: Fix Flysystem compatibility
         FlysystemStreamWrapper::register($streamScheme, $this->filesystemFactory->factory($portalNodeKey));
 
         return $streamScheme;
