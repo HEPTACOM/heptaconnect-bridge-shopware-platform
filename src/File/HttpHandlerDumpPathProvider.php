@@ -12,8 +12,10 @@ final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderIn
 {
     private string $logDirectory;
 
-    public function __construct(private StorageKeyGeneratorContract $storageKeyGenerator, string $logDirectory)
-    {
+    public function __construct(
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        string $logDirectory
+    ) {
         $this->logDirectory = \rtrim($logDirectory, '/\\');
     }
 

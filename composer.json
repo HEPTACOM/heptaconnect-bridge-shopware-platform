@@ -16,6 +16,7 @@
             "name": "HEPTACOM GmbH"
         }
     ],
+    "homepage": "https://heptaconnect.io",
     "support": {
         "issues": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform/issues",
         "source": "https://github.com/HEPTACOM/heptaconnect-bridge-shopware-platform",
@@ -93,6 +94,5 @@
         "unused": [
             "php-http/curl-client"
         ]
-    },
-    "homepage": "https://heptaconnect.io"
+    }
 }

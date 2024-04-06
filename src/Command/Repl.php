@@ -57,7 +57,7 @@ final class Repl extends Command
 
         if (!$portalNodeId) {
             $portalNodeKeys = array_map(
-                fn(PortalNodeListResult $portalNodeListResult) => $portalNodeListResult->getPortalNodeKey()->withAlias(),
+                fn (PortalNodeListResult $portalNodeListResult) => $portalNodeListResult->getPortalNodeKey()->withAlias(),
                 \iterable_to_array($this->portalNodeListAction->list())
             );
 

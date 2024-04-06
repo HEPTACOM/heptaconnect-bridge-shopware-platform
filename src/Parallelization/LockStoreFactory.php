@@ -12,8 +12,9 @@ use Symfony\Component\Lock\Store\PdoStore;
 
 final class LockStoreFactory implements LockStoreFactoryInterface
 {
-    public function __construct(private Connection $connection)
-    {
+    public function __construct(
+        private Connection $connection
+    ) {
     }
 
     public function factory(array $options = []): PersistingStoreInterface
