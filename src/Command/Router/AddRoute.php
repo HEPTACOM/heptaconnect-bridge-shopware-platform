@@ -17,6 +17,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInter
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,10 +25,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:router:add-route')]
 class AddRoute extends Command
 {
-    protected static $defaultName = 'heptaconnect:router:add-route';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private RouteFindActionInterface $routeFindAction,
@@ -47,7 +47,7 @@ class AddRoute extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

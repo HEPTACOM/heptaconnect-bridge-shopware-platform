@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config;
 
 use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'heptaconnect:config:base-url:set')]
 class SetBaseUrlCommand extends Command
 {
-    protected static $defaultName = 'heptaconnect:config:base-url:set';
-
     public function __construct(
         private SystemConfigService $systemConfigService
     ) {

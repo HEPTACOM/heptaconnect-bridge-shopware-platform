@@ -10,16 +10,16 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:mapping-node:list')]
 class ListMappingNodes extends Command
 {
-    protected static $defaultName = 'heptaconnect:mapping-node:list';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private IdentityOverviewActionInterface $identityOverviewAction
@@ -33,7 +33,7 @@ class ListMappingNodes extends Command
             ->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $entityType = (string) $input->getArgument('entity-type');

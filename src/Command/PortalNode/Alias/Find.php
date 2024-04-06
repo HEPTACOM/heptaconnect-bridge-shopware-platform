@@ -7,16 +7,16 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'heptaconnect:portal-node:alias:find')]
 class Find extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:alias:find';
-
     public function __construct(
         private PortalNodeAliasFindActionInterface $aliasFindAction,
         private StorageKeyGeneratorContract $storageKeyGenerator
@@ -30,7 +30,7 @@ class Find extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $aliasFindCriteria = new PortalNodeAliasFindCriteria($input->getArgument('alias'));
         $results = $this->aliasFindAction->find($aliasFindCriteria);

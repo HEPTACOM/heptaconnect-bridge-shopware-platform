@@ -28,6 +28,7 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:portal-node:list-flow-components')]
 class ListFlowComponentsForPortalNode extends Command
 {
     private const FLOW_COMPONENT_INPUT_MAP = [
@@ -44,8 +46,6 @@ class ListFlowComponentsForPortalNode extends Command
         'receiver' => ReceiverContract::class,
         'status-reporter' => StatusReporterContract::class,
     ];
-
-    protected static $defaultName = 'heptaconnect:portal-node:list-flow-components';
 
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
@@ -67,7 +67,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

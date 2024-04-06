@@ -12,16 +12,16 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRe
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:identity-redirect:add')]
 final class AddIdentityRedirect extends Command
 {
-    protected static $defaultName = 'heptaconnect:identity-redirect:add';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private IdentityRedirectCreateActionInterface $identityRedirectCreateAction

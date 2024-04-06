@@ -13,16 +13,16 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPa
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:mapping-node:merge')]
 class MergeMappingNodes extends Command
 {
-    protected static $defaultName = 'heptaconnect:mapping-node:merge';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private IdentityOverviewActionInterface $identityOverviewAction,
@@ -37,7 +37,7 @@ class MergeMappingNodes extends Command
             ->addArgument('mapping-node-key-into', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $mappingNodeFrom = $this->storageKeyGenerator->deserialize((string) $input->getArgument('mapping-node-key-from'));

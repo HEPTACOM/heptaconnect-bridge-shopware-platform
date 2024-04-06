@@ -9,16 +9,16 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\Identity
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:identity-redirect:remove')]
 class RemoveIdentityRedirect extends Command
 {
-    protected static $defaultName = 'heptaconnect:identity-redirect:remove';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction
@@ -31,7 +31,7 @@ class RemoveIdentityRedirect extends Command
         $this->addArgument('identity-redirect-key', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('identity-redirect-key'));
