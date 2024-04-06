@@ -59,8 +59,7 @@
         "heptacom/heptaconnect-framework": "dev-master",
         "infection/infection": ">=0.21",
         "league/flysystem-memory": ">=1",
-        "phpunit/phpunit": ">=9.3 <10",
-        "shopware/storefront": ">=6.2"
+        "phpunit/phpunit": ">=9.3 <10"
     },
     "suggest": {
         "clue/framework-x": "Run a web-server based on ReactPHP",
