@@ -71,6 +71,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Adjusted `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Migration\Migration1651069262CreateLockTable` to work with new Doctrine native connection as wrapped connection is not working anymore
+
 ### Security
 
 ## [0.9.7.0] - 2024-02-10
