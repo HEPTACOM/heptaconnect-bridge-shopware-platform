@@ -24,9 +24,6 @@ use Symfony\Component\HttpFoundation\ServerBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"api"})
- */
 class HttpHandlerController
 {
     private PsrHttpFactory $psrHttpFactory;
@@ -50,14 +47,19 @@ class HttpHandlerController
         $this->httpFoundationFactory = new HttpFoundationFactory();
     }
 
-    /**
-     * @Route(
-     *     "/api/heptaconnect/flow/{portalNodeId}/http-handler/{path}",
-     *     name="api.heptaconnect.http.handler",
-     *     requirements={"path"=".+"},
-     *     defaults={"auth_required"=false}
-     * )
-     */
+    #[Route(
+        "/api/heptaconnect/flow/{portalNodeId}/http-handler/{path}",
+        name: "api.heptaconnect.http.handler",
+        requirements: [
+            "path" => ".+",
+        ],
+        defaults: [
+            "auth_required" => false,
+            "_routeScope" => [
+                'scopes' => ["api"],
+            ],
+        ],
+    )]
     public function handle(Request $symfonyRequest, string $portalNodeId, string $path): Response
     {
         $portalNodeKey = $this->getPortalNodeKey($portalNodeId);

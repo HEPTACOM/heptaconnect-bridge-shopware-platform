@@ -55,6 +55,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch parameter in `Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract` from `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestNormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\Psr7RequestDenormalizer` to `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestSerializerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Contract\RequestDeserializerInterface`
 - Extract dependency `tagged: heptaconnect_core.portal_node_configuration.processor` from `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` into own service `Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface`
 - Switch parameter in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to use directly a prefixed instance of `shopware.filesystem.private`
+- Change route definitions from PHPDoc to PHP attribute notation
 
 ### Deprecated
 

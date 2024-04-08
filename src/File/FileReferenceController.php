@@ -20,9 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @RouteScope(scopes={"api"})
- */
 class FileReferenceController
 {
     public function __construct(
@@ -34,13 +31,16 @@ class FileReferenceController
     ) {
     }
 
-    /**
-     * @Route(
-     *     "/api/heptaconnect/file/{portalNodeId}/request/{requestId}",
-     *     name="api.heptaconnect.file.request",
-     *     defaults={"auth_required"=false}
-     * )
-     */
+    #[Route(
+        "/api/heptaconnect/file/{portalNodeId}/request/{requestId}",
+        name: "api.heptaconnect.file.request",
+        defaults: [
+            "auth_required" => false,
+            "_routeScope" => [
+                'scopes' => ["api"],
+            ],
+        ],
+    )]
     public function request(string $portalNodeId, string $requestId): Response
     {
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
@@ -70,14 +70,19 @@ class FileReferenceController
         }, $response->getStatusCode(), $response->getHeaders());
     }
 
-    /**
-     * @Route(
-     *     "/api/heptaconnect/file/{portalNodeId}/contents/{normalizedStream}/{mimeType}",
-     *     name="api.heptaconnect.file.contents",
-     *     requirements={"mimeType"=".+"},
-     *     defaults={"auth_required"=false}
-     * )
-     */
+    #[Route(
+        "/api/heptaconnect/file/{portalNodeId}/contents/{normalizedStream}/{mimeType}",
+        name: "api.heptaconnect.file.contents",
+        requirements: [
+            "mimeType" => ".+",
+        ],
+        defaults: [
+            "auth_required" => false,
+            "_routeScope" => [
+                'scopes' => ["api"],
+            ],
+        ],
+    )]
     public function contents(string $portalNodeId, string $normalizedStream, string $mimeType): Response
     {
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
