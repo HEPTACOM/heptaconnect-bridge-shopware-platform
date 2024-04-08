@@ -276,7 +276,6 @@
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
@@ -325,15 +324,6 @@
             id="Heptacom\HeptaConnect\Core\Portal\Contract\PackageQueryMatcherInterface"
         >
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
-        </service>
-        <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service">
-                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
-                    <argument type="service" id="shopware.filesystem.private"/>
-                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
-                </service>
-            </argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
