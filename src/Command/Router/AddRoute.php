@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
-use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Create\RouteCreatePayloads;
@@ -53,7 +53,7 @@ class AddRoute extends Command
 
         $source = $this->storageKeyGenerator->deserialize((string) $input->getArgument('source'));
         $target = $this->storageKeyGenerator->deserialize((string) $input->getArgument('target'));
-        $type = (string) $input->getArgument('type');
+        $type = new EntityType((string) $input->getArgument('type'));
         $isBidirectional = (bool) $input->getOption('bidirectional');
 
         if (!$source instanceof PortalNodeKeyInterface) {
@@ -68,36 +68,7 @@ class AddRoute extends Command
             return 1;
         }
 
-        if (!\is_a($type, DatasetEntityContract::class, true)) {
-            $io->error('The specified type does not implement the DatasetEntityContract.');
-
-            return 1;
-        }
-
-        $ids = new RouteGetCriteria(new RouteKeyCollection());
-        $create = new RouteCreatePayloads();
-
-        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
-
-        if ($towards instanceof RouteFindResult) {
-            $ids->getRouteKeys()->push([$towards->getRouteKey()]);
-        } else {
-            $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
-        }
-
-        if ($isBidirectional && !$source->equals($target)) {
-            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
-
-            if ($back instanceof RouteFindResult) {
-                $ids->getRouteKeys()->push([$back->getRouteKey()]);
-            } else {
-                $create->push([new RouteCreatePayload($target, $source, $type, [RouteCapability::RECEPTION])]);
-            }
-        }
-
-        foreach ($this->routeCreateAction->create($create) as $result) {
-            $ids->getRouteKeys()->push([$result->getRouteKey()]);
-        }
+        $ids = $this->createIdCriteria($source, $target, $type, $isBidirectional);
 
         $results = [];
 
@@ -123,5 +94,39 @@ class AddRoute extends Command
         $io->table(\array_keys(\current($results)), $results);
 
         return 0;
+    }
+
+    private function createIdCriteria(
+        PortalNodeKeyInterface $source,
+        PortalNodeKeyInterface $target,
+        EntityType $type,
+        bool $isBidirectional
+    ): RouteGetCriteria {
+        $ids = new RouteGetCriteria(new RouteKeyCollection());
+        $create = new RouteCreatePayloads();
+
+        $towards = $this->routeFindAction->find(new RouteFindCriteria($source, $target, $type));
+
+        if ($towards instanceof RouteFindResult) {
+            $ids->getRouteKeys()->push([$towards->getRouteKey()]);
+        } else {
+            $create->push([new RouteCreatePayload($source, $target, $type, [RouteCapability::RECEPTION])]);
+        }
+
+        if ($isBidirectional && !$source->equals($target)) {
+            $back = $this->routeFindAction->find(new RouteFindCriteria($target, $source, $type));
+
+            if ($back instanceof RouteFindResult) {
+                $ids->getRouteKeys()->push([$back->getRouteKey()]);
+            } else {
+                $create->push([new RouteCreatePayload($target, $source, $type, [RouteCapability::RECEPTION])]);
+            }
+        }
+
+        foreach ($this->routeCreateAction->create($create) as $result) {
+            $ids->getRouteKeys()->push([$result->getRouteKey()]);
+        }
+
+        return $ids;
     }
 }
