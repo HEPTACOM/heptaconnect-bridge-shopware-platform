@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Config;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'heptaconnect:config:base-url:get')]
 class GetBaseUrlCommand extends Command
 {
-    protected static $defaultName = 'heptaconnect:config:base-url:get';
-
     public function __construct(
         private HttpHostProviderContract $httpHostProvider
     ) {

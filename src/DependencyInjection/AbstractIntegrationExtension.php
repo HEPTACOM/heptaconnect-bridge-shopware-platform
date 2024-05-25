@@ -21,7 +21,7 @@ class AbstractIntegrationExtension extends Extension
         $this->alias = Container::underscore($basename);
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->alias;
     }

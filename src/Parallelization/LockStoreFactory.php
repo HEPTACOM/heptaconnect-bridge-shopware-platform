@@ -12,11 +12,9 @@ use Symfony\Component\Lock\Store\PdoStore;
 
 final class LockStoreFactory implements LockStoreFactoryInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
+    public function __construct(
+        private Connection $connection
+    ) {
     }
 
     public function factory(array $options = []): PersistingStoreInterface
@@ -25,7 +23,7 @@ final class LockStoreFactory implements LockStoreFactoryInterface
             $pdo = $this->connection->getWrappedConnection();
 
             return new PdoStore($pdo, $options);
-        } catch (ConnectionException $exception) {
+        } catch (ConnectionException) {
             return new InMemoryStore();
         }
     }

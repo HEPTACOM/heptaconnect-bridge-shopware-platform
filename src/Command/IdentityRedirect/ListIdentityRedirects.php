@@ -7,29 +7,23 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:identity-redirect:list')]
 class ListIdentityRedirects extends Command
 {
-    protected static $defaultName = 'heptaconnect:identity-redirect:list';
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->identityRedirectOverviewAction = $identityRedirectOverviewAction;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $identities = [];

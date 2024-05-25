@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,21 +17,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:portal-node:status:report')]
 class ReportPortalNode extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:status:report';
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private StatusReportingServiceInterface $statusReportingService;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        StatusReportingServiceInterface $statusReportingService
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StatusReportingServiceInterface $statusReportingService
     ) {
         parent::__construct();
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->statusReportingService = $statusReportingService;
     }
 
     protected function configure(): void
@@ -40,7 +34,7 @@ class ReportPortalNode extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -50,7 +44,7 @@ class ReportPortalNode extends Command
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
             }
-        } catch (UnsupportedStorageKeyException $exception) {
+        } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
 
             return 1;

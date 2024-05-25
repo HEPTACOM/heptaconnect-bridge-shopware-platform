@@ -8,16 +8,16 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNod
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:portal-node:alias:overview')]
 class Overview extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:alias:overview';
-
     public function __construct(
         private PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
         private StorageKeyGeneratorContract $storageKeyGenerator
@@ -30,7 +30,7 @@ class Overview extends Command
         $this->addArgument('sort', InputArgument::OPTIONAL);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $sort = (string) $input->getArgument('sort');

@@ -18,13 +18,4 @@ $result = [
     Sourceability\Instrumentation\Bundle\SourceabilityInstrumentationBundle::class => ['all' => true],
 ];
 
-// support shopware: <6.4
-if (\class_exists(Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class)) {
-    $result[Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class] = ['all' => true];
-}
-
-if (\class_exists(Shopware\Storefront\Storefront::class)) {
-    $result[Shopware\Storefront\Storefront::class] = ['all' => true];
-}
-
 return $result;

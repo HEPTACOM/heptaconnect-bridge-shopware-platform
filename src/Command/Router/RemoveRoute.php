@@ -9,28 +9,21 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteDeleteActionIn
 use Heptacom\HeptaConnect\Storage\Base\Contract\RouteKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:router:remove-route')]
 class RemoveRoute extends Command
 {
-    protected static $defaultName = 'heptaconnect:router:remove-route';
-
-    private StorageKeyGeneratorContract $storageKeyGenerator;
-
-    private RouteDeleteActionInterface $routeDeleteAction;
-
     public function __construct(
-        StorageKeyGeneratorContract $storageKeyGenerator,
-        RouteDeleteActionInterface $routeDeleteAction
+        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private RouteDeleteActionInterface $routeDeleteAction
     ) {
         parent::__construct();
-
-        $this->storageKeyGenerator = $storageKeyGenerator;
-        $this->routeDeleteAction = $routeDeleteAction;
     }
 
     protected function configure(): void
@@ -38,7 +31,7 @@ class RemoveRoute extends Command
         $this->addArgument('route-key', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('route-key'));

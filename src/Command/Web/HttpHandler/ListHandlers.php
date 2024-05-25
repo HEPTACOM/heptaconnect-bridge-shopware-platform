@@ -11,16 +11,16 @@ use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:http-handler:list-handlers')]
 class ListHandlers extends Command
 {
-    protected static $defaultName = 'heptaconnect:http-handler:list-handlers';
-
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
@@ -37,7 +37,7 @@ class ListHandlers extends Command
         $this->addArgument('portal-node-key', InputArgument::OPTIONAL);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $portalNode = (string) $input->getArgument('portal-node-key');

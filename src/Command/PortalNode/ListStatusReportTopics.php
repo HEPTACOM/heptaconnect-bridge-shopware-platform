@@ -11,16 +11,16 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'heptaconnect:portal-node:status:list-topics')]
 class ListStatusReportTopics extends Command
 {
-    protected static $defaultName = 'heptaconnect:portal-node:status:list-topics';
-
     public function __construct(
         private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
         private StorageKeyGeneratorContract $storageKeyGenerator
@@ -33,7 +33,7 @@ class ListStatusReportTopics extends Command
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

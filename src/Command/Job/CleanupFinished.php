@@ -9,16 +9,16 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Listing\JobListFinishedResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobListFinishedActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'heptaconnect:job:cleanup-finished')]
 class CleanupFinished extends Command
 {
-    protected static $defaultName = 'heptaconnect:job:cleanup-finished';
-
     public function __construct(
         private JobListFinishedActionInterface $jobListFinishedAction,
         private JobDeleteActionInterface $jobDeleteAction
@@ -33,7 +33,7 @@ class CleanupFinished extends Command
         $this->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'The time limit in seconds the cleanup process can run');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = \microtime(true);
         $endTime = null;
