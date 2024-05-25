@@ -39,13 +39,12 @@ class AbstractIntegrationExtension extends Extension
         }
 
         $portalSourceLocation = \dirname($fileName);
+        $serviceDefinitionDir = $portalSourceLocation . '/../config';
 
-        $serviceDefinitionFile = $portalSourceLocation . '/../config';
-
-        if (!\is_dir($serviceDefinitionFile) || !\is_file($serviceDefinitionFile . '/bridge-services.xml')) {
+        if (!\is_dir($serviceDefinitionDir) || !\is_file($serviceDefinitionDir . '/bridge-services.xml')) {
             return;
         }
 
-        (new XmlFileLoader($container, new FileLocator($serviceDefinitionFile)))->load('bridge-services.xml');
+        (new XmlFileLoader($container, new FileLocator($serviceDefinitionDir)))->load('bridge-services.xml');
     }
 }

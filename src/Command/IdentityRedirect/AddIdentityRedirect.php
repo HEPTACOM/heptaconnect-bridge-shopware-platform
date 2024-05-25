@@ -24,7 +24,7 @@ final class AddIdentityRedirect extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectCreateActionInterface $identityRedirectCreateAction
+        private IdentityRedirectCreateActionInterface $redirectCreateAction
     ) {
         parent::__construct();
     }
@@ -71,7 +71,7 @@ final class AddIdentityRedirect extends Command
             return 1;
         }
 
-        $createResults = $this->identityRedirectCreateAction->create(new IdentityRedirectCreatePayloadCollection([
+        $createResults = $this->redirectCreateAction->create(new IdentityRedirectCreatePayloadCollection([
             new IdentityRedirectCreatePayload($sourcePortalNode, $sourceExternalId, $targetPortalNode, $targetExternalId, $type),
         ]));
 

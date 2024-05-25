@@ -51,7 +51,7 @@ class CleanupFinished extends Command
 
             $jobKeys = \iterable_map(
                 $this->jobListFinishedAction->list(),
-                static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
+                static fn (JobListFinishedResult $result) => $result->getJobKey()
             );
 
             foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {

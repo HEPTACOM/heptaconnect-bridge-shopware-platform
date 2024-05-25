@@ -23,7 +23,7 @@ class ActivateExtension extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalExtensionActivateActionInterface $portalExtensionActivateAction
+        private PortalExtensionActivateActionInterface $extensionActivateAction
     ) {
         parent::__construct();
     }
@@ -63,7 +63,7 @@ class ActivateExtension extends Command
         $payload = new PortalExtensionActivatePayload($portalNodeKey);
         $payload->addExtension($extensionClass);
 
-        $activateResult = $this->portalExtensionActivateAction->activate($payload);
+        $activateResult = $this->extensionActivateAction->activate($payload);
 
         if ($activateResult->isSuccess()) {
             $io->success(\sprintf(

@@ -52,7 +52,7 @@ class ListExtensions extends Command
             return 1;
         }
 
-        $portalExtensionFindResult = $this->portalExtensionFindAction->find($portalNodeKey);
+        $findResult = $this->portalExtensionFindAction->find($portalNodeKey);
 
         $portalNodeGetResults = \iterable_to_array($this->portalNodeGetAction->get(
             new PortalNodeGetCriteria(new PortalNodeKeyCollection([$portalNodeKey]))
@@ -72,7 +72,7 @@ class ListExtensions extends Command
 
         $extensionList = $extensions->map(static fn (PortalExtensionContract $extension): array => [
             'class' => $extension::class,
-            'active' => $portalExtensionFindResult->isActive($extension) ? 'yes' : 'no',
+            'active' => $findResult->isActive($extension) ? 'yes' : 'no',
         ]);
 
         $io->table(['class', 'active'], [...$extensionList]);

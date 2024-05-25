@@ -21,7 +21,7 @@ class RemoveIdentityRedirect extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction
+        private IdentityRedirectDeleteActionInterface $redirectDeleteAction
     ) {
         parent::__construct();
     }
@@ -42,7 +42,7 @@ class RemoveIdentityRedirect extends Command
             return 1;
         }
 
-        $this->identityRedirectDeleteAction->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([$key])));
+        $this->redirectDeleteAction->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([$key])));
 
         $io->success('The identity redirect was successfully removed.');
 

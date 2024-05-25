@@ -23,7 +23,7 @@ class DeactivateExtension extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalExtensionDeactivateActionInterface $portalExtensionDeactivateAction
+        private PortalExtensionDeactivateActionInterface $extensionDeactivateAction
     ) {
         parent::__construct();
     }
@@ -63,7 +63,7 @@ class DeactivateExtension extends Command
         $payload = new PortalExtensionDeactivatePayload($portalNodeKey);
         $payload->addExtension($extensionClass);
 
-        $deactivateResult = $this->portalExtensionDeactivateAction->deactivate($payload);
+        $deactivateResult = $this->extensionDeactivateAction->deactivate($payload);
 
         if ($deactivateResult->isSuccess()) {
             $io->success(\sprintf(

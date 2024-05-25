@@ -18,7 +18,7 @@ class ListIdentityRedirects extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
+        private IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
         parent::__construct();
     }
@@ -36,7 +36,7 @@ class ListIdentityRedirects extends Command
             IdentityRedirectOverviewCriteria::FIELD_CREATED => IdentityRedirectOverviewCriteria::SORT_DESC,
         ]);
 
-        foreach ($this->identityRedirectOverviewAction->overview($criteria) as $identityRedirect) {
+        foreach ($this->redirectOverviewAction->overview($criteria) as $identityRedirect) {
             $identities[] = [
                 'id' => $this->storageKeyGenerator->serialize($identityRedirect->getRouteKey()),
                 'type' => $identityRedirect->getEntityType(),

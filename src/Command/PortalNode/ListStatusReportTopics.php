@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListStatusReportTopics extends Command
 {
     public function __construct(
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
+        private PortalStackServiceContainerFactory $portalStackContainerFactory,
         private StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
@@ -49,7 +49,7 @@ class ListStatusReportTopics extends Command
             return 1;
         }
 
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        $container = $this->portalStackContainerFactory->create($portalNodeKey);
         /** @var FlowComponentRegistry $flowComponentRegistry */
         $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
 

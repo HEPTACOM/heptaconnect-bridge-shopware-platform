@@ -33,7 +33,7 @@ final class Repl extends Command
         private string $projectDir,
         private StorageKeyGeneratorContract $storageKeyGenerator,
         private PortalNodeListActionInterface $portalNodeListAction,
-        private StatusReportingContextFactoryInterface $statusReportingContextFactory
+        private StatusReportingContextFactoryInterface $statusReportContextFactory
     ) {
         parent::__construct();
     }
@@ -73,7 +73,7 @@ final class Repl extends Command
             return Command::INVALID;
         }
 
-        $context = $this->statusReportingContextFactory->factory($portalNodeKey);
+        $context = $this->statusReportContextFactory->factory($portalNodeKey);
         $statusReporter = $this->getStatusReporter($portalNodeKey);
 
         (new StatusReporterStack([$statusReporter], new NullLogger()))->next($context);

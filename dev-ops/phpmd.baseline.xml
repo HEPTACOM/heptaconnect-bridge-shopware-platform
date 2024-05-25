@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+    <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/AbstractIntegration.php"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Command/Explore.php" method="execute"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Command/MappingNode/ListMappingNodeSiblings.php" method="execute"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Command/MappingNode/ListMappingNodeSiblings.php" method="execute"/>
+    <violation rule="PHPMD\Rule\Design\LongMethod" file="src/Command/MappingNode/ListMappingNodeSiblings.php" method="execute"/>
+    <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Command/MappingNode/MergeMappingNodes.php" method="execute"/>
+    <violation rule="PHPMD\Rule\Design\NpathComplexity" file="src/Command/MappingNode/MergeMappingNodes.php" method="execute"/>
+</phpmd-baseline>

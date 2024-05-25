@@ -23,8 +23,8 @@ class ListHandlers extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
+        private PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private HttpHandlerUrlProviderFactoryInterface $httpUrlProviderFactory,
         private PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
@@ -57,14 +57,14 @@ class ListHandlers extends Command
             /** @var PortalNodeKeyInterface[] $portalNodeKeys */
             $portalNodeKeys = \iterable_map(
                 $this->portalNodeListAction->list(),
-                static fn (PortalNodeListResult $r) => $r->getPortalNodeKey()
+                static fn (PortalNodeListResult $route) => $route->getPortalNodeKey()
             );
         }
 
         $result = [];
 
         foreach ($portalNodeKeys as $portalNodeKey) {
-            $flowComponentRegistry = $this->portalStackServiceContainerFactory
+            $flowComponentRegistry = $this->portalStackContainerFactory
                 ->create($portalNodeKey)
                 ->getFlowComponentRegistry();
             $handlers = new HttpHandlerCollection();
@@ -79,7 +79,7 @@ class ListHandlers extends Command
             $urlFactory = null;
 
             foreach ($paths as $path) {
-                $urlFactory ??= $this->httpHandlerUrlProviderFactory->factory($portalNodeKey);
+                $urlFactory ??= $this->httpUrlProviderFactory->factory($portalNodeKey);
 
                 $result[] = [
                     'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey->withAlias()),

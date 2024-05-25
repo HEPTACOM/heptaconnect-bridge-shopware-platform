@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListRouteCapabilities extends Command
 {
     public function __construct(
-        private RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction
+        private RouteCapabilityOverviewActionInterface $routeCapOverviewAction
     ) {
         parent::__construct();
     }
@@ -32,7 +32,7 @@ class ListRouteCapabilities extends Command
             RouteCapabilityOverviewCriteria::FIELD_CREATED => RouteCapabilityOverviewCriteria::SORT_DESC,
         ]);
 
-        foreach ($this->routeCapabilityOverviewAction->overview($criteria) as $capability) {
+        foreach ($this->routeCapOverviewAction->overview($criteria) as $capability) {
             $result[] = $capability->getName();
         }
 

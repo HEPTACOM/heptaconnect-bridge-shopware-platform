@@ -22,7 +22,7 @@ class SetHandlerConfiguration extends Command
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
+        private WebHttpHandlerConfigurationSetActionInterface $configSetAction
     ) {
         parent::__construct();
     }
@@ -67,7 +67,7 @@ class SetHandlerConfiguration extends Command
         }
 
         $payload = new WebHttpHandlerConfigurationSetPayload(new HttpHandlerStackIdentifier($portalNodeKey, $path), $key, $parsed);
-        $this->webHttpHandlerConfigurationSetAction->set(new WebHttpHandlerConfigurationSetPayloads([$payload]));
+        $this->configSetAction->set(new WebHttpHandlerConfigurationSetPayloads([$payload]));
 
         return 0;
     }

@@ -39,9 +39,9 @@ class Get extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKeys = [];
-        $portalNodeKeyArguments = (array) $input->getArgument('portal-node-keys');
+        $portalNodeKeyArgs = (array) $input->getArgument('portal-node-keys');
 
-        foreach ($portalNodeKeyArguments as $keyData) {
+        foreach ($portalNodeKeyArgs as $keyData) {
             try {
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
 
