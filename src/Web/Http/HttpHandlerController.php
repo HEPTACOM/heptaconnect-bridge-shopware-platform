@@ -14,7 +14,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -48,15 +47,15 @@ class HttpHandlerController
     }
 
     #[Route(
-        "/api/heptaconnect/flow/{portalNodeId}/http-handler/{path}",
-        name: "api.heptaconnect.http.handler",
+        '/api/heptaconnect/flow/{portalNodeId}/http-handler/{path}',
+        name: 'api.heptaconnect.http.handler',
         requirements: [
-            "path" => ".+",
+            'path' => '.+',
         ],
         defaults: [
-            "auth_required" => false,
-            "_routeScope" => [
-                'scopes' => ["api"],
+            'auth_required' => false,
+            '_routeScope' => [
+                'scopes' => ['api'],
             ],
         ],
     )]
