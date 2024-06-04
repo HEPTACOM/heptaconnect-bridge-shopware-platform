@@ -6,9 +6,9 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler;
 
 use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
-use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
+use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
@@ -26,21 +26,17 @@ class ListHandlers extends Command
 
     private PortalStackServiceContainerFactory $portalStackServiceContainerFactory;
 
-    private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory;
-
     private PortalNodeListActionInterface $portalNodeListAction;
 
     public function __construct(
         StorageKeyGeneratorContract $storageKeyGenerator,
         PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
         PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
 
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->portalStackServiceContainerFactory = $portalStackServiceContainerFactory;
-        $this->httpHandlerUrlProviderFactory = $httpHandlerUrlProviderFactory;
         $this->portalNodeListAction = $portalNodeListAction;
     }
 
@@ -94,7 +90,8 @@ class ListHandlers extends Command
             $urlFactory = null;
 
             foreach ($paths as $path) {
-                $urlFactory ??= $this->httpHandlerUrlProviderFactory->factory($portalNodeKey);
+                /** @var HttpHandlerUrlProviderInterface $urlFactory */
+                $urlFactory ??= $container->get(HttpHandlerUrlProviderInterface::class);
 
                 $result[] = [
                     'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey->withAlias()),
