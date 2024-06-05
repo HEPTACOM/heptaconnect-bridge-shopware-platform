@@ -12,6 +12,18 @@
             <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findResponseFactory"/>
         </service>
         <service
+            id="Psr\Http\Message\StreamFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\StreamFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findStreamFactory"/>
+        </service>
+        <service
+            id="Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect"
+            class="Psr\Http\Message\UploadedFileFactoryInterface"
+        >
+            <factory class="Http\Discovery\Psr17FactoryDiscovery" method="findUploadedFileFactory"/>
+        </service>
+        <service
             id="Heptacom\HeptaConnect\Core\Component\Logger\FlowComponentCodeOriginFinderLogger"
             decorates="heptacom_heptaconnect.logger"
         >
@@ -111,6 +123,8 @@
             <argument id="Heptacom\HeptaConnect\Core\Emission\EmitService" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ReceptionHandler"
@@ -126,6 +140,7 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityReflectActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler"
@@ -135,6 +150,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobStartActionInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFinishActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface" type="service"/>
+            <argument id="heptacom_heptaconnect.logger" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Mapping\Publisher"
@@ -147,6 +164,18 @@
             id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract"
         >
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract.lock_factory" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory"
+            id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface" type="service"/>
+            <argument type="service">
+                <service class="Psr\Http\Message\UriFactoryInterface">
+                    <factory class="\Http\Discovery\Psr17FactoryDiscovery" method="findUriFactory"/>
+                </service>
+            </argument>
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerBuilder"
@@ -163,12 +192,19 @@
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\RequestStorageContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface" type="service"/>
 
             <call method="setDirectEmissionFlow">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\Flow\DirectEmission\DirectEmissionFlowContract" type="service"/>
             </call>
             <call method="setFileReferenceResolver">
                 <argument id="Heptacom\HeptaConnect\Portal\Base\File\FileReferenceResolverContract" type="service"/>
+            </call>
+            <call method="setHttpHandleService">
+                <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface" type="service"/>
             </call>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Portal\PortalStorageFactory">
@@ -182,7 +218,12 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service" id="hepta_connect_bridge_shopware_platform.filesystem.private"/>
+            <argument type="service">
+                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
+                    <argument type="service" id="shopware.filesystem.private"/>
+                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
+                </service>
+            </argument>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
@@ -303,6 +344,8 @@
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
             <argument id="Psr\Http\Message\ResponseFactoryInterface.heptaconnect" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface" type="service"/>
         </service>
         <service
             class="Heptacom\HeptaConnect\Core\Web\Http\HttpHandlingActor"
@@ -318,6 +361,23 @@
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract"/>
             <argument type="service" id="router.request_context"/>
             <argument type="service" id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface"
+        />
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface" type="service"/>
+            <argument id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract" type="service"/>
+        </service>
+        <service
+            class="Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker"
+            id="Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface"
+        >
+            <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface" type="service"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface"
@@ -340,6 +400,11 @@
             <tag name="heptaconnect_core.portal_node_configuration.processor" priority="10000"/>
             <argument id="cache.system" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
+        </service>
+
+        <service id="Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface"
+                 class="Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder">
+            <argument id="Psr\Http\Message\StreamFactoryInterface.heptaconnect" type="service"/>
         </service>
     </services>
 </container>

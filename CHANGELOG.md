@@ -15,8 +15,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
-- Show progress-bar in command `heptaconnect:job:cleanup-finished`
-
 ### Changed
 
 - When generating a url for an http-handler, the decision whether the portal-node-key is serialized with or without an alias is moved from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProvider` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` for easier decoration
@@ -27,10 +25,128 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+### Security
+
+## [0.9.7.0] - 2024-02-10
+
+### Changed
+
+- Command `heptaconnect:job:run` now accepts multiple values for argument `job-key` and runs the jobs simultaneously
+
+## [0.9.6.0] - 2024-01-03
+
+### Added
+
+- Add interface `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactoryInterface` with corresponding implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory` to provide lock stores for parallelization
+
+### Fixed
+
+- Fix service container when no database url is configured by catching connection errors and falling back to in-memory lock store in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`
+
+## [0.9.5.0] - 2023-07-10
+
+### Added
+
+- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\ExplorationHandler`
+- Add dependency `heptacom_heptaconnect.logger` to service `Heptacom\HeptaConnect\Core\Job\Handler\EmissionHandler`
+
+### Changed
+
+- Raise composer dependency constraint for `heptacom/heptaconnect-core`, `heptacom/heptaconnect-dataset-base`, `heptacom/heptaconnect-portal-base` and `heptacom/heptaconnect-storage-base` from `^0.9.4` to `^0.9.6`
+
+## [0.9.4.0] - 2023-05-27
+
+### Added
+
+- Add service definition `Psr\Http\Message\StreamFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory`
+- Add service definition `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect` factorized by `\Http\Discovery\Psr17FactoryDiscovery::findUploadedFileFactory`
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface` for class `Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Component\Composer\Contract\PackageConfigurationLoaderInterface` for definition `Heptacom\HeptaConnect\Core\Component\Composer\PackageConfigurationLoader`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Emission\Contract\EmitServiceInterface` for definition `Heptacom\HeptaConnect\Core\Emission\EmitService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorationActorInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExploreServiceInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExploreService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Exploration\ExplorerStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalFactoryContract` for definition `Heptacom\HeptaConnect\Core\Portal\PortalFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface` for definition `Heptacom\HeptaConnect\Core\Portal\PortalRegistry`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract` for definition `Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiverStackBuilderFactoryInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiverStackBuilderFactory`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceiveServiceInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceiveService`
+- Add alternative service id `Heptacom\HeptaConnect\Core\Reception\Contract\ReceptionActorInterface` for definition `Heptacom\HeptaConnect\Core\Reception\ReceptionActor`
+- Add alternative service id `Heptacom\HeptaConnect\Portal\Base\Support\Contract\EntityStatusContract` for definition `Heptacom\HeptaConnect\Core\Support\EntityStatus`
+
+### Changed
+
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ExplorationHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\EmissionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Job\Contract\ReceptionHandlerInterface` on `Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobFailActionInterface`
+- Add method call `setHttpHandleService` to service definition `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageMultiPartFormDataBuilderInterface`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\StreamFactoryInterface.heptaconnect`
+- Add dependency in `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController` on `Psr\Http\Message\UploadedFileFactoryInterface.heptaconnect`
+
+## [0.9.3.0] - 2023-03-04
+
+### Added
+
+- Add option `time-limit` to command `heptaconnect:job:cleanup-finished` to limit the time the command is running measured in seconds
+- Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\Contract\HeaderUtilityInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Support\HeaderUtility`
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageCurlShellFormatter`
+- Add service definition `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` for class `\Heptacom\HeptaConnect\Core\Web\Http\Formatter\Psr7MessageRawHttpFormatter`
+- Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\SampleRateServerRequestCycleDumpChecker`
+- Add service alias `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageFormatterContract` to set `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` as default implementation
+- Implement `\Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface` in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\HttpHandlerDumpPathProvider`
+- Add service definition `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface` for class `\Heptacom\HeptaConnect\Core\Web\Http\Dump\ServerRequestCycleDumper`
+- Add dependency `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumpCheckerInterface` and `Heptacom\HeptaConnect\Core\Web\Http\Dump\Contract\ServerRequestCycleDumperInterface` to service `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface`
+- Add dependency `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageCurlShellFormatterContract` and `Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\Psr7MessageRawHttpFormatterContract` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add service definition `Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface` provided by `Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface`
+- Add command `heptaconnect:identity-redirect:add` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\AddIdentityRedirect` to add an identity redirect
+- Add command `heptaconnect:identity-redirect:remove` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\RemoveIdentityRedirect` to remove an identity redirect
+- Add command `heptaconnect:identity-redirect:list` in service definition `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect\ListIdentityRedirects` to list identity redirects
+- Add identity redirect into evaluation of `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
+
+### Changed
+
+- Use count of deleted jobs as progress indicator in command `heptaconnect:job:cleanup-finished`
+- Delete jobs, that have not been finished at the start of the command `heptaconnect:job:cleanup-finished`, but finished during the command run
+- Remove Symfony, connection, proxy and transfer related header from requests handled in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+- Raise composer dependency constraint for `heptacom/heptaconnect-core`, `heptacom/heptaconnect-dataset-base`, `heptacom/heptaconnect-portal-base` and `heptacom/heptaconnect-storage-base` from `^0.9.3` to `^0.9.4`
+- Raise composer dependency constraint for `heptacom/heptaconnect-storage-shopware-dal` from `^0.9` to `^0.9.1`
+
+### Fixed
+
+- Ensure missing query parameters in the request's URI passed on to the HTTP handler in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerController`
+- Interpret `entity-type` option in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings` as filter criteria for identities
+- Show an empty result if first search did not find a mapping node to search for its siblings `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\MappingNode\ListMappingNodeSiblings`
+
+## [0.9.2.0] - 2022-11-26
+
+### Added
+
+- Add composer dependency `kor3k/flysystem-stream-wrapper: ^1.0.11` to register flysystem filesystems to a stream wrapper
+- Add service definition for implementation `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` described by `\Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface` to provide stream wrapper protocol and register flysystem filesystems for portal nodes
+- Add service definition `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` for class `\Heptacom\HeptaConnect\Core\Portal\File\Filesystem\FilesystemFactory`
+- Add dependency `Heptacom\HeptaConnect\Core\Portal\File\Filesystem\Contract\FilesystemFactoryInterface` to service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface`
+- Add command `heptaconnect:emit` to emit one or more entities
+- Add composer suggestion `psy/psysh` for an interactive read–eval–print loop in the scope of a portal-node
+- Add command `heptaconnect:repl` for an interactive read–eval–print loop in the scope of a portal-node
+
+### Fixed
+
+- Change base filesystem for portal nodes in `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` from the Shopware bundle provided private filesystem to a custom prefixed filesystem based on the Shopware instance private filesystem to keep the same default directory but to support adapter access on the file system 
+
+## [0.9.1.1] - 2022-10-03
+
+### Added
+
+- Show progress-bar in command `heptaconnect:job:cleanup-finished`
+
+### Fixed
+
 - Remove service `Shopware\Core\Framework\MessageQueue\Monitoring\MonitoringBusDecorator` from container as it has been renamed from `Shopware\Core\Framework\MessageQueue\MonitoringBusDecorator`.
 - Fix command `heptaconnect:portal-node:status:list-topics` when there are no topics
-
-### Security
 
 ## [0.9.1.0] - 2022-07-19
 
