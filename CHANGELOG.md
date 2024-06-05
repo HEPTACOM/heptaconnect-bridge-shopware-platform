@@ -17,6 +17,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Changed
 
+- When generating a url for an http-handler, the decision whether the portal-node-key is serialized with or without an alias is moved from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProvider` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` for easier decoration⁄
+
 ### Deprecated
 
 ### Removed
