@@ -29,7 +29,7 @@ final class Repl extends Command
 
     protected static $defaultName = 'heptaconnect:repl';
 
-    private string $projectDir;
+    private string $logsDir;
 
     private StorageKeyGeneratorContract $storageKeyGenerator;
 
@@ -38,13 +38,13 @@ final class Repl extends Command
     private StatusReportingContextFactoryInterface $statusReportingContextFactory;
 
     public function __construct(
-        string $projectDir,
+        string $logsDir,
         StorageKeyGeneratorContract $storageKeyGenerator,
         PortalNodeListActionInterface $portalNodeListAction,
         StatusReportingContextFactoryInterface $statusReportingContextFactory
     ) {
         parent::__construct();
-        $this->projectDir = $projectDir;
+        $this->logsDir = $logsDir;
         $this->storageKeyGenerator = $storageKeyGenerator;
         $this->statusReportingContextFactory = $statusReportingContextFactory;
         $this->portalNodeListAction = $portalNodeListAction;
@@ -105,15 +105,15 @@ final class Repl extends Command
 
         $statusReporterToken = new StatusReporterToken('repl');
 
-        $projectDir = $this->projectDir;
+        $logsDir = $this->logsDir;
 
         $statusReporterToken->setRun(static function (
             PortalNodeContextInterface $context
-        ) use ($portalNodeId, $commands, $projectDir): void {
+        ) use ($portalNodeId, $commands, $logsDir): void {
             self::registerGlobalFunctions($context);
 
             $config = new Configuration();
-            $config->setHistoryFile($projectDir . '/var/log/repl.' . $portalNodeId . '.log');
+            $config->setHistoryFile($logsDir . '/repl.' . $portalNodeId . '.log');
 
             $shell = new Shell($config);
             $shell->addCommands($commands);
