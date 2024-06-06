@@ -23,6 +23,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Command `heptaconnect:repl` now uses kernel parameter `%kernel.logs_dir%` to locate logs directory, instead of `%kernel.project_dir%/var/log`
+
 ### Security
 
 ## [0.9.7.0] - 2024-02-10

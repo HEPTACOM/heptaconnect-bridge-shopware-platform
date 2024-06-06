@@ -184,7 +184,7 @@
         </service>
         <service id="Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Repl">
             <tag name="console.command"/>
-            <argument type="string">%kernel.project_dir%</argument>
+            <argument type="string">%kernel.logs_dir%</argument>
             <argument type="service"
                       id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service"
