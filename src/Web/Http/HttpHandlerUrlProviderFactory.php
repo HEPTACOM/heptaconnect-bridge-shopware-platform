@@ -41,7 +41,7 @@ final class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFacto
     public function factory(PortalNodeKeyInterface $portalNodeKey): HttpHandlerUrlProviderInterface
     {
         return new HttpHandlerUrlProvider(
-            $portalNodeKey,
+            $portalNodeKey->withoutAlias(),
             $this->storageKeyGenerator,
             $this->urlGenerator,
             $this->requestContext,
