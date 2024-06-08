@@ -31,7 +31,7 @@ class Migration1651069262CreateLockTable extends MigrationStep
             return;
         }
 
-        $pdo = $connection->getWrappedConnection();
+        $pdo = $connection->getNativeConnection();
 
         $pdoStore = new PdoStore($pdo, [
             'db_table' => $tableName,

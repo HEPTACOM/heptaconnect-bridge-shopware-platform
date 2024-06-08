@@ -325,16 +325,6 @@
         >
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
         </service>
-        <service id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory">
-            <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service">
-                <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
-                    <!-- TODO: remove flysystem -->
-                    <!-- <argument type="service" id="shopware.filesystem.private"/> -->
-                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
-                </service>
-            </argument>
-        </service>
         <service
             class="Heptacom\HeptaConnect\Core\Reception\ReceiverCodeOriginFinder"
             id="Heptacom\HeptaConnect\Portal\Base\Reception\Contract\ReceiverCodeOriginFinderInterface"

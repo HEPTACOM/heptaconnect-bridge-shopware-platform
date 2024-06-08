@@ -247,7 +247,14 @@
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <!-- TODO: remove flysystem -->
-            <!-- <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory"/> -->
+            <!--
+            <argument type="service">
+                <service class="Shopware\Core\Framework\Adapter\Filesystem\PrefixFilesystem">
+                    <argument type="service" id="shopware.filesystem.private"/>
+                    <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
+                </service>
+            </argument>
+            -->
         </service>
         <service id="Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface"
                  class="Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory"/>
