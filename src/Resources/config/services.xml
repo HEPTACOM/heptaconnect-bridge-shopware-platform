@@ -246,7 +246,8 @@
             id="Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface"
         >
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
-            <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory"/>
+            <!-- TODO: remove flysystem -->
+            <!-- <argument type="service" id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory"/> -->
         </service>
         <service id="Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface"
                  class="Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory"/>

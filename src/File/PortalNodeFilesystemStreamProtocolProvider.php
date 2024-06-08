@@ -14,7 +14,8 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private FilesystemFactory $filesystemFactory
+        // TODO: remove flysystem
+        // private FilesystemFactory $filesystemFactory
     ) {
     }
 
@@ -23,8 +24,8 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);
         $streamScheme = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
 
-        // TODO: Fix Flysystem compatibility
-        FlysystemStreamWrapper::register($streamScheme, $this->filesystemFactory->factory($portalNodeKey));
+        // TODO: remove flysystem
+        // FlysystemStreamWrapper::register($streamScheme, $this->filesystemFactory->factory($portalNodeKey));
 
         return $streamScheme;
     }

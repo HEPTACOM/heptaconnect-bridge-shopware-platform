@@ -276,7 +276,6 @@
             <argument id="Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Profiling\ProfilerFactoryContract" type="service"/>
             <argument id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract" type="service"/>
-            <argument id="Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface" type="service"/>
             <argument id="Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface" type="service"/>
@@ -330,7 +329,8 @@
             <argument type="service" id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract"/>
             <argument type="service">
                 <service class="Heptacom\HeptaConnect\Core\Storage\Filesystem\PrefixFilesystem">
-                    <argument type="service" id="shopware.filesystem.private"/>
+                    <!-- TODO: remove flysystem -->
+                    <!-- <argument type="service" id="shopware.filesystem.private"/> -->
                     <argument>plugins/hepta_connect_bridge_shopware_platform</argument>
                 </service>
             </argument>
@@ -423,12 +423,14 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract"/>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer">
-            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <!-- TODO: remove flysystem -->
+            <!-- <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/> -->
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
             <tag name="heptacom.heptaconnect_denormalizer" priority="200"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer">
-            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <!-- TODO: remove flysystem -->
+            <!-- <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/> -->
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
