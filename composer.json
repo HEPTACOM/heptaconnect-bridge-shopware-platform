@@ -44,7 +44,7 @@
         "psr/log": "^2.0 || ^3.0",
         "ramsey/uuid": "^4.5",
         "shopware/core": "^6.5.8.0",
-        "sourceability/instrumentation": "^0.2.3",
+        "sourceability/instrumentation": "^1.0.4",
         "symfony/config": ">=6.4.0",
         "symfony/console": ">=6.4.0",
         "symfony/dependency-injection": ">=6.4.0",
