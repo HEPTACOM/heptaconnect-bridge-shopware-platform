@@ -56,6 +56,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Extract dependency `tagged: heptaconnect_core.portal_node_configuration.processor` from `Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface` into own service `Heptacom\HeptaConnect\Core\Configuration\Contract\PortalNodeConfigurationProcessorServiceInterface`
 - Switch parameter in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to use directly a prefixed instance of `shopware.filesystem.private`
 - Change route definitions from PHPDoc to PHP attribute notation
+- Raise composer dependency constraint for `doctrine/dbal` from `>=2.11.0` to `^3.7`
 
 ### Deprecated
 

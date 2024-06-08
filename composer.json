@@ -27,7 +27,7 @@
         "ext-json": "*",
         "bentools/iterable-functions": "^1.4",
         "composer/composer": ">=1",
-        "doctrine/dbal": ">=2.11.0",
+        "doctrine/dbal": "^3.7",
         "heptacom/heptaconnect-core": "^0.9.6",
         "heptacom/heptaconnect-dataset-base": "^0.9.6",
         "heptacom/heptaconnect-portal-base": "^0.9.6",
