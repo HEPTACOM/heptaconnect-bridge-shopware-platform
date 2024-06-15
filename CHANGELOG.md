@@ -15,6 +15,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+- Add optional substitute service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\System\SystemConfig\SystemConfigService` for `Shopware\Core\System\SystemConfig\SystemConfigService`
+
 ### Changed
 
 - When generating a url for an http-handler, the decision whether the portal-node-key is serialized with or without an alias is moved from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProvider` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` for easier decoration
@@ -24,7 +26,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Removed
 
-- Removed dependency `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface` from service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers`
+- Remove dependency `Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface` from service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Web\HttpHandler\ListHandlers`
 
 ### Fixed
 

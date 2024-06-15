@@ -9,6 +9,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle as Bridge;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\AbstractIntegrationExtension;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveEntityCache;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\SubstituteSystemConfigService;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource as DalStorageMigrationSource;
 use Shopware\Core\Framework\Migration\MigrationCollectionLoader;
 use Shopware\Core\Framework\Migration\MigrationSource;
@@ -21,6 +22,7 @@ use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\KernelPluginLoader;
 use Shopware\Core\Kernel;
 use Sourceability\Instrumentation\Bundle\SourceabilityInstrumentationBundle;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -77,6 +79,12 @@ class AbstractIntegration extends Plugin
 
         $container->addCompilerPass(new RemoveBusMonitoring());
         $container->addCompilerPass(new RemoveEntityCache());
+        $container->addCompilerPass(
+            new SubstituteSystemConfigService(),
+            PassConfig::TYPE_BEFORE_OPTIMIZATION,
+            -1000
+        );
+
         $container->setParameter('shopware.admin_worker.enable_admin_worker', false);
     }
 
