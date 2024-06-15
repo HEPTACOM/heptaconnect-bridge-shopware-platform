@@ -15,14 +15,26 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.9.8.0] - 2024-06-16
+
+### Added
+
 - Add optional substitute service `Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\System\SystemConfig\SystemConfigService` for `Shopware\Core\System\SystemConfig\SystemConfigService`
 
 ### Changed
 
 - When generating a url for an http-handler, the decision whether the portal-node-key is serialized with or without an alias is moved from `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProvider` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory` for easier decoration
 - Command `heptaconnect:http-handler:list-handlers` now uses the respective portal-container to get an instance of `\Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface`, so packages in that container can now influence this service
-
-### Deprecated
 
 ### Removed
 
@@ -31,8 +43,6 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 - Command `heptaconnect:repl` now uses kernel parameter `%kernel.logs_dir%` to locate logs directory, instead of `%kernel.project_dir%/var/log`
-
-### Security
 
 ## [0.9.7.0] - 2024-02-10
 
