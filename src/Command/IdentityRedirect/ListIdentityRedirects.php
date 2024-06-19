@@ -44,7 +44,7 @@ class ListIdentityRedirects extends Command
 
         foreach ($this->identityRedirectOverviewAction->overview($criteria) as $identityRedirect) {
             $identities[] = [
-                'id' => $this->storageKeyGenerator->serialize($identityRedirect->getRouteKey()),
+                'id' => $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey()),
                 'type' => $identityRedirect->getEntityType(),
                 'targetPortalNode' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
                 'targetExternalId' => $identityRedirect->getTargetExternalId(),

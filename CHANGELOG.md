@@ -23,6 +23,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Fix fatal error in command `heptaconnect:identity-redirect:list` 
+
 ### Security
 
 ## [0.9.8.0] - 2024-06-16
