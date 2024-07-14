@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform;
 
 use Composer\Autoload\ClassLoader;
+use Doctrine\DBAL\Connection;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle as Bridge;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\AbstractIntegrationExtension;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring;
@@ -143,20 +144,22 @@ class AbstractIntegration extends Plugin
             $vendorDir = $projectDir . '/vendor/';
         }
 
+        $connection = Kernel::getConnection();
         $pluginLoader = new DbalKernelPluginLoader(
             require $vendorDir . '/autoload.php',
             null,
-            Kernel::getConnection()
+            $connection
         );
 
-        $kernel = new class($projectDir, $pluginLoader, $this, $currentEnv) extends Kernel {
+        $kernel = new class($projectDir, $pluginLoader, $this, $currentEnv, $connection) extends Kernel {
             public function __construct(
                 string $projectDir,
                 KernelPluginLoader $pluginLoader,
                 private readonly AbstractIntegration $plugin,
-                string $currentEnv
+                string $currentEnv,
+                Connection $connection,
             ) {
-                parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);
+                parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, $connection, $projectDir);
             }
 
             #[\Override]
