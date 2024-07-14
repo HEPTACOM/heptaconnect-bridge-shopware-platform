@@ -29,10 +29,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AddRoute extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private RouteFindActionInterface $routeFindAction,
-        private RouteCreateActionInterface $routeCreateAction,
-        private RouteGetActionInterface $routeGetAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly RouteFindActionInterface $routeFindAction,
+        private readonly RouteCreateActionInterface $routeCreateAction,
+        private readonly RouteGetActionInterface $routeGetAction
     ) {
         parent::__construct();
     }

@@ -18,8 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Find extends Command
 {
     public function __construct(
-        private PortalNodeAliasFindActionInterface $aliasFindAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasFindActionInterface $aliasFindAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

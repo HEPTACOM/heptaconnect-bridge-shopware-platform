@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListRouteCapabilities extends Command
 {
     public function __construct(
-        private RouteCapabilityOverviewActionInterface $routeCapOverviewAction
+        private readonly RouteCapabilityOverviewActionInterface $routeCapOverviewAction
     ) {
         parent::__construct();
     }

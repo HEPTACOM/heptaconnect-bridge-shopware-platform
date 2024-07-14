@@ -22,10 +22,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListHandlers extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalStackServiceContainerFactory $portalStackContainerFactory,
-        private HttpHandlerUrlProviderFactoryInterface $httpUrlProviderFactory,
-        private PortalNodeListActionInterface $portalNodeListAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly HttpHandlerUrlProviderFactoryInterface $httpUrlProviderFactory,
+        private readonly PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
     }

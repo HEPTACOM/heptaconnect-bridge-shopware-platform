@@ -22,7 +22,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterf
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
-use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,11 +33,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class Emit extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityMapActionInterface $identityMapAction,
-        private JobCreateActionInterface $jobCreateAction,
-        private JobGetActionInterface $jobGetAction,
-        private EmissionHandlerInterface $emissionHandler
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityMapActionInterface $identityMapAction,
+        private readonly JobCreateActionInterface $jobCreateAction,
+        private readonly JobGetActionInterface $jobGetAction,
+        private readonly EmissionHandlerInterface $emissionHandler
     ) {
         parent::__construct();
     }

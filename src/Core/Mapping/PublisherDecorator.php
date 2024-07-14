@@ -25,8 +25,8 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
     private bool $active = false;
 
     public function __construct(
-        private PublisherInterface $publisher,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PublisherInterface $publisher,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
     }
 

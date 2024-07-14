@@ -11,11 +11,11 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class HttpHostProviderContract
 {
-    private UriFactoryInterface $uriFactory;
+    private readonly UriFactoryInterface $uriFactory;
 
     public function __construct(
-        private SystemConfigService $systemConfigService,
-        private string $appUrl
+        private readonly SystemConfigService $systemConfigService,
+        private readonly string $appUrl
     ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }

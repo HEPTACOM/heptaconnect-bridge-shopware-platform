@@ -20,8 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanupFinished extends Command
 {
     public function __construct(
-        private JobListFinishedActionInterface $jobListFinishedAction,
-        private JobDeleteActionInterface $jobDeleteAction
+        private readonly JobListFinishedActionInterface $jobListFinishedAction,
+        private readonly JobDeleteActionInterface $jobDeleteAction
     ) {
         parent::__construct();
     }

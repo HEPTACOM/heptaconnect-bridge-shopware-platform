@@ -20,8 +20,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListPortalNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeOverviewActionInterface $portalNodeOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeOverviewActionInterface $portalNodeOverviewAction
     ) {
         parent::__construct();
     }

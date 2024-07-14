@@ -11,7 +11,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
+final readonly class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 {
     public const LOGGER_STREAM = 'php://stderr';
 

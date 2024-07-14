@@ -24,9 +24,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MergeMappingNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction,
-        private IdentityPersistActionInterface $identityPersistAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityOverviewActionInterface $identityOverviewAction,
+        private readonly IdentityPersistActionInterface $identityPersistAction
     ) {
         parent::__construct();
     }

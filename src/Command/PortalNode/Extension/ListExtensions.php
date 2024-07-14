@@ -23,16 +23,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'heptaconnect:portal-node:extensions:list')]
 class ListExtensions extends Command
 {
-    private PortalLoaderInterface $portalLoader;
-
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalLoaderInterface $portalLoader,
-        private PortalNodeGetActionInterface $portalNodeGetAction,
-        private PortalExtensionFindActionInterface $portalExtensionFindAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalLoaderInterface $portalLoader,
+        private readonly PortalNodeGetActionInterface $portalNodeGetAction,
+        private readonly PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
     }
 
     #[\Override]

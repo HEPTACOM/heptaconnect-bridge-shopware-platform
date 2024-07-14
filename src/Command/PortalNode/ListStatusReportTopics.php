@@ -22,8 +22,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListStatusReportTopics extends Command
 {
     public function __construct(
-        private PortalStackServiceContainerFactory $portalStackContainerFactory,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

@@ -30,10 +30,10 @@ final class Repl extends Command
     public static ?PortalNodeContextInterface $context = null;
 
     public function __construct(
-        private string $projectDir,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeListActionInterface $portalNodeListAction,
-        private StatusReportingContextFactoryInterface $statusReportContextFactory
+        private readonly string $projectDir,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeListActionInterface $portalNodeListAction,
+        private readonly StatusReportingContextFactoryInterface $statusReportContextFactory
     ) {
         parent::__construct();
     }

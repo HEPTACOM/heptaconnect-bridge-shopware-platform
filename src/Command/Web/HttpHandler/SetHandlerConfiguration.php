@@ -21,8 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SetHandlerConfiguration extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private WebHttpHandlerConfigurationSetActionInterface $configSetAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly WebHttpHandlerConfigurationSetActionInterface $configSetAction
     ) {
         parent::__construct();
     }

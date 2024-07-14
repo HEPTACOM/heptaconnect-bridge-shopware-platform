@@ -57,6 +57,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch parameter in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to use directly a prefixed instance of `shopware.filesystem.private`
 - Change route definitions from PHPDoc to PHP attribute notation
 - Raise composer dependency constraint for `doctrine/dbal` from `>=2.11.0` to `^3.7`
+- Remove dynamic property assignments by making classes `readonly` `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
 
 ### Deprecated
 

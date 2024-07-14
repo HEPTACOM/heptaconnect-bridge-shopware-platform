@@ -22,9 +22,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AddPortalNode extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeCreateActionInterface $portalNodeCreateAction,
-        private AliasValidator $aliasValidator
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeCreateActionInterface $portalNodeCreateAction,
+        private readonly AliasValidator $aliasValidator
     ) {
         parent::__construct();
     }

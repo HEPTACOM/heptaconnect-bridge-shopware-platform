@@ -16,19 +16,19 @@ use Symfony\Component\Routing\RequestContext;
 
 final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 {
-    private UriFactoryInterface $uriFactory;
+    private readonly UriFactoryInterface $uriFactory;
 
     private ?string $portalNodeId = null;
 
     private ?UriInterface $baseUrl = null;
 
     public function __construct(
-        private PortalNodeKeyInterface $portalNodeKey,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private UrlGeneratorInterface $urlGenerator,
-        private RequestContext $requestContext,
-        private HttpHostProviderContract $hostProvider,
-        private RequestContextHelper $requestContextHelper
+        private readonly PortalNodeKeyInterface $portalNodeKey,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly RequestContext $requestContext,
+        private readonly HttpHostProviderContract $hostProvider,
+        private readonly RequestContextHelper $requestContextHelper
     ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }

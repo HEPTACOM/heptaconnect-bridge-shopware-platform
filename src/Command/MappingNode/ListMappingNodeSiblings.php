@@ -26,9 +26,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListMappingNodeSiblings extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction,
-        private IdentityRedirectOverviewActionInterface $redirectOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityOverviewActionInterface $identityOverviewAction,
+        private readonly IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
         parent::__construct();
     }

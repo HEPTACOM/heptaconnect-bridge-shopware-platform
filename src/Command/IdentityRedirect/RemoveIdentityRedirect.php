@@ -20,8 +20,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveIdentityRedirect extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectDeleteActionInterface $redirectDeleteAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectDeleteActionInterface $redirectDeleteAction
     ) {
         parent::__construct();
     }

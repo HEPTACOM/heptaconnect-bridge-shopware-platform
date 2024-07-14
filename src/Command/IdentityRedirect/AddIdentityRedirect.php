@@ -23,8 +23,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class AddIdentityRedirect extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectCreateActionInterface $redirectCreateAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectCreateActionInterface $redirectCreateAction
     ) {
         parent::__construct();
     }

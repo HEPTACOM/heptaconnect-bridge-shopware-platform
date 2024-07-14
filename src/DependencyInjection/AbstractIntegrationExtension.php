@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class AbstractIntegrationExtension extends Extension
 {
-    private string $alias;
+    private readonly string $alias;
 
     public function __construct(string $bundleName)
     {

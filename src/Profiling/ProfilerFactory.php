@@ -11,7 +11,7 @@ use Sourceability\Instrumentation\Profiler\ProfilerInterface;
 final class ProfilerFactory extends ProfilerFactoryContract
 {
     public function __construct(
-        private ProfilerInterface $profiler
+        private readonly ProfilerInterface $profiler
     ) {
     }
 

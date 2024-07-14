@@ -24,9 +24,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Run extends Command
 {
     public function __construct(
-        private JobGetActionInterface $jobGetAction,
-        private DelegatingJobActorContract $jobActor,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly JobGetActionInterface $jobGetAction,
+        private readonly DelegatingJobActorContract $jobActor,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

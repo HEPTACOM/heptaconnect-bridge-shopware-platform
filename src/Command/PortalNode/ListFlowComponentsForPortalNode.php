@@ -48,13 +48,13 @@ class ListFlowComponentsForPortalNode extends Command
     ];
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalStackServiceContainerFactory $portalStackContainerFactory,
-        private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
-        private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
-        private ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
-        private ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
-        private StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
+        private readonly EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
+        private readonly ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
+        private readonly ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
+        private readonly StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
     ) {
         parent::__construct();
     }

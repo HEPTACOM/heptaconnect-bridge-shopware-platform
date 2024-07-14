@@ -19,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Overview extends Command
 {
     public function __construct(
-        private PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

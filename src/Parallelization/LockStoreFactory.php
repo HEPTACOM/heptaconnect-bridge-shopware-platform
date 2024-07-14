@@ -11,7 +11,7 @@ use Symfony\Component\Lock\PersistingStoreInterface;
 use Symfony\Component\Lock\Store\InMemoryStore;
 use Symfony\Component\Lock\Store\PdoStore;
 
-final class LockStoreFactory implements LockStoreFactoryInterface
+final readonly class LockStoreFactory implements LockStoreFactoryInterface
 {
     public function __construct(
         private Connection $connection

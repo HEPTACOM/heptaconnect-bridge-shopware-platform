@@ -21,8 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Get extends Command
 {
     public function __construct(
-        private ConfigurationServiceInterface $configurationService,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly ConfigurationServiceInterface $configurationService,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

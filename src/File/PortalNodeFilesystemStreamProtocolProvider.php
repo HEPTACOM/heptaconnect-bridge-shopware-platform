@@ -11,7 +11,7 @@ use League\Flysystem\FilesystemOperator;
 use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
 use Shopware\Core\Framework\Adapter\Filesystem\PrefixFilesystem;
 
-final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
+final readonly class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,

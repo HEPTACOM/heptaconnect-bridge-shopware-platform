@@ -23,8 +23,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Get extends Command
 {
     public function __construct(
-        private PortalNodeAliasGetActionInterface $aliasGetAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasGetActionInterface $aliasGetAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

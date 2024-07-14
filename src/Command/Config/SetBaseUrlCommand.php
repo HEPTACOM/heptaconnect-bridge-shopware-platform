@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SetBaseUrlCommand extends Command
 {
     public function __construct(
-        private SystemConfigService $systemConfigService
+        private readonly SystemConfigService $systemConfigService
     ) {
         parent::__construct();
     }

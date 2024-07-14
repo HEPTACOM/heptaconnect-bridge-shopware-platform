@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class PortalList extends Command
 {
     public function __construct(
-        private PortalLoaderInterface $portalLoader
+        private readonly PortalLoaderInterface $portalLoader
     ) {
         parent::__construct();
     }

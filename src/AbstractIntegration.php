@@ -153,7 +153,7 @@ class AbstractIntegration extends Plugin
             public function __construct(
                 string $projectDir,
                 KernelPluginLoader $pluginLoader,
-                private AbstractIntegration $plugin,
+                private readonly AbstractIntegration $plugin,
                 string $currentEnv
             ) {
                 parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);

@@ -25,9 +25,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Set extends Command
 {
     public function __construct(
-        private PortalNodeAliasSetActionInterface $aliasSetAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private AliasValidator $aliasValidator
+        private readonly PortalNodeAliasSetActionInterface $aliasSetAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly AliasValidator $aliasValidator
     ) {
         parent::__construct();
     }

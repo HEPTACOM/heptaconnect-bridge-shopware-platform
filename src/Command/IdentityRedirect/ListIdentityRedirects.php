@@ -17,8 +17,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListIdentityRedirects extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectOverviewActionInterface $redirectOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
         parent::__construct();
     }

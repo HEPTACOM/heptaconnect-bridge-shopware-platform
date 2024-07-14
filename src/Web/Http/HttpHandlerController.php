@@ -25,16 +25,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HttpHandlerController
 {
-    private PsrHttpFactory $psrHttpFactory;
+    private readonly PsrHttpFactory $psrHttpFactory;
 
-    private HttpFoundationFactory $httpFoundationFactory;
+    private readonly HttpFoundationFactory $httpFoundationFactory;
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private HttpHandleServiceInterface $httpHandleService,
-        private Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder,
-        private StreamFactoryInterface $streamFactory,
-        private UploadedFileFactoryInterface $uploadedFileFactory,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly HttpHandleServiceInterface $httpHandleService,
+        private readonly Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder,
+        private readonly StreamFactoryInterface $streamFactory,
+        private readonly UploadedFileFactoryInterface $uploadedFileFactory,
     ) {
         $this->psrHttpFactory = new PsrHttpFactory(
             Psr17FactoryDiscovery::findServerRequestFactory(),

@@ -21,8 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ReportPortalNode extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private StatusReportingServiceInterface $statusReportingService
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StatusReportingServiceInterface $statusReportingService
     ) {
         parent::__construct();
     }

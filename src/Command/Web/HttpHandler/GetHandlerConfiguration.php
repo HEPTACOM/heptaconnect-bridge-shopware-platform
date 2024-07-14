@@ -21,8 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetHandlerConfiguration extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private WebHttpHandlerConfigurationFindActionInterface $configFindAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly WebHttpHandlerConfigurationFindActionInterface $configFindAction
     ) {
         parent::__construct();
     }

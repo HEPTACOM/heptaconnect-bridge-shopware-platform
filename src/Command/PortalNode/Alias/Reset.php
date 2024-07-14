@@ -24,8 +24,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Reset extends Command
 {
     public function __construct(
-        private PortalNodeAliasSetActionInterface $aliasSetAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasSetActionInterface $aliasSetAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }

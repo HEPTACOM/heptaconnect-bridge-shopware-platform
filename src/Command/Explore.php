@@ -25,9 +25,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Explore extends Command
 {
     public function __construct(
-        private ExploreServiceInterface $exploreService,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PublisherInterface $publisher
+        private readonly ExploreServiceInterface $exploreService,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PublisherInterface $publisher
     ) {
         parent::__construct();
     }

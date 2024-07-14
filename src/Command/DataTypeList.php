@@ -19,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class DataTypeList extends Command
 {
     public function __construct(
-        private PortalLoaderInterface $portalLoader,
-        private PortalStackServiceContainerFactory $portalStackContainerFactory
+        private readonly PortalLoaderInterface $portalLoader,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory
     ) {
         parent::__construct();
     }

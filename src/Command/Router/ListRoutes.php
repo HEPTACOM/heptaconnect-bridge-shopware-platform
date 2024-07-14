@@ -17,8 +17,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListRoutes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private RouteOverviewActionInterface $routeOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly RouteOverviewActionInterface $routeOverviewAction
     ) {
         parent::__construct();
     }

@@ -21,8 +21,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListMappingNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
     }

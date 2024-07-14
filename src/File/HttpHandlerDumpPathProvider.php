@@ -10,10 +10,10 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 
 final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderInterface
 {
-    private string $logDirectory;
+    private readonly string $logDirectory;
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
         string $logDirectory
     ) {
         $this->logDirectory = \rtrim($logDirectory, '/\\');
