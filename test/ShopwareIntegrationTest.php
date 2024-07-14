@@ -20,7 +20,7 @@ class ShopwareIntegrationTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->kernel = new Fixture\ShopwareKernel();
+        $this->kernel = new Fixture\ShopwareKernel(Fixture\ShopwareKernel::getConnection());
         $this->kernel->boot();
     }
 

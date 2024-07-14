@@ -39,7 +39,7 @@ do {
 $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
 $connection->executeStatement(\file_get_contents(__DIR__ . '/../vendor/shopware/core/schema.sql'));
 
-$kernel = new ShopwareKernel();
+$kernel = new ShopwareKernel($connection);
 $kernel->boot();
 $kernel->registerBundles();
 $application = new Application($kernel);

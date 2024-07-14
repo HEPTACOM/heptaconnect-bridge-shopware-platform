@@ -20,7 +20,7 @@ class StorageTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->kernel = new Fixture\ShopwareKernel();
+        $this->kernel = new Fixture\ShopwareKernel(Fixture\ShopwareKernel::getConnection());
         $this->kernel->boot();
 
         /** @var Connection $connection */

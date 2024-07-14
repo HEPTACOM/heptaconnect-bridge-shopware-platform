@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture;
 
+use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Core\Framework\Plugin\PluginEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -11,7 +12,7 @@ use Shopware\Core\Kernel;
 
 class ShopwareKernel extends Kernel
 {
-    public function __construct()
+    public function __construct(Connection $connection)
     {
         /** @var \Composer\Autoload\ClassLoader $classLoader */
         $classLoader = require __DIR__ . '/../../vendor/autoload.php';
@@ -39,7 +40,7 @@ class ShopwareKernel extends Kernel
             new StaticKernelPluginLoader($classLoader, __DIR__ . '/ShopwareProject/Custom', $plugins),
             'test',
             self::SHOPWARE_FALLBACK_VERSION,
-            null,
+            $connection,
             __DIR__ . '/ShopwareProject'
         );
     }
