@@ -77,11 +77,11 @@ definitions:
                 <<: *php84-image
                 name: Install and Unit test (8.4 + High dependencies)
                 script:
-                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
-                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testhigh81;'
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'CREATE USER test_user@127.0.0.1 IDENTIFIED WITH mysql_native_password BY "let_me_in_as_well"; GRANT ALL ON *.* TO test_user@127.0.0.1;'
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testhigh;'
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
-                    - export DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testhigh81'
+                    - export DATABASE_URL='mysql://test_user:let_me_in_as_well@127.0.0.1/pipelines_testhigh'
                     - # TODO re-enable coverage tests, when https://bugs.xdebug.org/view.php?id=2252 is solved
                     - COMPOSER_EXTRA_ARGS=-vvv make -e tests-without-coverage
         -   step: &test-coverage-low-install-84
@@ -89,22 +89,22 @@ definitions:
                 <<: *php84-image
                 name: Install and Unit test (8.4 + Low dependencies)
                 script:
-                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
-                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testlow81;'
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'CREATE USER test_user@127.0.0.1 IDENTIFIED WITH mysql_native_password BY "let_me_in_as_well"; GRANT ALL ON *.* TO test_user@127.0.0.1;'
+                    - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_testlow;'
                     - make clean
                     - GLOBAL_REPOSITORIES_DIR=`pwd`/.build/private-composer composer-repository
                     - composer update --prefer-lowest --prefer-stable
-                    - export DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_testlow81'
+                    - export DATABASE_URL='mysql://test_user:let_me_in_as_well@127.0.0.1/pipelines_testlow'
                     - # TODO re-enable coverage tests, when https://bugs.xdebug.org/view.php?id=2252 is solved
                     - COMPOSER_EXTRA_ARGS=-vvv make -e tests-without-coverage
         -   step: &test-coverage
                 <<: *default-step
                 name: Test coverage
                 script:
-                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'GRANT ALL ON *.* TO test_user@127.0.0.1 IDENTIFIED BY "let_me_in_as_well";'
+                    - mysql -uroot -plet_me_in -h127.0.0.1 -e 'CREATE USER test_user@127.0.0.1 IDENTIFIED WITH mysql_native_password BY "let_me_in_as_well"; GRANT ALL ON *.* TO test_user@127.0.0.1;'
                     - mysql -utest_user -plet_me_in_as_well -h127.0.0.1 -e 'CREATE DATABASE pipelines_covr;'
                     - bash setup-vendor.sh
-                    - export DATABASE_URL='mysql://root:let_me_in@127.0.0.1/pipelines_covr'
+                    - export DATABASE_URL='mysql://test_user:let_me_in_as_well@127.0.0.1/pipelines_covr'
                     - # TODO re-enable coverage tests, when https://bugs.xdebug.org/view.php?id=2252 is solved
                     - COMPOSER_EXTRA_ARGS=-vvv make -e tests-without-coverage
         -   step: &test-code-style-php
