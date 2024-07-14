@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Core\Job\JobDataCollection;
 use Heptacom\HeptaConnect\Core\Job\Type\Emission;
 use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Dataset\Base\DatasetEntityCollection;
-use Heptacom\HeptaConnect\Dataset\Base\DependencyCollection;
+use Heptacom\HeptaConnect\Dataset\Base\EntityType;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Map\IdentityMapPayload;
@@ -87,7 +87,7 @@ final class Emit extends Command
             $jobCreatePayloads->push([
                 new JobCreatePayload(
                     Emission::class,
-                    new MappingComponentStruct($portalNodeKey, $type, $externalId),
+                    new MappingComponentStruct($portalNodeKey, new EntityType($type), $externalId),
                     null,
                 ),
             ]);
@@ -130,10 +130,6 @@ final class Emit extends Command
         foreach ($externalIds as $externalId) {
             /** @var DatasetEntityContract $entity */
             $entity = $entityFactory->newInstanceWithoutConstructor();
-            \Closure::bind(function (DatasetEntityContract $entity): void {
-                $entity->attachments = new AttachmentCollection();
-                $entity->dependencies = new DependencyCollection();
-            }, null, $entity)($entity);
             $entity->setPrimaryKey($externalId);
 
             $result->push([$entity]);

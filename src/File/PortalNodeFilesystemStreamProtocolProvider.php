@@ -15,7 +15,8 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        private FilesystemOperator $filesystem
+        // TODO: remove flysystem
+        // private FilesystemOperator $filesystem
     ) {
     }
 
@@ -24,10 +25,11 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);
         $streamScheme = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
         $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
-        $disksafePortalNodeId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
-        $filesystem = new PrefixFilesystem($this->filesystem, $disksafePortalNodeId);
+        $normalizedPortalNodeId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
 
-        FlysystemStreamWrapper::register($streamScheme, $filesystem);
+        // TODO: remove flysystem
+        // $filesystem = new PrefixFilesystem($this->filesystem, $normalizedPortalNodeId);
+        // FlysystemStreamWrapper::register($streamScheme, $filesystem);
 
         return $streamScheme;
     }

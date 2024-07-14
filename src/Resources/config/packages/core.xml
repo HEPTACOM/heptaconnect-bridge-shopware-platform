@@ -413,12 +413,14 @@
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract"/>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer">
-            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <!-- TODO: remove flysystem -->
+            <!-- <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/> -->
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
             <tag name="heptacom.heptaconnect_denormalizer" priority="200"/>
         </service>
         <service id="Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer">
-            <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/>
+            <!-- TODO: remove flysystem -->
+            <!-- <argument id="hepta_connect_bridge_shopware_platform.filesystem.private" type="service"/> -->
             <argument id="Heptacom\HeptaConnect\Core\Storage\Contract\StreamPathContract" type="service"/>
             <argument id="heptacom_heptaconnect.logger" type="service"/>
             <tag name="heptacom.heptaconnect_normalizer" priority="200"/>
