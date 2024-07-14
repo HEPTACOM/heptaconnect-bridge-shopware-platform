@@ -22,6 +22,7 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterf
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
+use Heptacom\HeptaConnect\Utility\Attachment\AttachmentCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
