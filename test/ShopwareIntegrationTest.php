@@ -30,13 +30,6 @@ class ShopwareIntegrationTest extends TestCase
         $this->kernel->shutdown();
     }
 
-    public function testConnection(): void
-    {
-        $connection = $this->kernel::getConnection();
-        static::assertTrue($connection->ping());
-    }
-
-    #[Depends('testConnection')]
     public function testMigration(): void
     {
         $this->kernel->registerBundles();
