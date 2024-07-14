@@ -129,7 +129,6 @@ class AbstractIntegration extends Plugin
         $collection->sync();
 
         $reflectionProperty = new \ReflectionProperty(InstallContext::class, 'migrationCollection');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($installContext, $collection);
     }
 
