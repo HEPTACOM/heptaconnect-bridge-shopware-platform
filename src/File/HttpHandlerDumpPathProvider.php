@@ -19,6 +19,7 @@ final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderIn
         $this->logDirectory = \rtrim($logDirectory, '/\\');
     }
 
+    #[\Override]
     public function provide(PortalNodeKeyInterface $portalNodeKey): string
     {
         $now = new \DateTimeImmutable();

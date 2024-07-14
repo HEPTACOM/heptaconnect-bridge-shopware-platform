@@ -20,6 +20,7 @@ final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFile
     ) {
     }
 
+    #[\Override]
     public function provide(PortalNodeKeyInterface $portalNodeKey): string
     {
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);

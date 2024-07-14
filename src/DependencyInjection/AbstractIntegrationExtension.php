@@ -21,11 +21,13 @@ class AbstractIntegrationExtension extends Extension
         $this->alias = Container::underscore($basename);
     }
 
+    #[\Override]
     public function getAlias(): string
     {
         return $this->alias;
     }
 
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         if (!\class_exists(LocalShopwarePlatformPortal::class)) {

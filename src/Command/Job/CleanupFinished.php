@@ -26,6 +26,7 @@ class CleanupFinished extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -33,6 +34,7 @@ class CleanupFinished extends Command
         $this->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'The time limit in seconds the cleanup process can run');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = \microtime(true);

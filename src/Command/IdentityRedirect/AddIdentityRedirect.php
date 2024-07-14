@@ -29,6 +29,7 @@ final class AddIdentityRedirect extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('type', InputArgument::REQUIRED);
@@ -38,6 +39,7 @@ final class AddIdentityRedirect extends Command
         $this->addArgument('target-external-id', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

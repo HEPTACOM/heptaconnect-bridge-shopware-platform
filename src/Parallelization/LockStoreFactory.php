@@ -18,6 +18,7 @@ final class LockStoreFactory implements LockStoreFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function factory(array $options = []): PersistingStoreInterface
     {
         try {

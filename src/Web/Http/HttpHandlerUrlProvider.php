@@ -33,6 +33,7 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 
+    #[\Override]
     public function resolve(string $path): UriInterface
     {
         $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey->withoutAlias());

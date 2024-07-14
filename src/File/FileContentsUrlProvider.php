@@ -31,6 +31,7 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 
+    #[\Override]
     public function resolve(
         PortalNodeKeyInterface $portalNodeKey,
         string $normalizedStream,

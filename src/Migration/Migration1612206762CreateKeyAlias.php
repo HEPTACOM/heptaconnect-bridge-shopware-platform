@@ -9,11 +9,13 @@ use Shopware\Core\Framework\Migration\MigrationStep;
 
 class Migration1612206762CreateKeyAlias extends MigrationStep
 {
+    #[\Override]
     public function getCreationTimestamp(): int
     {
         return 1612206762;
     }
 
+    #[\Override]
     public function update(Connection $connection): void
     {
         $sql = <<<SQL
@@ -34,6 +36,7 @@ SQL;
         $connection->executeStatement($sql);
     }
 
+    #[\Override]
     public function updateDestructive(Connection $connection): void
     {
     }

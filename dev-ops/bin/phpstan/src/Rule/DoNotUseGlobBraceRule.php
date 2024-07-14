@@ -15,11 +15,13 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class DoNotUseGlobBraceRule implements Rule
 {
+    #[\Override]
     public function getNodeType(): string
     {
         return ConstFetch::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         $name = $node->name->toString();

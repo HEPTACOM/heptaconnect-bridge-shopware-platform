@@ -33,6 +33,7 @@ class ListMappingNodeSiblings extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('external-ids', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
@@ -40,6 +41,7 @@ class ListMappingNodeSiblings extends Command
         $this->addOption('entity-type', 't', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

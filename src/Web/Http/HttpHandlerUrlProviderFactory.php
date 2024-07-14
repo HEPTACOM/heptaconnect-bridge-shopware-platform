@@ -23,6 +23,7 @@ final class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFacto
     ) {
     }
 
+    #[\Override]
     public function factory(PortalNodeKeyInterface $portalNodeKey): HttpHandlerUrlProviderInterface
     {
         return new HttpHandlerUrlProvider(

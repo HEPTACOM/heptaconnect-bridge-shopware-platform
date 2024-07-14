@@ -30,7 +30,8 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
     ) {
     }
 
-    public static function getSubscribedEvents()
+    #[\Override]
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => 'startBuffer',
@@ -73,6 +74,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
         }
     }
 
+    #[\Override]
     public function publishBatch(MappingComponentCollection $mappings): void
     {
         if (!$this->active) {

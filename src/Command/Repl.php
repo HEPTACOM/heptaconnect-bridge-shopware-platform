@@ -38,11 +38,13 @@ final class Repl extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addOption('portal-node', null, InputOption::VALUE_REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

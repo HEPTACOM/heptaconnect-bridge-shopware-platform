@@ -32,6 +32,7 @@ class Explore extends Command
         parent::__construct();
     }
 
+    #[\Override]
     public function configure(): void
     {
         $this
@@ -42,6 +43,7 @@ class Explore extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = \microtime(true);

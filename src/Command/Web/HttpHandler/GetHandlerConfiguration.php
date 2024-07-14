@@ -27,6 +27,7 @@ class GetHandlerConfiguration extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class GetHandlerConfiguration extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

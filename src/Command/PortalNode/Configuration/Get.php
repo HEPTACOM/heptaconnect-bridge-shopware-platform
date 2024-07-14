@@ -27,6 +27,7 @@ class Get extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
@@ -34,6 +35,7 @@ class Get extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -27,6 +27,7 @@ class XAppFactory implements XAppFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function factory(): App
     {
         if (!\class_exists(App::class)) {

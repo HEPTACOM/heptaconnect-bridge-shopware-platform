@@ -10,6 +10,7 @@ use Shopware\Core\Framework\Plugin;
 
 class ShopwarePlugin extends Plugin
 {
+    #[\Override]
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
     {
         return [

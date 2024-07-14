@@ -17,12 +17,14 @@ class ShopwareIntegrationTest extends TestCase
 {
     protected Fixture\ShopwareKernel $kernel;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->kernel = new Fixture\ShopwareKernel();
         $this->kernel->boot();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->kernel->shutdown();

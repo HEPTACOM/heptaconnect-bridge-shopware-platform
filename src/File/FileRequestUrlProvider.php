@@ -32,6 +32,7 @@ final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 
+    #[\Override]
     public function resolve(
         PortalNodeKeyInterface $portalNodeKey,
         FileReferenceRequestKeyInterface $requestKey

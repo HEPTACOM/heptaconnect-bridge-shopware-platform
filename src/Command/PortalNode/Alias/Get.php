@@ -29,12 +29,14 @@ class Get extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-keys', InputArgument::IS_ARRAY);
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

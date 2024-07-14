@@ -10,17 +10,20 @@ use Symfony\Component\Lock\Store\PdoStore;
 
 class Migration1651069262CreateLockTable extends MigrationStep
 {
+    #[\Override]
     public function getCreationTimestamp(): int
     {
         return 1651069262;
     }
 
+    #[\Override]
     public function update(Connection $connection): void
     {
         $this->createLockTable($connection, 'heptaconnect_core_reception_lock');
         $this->createLockTable($connection, 'heptaconnect_portal_node_resource_lock');
     }
 
+    #[\Override]
     public function updateDestructive(Connection $connection): void
     {
     }

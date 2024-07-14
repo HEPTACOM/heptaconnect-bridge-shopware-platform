@@ -30,6 +30,7 @@ class ListHandlers extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class ListHandlers extends Command
         $this->addArgument('portal-node-key', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class RemoveBusMonitoring implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->has(MessageQueue\MonitoringBusDecorator::class)) {

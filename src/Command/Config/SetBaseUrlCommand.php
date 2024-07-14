@@ -20,11 +20,13 @@ class SetBaseUrlCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('base-url', InputArgument::REQUIRED, 'Base-URL for HTTP interface');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $baseUrl = (string) $input->getArgument('base-url');

@@ -20,7 +20,8 @@ final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    public static function getSubscribedEvents()
+    #[\Override]
+    public static function getSubscribedEvents(): array
     {
         return [
             ConsoleCommandEvent::class => 'onPreCommandRun',

@@ -25,11 +25,13 @@ class Overview extends Command
         parent::__construct();
     }
 
+    #[\Override]
     public function configure(): void
     {
         $this->addArgument('sort', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

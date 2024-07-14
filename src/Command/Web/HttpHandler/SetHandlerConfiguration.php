@@ -27,6 +27,7 @@ class SetHandlerConfiguration extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class SetHandlerConfiguration extends Command
         $this->addArgument('value');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

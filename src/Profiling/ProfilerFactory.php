@@ -15,6 +15,7 @@ final class ProfilerFactory extends ProfilerFactoryContract
     ) {
     }
 
+    #[\Override]
     public function factory(?string $prefix = null): ProfilerContract
     {
         return new Profiler($this->profiler, $prefix);

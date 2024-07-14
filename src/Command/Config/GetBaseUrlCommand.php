@@ -19,6 +19,7 @@ class GetBaseUrlCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln((string) $this->httpHostProvider->get());

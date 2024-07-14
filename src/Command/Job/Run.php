@@ -31,6 +31,7 @@ class Run extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument(
@@ -40,6 +41,7 @@ class Run extends Command
         );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {

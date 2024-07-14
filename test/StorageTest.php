@@ -18,6 +18,7 @@ class StorageTest extends TestCase
 {
     protected Fixture\ShopwareKernel $kernel;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->kernel = new Fixture\ShopwareKernel();
@@ -28,6 +29,7 @@ class StorageTest extends TestCase
         $connection->beginTransaction();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         /** @var Connection $connection */

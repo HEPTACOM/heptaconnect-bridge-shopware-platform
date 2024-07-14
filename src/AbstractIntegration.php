@@ -31,6 +31,7 @@ class AbstractIntegration extends Plugin
 
     private ?SourceabilityInstrumentationBundle $instrumentationBundle = null;
 
+    #[\Override]
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
     {
         return [
@@ -57,21 +58,25 @@ class AbstractIntegration extends Plugin
         return $this->instrumentationBundle;
     }
 
+    #[\Override]
     public function install(InstallContext $installContext): void
     {
         $this->replaceMigrationCollection($installContext);
     }
 
+    #[\Override]
     public function update(UpdateContext $updateContext): void
     {
         $this->replaceMigrationCollection($updateContext);
     }
 
+    #[\Override]
     public function activate(ActivateContext $activateContext): void
     {
         $this->replaceMigrationCollection($activateContext);
     }
 
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -81,11 +86,13 @@ class AbstractIntegration extends Plugin
         $container->setParameter('shopware.admin_worker.enable_admin_worker', false);
     }
 
+    #[\Override]
     protected function createContainerExtension(): ?ExtensionInterface
     {
         return new AbstractIntegrationExtension($this->getName());
     }
 
+    #[\Override]
     protected function registerMigrationPath(ContainerBuilder $container): void
     {
         $migrationPaths = [];
@@ -152,7 +159,8 @@ class AbstractIntegration extends Plugin
                 parent::__construct($currentEnv, false, $pluginLoader, \uniqid(), Kernel::SHOPWARE_FALLBACK_VERSION, null, $projectDir);
             }
 
-            public function registerBundles()
+            #[\Override]
+            public function registerBundles(): iterable
             {
                 $bundles = [];
 
@@ -175,7 +183,8 @@ class AbstractIntegration extends Plugin
                 }
             }
 
-            protected function buildContainer()
+            #[\Override]
+            protected function buildContainer(): ContainerBuilder
             {
                 /** @var ContainerBuilder $container */
                 $container = parent::buildContainer();
@@ -187,6 +196,7 @@ class AbstractIntegration extends Plugin
                 return $container;
             }
 
+            #[\Override]
             protected function getKernelParameters(): array
             {
                 $kernelParameters = parent::getKernelParameters();
