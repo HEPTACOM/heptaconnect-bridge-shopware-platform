@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
@@ -48,7 +47,7 @@ class Get extends Command
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
 
                 if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                    throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+                    throw new UnsupportedStorageKeyException(\get_debug_type($portalNodeKey));
                 }
 
                 $portalNodeKeys[] = $portalNodeKey;

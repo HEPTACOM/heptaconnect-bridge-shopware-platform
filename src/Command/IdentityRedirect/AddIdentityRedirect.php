@@ -96,7 +96,7 @@ final class AddIdentityRedirect extends Command
         if ($portalNodeKey instanceof PortalNodeKeyInterface) {
             $portalNodeKey = $portalNodeKey->withoutAlias();
         } else {
-            throw new UnsupportedStorageKeyException($portalNodeKey::class);
+            throw new UnsupportedStorageKeyException(\get_debug_type($portalNodeKey));
         }
 
         return $portalNodeKey;
