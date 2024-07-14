@@ -13,7 +13,7 @@ use Symfony\Component\Dotenv\Dotenv;
 $loader = require __DIR__ . '/../vendor/autoload.php';
 KernelLifecycleManager::prepare($loader);
 
-(new Dotenv(true))->load(__DIR__ . '/../.env.test');
+(new Dotenv())->load(__DIR__ . '/../.env.test');
 
 $connection = ShopwareKernel::getConnection();
 
