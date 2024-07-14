@@ -24,12 +24,12 @@ final readonly class PortalNodeFilesystemStreamProtocolProvider implements Porta
     public function provide(PortalNodeKeyInterface $portalNodeKey): string
     {
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);
-        $streamScheme = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
+        $streamScheme = \strtolower((string) \preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
         $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
-        $normalizedPortalNodeId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
+        $normalizedId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
 
         // TODO: remove flysystem
-        // $filesystem = new PrefixFilesystem($this->filesystem, $normalizedPortalNodeId);
+        // $filesystem = new PrefixFilesystem($this->filesystem, $normalizedId);
         // FlysystemStreamWrapper::register($streamScheme, $filesystem);
 
         return $streamScheme;
