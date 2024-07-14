@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final readonly class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 {
-    public const LOGGER_STREAM = 'php://stderr';
+    public const string LOGGER_STREAM = 'php://stderr';
 
     public function __construct(
         private StreamHandler $loggerHandler

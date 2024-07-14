@@ -39,7 +39,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'heptaconnect:portal-node:list-flow-components')]
 class ListFlowComponentsForPortalNode extends Command
 {
-    private const FLOW_COMPONENT_INPUT_MAP = [
+    private const array FLOW_COMPONENT_INPUT_MAP = [
         'emitter' => EmitterContract::class,
         'explorer' => ExplorerContract::class,
         'http-handler' => HttpHandlerContract::class,
