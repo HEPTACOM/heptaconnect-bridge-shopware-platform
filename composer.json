@@ -33,8 +33,6 @@
         "heptacom/heptaconnect-portal-base": "^0.9.6",
         "heptacom/heptaconnect-storage-base": "^0.9.6",
         "heptacom/heptaconnect-storage-shopware-dal": "0.10.x-dev",
-        "league/flysystem": "^3.10.3",
-        "m2mtech/flysystem-stream-wrapper": "^1.4.0",
         "monolog/monolog": "^3.3.1",
         "nyholm/psr7": "^1.2",
         "php-http/curl-client": "^2.2",
