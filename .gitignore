@@ -13,3 +13,4 @@
 /.build
 
 /test/Fixture/ShopwareProject/var
+/test/Fixture/ShopwareProject/files

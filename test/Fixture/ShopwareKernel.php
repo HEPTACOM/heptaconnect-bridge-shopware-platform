@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test\Fixture;
 
 use Doctrine\DBAL\Connection;
+use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\StaticKernelPluginLoader;
 use Shopware\Core\Framework\Plugin\PluginEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\Kernel;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ShopwareKernel extends Kernel
 {
@@ -43,5 +45,15 @@ class ShopwareKernel extends Kernel
             $connection,
             __DIR__ . '/ShopwareProject'
         );
+    }
+
+    #[\Override]
+    protected function buildContainer(): ContainerBuilder
+    {
+        $result = parent::buildContainer();
+
+        $result->getDefinition(PortalNodeFilesystemStreamProtocolProviderInterface::class)->setPublic(true);
+
+        return $result;
     }
 }
