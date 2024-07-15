@@ -40,6 +40,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface`
 - The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
 - Add service container parameter `heptacom_heptaconnect.portal_node.file_system_path` referencing the root directory, where portal node files are placed
+- Add service container parameter `heptacom_heptaconnect.core.normalized_streams_path` referencing the root directory, where normalized streams are stored
 
 ### Changed
 
@@ -60,6 +61,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Raise composer dependency constraint for `doctrine/dbal` from `>=2.11.0` to `^3.7`
 - Remove dynamic property assignments by making classes `readonly` `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
 - Change parameter in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.portal_node.file_system_path%` which points to the same directory as before
+- Change parameter in services `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.core.normalized_streams_path%` which points to the same directory as before
 
 ### Deprecated
 
