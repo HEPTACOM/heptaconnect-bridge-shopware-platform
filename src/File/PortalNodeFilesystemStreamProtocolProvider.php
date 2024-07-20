@@ -26,8 +26,8 @@ final readonly class PortalNodeFilesystemStreamProtocolProvider implements Porta
         $normalizedId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
         $portalNodePath = \rtrim($this->filesystemBasePath, '/\\') . \DIRECTORY_SEPARATOR . $normalizedId;
 
-        if (!\is_dir($portalNodePath)) {
-            \mkdir($portalNodePath, 0777, true);
+        if (!\is_dir($portalNodePath) && \mkdir($portalNodePath, 0777, true) === false) {
+            throw new PortalNodeFilesystemBaseDirectoryCreationException($portalNodePath, 1721493200);
         }
 
         \stream_wrapper_register($streamScheme, RewritePathStreamWrapper::class);

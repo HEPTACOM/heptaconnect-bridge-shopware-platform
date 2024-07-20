@@ -2,6 +2,7 @@
 <phpmd-baseline>
     <!-- Intentional -->
     <!-- To generate use: $ dev-ops/bin/phpmd - - generate-baseline src xml dev-ops/phpmd.xml -->
+    <violation rule="PHPMD\Rule\Naming\LongClassName" file="src/File/PortalNodeFilesystemBaseDirectoryCreationException.php"/>
     <violation rule="PHPMD\Rule\Naming\LongVariable" file="src/AbstractIntegration.php"/>
     <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Command/Explore.php" method="execute"/>
     <violation rule="PHPMD\Rule\CyclomaticComplexity" file="src/Command/MappingNode/ListMappingNodeSiblings.php" method="execute"/>

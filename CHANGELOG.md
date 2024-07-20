@@ -41,6 +41,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
 - Add service container parameter `heptacom_heptaconnect.portal_node.file_system_path` referencing the root directory, where portal node files are placed
 - Add service container parameter `heptacom_heptaconnect.core.normalized_streams_path` referencing the root directory, where normalized streams are stored
+- Add exception class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemBaseDirectoryCreationException` to represent an exception, when creating a base directory for a portal node filesystem fails
+- Add exception code `1721493200` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider::provide`, when the directory, that serves as place for all portal node stored files, could not be created
 
 ### Changed
 
