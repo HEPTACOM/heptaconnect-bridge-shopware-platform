@@ -20,17 +20,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListPortalNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeOverviewActionInterface $portalNodeOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeOverviewActionInterface $portalNodeOverviewAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -19,17 +19,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Overview extends Command
 {
     public function __construct(
-        private PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     public function configure(): void
     {
         $this->addArgument('sort', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

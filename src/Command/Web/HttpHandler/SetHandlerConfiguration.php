@@ -21,12 +21,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SetHandlerConfiguration extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private WebHttpHandlerConfigurationSetActionInterface $webHttpHandlerConfigurationSetAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly WebHttpHandlerConfigurationSetActionInterface $configSetAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class SetHandlerConfiguration extends Command
         $this->addArgument('value');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -67,7 +69,7 @@ class SetHandlerConfiguration extends Command
         }
 
         $payload = new WebHttpHandlerConfigurationSetPayload(new HttpHandlerStackIdentifier($portalNodeKey, $path), $key, $parsed);
-        $this->webHttpHandlerConfigurationSetAction->set(new WebHttpHandlerConfigurationSetPayloads([$payload]));
+        $this->configSetAction->set(new WebHttpHandlerConfigurationSetPayloads([$payload]));
 
         return 0;
     }

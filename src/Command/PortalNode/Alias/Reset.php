@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Set\PortalNodeAliasSetPayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasSetActionInterface;
@@ -24,17 +23,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Reset extends Command
 {
     public function __construct(
-        private PortalNodeAliasSetActionInterface $aliasSetAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasSetActionInterface $aliasSetAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -42,7 +43,7 @@ class Reset extends Command
         try {
             $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+                throw new UnsupportedStorageKeyException($portalNodeKey);
             }
         } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');

@@ -5,31 +5,43 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
 use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
+use Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
-use League\Flysystem\FilesystemOperator;
-use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use Shopware\Core\Framework\Adapter\Filesystem\PrefixFilesystem;
 
-final class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
+final readonly class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
 {
     public function __construct(
         private StorageKeyGeneratorContract $storageKeyGenerator,
-        // TODO: remove flysystem
-        // private FilesystemOperator $filesystem
+        private string $filesystemBasePath,
     ) {
     }
 
+    #[\Override]
     public function provide(PortalNodeKeyInterface $portalNodeKey): string
     {
         $key = $this->storageKeyGenerator->serialize($portalNodeKey);
-        $streamScheme = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
+        $streamScheme = \strtolower((string) \preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
         $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
-        $normalizedPortalNodeId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
+        $normalizedId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
+        $portalNodePath = \rtrim($this->filesystemBasePath, '/\\') . \DIRECTORY_SEPARATOR . $normalizedId;
 
-        // TODO: remove flysystem
-        // $filesystem = new PrefixFilesystem($this->filesystem, $normalizedPortalNodeId);
-        // FlysystemStreamWrapper::register($streamScheme, $filesystem);
+        if (!\is_dir($portalNodePath) && \mkdir($portalNodePath, 0777, true) === false) {
+            throw new PortalNodeFilesystemBaseDirectoryCreationException($portalNodePath, 1721493200);
+        }
+
+        \stream_wrapper_register($streamScheme, RewritePathStreamWrapper::class);
+        \stream_context_set_default([
+            $streamScheme => [
+                'protocol' => [
+                    'set' => 'file',
+                ],
+                'path' => [
+                    'prepend' => $portalNodePath,
+                    'prepend_safe_separator' => true,
+                ],
+            ],
+        ]);
 
         return $streamScheme;
     }

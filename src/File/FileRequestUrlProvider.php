@@ -18,20 +18,21 @@ use Symfony\Component\Routing\RequestContext;
 
 final class FileRequestUrlProvider implements FileRequestUrlProviderInterface
 {
-    private UriFactoryInterface $uriFactory;
+    private readonly UriFactoryInterface $uriFactory;
 
     private ?UriInterface $baseUrl = null;
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private UrlGeneratorInterface $urlGenerator,
-        private RequestContext $requestContext,
-        private HttpHostProviderContract $hostProvider,
-        private RequestContextHelper $requestContextHelper
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly RequestContext $requestContext,
+        private readonly HttpHostProviderContract $hostProvider,
+        private readonly RequestContextHelper $requestContextHelper
     ) {
         $this->uriFactory = Psr17FactoryDiscovery::findUriFactory();
     }
 
+    #[\Override]
     public function resolve(
         PortalNodeKeyInterface $portalNodeKey,
         FileReferenceRequestKeyInterface $requestKey

@@ -24,19 +24,21 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MergeMappingNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction,
-        private IdentityPersistActionInterface $identityPersistAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityOverviewActionInterface $identityOverviewAction,
+        private readonly IdentityPersistActionInterface $identityPersistAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('mapping-node-key-from', InputArgument::REQUIRED)
             ->addArgument('mapping-node-key-into', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

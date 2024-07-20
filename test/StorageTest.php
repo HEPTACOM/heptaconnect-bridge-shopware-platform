@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 
 use Doctrine\DBAL\Connection;
+use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Storage\AbstractStorageKey
- * @covers \Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey
- */
+#[CoversClass(Bundle::class)]
+#[CoversClass(PortalNodeStorageKey::class)]
 class StorageTest extends TestCase
 {
     protected Fixture\ShopwareKernel $kernel;
 
+    #[\Override]
     protected function setUp(): void
     {
-        $this->kernel = new Fixture\ShopwareKernel();
+        $this->kernel = new Fixture\ShopwareKernel(Fixture\ShopwareKernel::getConnection());
         $this->kernel->boot();
 
         /** @var Connection $connection */
@@ -28,6 +28,7 @@ class StorageTest extends TestCase
         $connection->beginTransaction();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         /** @var Connection $connection */

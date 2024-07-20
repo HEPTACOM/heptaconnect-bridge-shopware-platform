@@ -17,12 +17,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListIdentityRedirects extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectOverviewActionInterface $identityRedirectOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -36,7 +37,7 @@ class ListIdentityRedirects extends Command
             IdentityRedirectOverviewCriteria::FIELD_CREATED => IdentityRedirectOverviewCriteria::SORT_DESC,
         ]);
 
-        foreach ($this->identityRedirectOverviewAction->overview($criteria) as $identityRedirect) {
+        foreach ($this->redirectOverviewAction->overview($criteria) as $identityRedirect) {
             $identities[] = [
                 'id' => $this->storageKeyGenerator->serialize($identityRedirect->getRouteKey()),
                 'type' => $identityRedirect->getEntityType(),

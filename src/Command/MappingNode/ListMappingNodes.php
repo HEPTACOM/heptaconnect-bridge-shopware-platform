@@ -21,18 +21,20 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListMappingNodes extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityOverviewActionInterface $identityOverviewAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('entity-type', InputArgument::REQUIRED)
             ->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

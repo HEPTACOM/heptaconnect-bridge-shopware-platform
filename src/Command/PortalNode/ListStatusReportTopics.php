@@ -8,7 +8,6 @@ use Heptacom\HeptaConnect\Core\Portal\FlowComponentRegistry;
 use Heptacom\HeptaConnect\Core\Portal\PortalStackServiceContainerFactory;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -22,17 +21,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListStatusReportTopics extends Command
 {
     public function __construct(
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -41,7 +42,7 @@ class ListStatusReportTopics extends Command
             $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+                throw new UnsupportedStorageKeyException($portalNodeKey);
             }
         } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
@@ -49,7 +50,7 @@ class ListStatusReportTopics extends Command
             return 1;
         }
 
-        $container = $this->portalStackServiceContainerFactory->create($portalNodeKey);
+        $container = $this->portalStackContainerFactory->create($portalNodeKey);
         /** @var FlowComponentRegistry $flowComponentRegistry */
         $flowComponentRegistry = $container->get(FlowComponentRegistry::class);
 

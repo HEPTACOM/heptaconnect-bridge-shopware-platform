@@ -20,17 +20,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemovePortalNode extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeDeleteActionInterface $portalNodeDeleteAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeDeleteActionInterface $portalNodeDeleteAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

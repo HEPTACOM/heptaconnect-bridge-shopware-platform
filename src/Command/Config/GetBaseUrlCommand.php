@@ -14,11 +14,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GetBaseUrlCommand extends Command
 {
     public function __construct(
-        private HttpHostProviderContract $httpHostProvider
+        private readonly HttpHostProviderContract $httpHostProvider
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln((string) $this->httpHostProvider->get());

@@ -30,19 +30,21 @@ final class Repl extends Command
     public static ?PortalNodeContextInterface $context = null;
 
     public function __construct(
-        private string $projectDir,
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalNodeListActionInterface $portalNodeListAction,
-        private StatusReportingContextFactoryInterface $statusReportingContextFactory
+        private readonly string $projectDir,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalNodeListActionInterface $portalNodeListAction,
+        private readonly StatusReportingContextFactoryInterface $statusReportContextFactory
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addOption('portal-node', null, InputOption::VALUE_REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -73,7 +75,7 @@ final class Repl extends Command
             return Command::INVALID;
         }
 
-        $context = $this->statusReportingContextFactory->factory($portalNodeKey);
+        $context = $this->statusReportContextFactory->factory($portalNodeKey);
         $statusReporter = $this->getStatusReporter($portalNodeKey);
 
         (new StatusReporterStack([$statusReporter], new NullLogger()))->next($context);

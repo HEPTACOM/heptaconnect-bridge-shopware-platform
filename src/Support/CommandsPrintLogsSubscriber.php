@@ -11,16 +11,17 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class CommandsPrintLogsSubscriber implements EventSubscriberInterface
+final readonly class CommandsPrintLogsSubscriber implements EventSubscriberInterface
 {
-    public const LOGGER_STREAM = 'php://stderr';
+    public const string LOGGER_STREAM = 'php://stderr';
 
     public function __construct(
         private StreamHandler $loggerHandler
     ) {
     }
 
-    public static function getSubscribedEvents()
+    #[\Override]
+    public static function getSubscribedEvents(): array
     {
         return [
             ConsoleCommandEvent::class => 'onPreCommandRun',

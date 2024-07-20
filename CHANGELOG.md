@@ -39,6 +39,10 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemPacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemPackerInterface`
 - Add service definition based upon class `\Heptacom\HeptaConnect\Core\Portal\Storage\PortalNodeStorageItemUnpacker` as `Heptacom\HeptaConnect\Core\Portal\Storage\Contract\PortalNodeStorageItemUnpackerInterface`
 - The base-url can now be controlled via an environment variable `APP_URL`. If set, the environment variable will take precedence over the value from the database.
+- Add service container parameter `heptacom_heptaconnect.portal_node.file_system_path` referencing the root directory, where portal node files are placed
+- Add service container parameter `heptacom_heptaconnect.core.normalized_streams_path` referencing the root directory, where normalized streams are stored
+- Add exception class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemBaseDirectoryCreationException` to represent an exception, when creating a base directory for a portal node filesystem fails
+- Add exception code `1721493200` to `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider::provide`, when the directory, that serves as place for all portal node stored files, could not be created
 
 ### Changed
 
@@ -57,6 +61,9 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Switch parameter in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to use directly a prefixed instance of `shopware.filesystem.private`
 - Change route definitions from PHPDoc to PHP attribute notation
 - Raise composer dependency constraint for `doctrine/dbal` from `>=2.11.0` to `^3.7`
+- Remove dynamic property assignments by making classes `readonly` `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
+- Change parameter in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.portal_node.file_system_path%` which points to the same directory as before
+- Change parameter in services `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.core.normalized_streams_path%` which points to the same directory as before
 
 ### Deprecated
 
@@ -69,6 +76,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 - Remove service definition `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` and reference from `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` as Flysystem is removed from the core concept
 - Remove command `heptaconnect:test-flow:receive`
+- Remove composer dependencies `league/flysystem` and `m2mtech/flysystem-stream-wrapper` as Flysystem is removed from the core concept
 
 ### Fixed
 

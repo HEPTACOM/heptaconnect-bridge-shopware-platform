@@ -15,7 +15,6 @@ use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetA
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,21 +22,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class FileReferenceController
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private StreamDenormalizer $streamDenormalizer,
-        private RequestStorageContract $requestStorage,
-        private PortalStackServiceContainerFactory $portalContainerFactory,
-        private PortalNodeGetActionInterface $portalNodeGetAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StreamDenormalizer $streamDenormalizer,
+        private readonly RequestStorageContract $requestStorage,
+        private readonly PortalStackServiceContainerFactory $portalContainerFactory,
+        private readonly PortalNodeGetActionInterface $portalNodeGetAction
     ) {
     }
 
     #[Route(
-        "/api/heptaconnect/file/{portalNodeId}/request/{requestId}",
-        name: "api.heptaconnect.file.request",
+        '/api/heptaconnect/file/{portalNodeId}/request/{requestId}',
+        name: 'api.heptaconnect.file.request',
         defaults: [
-            "auth_required" => false,
-            "_routeScope" => [
-                'scopes' => ["api"],
+            'auth_required' => false,
+            '_routeScope' => [
+                'scopes' => ['api'],
             ],
         ],
     )]
@@ -46,7 +45,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException($portalNodeKey::class);
+            throw new UnsupportedStorageKeyException($portalNodeKey);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {
@@ -56,7 +55,7 @@ class FileReferenceController
         $requestKey = $this->storageKeyGenerator->deserialize($requestId);
 
         if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
-            throw new UnsupportedStorageKeyException($requestKey::class);
+            throw new UnsupportedStorageKeyException($requestKey);
         }
 
         $request = $this->requestStorage->load($portalNodeKey, $requestKey);
@@ -71,15 +70,15 @@ class FileReferenceController
     }
 
     #[Route(
-        "/api/heptaconnect/file/{portalNodeId}/contents/{normalizedStream}/{mimeType}",
-        name: "api.heptaconnect.file.contents",
+        '/api/heptaconnect/file/{portalNodeId}/contents/{normalizedStream}/{mimeType}',
+        name: 'api.heptaconnect.file.contents',
         requirements: [
-            "mimeType" => ".+",
+            'mimeType' => '.+',
         ],
         defaults: [
-            "auth_required" => false,
-            "_routeScope" => [
-                'scopes' => ["api"],
+            'auth_required' => false,
+            '_routeScope' => [
+                'scopes' => ['api'],
             ],
         ],
     )]
@@ -88,7 +87,7 @@ class FileReferenceController
         $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException($portalNodeKey::class);
+            throw new UnsupportedStorageKeyException($portalNodeKey);
         }
 
         if (!$this->isPortalNodeValid($portalNodeKey)) {

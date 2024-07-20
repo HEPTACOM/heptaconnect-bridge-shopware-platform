@@ -20,12 +20,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CleanupFinished extends Command
 {
     public function __construct(
-        private JobListFinishedActionInterface $jobListFinishedAction,
-        private JobDeleteActionInterface $jobDeleteAction
+        private readonly JobListFinishedActionInterface $jobListFinishedAction,
+        private readonly JobDeleteActionInterface $jobDeleteAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -33,6 +34,7 @@ class CleanupFinished extends Command
         $this->addOption('time-limit', 't', InputOption::VALUE_REQUIRED, 'The time limit in seconds the cleanup process can run');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = \microtime(true);
@@ -51,7 +53,7 @@ class CleanupFinished extends Command
 
             $jobKeys = \iterable_map(
                 $this->jobListFinishedAction->list(),
-                static fn (JobListFinishedResult $jobListFinishedResult) => $jobListFinishedResult->getJobKey()
+                static fn (JobListFinishedResult $result) => $result->getJobKey()
             );
 
             foreach (self::iterableChunk($jobKeys, 1000) as $jobKeysChunk) {

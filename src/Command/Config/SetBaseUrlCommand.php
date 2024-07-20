@@ -15,16 +15,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SetBaseUrlCommand extends Command
 {
     public function __construct(
-        private SystemConfigService $systemConfigService
+        private readonly SystemConfigService $systemConfigService
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('base-url', InputArgument::REQUIRED, 'Base-URL for HTTP interface');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $baseUrl = (string) $input->getArgument('base-url');

@@ -19,7 +19,6 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterCod
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\Contract\StatusReporterContract;
 use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterCollection;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
@@ -39,7 +38,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'heptaconnect:portal-node:list-flow-components')]
 class ListFlowComponentsForPortalNode extends Command
 {
-    private const FLOW_COMPONENT_INPUT_MAP = [
+    private const array FLOW_COMPONENT_INPUT_MAP = [
         'emitter' => EmitterContract::class,
         'explorer' => ExplorerContract::class,
         'http-handler' => HttpHandlerContract::class,
@@ -48,17 +47,18 @@ class ListFlowComponentsForPortalNode extends Command
     ];
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        private HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
-        private EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
-        private ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
-        private ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
-        private StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
+        private readonly EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
+        private readonly ExplorerCodeOriginFinderInterface $explorerCodeOriginFinder,
+        private readonly ReceiverCodeOriginFinderInterface $receiverCodeOriginFinder,
+        private readonly StatusReporterCodeOriginFinderInterface $statusReporterCodeOriginFinder
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
@@ -67,6 +67,7 @@ class ListFlowComponentsForPortalNode extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -75,7 +76,7 @@ class ListFlowComponentsForPortalNode extends Command
             $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+                throw new UnsupportedStorageKeyException($portalNodeKey);
             }
         } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');
@@ -84,13 +85,13 @@ class ListFlowComponentsForPortalNode extends Command
         }
 
         $entityType = (string) $input->getArgument('entity-type');
-        $flowComponentContract = (string) $input->getArgument('flow-component-contract');
+        $flowComponentClass = (string) $input->getArgument('flow-component-contract');
         $isPretty = (bool) $input->getOption('pretty');
-        $flowComponentContract = self::FLOW_COMPONENT_INPUT_MAP[$flowComponentContract] ?? $flowComponentContract;
+        $flowComponentClass = self::FLOW_COMPONENT_INPUT_MAP[$flowComponentClass] ?? $flowComponentClass;
 
         if (
-            $flowComponentContract !== HttpHandlerContract::class
-            && $flowComponentContract !== StatusReporterContract::class
+            $flowComponentClass !== HttpHandlerContract::class
+            && $flowComponentClass !== StatusReporterContract::class
         ) {
             try {
                 new EntityType($entityType);
@@ -101,36 +102,9 @@ class ListFlowComponentsForPortalNode extends Command
             }
         }
 
-        $flowComponentDescriptions = [];
-
-        switch ($flowComponentContract) {
-            case ExplorerContract::class:
-                $flowComponentDescriptions = $this->getExplorerImplementations($portalNodeKey, $entityType);
-
-                break;
-            case ReceiverContract::class:
-                $flowComponentDescriptions = $this->getReceiverImplementations($portalNodeKey, $entityType);
-
-                break;
-            case EmitterContract::class:
-                $flowComponentDescriptions = $this->getEmitterImplementations($portalNodeKey, $entityType);
-
-                break;
-            case HttpHandlerContract::class:
-                $flowComponentDescriptions = $this->getHttpHandlerImplementations($portalNodeKey, $entityType);
-
-                break;
-            case StatusReporterContract::class:
-                $flowComponentDescriptions = $this->getStatusReporterImplementations($portalNodeKey, $entityType);
-
-                break;
-            default:
-                $io->error('The specified flow-component-contract does not exist.');
-        }
-
-        $flowComponentDescriptions = \array_map('strval', $flowComponentDescriptions);
+        $descriptions = $this->getDescriptions($flowComponentClass, $portalNodeKey, $entityType, $io);
         $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
-        $io->writeln((string) \json_encode($flowComponentDescriptions, $flags | \JSON_THROW_ON_ERROR));
+        $io->writeln((string) \json_encode($descriptions, $flags | \JSON_THROW_ON_ERROR));
 
         return 0;
     }
@@ -142,7 +116,7 @@ class ListFlowComponentsForPortalNode extends Command
      */
     private function getExplorerImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
+        $flowComponentRegistry = $this->portalStackContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ExplorerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -161,7 +135,7 @@ class ListFlowComponentsForPortalNode extends Command
      */
     private function getReceiverImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
+        $flowComponentRegistry = $this->portalStackContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new ReceiverCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -180,7 +154,7 @@ class ListFlowComponentsForPortalNode extends Command
      */
     private function getEmitterImplementations(PortalNodeKeyInterface $portalNodeKey, string $entityType): array
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
+        $flowComponentRegistry = $this->portalStackContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new EmitterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -194,7 +168,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getHttpHandlerImplementations(PortalNodeKeyInterface $portalNodeKey, string $path): array
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
+        $flowComponentRegistry = $this->portalStackContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new HttpHandlerCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -208,7 +182,7 @@ class ListFlowComponentsForPortalNode extends Command
 
     private function getStatusReporterImplementations(PortalNodeKeyInterface $portalNodeKey, string $topic): array
     {
-        $flowComponentRegistry = $this->portalStackServiceContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
+        $flowComponentRegistry = $this->portalStackContainerFactory->create($portalNodeKey)->getFlowComponentRegistry();
         $components = new StatusReporterCollection();
 
         foreach ($flowComponentRegistry->getOrderedSources() as $source) {
@@ -218,5 +192,41 @@ class ListFlowComponentsForPortalNode extends Command
         $components = $components->bySupportedTopic($topic);
 
         return \iterable_to_array($components->map([$this->statusReporterCodeOriginFinder, 'findOrigin']));
+    }
+
+    private function getDescriptions(
+        string $flowComponentClass,
+        PortalNodeKeyInterface $portalNodeKey,
+        string $entityType,
+        SymfonyStyle $io,
+    ): array {
+        $result = [];
+
+        switch ($flowComponentClass) {
+            case ExplorerContract::class:
+                $result = $this->getExplorerImplementations($portalNodeKey, $entityType);
+
+                break;
+            case ReceiverContract::class:
+                $result = $this->getReceiverImplementations($portalNodeKey, $entityType);
+
+                break;
+            case EmitterContract::class:
+                $result = $this->getEmitterImplementations($portalNodeKey, $entityType);
+
+                break;
+            case HttpHandlerContract::class:
+                $result = $this->getHttpHandlerImplementations($portalNodeKey, $entityType);
+
+                break;
+            case StatusReporterContract::class:
+                $result = $this->getStatusReporterImplementations($portalNodeKey, $entityType);
+
+                break;
+            default:
+                $io->error('The specified flow-component-contract does not exist.');
+        }
+
+        return \array_map('strval', $result);
     }
 }

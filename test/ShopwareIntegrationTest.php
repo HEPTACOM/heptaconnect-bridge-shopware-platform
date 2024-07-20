@@ -5,38 +5,31 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Test;
 
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
-/**
- * @covers \Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Bundle
- */
+#[CoversClass(Bundle::class)]
 class ShopwareIntegrationTest extends TestCase
 {
     protected Fixture\ShopwareKernel $kernel;
 
+    #[\Override]
     protected function setUp(): void
     {
-        $this->kernel = new Fixture\ShopwareKernel();
+        $this->kernel = new Fixture\ShopwareKernel(Fixture\ShopwareKernel::getConnection());
         $this->kernel->boot();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->kernel->shutdown();
     }
 
-    public function testConnection(): void
-    {
-        $connection = $this->kernel::getConnection();
-        static::assertTrue($connection->ping());
-    }
-
-    /**
-     * @depends testConnection
-     */
     public function testMigration(): void
     {
         $this->kernel->registerBundles();
@@ -48,9 +41,7 @@ class ShopwareIntegrationTest extends TestCase
         static::assertEquals(0, $result);
     }
 
-    /**
-     * @depends testMigration
-     */
+    #[Depends('testMigration')]
     public function testShopwareKernelLoading(): void
     {
         $this->kernel->registerBundles();

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias;
 
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\StorageKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
@@ -23,30 +22,32 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class Get extends Command
 {
     public function __construct(
-        private PortalNodeAliasGetActionInterface $aliasGetAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasGetActionInterface $aliasGetAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-keys', InputArgument::IS_ARRAY);
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $portalNodeKeys = [];
-        $portalNodeKeyArguments = (array) $input->getArgument('portal-node-keys');
+        $portalNodeKeyArgs = (array) $input->getArgument('portal-node-keys');
 
-        foreach ($portalNodeKeyArguments as $keyData) {
+        foreach ($portalNodeKeyArgs as $keyData) {
             try {
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
 
                 if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                    throw new UnsupportedStorageKeyException(StorageKeyInterface::class);
+                    throw new UnsupportedStorageKeyException($portalNodeKey);
                 }
 
                 $portalNodeKeys[] = $portalNodeKey;

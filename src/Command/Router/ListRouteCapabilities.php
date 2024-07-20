@@ -16,11 +16,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListRouteCapabilities extends Command
 {
     public function __construct(
-        private RouteCapabilityOverviewActionInterface $routeCapabilityOverviewAction
+        private readonly RouteCapabilityOverviewActionInterface $routeCapOverviewAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -32,7 +33,7 @@ class ListRouteCapabilities extends Command
             RouteCapabilityOverviewCriteria::FIELD_CREATED => RouteCapabilityOverviewCriteria::SORT_DESC,
         ]);
 
-        foreach ($this->routeCapabilityOverviewAction->overview($criteria) as $capability) {
+        foreach ($this->routeCapOverviewAction->overview($criteria) as $capability) {
             $result[] = $capability->getName();
         }
 

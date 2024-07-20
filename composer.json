@@ -23,7 +23,7 @@
         "rss": "https://heptaconnect.io/news/rss2.xml"
     },
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-json": "*",
         "bentools/iterable-functions": "^1.4",
         "composer/composer": ">=1",
@@ -33,8 +33,6 @@
         "heptacom/heptaconnect-portal-base": "^0.9.6",
         "heptacom/heptaconnect-storage-base": "^0.9.6",
         "heptacom/heptaconnect-storage-shopware-dal": "0.10.x-dev",
-        "m2mtech/flysystem-stream-wrapper": "^1.4.0",
-        "league/flysystem": "^3.10.3",
         "monolog/monolog": "^3.3.1",
         "nyholm/psr7": "^1.2",
         "php-http/curl-client": "^2.2",
@@ -59,7 +57,7 @@
         "heptacom/heptaconnect-framework": "0.10.x-dev",
         "infection/infection": ">=0.28",
         "league/flysystem-memory": ">=1",
-        "phpunit/phpunit": ">=11 <12"
+        "phpunit/phpunit": ">=11.2 <12"
     },
     "suggest": {
         "clue/framework-x": "Run a web-server based on ReactPHP",

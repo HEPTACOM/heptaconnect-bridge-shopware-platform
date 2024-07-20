@@ -20,17 +20,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveIdentityRedirect extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectDeleteActionInterface $identityRedirectDeleteAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectDeleteActionInterface $redirectDeleteAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('identity-redirect-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -42,7 +44,7 @@ class RemoveIdentityRedirect extends Command
             return 1;
         }
 
-        $this->identityRedirectDeleteAction->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([$key])));
+        $this->redirectDeleteAction->delete(new IdentityRedirectDeleteCriteria(new IdentityRedirectKeyCollection([$key])));
 
         $io->success('The identity redirect was successfully removed.');
 

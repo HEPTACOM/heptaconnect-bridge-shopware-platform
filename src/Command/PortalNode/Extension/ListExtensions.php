@@ -23,23 +23,22 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'heptaconnect:portal-node:extensions:list')]
 class ListExtensions extends Command
 {
-    private PortalLoaderInterface $portalLoader;
-
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        PortalLoaderInterface $portalLoader,
-        private PortalNodeGetActionInterface $portalNodeGetAction,
-        private PortalExtensionFindActionInterface $portalExtensionFindAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalLoaderInterface $portalLoader,
+        private readonly PortalNodeGetActionInterface $portalNodeGetAction,
+        private readonly PortalExtensionFindActionInterface $portalExtensionFindAction
     ) {
         parent::__construct();
-        $this->portalLoader = $portalLoader;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('portal-node-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -52,7 +51,7 @@ class ListExtensions extends Command
             return 1;
         }
 
-        $portalExtensionFindResult = $this->portalExtensionFindAction->find($portalNodeKey);
+        $findResult = $this->portalExtensionFindAction->find($portalNodeKey);
 
         $portalNodeGetResults = \iterable_to_array($this->portalNodeGetAction->get(
             new PortalNodeGetCriteria(new PortalNodeKeyCollection([$portalNodeKey]))
@@ -72,7 +71,7 @@ class ListExtensions extends Command
 
         $extensionList = $extensions->map(static fn (PortalExtensionContract $extension): array => [
             'class' => $extension::class,
-            'active' => $portalExtensionFindResult->isActive($extension) ? 'yes' : 'no',
+            'active' => $findResult->isActive($extension) ? 'yes' : 'no',
         ]);
 
         $io->table(['class', 'active'], [...$extensionList]);

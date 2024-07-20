@@ -21,12 +21,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetHandlerConfiguration extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private WebHttpHandlerConfigurationFindActionInterface $webHttpHandlerConfigurationFindAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly WebHttpHandlerConfigurationFindActionInterface $configFindAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class GetHandlerConfiguration extends Command
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -52,7 +54,7 @@ class GetHandlerConfiguration extends Command
         }
 
         $criteria = new WebHttpHandlerConfigurationFindCriteria(new HttpHandlerStackIdentifier($portalNodeKey, $path), $key);
-        $find = $this->webHttpHandlerConfigurationFindAction->find($criteria);
+        $find = $this->configFindAction->find($criteria);
         $flags = $isPretty ? (\JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) : 0;
         $output->writeln((string) \json_encode($find->getValue(), $flags | \JSON_THROW_ON_ERROR));
 

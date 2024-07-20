@@ -18,18 +18,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Find extends Command
 {
     public function __construct(
-        private PortalNodeAliasFindActionInterface $aliasFindAction,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PortalNodeAliasFindActionInterface $aliasFindAction,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('alias', InputArgument::IS_ARRAY);
         $this->addOption('pretty', null, InputOption::VALUE_NONE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $aliasFindCriteria = new PortalNodeAliasFindCriteria($input->getArgument('alias'));

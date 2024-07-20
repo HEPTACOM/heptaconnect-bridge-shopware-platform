@@ -19,12 +19,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class DataTypeList extends Command
 {
     public function __construct(
-        private PortalLoaderInterface $portalLoader,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory
+        private readonly PortalLoaderInterface $portalLoader,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -32,7 +33,7 @@ class DataTypeList extends Command
 
         /** @var PortalContract $portal */
         foreach ($this->portalLoader->getPortals() as $portal) {
-            $flowComponentRegistry = $this->portalStackServiceContainerFactory
+            $flowComponentRegistry = $this->portalStackContainerFactory
                 ->create(new PreviewPortalNodeKey(new PortalType($portal::class)))
                 ->getFlowComponentRegistry();
 

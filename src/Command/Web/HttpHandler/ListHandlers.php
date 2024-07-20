@@ -22,14 +22,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListHandlers extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private PortalStackServiceContainerFactory $portalStackServiceContainerFactory,
-        private HttpHandlerUrlProviderFactoryInterface $httpHandlerUrlProviderFactory,
-        private PortalNodeListActionInterface $portalNodeListAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
+        private readonly HttpHandlerUrlProviderFactoryInterface $httpUrlProviderFactory,
+        private readonly PortalNodeListActionInterface $portalNodeListAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -37,6 +38,7 @@ class ListHandlers extends Command
         $this->addArgument('portal-node-key', InputArgument::OPTIONAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -57,14 +59,14 @@ class ListHandlers extends Command
             /** @var PortalNodeKeyInterface[] $portalNodeKeys */
             $portalNodeKeys = \iterable_map(
                 $this->portalNodeListAction->list(),
-                static fn (PortalNodeListResult $r) => $r->getPortalNodeKey()
+                static fn (PortalNodeListResult $route) => $route->getPortalNodeKey()
             );
         }
 
         $result = [];
 
         foreach ($portalNodeKeys as $portalNodeKey) {
-            $flowComponentRegistry = $this->portalStackServiceContainerFactory
+            $flowComponentRegistry = $this->portalStackContainerFactory
                 ->create($portalNodeKey)
                 ->getFlowComponentRegistry();
             $handlers = new HttpHandlerCollection();
@@ -79,7 +81,7 @@ class ListHandlers extends Command
             $urlFactory = null;
 
             foreach ($paths as $path) {
-                $urlFactory ??= $this->httpHandlerUrlProviderFactory->factory($portalNodeKey);
+                $urlFactory ??= $this->httpUrlProviderFactory->factory($portalNodeKey);
 
                 $result[] = [
                     'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey->withAlias()),

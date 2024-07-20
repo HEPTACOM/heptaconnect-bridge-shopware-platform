@@ -20,17 +20,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveRoute extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private RouteDeleteActionInterface $routeDeleteAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly RouteDeleteActionInterface $routeDeleteAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('route-key', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

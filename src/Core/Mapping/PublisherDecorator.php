@@ -25,12 +25,13 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
     private bool $active = false;
 
     public function __construct(
-        private PublisherInterface $publisher,
-        private StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly PublisherInterface $publisher,
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator
     ) {
     }
 
-    public static function getSubscribedEvents()
+    #[\Override]
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => 'startBuffer',
@@ -73,6 +74,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
         }
     }
 
+    #[\Override]
     public function publishBatch(MappingComponentCollection $mappings): void
     {
         if (!$this->active) {

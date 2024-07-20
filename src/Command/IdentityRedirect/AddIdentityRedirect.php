@@ -23,12 +23,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class AddIdentityRedirect extends Command
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
-        private IdentityRedirectCreateActionInterface $identityRedirectCreateAction
+        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly IdentityRedirectCreateActionInterface $redirectCreateAction
     ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument('type', InputArgument::REQUIRED);
@@ -38,6 +39,7 @@ final class AddIdentityRedirect extends Command
         $this->addArgument('target-external-id', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -71,7 +73,7 @@ final class AddIdentityRedirect extends Command
             return 1;
         }
 
-        $createResults = $this->identityRedirectCreateAction->create(new IdentityRedirectCreatePayloadCollection([
+        $createResults = $this->redirectCreateAction->create(new IdentityRedirectCreatePayloadCollection([
             new IdentityRedirectCreatePayload($sourcePortalNode, $sourceExternalId, $targetPortalNode, $targetExternalId, $type),
         ]));
 
@@ -94,7 +96,7 @@ final class AddIdentityRedirect extends Command
         if ($portalNodeKey instanceof PortalNodeKeyInterface) {
             $portalNodeKey = $portalNodeKey->withoutAlias();
         } else {
-            throw new UnsupportedStorageKeyException($portalNodeKey::class);
+            throw new UnsupportedStorageKeyException($portalNodeKey);
         }
 
         return $portalNodeKey;
