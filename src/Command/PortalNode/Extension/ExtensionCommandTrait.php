@@ -23,7 +23,7 @@ trait ExtensionCommandTrait
         $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-            throw new UnsupportedStorageKeyException(\get_debug_type($portalNodeKey));
+            throw new UnsupportedStorageKeyException($portalNodeKey);
         }
 
         return $portalNodeKey->withAlias();

@@ -42,7 +42,7 @@ class ListStatusReportTopics extends Command
             $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                throw new UnsupportedStorageKeyException(\get_debug_type($portalNodeKey));
+                throw new UnsupportedStorageKeyException($portalNodeKey);
             }
         } catch (UnsupportedStorageKeyException) {
             $io->error('The portal-node-key is not a portalNodeKey');

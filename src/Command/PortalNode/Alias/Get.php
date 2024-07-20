@@ -47,7 +47,7 @@ class Get extends Command
                 $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
 
                 if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
-                    throw new UnsupportedStorageKeyException(\get_debug_type($portalNodeKey));
+                    throw new UnsupportedStorageKeyException($portalNodeKey);
                 }
 
                 $portalNodeKeys[] = $portalNodeKey;
