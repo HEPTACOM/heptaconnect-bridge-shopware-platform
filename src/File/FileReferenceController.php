@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetCriter
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Get\PortalNodeGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\FileReferenceRequestKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FileReferenceController
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly StreamDenormalizer $streamDenormalizer,
         private readonly RequestStorageContract $requestStorage,
         private readonly PortalStackServiceContainerFactory $portalContainerFactory,
@@ -42,7 +42,7 @@ class FileReferenceController
     )]
     public function request(string $portalNodeId, string $requestId): Response
     {
-        $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+        $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             throw new UnsupportedStorageKeyException($portalNodeKey);
@@ -52,7 +52,7 @@ class FileReferenceController
             return new Response('portal node does not exist', Response::HTTP_NOT_FOUND);
         }
 
-        $requestKey = $this->storageKeyGenerator->deserialize($requestId);
+        $requestKey = $this->storageKeySerializer->deserialize($requestId);
 
         if (!$requestKey instanceof FileReferenceRequestKeyInterface) {
             throw new UnsupportedStorageKeyException($requestKey);
@@ -84,7 +84,7 @@ class FileReferenceController
     )]
     public function contents(string $portalNodeId, string $normalizedStream, string $mimeType): Response
     {
-        $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+        $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             throw new UnsupportedStorageKeyException($portalNodeKey);

@@ -20,7 +20,7 @@ trait ExtensionCommandTrait
 
     private function getAliasedPortalNodeKey(InputInterface $input): PortalNodeKeyInterface
     {
-        $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+        $portalNodeKey = $this->storageKeySerializer->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             throw new UnsupportedStorageKeyException($portalNodeKey);

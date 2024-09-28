@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Overview\PortalNodeAliasOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,7 +20,7 @@ class Overview extends Command
 {
     public function __construct(
         private readonly PortalNodeAliasOverviewActionInterface $aliasOverviewAction,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer,
     ) {
         parent::__construct();
     }
@@ -48,7 +48,7 @@ class Overview extends Command
         /** @var PortalNodeAliasOverviewResult $result */
         foreach ($this->aliasOverviewAction->overview($criteria) as $result) {
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getKey()->withoutAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($result->getKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }

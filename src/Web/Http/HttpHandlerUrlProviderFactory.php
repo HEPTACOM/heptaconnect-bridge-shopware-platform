@@ -8,14 +8,14 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandlerUrlProviderFactoryInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
 final readonly class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProviderFactoryInterface
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StorageKeySerializerContract $storageKeySerializer,
         private UrlGeneratorInterface $urlGenerator,
         private HttpHostProviderContract $hostProvider,
         private RequestContext $requestContext,
@@ -28,7 +28,7 @@ final readonly class HttpHandlerUrlProviderFactory implements HttpHandlerUrlProv
     {
         return new HttpHandlerUrlProvider(
             $portalNodeKey,
-            $this->storageKeyGenerator,
+            $this->storageKeySerializer,
             $this->urlGenerator,
             $this->requestContext,
             $this->hostProvider,

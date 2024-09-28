@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
 
 use Heptacom\HeptaConnect\Core\Web\Http\Contract\HttpHandleServiceInterface;
 use Heptacom\HeptaConnect\Core\Web\Http\Psr7MessageMultiPartFormDataBuilder;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\StorageKey\PortalNodeStorageKey;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -30,7 +30,7 @@ class HttpHandlerController
     private readonly HttpFoundationFactory $httpFoundationFactory;
 
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly HttpHandleServiceInterface $httpHandleService,
         private readonly Psr7MessageMultiPartFormDataBuilder $multiPartFormDataBuilder,
         private readonly StreamFactoryInterface $streamFactory,
@@ -72,7 +72,7 @@ class HttpHandlerController
     protected function getPortalNodeKey(string $portalNodeId): PortalNodeStorageKey
     {
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+            $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeId);
         } catch (UnsupportedStorageKeyException $exception) {
             throw new NotFoundHttpException('Unable to find portal node', $exception);
         }

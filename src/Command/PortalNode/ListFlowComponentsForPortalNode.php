@@ -22,7 +22,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerCodeOriginFinderInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\Contract\HttpHandlerContract;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidClassNameException;
 use Heptacom\HeptaConnect\Utility\ClassString\Exception\InvalidSubtypeClassNameException;
@@ -47,7 +47,7 @@ class ListFlowComponentsForPortalNode extends Command
     ];
 
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
         private readonly HttpHandlerCodeOriginFinderInterface $httpHandlerCodeOriginFinder,
         private readonly EmitterCodeOriginFinderInterface $emitterCodeOriginFinder,
@@ -73,7 +73,7 @@ class ListFlowComponentsForPortalNode extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+            $portalNodeKey = $this->storageKeySerializer->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException($portalNodeKey);

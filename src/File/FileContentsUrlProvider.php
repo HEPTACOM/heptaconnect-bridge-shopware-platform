@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHostProviderContract;
 use Heptacom\HeptaConnect\Core\Bridge\File\FileContentsUrlProviderInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
@@ -22,7 +22,7 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
     private ?UriInterface $baseUrl = null;
 
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly RequestContext $requestContext,
         private readonly HttpHostProviderContract $hostProvider,
@@ -37,7 +37,7 @@ final class FileContentsUrlProvider implements FileContentsUrlProviderInterface
         string $normalizedStream,
         string $mimeType
     ): UriInterface {
-        $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
+        $portalNodeId = $this->storageKeySerializer->serialize($portalNodeKey->withoutAlias());
         $this->baseUrl ??= $this->hostProvider->get();
 
         $url = $this->requestContextHelper->scope(

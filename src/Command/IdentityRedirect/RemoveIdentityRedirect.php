@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Delete\IdentityRedirectDeleteCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectDeleteActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\IdentityRedirectKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\IdentityRedirectKeyCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveIdentityRedirect extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityRedirectDeleteActionInterface $redirectDeleteAction
     ) {
         parent::__construct();
@@ -36,7 +36,7 @@ class RemoveIdentityRedirect extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $key = $this->storageKeyGenerator->deserialize((string) $input->getArgument('identity-redirect-key'));
+        $key = $this->storageKeySerializer->deserialize((string) $input->getArgument('identity-redirect-key'));
 
         if (!$key instanceof IdentityRedirectKeyInterface) {
             $io->error('The identity-redirect-key is not a IdentityRedirectKey');

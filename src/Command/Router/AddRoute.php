@@ -14,7 +14,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Route\Get\RouteGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteFindActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Enum\RouteCapability;
 use Heptacom\HeptaConnect\Storage\Base\RouteKeyCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AddRoute extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly RouteFindActionInterface $routeFindAction,
         private readonly RouteCreateActionInterface $routeCreateAction,
         private readonly RouteGetActionInterface $routeGetAction
@@ -53,8 +53,8 @@ class AddRoute extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $source = $this->storageKeyGenerator->deserialize((string) $input->getArgument('source'));
-        $target = $this->storageKeyGenerator->deserialize((string) $input->getArgument('target'));
+        $source = $this->storageKeySerializer->deserialize((string) $input->getArgument('source'));
+        $target = $this->storageKeySerializer->deserialize((string) $input->getArgument('target'));
         $type = new EntityType((string) $input->getArgument('type'));
         $isBidirectional = (bool) $input->getOption('bidirectional');
 
@@ -79,10 +79,10 @@ class AddRoute extends Command
             \sort($capabilities);
 
             $results[] = [
-                'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
+                'id' => $this->storageKeySerializer->serialize($route->getRouteKey()),
                 'type' => $route->getEntityType(),
-                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()->withAlias()),
-                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()->withAlias()),
+                'source' => $this->storageKeySerializer->serialize($route->getSourcePortalNodeKey()->withAlias()),
+                'target' => $this->storageKeySerializer->serialize($route->getTargetPortalNodeKey()->withAlias()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
         }

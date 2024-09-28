@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPa
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Persist\IdentityPersistPayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityPersistActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MergeMappingNodes extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityOverviewActionInterface $identityOverviewAction,
         private readonly IdentityPersistActionInterface $identityPersistAction
     ) {
@@ -42,8 +42,8 @@ class MergeMappingNodes extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $mappingNodeFrom = $this->storageKeyGenerator->deserialize((string) $input->getArgument('mapping-node-key-from'));
-        $mappingNodeInto = $this->storageKeyGenerator->deserialize((string) $input->getArgument('mapping-node-key-into'));
+        $mappingNodeFrom = $this->storageKeySerializer->deserialize((string) $input->getArgument('mapping-node-key-from'));
+        $mappingNodeInto = $this->storageKeySerializer->deserialize((string) $input->getArgument('mapping-node-key-into'));
 
         if (!$mappingNodeFrom instanceof MappingNodeKeyInterface) {
             $io->error('The provided mapping-node-key-from is not a MappingNodeKeyInterface.');
@@ -99,7 +99,7 @@ class MergeMappingNodes extends Command
         $intoPortalExistences = [];
 
         foreach ($nodesInto as $node) {
-            $portalNode = $this->storageKeyGenerator->serialize($node->getPortalNodeKey());
+            $portalNode = $this->storageKeySerializer->serialize($node->getPortalNodeKey());
             $intoPortalExistences[$portalNode] = $node->getExternalId();
         }
 
@@ -108,7 +108,7 @@ class MergeMappingNodes extends Command
         $payloads = [];
 
         foreach ($nodesFrom as $node) {
-            $portalNode = $this->storageKeyGenerator->serialize($node->getPortalNodeKey());
+            $portalNode = $this->storageKeySerializer->serialize($node->getPortalNodeKey());
             $payloads[$portalNode] ??= new IdentityPersistPayload($node->getPortalNodeKey(), new IdentityPersistPayloadCollection());
 
             if (\array_key_exists($portalNode, $intoPortalExistences)) {

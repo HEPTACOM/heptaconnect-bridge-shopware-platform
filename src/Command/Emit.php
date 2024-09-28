@@ -20,7 +20,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityMapActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobCreateActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +33,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class Emit extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityMapActionInterface $identityMapAction,
         private readonly JobCreateActionInterface $jobCreateAction,
         private readonly JobGetActionInterface $jobGetAction,
@@ -58,7 +58,7 @@ final class Emit extends Command
         $io = new SymfonyStyle($input, $output);
 
         $inputPortalNodeKey = (string) $input->getArgument('portal-node-key');
-        $portalNodeKey = $this->storageKeyGenerator->deserialize($inputPortalNodeKey);
+        $portalNodeKey = $this->storageKeySerializer->deserialize($inputPortalNodeKey);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('The provided portal-node-key is not valid: ' . $inputPortalNodeKey);

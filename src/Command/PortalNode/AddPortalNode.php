@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\Portal\PortalType;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Create\PortalNodeCreatePayloads;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AddPortalNode extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalNodeCreateActionInterface $portalNodeCreateAction,
         private readonly AliasValidator $aliasValidator
     ) {
@@ -58,7 +58,7 @@ class AddPortalNode extends Command
             $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), null)]));
         }
 
-        $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeyGenerator->serialize($result->first()->getPortalNodeKey())));
+        $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeySerializer->serialize($result->first()->getPortalNodeKey())));
 
         return 0;
     }

@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\PortalNodeKeyCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Get\PortalNodeAliasGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasGetActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,7 +23,7 @@ class Get extends Command
 {
     public function __construct(
         private readonly PortalNodeAliasGetActionInterface $aliasGetAction,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer,
     ) {
         parent::__construct();
     }
@@ -44,7 +44,7 @@ class Get extends Command
 
         foreach ($portalNodeKeyArgs as $keyData) {
             try {
-                $portalNodeKey = $this->storageKeyGenerator->deserialize($keyData);
+                $portalNodeKey = $this->storageKeySerializer->deserialize($keyData);
 
                 if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                     throw new UnsupportedStorageKeyException($portalNodeKey);
@@ -64,7 +64,7 @@ class Get extends Command
 
         foreach ($results as $result) {
             $alias[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()->withoutAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($result->getPortalNodeKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }
