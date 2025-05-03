@@ -33,7 +33,7 @@ class AddPortalNode extends Command
     protected function configure(): void
     {
         $this->addArgument('portal-class', InputArgument::REQUIRED);
-        $this->addArgument('alias', InputArgument::OPTIONAL);
+        $this->addArgument('alias', InputArgument::REQUIRED);
     }
 
     #[\Override]
@@ -50,13 +50,9 @@ class AddPortalNode extends Command
             return 1;
         }
 
-        if ($alias !== '') {
-            $this->aliasValidator->validate($alias);
+        $this->aliasValidator->validate($alias);
 
-            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), $alias)]));
-        } else {
-            $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), null)]));
-        }
+        $result = $this->portalNodeCreateAction->create(new PortalNodeCreatePayloads([new PortalNodeCreatePayload(new PortalType($portalClass), $alias)]));
 
         $io->success(\sprintf('A new portal node was created. ID: %s', $this->storageKeySerializer->serialize($result->first()->getPortalNodeKey())));
 
