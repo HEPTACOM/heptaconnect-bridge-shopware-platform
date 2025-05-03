@@ -6,14 +6,14 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 
 use Heptacom\HeptaConnect\Core\Bridge\File\HttpHandlerDumpPathProviderInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 
 final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderInterface
 {
     private readonly string $logDirectory;
 
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         string $logDirectory
     ) {
         $this->logDirectory = \rtrim($logDirectory, '/\\');
@@ -24,7 +24,7 @@ final class HttpHandlerDumpPathProvider implements HttpHandlerDumpPathProviderIn
     {
         $now = new \DateTimeImmutable();
         $day = $now->format('Y-m-d');
-        $portalNode = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
+        $portalNode = $this->storageKeySerializer->serialize($portalNodeKey->withoutAlias());
         $portalNode = \strtolower(\preg_replace('/[^a-zA-Z0-9]/', '-', $portalNode));
         $directory = \sprintf('%s/%s/%s/', $this->logDirectory, $portalNode, $day);
 

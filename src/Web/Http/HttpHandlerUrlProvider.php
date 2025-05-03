@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\RequestContextHelper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerUrlProviderInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
@@ -24,7 +24,7 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
 
     public function __construct(
         private readonly PortalNodeKeyInterface $portalNodeKey,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly RequestContext $requestContext,
         private readonly HttpHostProviderContract $hostProvider,
@@ -36,7 +36,7 @@ final class HttpHandlerUrlProvider implements HttpHandlerUrlProviderInterface
     #[\Override]
     public function resolve(string $path): UriInterface
     {
-        $this->portalNodeId ??= $this->storageKeyGenerator->serialize($this->portalNodeKey->withoutAlias());
+        $this->portalNodeId ??= $this->storageKeySerializer->serialize($this->portalNodeKey->withoutAlias());
         $baseUrl = $this->baseUrl ?? $this->hostProvider->get();
         $this->baseUrl = $baseUrl;
 

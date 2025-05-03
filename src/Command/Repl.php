@@ -13,7 +13,7 @@ use Heptacom\HeptaConnect\Portal\Base\StatusReporting\StatusReporterStack;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Psr\Log\NullLogger;
 use Psy\Configuration;
 use Psy\Shell;
@@ -31,7 +31,7 @@ final class Repl extends Command
 
     public function __construct(
         private readonly string $projectDir,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalNodeListActionInterface $portalNodeListAction,
         private readonly StatusReportingContextFactoryInterface $statusReportContextFactory
     ) {
@@ -63,11 +63,11 @@ final class Repl extends Command
                 \iterable_to_array($this->portalNodeListAction->list())
             );
 
-            $portalNodeIds = \array_map([$this->storageKeyGenerator, 'serialize'], $portalNodeKeys);
+            $portalNodeIds = \array_map([$this->storageKeySerializer, 'serialize'], $portalNodeKeys);
             $portalNodeId = $io->choice('Choose a portal node', $portalNodeIds);
         }
 
-        $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+        $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeId);
 
         if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
             $io->error('Not a valid portal-node-key: ' . $portalNodeId);
@@ -85,7 +85,7 @@ final class Repl extends Command
 
     private function getStatusReporter(PortalNodeKeyInterface $portalNodeKey): StatusReporterContract
     {
-        $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
+        $portalNodeId = $this->storageKeySerializer->serialize($portalNodeKey->withoutAlias());
         /** @var string $portalNodeId */
         $portalNodeId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
 

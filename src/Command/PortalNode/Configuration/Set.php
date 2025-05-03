@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Confi
 
 use Heptacom\HeptaConnect\Core\Configuration\Contract\ConfigurationServiceInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ class Set extends Command
 {
     public function __construct(
         private readonly ConfigurationServiceInterface $configurationService,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer,
     ) {
         parent::__construct();
     }
@@ -39,7 +39,7 @@ class Set extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+            $portalNodeKey = $this->storageKeySerializer->deserialize((string) $input->getArgument('portal-node-key'));
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 throw new UnsupportedStorageKeyException($portalNodeKey);

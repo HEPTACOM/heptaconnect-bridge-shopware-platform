@@ -8,7 +8,7 @@ use Heptacom\HeptaConnect\Dataset\Base\Contract\DatasetEntityContract;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
 use Heptacom\HeptaConnect\Storage\Base\Action\Identity\Overview\IdentityOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListMappingNodes extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityOverviewActionInterface $identityOverviewAction
     ) {
         parent::__construct();
@@ -39,7 +39,7 @@ class ListMappingNodes extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $entityType = (string) $input->getArgument('entity-type');
-        $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+        $portalNodeKey = $this->storageKeySerializer->deserialize((string) $input->getArgument('portal-node-key'));
         $criteria = new IdentityOverviewCriteria();
 
         if (!\is_a($entityType, DatasetEntityContract::class, true)) {
@@ -62,8 +62,8 @@ class ListMappingNodes extends Command
 
         foreach ($this->identityOverviewAction->overview($criteria) as $identity) {
             $rows[] = [
-                'mapping-node-id' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
-                'portal-node-id' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
+                'mapping-node-id' => $this->storageKeySerializer->serialize($identity->getMappingNodeKey()),
+                'portal-node-id' => $this->storageKeySerializer->serialize($identity->getPortalNodeKey()->withAlias()),
                 'external-id' => $identity->getExternalId(),
             ];
         }

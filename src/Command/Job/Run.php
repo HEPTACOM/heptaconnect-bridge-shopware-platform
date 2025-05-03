@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Action\Job\Get\JobGetResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Job\JobGetActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\JobKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\JobKeyCollection;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -26,7 +26,7 @@ class Run extends Command
     public function __construct(
         private readonly JobGetActionInterface $jobGetAction,
         private readonly DelegatingJobActorContract $jobActor,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer
     ) {
         parent::__construct();
     }
@@ -80,7 +80,7 @@ class Run extends Command
         $jobKeys = [];
 
         foreach ((array) $input->getArgument('job-key') as $keyData) {
-            $jobKey = $this->storageKeyGenerator->deserialize($keyData);
+            $jobKey = $this->storageKeySerializer->deserialize($keyData);
 
             if (!\is_a($jobKey, JobKeyInterface::class, true)) {
                 throw new \InvalidArgumentException(

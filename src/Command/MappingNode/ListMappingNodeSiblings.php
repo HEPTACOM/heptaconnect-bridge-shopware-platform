@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\Identity
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Identity\IdentityOverviewActionInterface;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\ClassStringReferenceCollection;
 use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use Heptacom\HeptaConnect\Utility\Collection\Scalar\StringCollection;
@@ -26,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListMappingNodeSiblings extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityOverviewActionInterface $identityOverviewAction,
         private readonly IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
@@ -65,7 +65,7 @@ class ListMappingNodeSiblings extends Command
         }
 
         if ($portalNodeKeyParam !== '') {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeKeyParam);
+            $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeKeyParam);
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');
@@ -109,9 +109,9 @@ class ListMappingNodeSiblings extends Command
         if (!$othersCriteria->getMappingNodeKeyFilter()->isEmpty()) {
             foreach ($this->identityOverviewAction->overview($othersCriteria) as $identity) {
                 $rows[] = [
-                    'portal-node-key' => $this->storageKeyGenerator->serialize($identity->getPortalNodeKey()->withAlias()),
+                    'portal-node-key' => $this->storageKeySerializer->serialize($identity->getPortalNodeKey()->withAlias()),
                     'external-id' => $identity->getExternalId(),
-                    'group-key' => $this->storageKeyGenerator->serialize($identity->getMappingNodeKey()),
+                    'group-key' => $this->storageKeySerializer->serialize($identity->getMappingNodeKey()),
                     'entity-type' => $identity->getEntityType(),
                 ];
             }
@@ -121,16 +121,16 @@ class ListMappingNodeSiblings extends Command
 
         /** @var IdentityRedirectOverviewResult $identityRedirect */
         foreach ($this->redirectOverviewAction->overview($sourceRedirectCriteria) as $identityRedirect) {
-            $groupKey = $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey());
+            $groupKey = $this->storageKeySerializer->serialize($identityRedirect->getIdentityRedirectKey());
 
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
                 'external-id' => $identityRedirect->getSourceExternalId(),
                 'group-key' => $groupKey,
                 'entity-type' => $identityRedirect->getEntityType(),
             ];
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
                 'external-id' => $identityRedirect->getTargetExternalId(),
                 'group-key' => $groupKey,
                 'entity-type' => $identityRedirect->getEntityType(),
@@ -147,20 +147,20 @@ class ListMappingNodeSiblings extends Command
 
         /** @var IdentityRedirectOverviewResult $identityRedirect */
         foreach ($this->redirectOverviewAction->overview($targetRedirectCriteria) as $identityRedirect) {
-            $groupKey = $this->storageKeyGenerator->serialize($identityRedirect->getIdentityRedirectKey());
+            $groupKey = $this->storageKeySerializer->serialize($identityRedirect->getIdentityRedirectKey());
 
             if (\in_array($groupKey, $groupKeys, true)) {
                 continue;
             }
 
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
                 'external-id' => $identityRedirect->getSourceExternalId(),
                 'group-key' => $groupKey,
                 'entity-type' => $identityRedirect->getEntityType(),
             ];
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
                 'external-id' => $identityRedirect->getTargetExternalId(),
                 'group-key' => $groupKey,
                 'entity-type' => $identityRedirect->getEntityType(),

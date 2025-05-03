@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRe
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreatePayloadCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Create\IdentityRedirectCreateResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectCreateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class AddIdentityRedirect extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityRedirectCreateActionInterface $redirectCreateAction
     ) {
         parent::__construct();
@@ -79,7 +79,7 @@ final class AddIdentityRedirect extends Command
 
         /** @var IdentityRedirectCreateResult $createResult */
         foreach ($createResults as $createResult) {
-            $id = $this->storageKeyGenerator->serialize($createResult->getIdentityRedirectKey());
+            $id = $this->storageKeySerializer->serialize($createResult->getIdentityRedirectKey());
             $io->success(\sprintf('A new identity redirect was created. Key: %s', $id));
         }
 
@@ -91,7 +91,7 @@ final class AddIdentityRedirect extends Command
      */
     private function getPortalNodeKey(string $portalNodeId): PortalNodeKeyInterface
     {
-        $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNodeId);
+        $portalNodeKey = $this->storageKeySerializer->deserialize($portalNodeId);
 
         if ($portalNodeKey instanceof PortalNodeKeyInterface) {
             $portalNodeKey = $portalNodeKey->withoutAlias();

@@ -7,7 +7,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode;
 use Heptacom\HeptaConnect\Portal\Base\Portal\Contract\PortalContract;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Overview\PortalNodeOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Utility\ClassString\UnsafeClassString;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListPortalNodes extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalNodeOverviewActionInterface $portalNodeOverviewAction
     ) {
         parent::__construct();
@@ -60,7 +60,7 @@ class ListPortalNodes extends Command
         foreach ($this->portalNodeOverviewAction->overview($criteria) as $result) {
             $portalNodeKey = $result->getPortalNodeKey()->withAlias();
             $rows[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($portalNodeKey),
+                'portal-node-key' => $this->storageKeySerializer->serialize($portalNodeKey),
                 'portal-class' => (string) $result->getPortalClass(),
             ];
         }

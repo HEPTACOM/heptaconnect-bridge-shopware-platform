@@ -10,7 +10,7 @@ use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface
 use Heptacom\HeptaConnect\Portal\Base\Web\Http\HttpHandlerCollection;
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNode\Listing\PortalNodeListResult;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeListActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListHandlers extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalStackServiceContainerFactory $portalStackContainerFactory,
         private readonly HttpHandlerUrlProviderFactoryInterface $httpUrlProviderFactory,
         private readonly PortalNodeListActionInterface $portalNodeListAction
@@ -45,7 +45,7 @@ class ListHandlers extends Command
         $portalNode = (string) $input->getArgument('portal-node-key');
 
         if ($portalNode !== '') {
-            $portalNodeKey = $this->storageKeyGenerator->deserialize($portalNode);
+            $portalNodeKey = $this->storageKeySerializer->deserialize($portalNode);
 
             if (!$portalNodeKey instanceof PortalNodeKeyInterface) {
                 $io->error('portal-node-key is not a portal node key');
@@ -84,7 +84,7 @@ class ListHandlers extends Command
                 $urlFactory ??= $this->httpUrlProviderFactory->factory($portalNodeKey);
 
                 $result[] = [
-                    'portal-node' => $this->storageKeyGenerator->serialize($portalNodeKey->withAlias()),
+                    'portal-node' => $this->storageKeySerializer->serialize($portalNodeKey->withAlias()),
                     'path' => $path,
                     'url' => $urlFactory->resolve($path),
                 ];

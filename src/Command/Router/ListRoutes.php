@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\Router;
 
 use Heptacom\HeptaConnect\Storage\Base\Action\Route\Overview\RouteOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\Route\RouteOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListRoutes extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly RouteOverviewActionInterface $routeOverviewAction
     ) {
         parent::__construct();
@@ -40,10 +40,10 @@ class ListRoutes extends Command
             \sort($capabilities);
 
             $targets[] = [
-                'id' => $this->storageKeyGenerator->serialize($route->getRouteKey()),
+                'id' => $this->storageKeySerializer->serialize($route->getRouteKey()),
                 'type' => (string) $route->getEntityType(),
-                'source' => $this->storageKeyGenerator->serialize($route->getSourcePortalNodeKey()->withAlias()),
-                'target' => $this->storageKeyGenerator->serialize($route->getTargetPortalNodeKey()->withAlias()),
+                'source' => $this->storageKeySerializer->serialize($route->getSourcePortalNodeKey()->withAlias()),
+                'target' => $this->storageKeySerializer->serialize($route->getTargetPortalNodeKey()->withAlias()),
                 'capabilities' => \implode(', ', $capabilities),
             ];
         }

@@ -12,7 +12,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,7 +26,7 @@ class Explore extends Command
 {
     public function __construct(
         private readonly ExploreServiceInterface $exploreService,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PublisherInterface $publisher
     ) {
         parent::__construct();
@@ -49,7 +49,7 @@ class Explore extends Command
         $startTime = \microtime(true);
 
         $io = new SymfonyStyle($input, $output);
-        $portalNodeKey = $this->storageKeyGenerator->deserialize((string) $input->getArgument('portal-node-key'));
+        $portalNodeKey = $this->storageKeySerializer->deserialize((string) $input->getArgument('portal-node-key'));
 
         if (!\is_a($portalNodeKey, PortalNodeKeyInterface::class, false)) {
             $io->error('The provided portal-node-key is not a PortalNodeKeyInterface.');

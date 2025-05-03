@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Alias
 
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,7 +19,7 @@ class Find extends Command
 {
     public function __construct(
         private readonly PortalNodeAliasFindActionInterface $aliasFindAction,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer,
     ) {
         parent::__construct();
     }
@@ -40,7 +40,7 @@ class Find extends Command
 
         foreach ($results as $result) {
             $alias[] = [
-                'portal-node-key' => $this->storageKeyGenerator->serialize($result->getPortalNodeKey()->withoutAlias()),
+                'portal-node-key' => $this->storageKeySerializer->serialize($result->getPortalNodeKey()->withoutAlias()),
                 'alias' => $result->getAlias(),
             ];
         }

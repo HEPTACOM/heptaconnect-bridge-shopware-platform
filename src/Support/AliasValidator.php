@@ -6,13 +6,13 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support;
 
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalNodeAlias\Find\PortalNodeAliasFindCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNodeAlias\PortalNodeAliasFindActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 
 class AliasValidator
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly PortalNodeAliasFindActionInterface $portalNodeAliasFindAction
     ) {
     }
@@ -28,7 +28,7 @@ class AliasValidator
         }
 
         try {
-            $this->storageKeyGenerator->deserialize($alias);
+            $this->storageKeySerializer->deserialize($alias);
 
             throw new \RuntimeException('Alias looks like a storage key');
         } catch (UnsupportedStorageKeyException) {

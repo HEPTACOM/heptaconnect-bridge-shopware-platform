@@ -11,7 +11,7 @@ use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentCollection;
 use Heptacom\HeptaConnect\Portal\Base\Mapping\MappingComponentStruct;
 use Heptacom\HeptaConnect\Portal\Base\Publication\Contract\PublisherInterface;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -26,7 +26,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
 
     public function __construct(
         private readonly PublisherInterface $publisher,
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator
+        private readonly StorageKeySerializerContract $storageKeySerializer,
     ) {
     }
 
@@ -48,7 +48,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
     {
         try {
             foreach ($this->cache as $portalNodeKey => $mappingsByType) {
-                $portalNodeId = $this->storageKeyGenerator->deserialize($portalNodeKey);
+                $portalNodeId = $this->storageKeySerializer->deserialize($portalNodeKey);
 
                 if (!$portalNodeId instanceof PortalNodeKeyInterface) {
                     continue;
@@ -85,7 +85,7 @@ final class PublisherDecorator implements PublisherInterface, EventSubscriberInt
 
         /** @var MappingComponentStructContract $mapping */
         foreach ($mappings as $mapping) {
-            $portalNodeKey = $this->storageKeyGenerator->serialize($mapping->getPortalNodeKey());
+            $portalNodeKey = $this->storageKeySerializer->serialize($mapping->getPortalNodeKey());
             $this->cache[$portalNodeKey][(string) $mapping->getEntityType()][$mapping->getExternalId()] = true;
         }
     }

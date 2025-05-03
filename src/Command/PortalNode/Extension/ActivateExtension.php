@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\PortalNode\Exten
 
 use Heptacom\HeptaConnect\Storage\Base\Action\PortalExtension\Activate\PortalExtensionActivatePayload;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionActivateActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Heptacom\HeptaConnect\Storage\Base\Exception\UnsupportedStorageKeyException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +20,7 @@ class ActivateExtension extends Command
     use ExtensionCommandTrait;
 
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StorageKeySerializerContract $storageKeySerializer,
         private PortalExtensionActivateActionInterface $extensionActivateAction
     ) {
         parent::__construct();
@@ -50,7 +50,7 @@ class ActivateExtension extends Command
             $io->success(\sprintf(
                 'Extension "%s" is now activated for portal-node "%s"',
                 $extensionClass,
-                $this->storageKeyGenerator->serialize($portalNodeKey)
+                $this->storageKeySerializer->serialize($portalNodeKey)
             ));
 
             return 0;
@@ -58,7 +58,7 @@ class ActivateExtension extends Command
         $io->error(\sprintf(
             'Could not activate extension "%s" for portal-node "%s"',
             $extensionClass,
-            $this->storageKeyGenerator->serialize($portalNodeKey)
+            $this->storageKeySerializer->serialize($portalNodeKey)
         ));
 
         return 2;

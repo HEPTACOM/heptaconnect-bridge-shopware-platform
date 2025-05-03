@@ -64,6 +64,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove dynamic property assignments by making classes `readonly` `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\FrameworkX\XAppFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Parallelization\LockStoreFactory`, `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Support\CommandsPrintLogsSubscriber` and `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Web\Http\HttpHandlerUrlProviderFactory`
 - Change parameter in class `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File\PortalNodeFilesystemStreamProtocolProvider` service `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.portal_node.file_system_path%` which points to the same directory as before
 - Change parameter in services `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.core.normalized_streams_path%` which points to the same directory as before
+- Rename service id `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract`
+- Change factory of service id `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract` to call renamed method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getStorageKeySerializer`
 
 ### Deprecated
 

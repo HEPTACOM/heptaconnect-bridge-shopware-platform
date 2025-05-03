@@ -7,12 +7,12 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\File;
 use Heptacom\HeptaConnect\Core\Bridge\File\PortalNodeFilesystemStreamProtocolProviderInterface;
 use Heptacom\HeptaConnect\Core\File\Filesystem\RewritePathStreamWrapper;
 use Heptacom\HeptaConnect\Portal\Base\StorageKey\Contract\PortalNodeKeyInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 
 final readonly class PortalNodeFilesystemStreamProtocolProvider implements PortalNodeFilesystemStreamProtocolProviderInterface
 {
     public function __construct(
-        private StorageKeyGeneratorContract $storageKeyGenerator,
+        private StorageKeySerializerContract $storageKeySerializer,
         private string $filesystemBasePath,
     ) {
     }
@@ -20,9 +20,9 @@ final readonly class PortalNodeFilesystemStreamProtocolProvider implements Porta
     #[\Override]
     public function provide(PortalNodeKeyInterface $portalNodeKey): string
     {
-        $key = $this->storageKeyGenerator->serialize($portalNodeKey);
+        $key = $this->storageKeySerializer->serialize($portalNodeKey);
         $streamScheme = \strtolower((string) \preg_replace('/[^a-zA-Z0-9]/', '-', 'hc-bridge-sw-' . $key));
-        $portalNodeId = $this->storageKeyGenerator->serialize($portalNodeKey->withoutAlias());
+        $portalNodeId = $this->storageKeySerializer->serialize($portalNodeKey->withoutAlias());
         $normalizedId = \preg_replace('/[^a-zA-Z0-9]/', '_', $portalNodeId);
         $portalNodePath = \rtrim($this->filesystemBasePath, '/\\') . \DIRECTORY_SEPARATOR . $normalizedId;
 

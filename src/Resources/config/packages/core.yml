@@ -33,14 +33,14 @@ services:
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalRegistry'
             - '@Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract'
 
     Heptacom\HeptaConnect\Core\Portal\Contract\PortalRegistryInterface:
         class: Heptacom\HeptaConnect\Core\Portal\PortalRegistry
         arguments:
             - '@Heptacom\HeptaConnect\Core\Portal\PortalFactory'
             - '@Heptacom\HeptaConnect\Core\Portal\ComposerPortalLoader'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalNode\PortalNodeGetActionInterface'
             - '@Heptacom\HeptaConnect\Storage\Base\Contract\Action\PortalExtension\PortalExtensionFindActionInterface'
 
@@ -51,7 +51,7 @@ services:
         class: Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking
         arguments:
             - '@Heptacom\HeptaConnect\Core\Parallelization\Contract\ResourceLockStorageContract'
-            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract'
+            - '@Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract'
 
     Heptacom\HeptaConnect\Core\Parallelization\ResourceLocking:
         alias: Heptacom\HeptaConnect\Portal\Base\Parallelization\Contract\ResourceLockingContract

@@ -6,7 +6,7 @@ namespace Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Command\IdentityRedirect
 
 use Heptacom\HeptaConnect\Storage\Base\Action\IdentityRedirect\Overview\IdentityRedirectOverviewCriteria;
 use Heptacom\HeptaConnect\Storage\Base\Contract\Action\IdentityRedirect\IdentityRedirectOverviewActionInterface;
-use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract;
+use Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListIdentityRedirects extends Command
 {
     public function __construct(
-        private readonly StorageKeyGeneratorContract $storageKeyGenerator,
+        private readonly StorageKeySerializerContract $storageKeySerializer,
         private readonly IdentityRedirectOverviewActionInterface $redirectOverviewAction
     ) {
         parent::__construct();
@@ -39,11 +39,11 @@ class ListIdentityRedirects extends Command
 
         foreach ($this->redirectOverviewAction->overview($criteria) as $identityRedirect) {
             $identities[] = [
-                'id' => $this->storageKeyGenerator->serialize($identityRedirect->getRouteKey()),
+                'id' => $this->storageKeySerializer->serialize($identityRedirect->getRouteKey()),
                 'type' => $identityRedirect->getEntityType(),
-                'targetPortalNode' => $this->storageKeyGenerator->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
+                'targetPortalNode' => $this->storageKeySerializer->serialize($identityRedirect->getTargetPortalNodeKey()->withAlias()),
                 'targetExternalId' => $identityRedirect->getTargetExternalId(),
-                'sourcePortalNode' => $this->storageKeyGenerator->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
+                'sourcePortalNode' => $this->storageKeySerializer->serialize($identityRedirect->getSourcePortalNodeKey()->withAlias()),
                 'sourceExternalId' => $identityRedirect->getSourceExternalId(),
             ];
         }

@@ -223,9 +223,9 @@
                      method="getRouteCapabilityOverviewAction"/>
         </service>
 
-        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract">
+        <service id="Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract">
             <factory service="Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface"
-                     method="getStorageKeyGenerator"/>
+                     method="getStorageKeySerializer"/>
         </service>
 
         <service id="Heptacom\HeptaConnect\Storage\Base\Contract\Action\WebHttpHandlerConfiguration\WebHttpHandlerConfigurationFindActionInterface">
