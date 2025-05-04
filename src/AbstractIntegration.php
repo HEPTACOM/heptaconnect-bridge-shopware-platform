@@ -11,6 +11,7 @@ use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\AbstractIn
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveBusMonitoring;
 use Heptacom\HeptaConnect\Bridge\ShopwarePlatform\DependencyInjection\CompilerPass\RemoveEntityCache;
 use Heptacom\HeptaConnect\Storage\ShopwareDal\MigrationSource as DalStorageMigrationSource;
+use Heptacom\HeptaConnect\Storage\ShopwareDalSymfony\HeptaConnectStorageBundle;
 use Shopware\Core\Framework\Migration\MigrationCollectionLoader;
 use Shopware\Core\Framework\Migration\MigrationSource;
 use Shopware\Core\Framework\Parameter\AdditionalBundleParameters;
@@ -32,12 +33,15 @@ class AbstractIntegration extends Plugin
 
     private ?SourceabilityInstrumentationBundle $instrumentationBundle = null;
 
+    private ?HeptaConnectStorageBundle $storage = null;
+
     #[\Override]
     public function getAdditionalBundles(AdditionalBundleParameters $parameters): array
     {
         return [
             $this->getBridge(),
             $this->getInstrumentationBundle(),
+            $this->getStorage(),
         ];
     }
 
@@ -57,6 +61,15 @@ class AbstractIntegration extends Plugin
         }
 
         return $this->instrumentationBundle;
+    }
+
+    public function getStorage(): HeptaConnectStorageBundle
+    {
+        if (!$this->storage instanceof HeptaConnectStorageBundle) {
+            $this->storage = new HeptaConnectStorageBundle();
+        }
+
+        return $this->storage;
     }
 
     #[\Override]

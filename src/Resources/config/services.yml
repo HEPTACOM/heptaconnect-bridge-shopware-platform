@@ -4,7 +4,6 @@ imports:
     - { resource: packages/core-ui-admin.xml }
     - { resource: packages/portal.xml }
     - { resource: packages/storage-base.xml }
-    - { resource: packages/storage-shopware-dal.xml }
     - { resource: packages/storage-shopware-dal.yml }
 
 services:

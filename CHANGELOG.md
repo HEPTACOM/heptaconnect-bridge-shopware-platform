@@ -66,6 +66,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Change parameter in services `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamDenormalizer` and `Heptacom\HeptaConnect\Core\Storage\Normalizer\StreamNormalizer` from `\Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` to `%heptacom_heptaconnect.core.normalized_streams_path%` which points to the same directory as before
 - Rename service id `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeyGeneratorContract` to `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract`
 - Change factory of service id `Heptacom\HeptaConnect\Storage\Base\Contract\StorageKeySerializerContract` to call renamed method `\Heptacom\HeptaConnect\Storage\Base\Bridge\Contract\StorageFacadeInterface::getStorageKeySerializer`
+- Change storage service provisioning from bridge to storage implementation so integrations can decorate and use storage services directly
 
 ### Deprecated
 
