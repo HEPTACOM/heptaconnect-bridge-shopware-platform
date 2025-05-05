@@ -79,6 +79,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove service definition `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` and reference from `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` as Flysystem is removed from the core concept
 - Remove command `heptaconnect:test-flow:receive`
 - Remove composer dependencies `league/flysystem` and `m2mtech/flysystem-stream-wrapper` as Flysystem is removed from the core concept
+- Command `heptaconnect:portal-node:add` does not accept a missing value for the portal node alias as this is required
+- Remove command `heptaconnect:portal-node:alias:reset` as portal node aliases cannot be reset as aliases are required
 
 ### Fixed
 
