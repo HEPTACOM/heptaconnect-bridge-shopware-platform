@@ -28,7 +28,7 @@ class RequestContextHelper
             }
 
             if ($baseUrl->getPath() !== '') {
-                $context->setBaseUrl(\ltrim($baseUrl->getPath(), '/'));
+                $context->setBaseUrl('/' . \ltrim($baseUrl->getPath(), '/'));
             }
 
             return $callable($context);
