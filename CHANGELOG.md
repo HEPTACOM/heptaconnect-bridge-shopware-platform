@@ -23,10 +23,14 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+### Security
+
+## [0.9.8.1] - 2025-07-09
+
+### Fixed
+
 - Fix fatal error in command `heptaconnect:identity-redirect:list` 
 - Fix missing leading slash in url generation when configured base-url contains a path
-
-### Security
 
 ## [0.9.8.0] - 2024-06-16
 
