@@ -77,6 +77,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 - Remove service definition `Heptacom\HeptaConnect\Core\Emission\Contract\EmissionActorInterface` as `Heptacom\HeptaConnect\Core\Emission\Contract\EmitterStackProcessorInterface` is preferred
 - Remove service definition `Heptacom\HeptaConnect\Core\Exploration\ExplorationActor` as `Heptacom\HeptaConnect\Core\Exploration\Contract\ExplorerStackProcessorInterface` is preferred
 - Remove service definition `Heptacom\HeptaConnect\Core\Storage\Filesystem\FilesystemFactory` and reference from `Heptacom\HeptaConnect\Core\Portal\Contract\PortalStackServiceContainerBuilderInterface` as Flysystem is removed from the core concept
+- Remove command `heptaconnect:router:list-capabilities` as browsing possible route capabilities is not intended anymore
 - Remove command `heptaconnect:test-flow:receive`
 - Remove composer dependencies `league/flysystem` and `m2mtech/flysystem-stream-wrapper` as Flysystem is removed from the core concept
 - Command `heptaconnect:portal-node:add` does not accept a missing value for the portal node alias as this is required
