@@ -23,10 +23,14 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
-- Replace dependency `kor3k/flysystem-stream-wrapper` by `heptacom/flysystem-stream-wrapper` because source of former dependency was removed by author
-
 ### Security
 
+## [0.9.8.2] - 2026-05-13
+
+### Fixed
+
+- Replace dependency `kor3k/flysystem-stream-wrapper` by `heptacom/flysystem-stream-wrapper` because source of former dependency was removed by author
+ 
 ## [0.9.8.1] - 2025-07-09
 
 ### Fixed
