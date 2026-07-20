@@ -23,6 +23,8 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+- Fix version requirement for dev-dependency `heptacom/heptaconnect-framework:0.9.x-dev`
+
 ### Security
 
 ## [0.9.8.2] - 2026-05-13
