@@ -24,6 +24,7 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 ### Fixed
 
 - Fix version requirement for dev-dependency `heptacom/heptaconnect-framework:0.9.x-dev`
+- Fix compatibility with PHP 7.4 in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\SystemConfig\SystemConfigService`
 
 ### Security
 

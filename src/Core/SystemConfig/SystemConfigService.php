@@ -38,12 +38,15 @@ SQL;
 DELETE FROM system_config WHERE id = :id
 SQL;
 
+    private Connection $connection;
+
     /**
      * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct(
-        private readonly Connection $connection,
+        Connection $connection
     ) {
+        $this->connection = $connection;
     }
 
     public function get(string $key, ?string $salesChannelId = null)
