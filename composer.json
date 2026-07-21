@@ -55,7 +55,7 @@
         "symfony/routing": "^4.4 || ^5.0"
     },
     "require-dev": {
-        "heptacom/heptaconnect-framework": "dev-master",
+        "heptacom/heptaconnect-framework": "0.9.x-dev",
         "infection/infection": ">=0.21",
         "league/flysystem-memory": ">=1",
         "phpunit/phpunit": ">=9.3 <10",
