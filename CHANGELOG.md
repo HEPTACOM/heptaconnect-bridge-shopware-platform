@@ -23,10 +23,14 @@ The version numbers are structured like `GENERATION.MAJOR.MINOR.PATCH`:
 
 ### Fixed
 
+### Security
+
+## [0.9.8.3] - 2026-07-22
+
+### Fixed
+
 - Fix version requirement for dev-dependency `heptacom/heptaconnect-framework:0.9.x-dev`
 - Fix compatibility with PHP 7.4 in `\Heptacom\HeptaConnect\Bridge\ShopwarePlatform\Core\SystemConfig\SystemConfigService`
-
-### Security
 
 ## [0.9.8.2] - 2026-05-13
 
